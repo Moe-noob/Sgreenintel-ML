@@ -1,0 +1,9 @@
+torch
+torchvision
+scikit-learn
+xgboost
+pandas
+numpy
+flask
+requests
+python-dotenv

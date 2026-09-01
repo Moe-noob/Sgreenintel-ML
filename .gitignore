@@ -1,0 +1,27 @@
+# Data - too large for git, regenerated locally
+data/raw/
+data/processed/
+
+# Trained models - too large for git
+models/cnn/*
+models/suitability/*
+!models/cnn/.gitkeep
+!models/suitability/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment secrets
+.env
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
