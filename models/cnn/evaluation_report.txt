@@ -1,0 +1,35 @@
+Test Set Accuracy: 93.57%
+
+                                                    precision    recall  f1-score   support
+
+                                Apple___Apple_scab      0.913     1.000     0.955        95
+                                 Apple___Black_rot      0.931     1.000     0.964        94
+                          Apple___Cedar_apple_rust      1.000     0.786     0.880        42
+                                   Apple___healthy      0.988     0.984     0.986       248
+Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot      0.651     0.885     0.750        78
+                       Corn_(maize)___Common_rust_      0.989     0.994     0.992       180
+               Corn_(maize)___Northern_Leaf_Blight      0.948     0.738     0.830       149
+                            Corn_(maize)___healthy      0.983     1.000     0.992       175
+                                 Grape___Black_rot      0.983     0.966     0.974       177
+                      Grape___Esca_(Black_Measles)      0.981     0.990     0.986       208
+        Grape___Leaf_blight_(Isariopsis_Leaf_Spot)      1.000     1.000     1.000       162
+                                   Grape___healthy      1.000     1.000     1.000        64
+                     Pepper,_bell___Bacterial_spot      0.974     0.980     0.977       151
+                            Pepper,_bell___healthy      1.000     0.996     0.998       223
+                             Potato___Early_blight      1.000     0.993     0.997       150
+                              Potato___Late_blight      0.860     0.980     0.916       150
+                                  Potato___healthy      1.000     0.917     0.957        24
+                           Tomato___Bacterial_spot      0.960     0.909     0.934       320
+                             Tomato___Early_blight      0.822     0.800     0.811       150
+                              Tomato___Late_blight      0.960     0.760     0.848       287
+                                Tomato___Leaf_Mold      0.863     0.965     0.911       144
+                       Tomato___Septoria_leaf_spot      0.788     0.918     0.848       267
+     Tomato___Spider_mites Two-spotted_spider_mite      0.877     0.905     0.891       252
+                              Tomato___Target_Spot      0.833     0.892     0.861       212
+            Tomato___Tomato_Yellow_Leaf_Curl_Virus      0.995     0.952     0.973       805
+                      Tomato___Tomato_mosaic_virus      0.838     1.000     0.912        57
+                                  Tomato___healthy      0.975     0.971     0.973       240
+
+                                          accuracy                          0.936      5104
+                                         macro avg      0.930     0.936     0.930      5104
+                                      weighted avg      0.941     0.936     0.936      5104
