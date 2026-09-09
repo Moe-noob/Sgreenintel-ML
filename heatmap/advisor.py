@@ -117,15 +117,50 @@ def analyze_crop(crop_name, monthly_climate, elevation, latitude):
             clamped_any = clamped_any or clamped
 
     avg_etc = sum(etc_values) / len(etc_values) if etc_values else None
+    min_etc = min(etc_values) if etc_values else None
+    max_etc = max(etc_values) if etc_values else None
 
     return {
         "crop": crop_name,
         "suitable_months": suitable_months,
         "num_suitable_months": len(suitable_months),
         "avg_etc_mm_day": avg_etc,
+        "min_etc_mm_day": min_etc,
+        "max_etc_mm_day": max_etc,
         "any_clamped": clamped_any,
     }
+    
+def get_monthly_breakdown(location, crop_name):
+    """
+    On-demand detailed view for one specific crop at one location --
+    the full month-by-month water requirement, not just the suitable-
+    months average. Useful once a user has settled on a crop and wants
+    to plan their actual watering schedule through the season.
+    """
+    lat, lon = resolve_location(location)
+    monthly_climate, elevation = fetch_climate_data(lat, lon)
+    ideal_range = SPECIES_PROFILES[crop_name]["ideal_temp_range_c"]
 
+    print(f"\n=== {crop_name} monthly breakdown for {location} ===\n")
+    for month in MONTH_KEYS:
+        v = monthly_climate[month]
+        is_suitable = evaluate_month_fit(v["temp_c"], ideal_range)
+
+        et0 = penman_monteith_et0(
+            temp_mean_c=v["temp_c"], temp_max_c=v["temp_max_c"], temp_min_c=v["temp_min_c"],
+            dewpoint_c=v["dewpoint_c"], wind_speed_ms=v["wind_speed_ms"],
+            solar_radiation_mj=v["solar_radiation_mj"], elevation_m=elevation,
+            latitude_deg=lat, month=month,
+        )
+        rhmin = real_rhmin(v["temp_max_c"], v["dewpoint_c"])
+        etc, kc_adj, clamped = calculate_etc(et0, crop_name, v["wind_speed_ms"], rhmin)
+        liters_per_plant = etc / ASSUMED_PLANTS_PER_M2[crop_name]
+
+        marker = "✓" if is_suitable else " "
+        clamp_note = " [conservative]" if clamped else ""
+        print(f"  [{marker}] {month}: {etc:.2f} mm/day -> {liters_per_plant:.2f} L/plant/day{clamp_note}")
+
+    print(f"\n  ✓ = climate-suitable month (modeled, open-field)\n")
 
 def water_breakdown(etc_mm_day, crop_name):
     """Converts ETc (mm/day) into two simple, audience-specific numbers:
@@ -184,7 +219,8 @@ def print_recommendations(result):
             w = r["water"]
             clamp_note = "  [estimate may be conservative in extreme dryness]" if r["any_clamped"] else ""
             print(f"                 Estimated water use during those months: "
-                  f"{r['avg_etc_mm_day']:.2f} mm/day{clamp_note}")
+                  f"{r['avg_etc_mm_day']:.2f} mm/day avg "
+                  f"(ranges {r['min_etc_mm_day']:.2f}-{r['max_etc_mm_day']:.2f} across the suitable months){clamp_note}")
             print(f"                   Home garden: ~{w['liters_per_plant_per_day']} L per single plant, per day "
                   f"(based on an assumed spacing of {w['assumed_plants_per_m2']} plants per m²)")
             print(f"                   Farm scale: ~{w['m3_per_hectare_per_day']} m³/ha/day")
