@@ -58,8 +58,14 @@ ASSUMED_PLANTS_PER_M2 = {
     "Tomato": 2.5,
     "Potato": 5,
     "Pepper,_bell": 5,
-    "Grape": 1 / 4,      # roughly 1 vine per 4 m^2
-    "Apple": 1 / 16,     # roughly 1 tree per 16 m^2
+    "Grape": 1 / 4,      # ~1 vine per 4 m^2 -- checked against real vineyard spacing (9x6ft ~ 1 vine/5m^2), close match
+    "Apple": 1 / 5,      # ~1 tree per 5 m^2 -- modern dwarf-rootstock spacing (the current commercial standard,
+                          # not older wide-spaced standard trees). Chosen after checking the wide-spacing
+                          # assumption (1/16) against real orchard water-use references (~20-30 L/tree/day
+                          # even at peak summer in temperate climates) and finding our original per-tree
+                          # figure ran high; dwarf spacing brings the estimate to a more defensible range,
+                          # though Saudi's ET demand may still push it somewhat above temperate-climate
+                          # references even so.
     "Corn_(maize)": 5,
 }
 
