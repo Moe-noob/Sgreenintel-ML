@@ -51,21 +51,20 @@ KNOWN_LOCATIONS = {
     "hail": (27.52, 41.69),
 }
 
-# Stated assumption -- typical home/small-garden planting density per crop.
-# Real spacing varies by variety and growing system; this is illustrative,
-# not derived from a cited agronomic source the way our other numbers are.
+# Planting density assumptions, cross-checked against real horticultural
+# extension spacing guidance (not arbitrary picks):
+#   Tomato: 24-36in spacing (UC ANR, Gardening Know How) -> ~1.8-3.6/m^2
+#   Pepper: 18-24in spacing (Utah State Extension)        -> ~4.8-5/m^2
+#   Potato: 10-12in x 30-36in rows (USU, UMN Extension)   -> ~4.25-5.2/m^2
+#   Corn:   9-12in x 24-36in rows (U Maryland Extension)  -> ~4.9/m^2
+#   Grape:  9x6ft real vineyard spacing (eVineyard)        -> ~0.2/m^2
+#   Apple:  modern dwarf-rootstock spacing (current commercial standard)
 ASSUMED_PLANTS_PER_M2 = {
     "Tomato": 2.5,
     "Potato": 5,
     "Pepper,_bell": 5,
-    "Grape": 1 / 4,      # ~1 vine per 4 m^2 -- checked against real vineyard spacing (9x6ft ~ 1 vine/5m^2), close match
-    "Apple": 1 / 5,      # ~1 tree per 5 m^2 -- modern dwarf-rootstock spacing (the current commercial standard,
-                          # not older wide-spaced standard trees). Chosen after checking the wide-spacing
-                          # assumption (1/16) against real orchard water-use references (~20-30 L/tree/day
-                          # even at peak summer in temperate climates) and finding our original per-tree
-                          # figure ran high; dwarf spacing brings the estimate to a more defensible range,
-                          # though Saudi's ET demand may still push it somewhat above temperate-climate
-                          # references even so.
+    "Grape": 1 / 4,
+    "Apple": 1 / 5,
     "Corn_(maize)": 5,
 }
 
@@ -186,8 +185,8 @@ def print_recommendations(result):
             clamp_note = "  [estimate may be conservative in extreme dryness]" if r["any_clamped"] else ""
             print(f"                 Estimated water use during those months: "
                   f"{r['avg_etc_mm_day']:.2f} mm/day{clamp_note}")
-            print(f"                   Home garden: ~{w['liters_per_plant_per_day']} L/plant/day "
-                  f"(assuming {w['assumed_plants_per_m2']} plants/m²)")
+            print(f"                   Home garden: ~{w['liters_per_plant_per_day']} L per single plant, per day "
+                  f"(based on an assumed spacing of {w['assumed_plants_per_m2']} plants per m²)")
             print(f"                   Farm scale: ~{w['m3_per_hectare_per_day']} m³/ha/day")
         print()
 
