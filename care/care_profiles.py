@@ -67,6 +67,13 @@ SPECIES_PROFILES = {
         "watering": "Deep watering every 3-7 days depending on conditions",
         "sun": "Full sun, 6-8 hrs/day",
     },
+        "Strawberry": {
+        "day_temp_c": "15-27",
+        "night_temp_c": "—",
+        "ideal_temp_range_c": (15, 27),
+        "watering": "~25mm (1 inch) per week. Drip/soaker irrigation strongly preferred over overhead watering — overhead watering spreads both fungal and bacterial leaf diseases.",
+        "sun": "Full sun",
+    },
 }
 
 
@@ -135,7 +142,6 @@ DISEASE_CATEGORIES = {
 # that's what the CNN's class_names list contains) to its crop, condition,
 # category, and any disease-specific note.
 # ---------------------------------------------------------------------------
-
 CLASS_INFO = {
     "Apple___Apple_scab": {
         "crop": "Apple", "condition": "Apple scab", "category": "fungal",
@@ -152,6 +158,12 @@ CLASS_INFO = {
     "Apple___healthy": {
         "crop": "Apple", "condition": "Healthy", "category": "healthy", "note": None,
     },
+    "Apple___Frog_eye_leaf_spot": {
+        "crop": "Apple", "condition": "Frog-eye leaf spot", "category": "fungal", "note": None,
+    },
+    "Apple___Powdery_mildew": {
+        "crop": "Apple", "condition": "Powdery mildew", "category": "fungal", "note": None,
+    },
 
     "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
         "crop": "Corn_(maize)", "condition": "Cercospora leaf spot / Gray leaf spot", "category": "fungal",
@@ -167,6 +179,10 @@ CLASS_INFO = {
     },
     "Corn_(maize)___healthy": {
         "crop": "Corn_(maize)", "condition": "Healthy", "category": "healthy", "note": None,
+    },
+    "Corn_(maize)___Northern_Leaf_Spot": {
+        "crop": "Corn_(maize)", "condition": "Northern Leaf Spot", "category": "fungal",
+        "note": "Visually similar to Gray leaf spot — general fungal management applies to both.",
     },
 
     "Grape___Black_rot": {
@@ -234,6 +250,23 @@ CLASS_INFO = {
     "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
         "crop": "Tomato", "condition": "Tomato Yellow Leaf Curl Virus", "category": "viral",
         "note": "Transmitted by whiteflies — controlling the whitefly population is the primary prevention method.",
+    },
+
+    "Strawberry___healthy": {
+        "crop": "Strawberry", "condition": "Healthy", "category": "healthy", "note": None,
+    },
+    "Strawberry___Leaf_scorch": {
+        "crop": "Strawberry", "condition": "Leaf scorch", "category": "fungal", "note": None,
+    },
+    "Strawberry___Angular_leafspot": {
+        "crop": "Strawberry", "condition": "Angular leaf spot", "category": "bacterial",
+        "note": "Caused by a bacterium (Xanthomonas fragariae), not a fungus — fungicides are ineffective. Favored by cool, wet conditions and overhead irrigation; switch to drip/soaker irrigation and avoid working around wet plants.",
+    },
+    "Strawberry___Leaf_spot": {
+        "crop": "Strawberry", "condition": "Leaf spot", "category": "fungal", "note": None,
+    },
+    "Strawberry___Powdery_mildew": {
+        "crop": "Strawberry", "condition": "Powdery mildew", "category": "fungal", "note": None,
     },
 }
 

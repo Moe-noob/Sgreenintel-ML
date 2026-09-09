@@ -123,18 +123,18 @@ def analyze_crop(crop_name, monthly_climate, elevation, latitude):
 
 
 def water_breakdown(etc_mm_day, crop_name):
-    """Converts ETc (mm/day) into practical units: per m^2, per hectare,
-    and a stated-assumption per-plant figure."""
-    liters_per_m2_day = etc_mm_day  # 1mm over 1m^2 = 1 liter, direct equivalence
-    m3_per_hectare_month = etc_mm_day * 10 * 30  # 1mm/day over 1ha = 10 m^3/day
-
+    """Converts ETc (mm/day) into two simple, audience-specific numbers:
+    liters per plant per day (home growers) and cubic meters per
+    hectare per day (farmers) -- deliberately kept to two numbers, not
+    four, to avoid the extra unit-conversion step (mm -> L/m2 -> m3/ha
+    -> per-month) making the result harder to read than it needs to be."""
     plants_per_m2 = ASSUMED_PLANTS_PER_M2[crop_name]
-    liters_per_plant_day = liters_per_m2_day / plants_per_m2
+    liters_per_plant_day = etc_mm_day / plants_per_m2
+    m3_per_hectare_day = etc_mm_day * 10  # 1mm over 1 hectare = 10 m^3
 
     return {
-        "liters_per_m2_per_day": round(liters_per_m2_day, 2),
-        "m3_per_hectare_per_month": round(m3_per_hectare_month, 1),
         "liters_per_plant_per_day": round(liters_per_plant_day, 2),
+        "m3_per_hectare_per_day": round(m3_per_hectare_day, 1),
         "assumed_plants_per_m2": plants_per_m2,
     }
 
@@ -171,18 +171,18 @@ def print_recommendations(result):
           f"elevation {result['elevation_m']:.0f}m) ===\n")
 
     for r in result["recommendations"]:
-        print(f"{r['crop']:15s}  Suitable months: {r['num_suitable_months']}/12 "
+        print(f"{r['crop']:15s}  Climate-suitable months (modeled, open-field): "
+              f"{r['num_suitable_months']}/12 "
               f"({', '.join(r['suitable_months']) if r['suitable_months'] else 'none'})")
 
         if r["avg_etc_mm_day"] is not None:
             w = r["water"]
-            clamp_note = "  [some months' estimate may be conservative -- extreme dryness beyond FAO-56's validated range]" if r["any_clamped"] else ""
-            print(f"                 Avg water need during suitable months: "
-                  f"{r['avg_etc_mm_day']:.2f} mm/day "
-                  f"({w['liters_per_m2_per_day']} L/m²/day, "
-                  f"{w['m3_per_hectare_per_month']} m³/ha/month, "
-                  f"~{w['liters_per_plant_per_day']} L/plant/day "
-                  f"assuming {w['assumed_plants_per_m2']} plants/m²){clamp_note}")
+            clamp_note = "  [estimate may be conservative in extreme dryness]" if r["any_clamped"] else ""
+            print(f"                 Estimated water use during those months: "
+                  f"{r['avg_etc_mm_day']:.2f} mm/day{clamp_note}")
+            print(f"                   Home garden: ~{w['liters_per_plant_per_day']} L/plant/day "
+                  f"(assuming {w['assumed_plants_per_m2']} plants/m²)")
+            print(f"                   Farm scale: ~{w['m3_per_hectare_per_day']} m³/ha/day")
         print()
 
 

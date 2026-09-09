@@ -8,7 +8,7 @@ from pathlib import Path
 
 # ---- Paths ----
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data" / "processed"
+DATA_DIR = PROJECT_ROOT / "data" / "processed_v2"
 TRAIN_DIR = DATA_DIR / "train"
 VAL_DIR = DATA_DIR / "val"
 TEST_DIR = DATA_DIR / "test"
@@ -21,7 +21,7 @@ NUM_WORKERS = 2           # kept low to avoid Windows dataloader stalls
 SEED = 42
 
 # ---- Model ----
-NUM_CLASSES = 27          # 6 crops, 27 crop-disease/healthy classes (see README)
+NUM_CLASSES = 35          # 6 crops, 27 crop-disease/healthy classes (see README)
 
 # ---- Training ----
 EPOCHS = 15                # starting point — adjust after first run based on val curves
@@ -33,5 +33,5 @@ USE_CLASS_WEIGHTS = True   # addresses imbalance, e.g. Tomato Mosaic Virus (261)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # ---- Checkpointing ----
-CHECKPOINT_NAME = "mobilenetv2_sgreenintel.pth"
+CHECKPOINT_NAME = "mobilenetv2_sgreenintel_v2.pth"
 BEST_MODEL_PATH = MODEL_SAVE_DIR / CHECKPOINT_NAME
