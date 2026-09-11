@@ -1,55 +1,86 @@
 """
-NASA POWER API client.
+NASA POWER API client -- DAILY climatology version.
 
-Climatology endpoint: T2M (mean temp), T2MDEW (dew point -- used to
-derive real RHmin per FAO-56, replacing the earlier mean-humidity
-approximation), RH2M (mean humidity, kept for reference), WS2M (wind,
-already at 2m -- no conversion needed), ALLSKY_SFC_SW_DWN (solar
-radiation), PRECTOTCORR (precipitation).
+Why this changed
+----------------
+The previous version mixed two reference periods (the POWER climatology
+endpoint for T2M/dew/wind/radiation, and 2014-2023 daily data for
+Tmax/Tmin) and never filtered POWER's -999 fill value. The planting-date
+simulator also needs DAILY resolution: FAO-56 growth stages are 20-40
+days long, so monthly means cannot place them.
 
-Tmax/Tmin: NASA POWER's climatology-endpoint T2M_MAX/T2M_MIN and
-T2M_MAX_AVG/T2M_MIN_AVG were BOTH independently verified as incorrect
-for this purpose -- neither represents a typical daily high/low.
-T2M_MAX/T2M_MIN returns record extremes; T2M_MAX_AVG/T2M_MIN_AVG returns
-the average of each year's single most extreme day, not the average
-daily max/min. Verified against Riyadh January: extreme=32.19/-2.78,
-_AVG=28.68/1.33, actual daily-averaged=22.01/7.88 (confirmed against
-independent real-world climate normals). The only correct method is
-pulling raw daily data and averaging it ourselves, which is what
-fetch_daily_minmax_averages() does.
+What this does
+--------------
+1. Pulls one 10-year block (2014-2023) of DAILY data for every variable
+   the pipeline needs, from a single endpoint / single period.
+2. Drops POWER fill values (-999) before averaging.
+3. Averages by day-of-year (1..365; 29 Feb is folded into day 59) to
+   give a 365-day climatology, then applies a centred +/-7-day running
+   mean to remove single-day noise (a standard smoothing step; the
+   window is a stated choice, not a sourced constant).
+4. Caches the result to disk (heatmap/cache/) so repeated runs and the
+   7-city test loop do not hit the API every time.
+5. Still exposes fetch_climate_data(lat, lon) returning MONTHLY means
+   for any old code that expects it -- but now derived from the same
+   daily record, so everything is internally consistent.
+
+POWER parameter notes
+---------------------
+T2M_MAX / T2M_MIN on the DAILY endpoint are the true daily max/min
+(the earlier docstring's warning applied to the CLIMATOLOGY endpoint,
+where those names return extremes). WS2M is already at 2 m (no FAO-56
+Eq. 47 conversion needed). ALLSKY_SFC_SW_DWN units are read from the
+response metadata and converted to MJ m-2 day-1 if needed.
 """
 
+import json
 import time
-import requests
 from collections import defaultdict
+from pathlib import Path
 
-CLIMATOLOGY_URL = "https://power.larc.nasa.gov/api/temporal/climatology/point"
+import requests
+
 DAILY_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
-
-CLIMATOLOGY_PARAMETERS = "T2M,T2MDEW,RH2M,WS2M,ALLSKY_SFC_SW_DWN,PRECTOTCORR"
-DAILY_MINMAX_PARAMETERS = "T2M_MAX,T2M_MIN"
+DAILY_PARAMETERS = "T2M,T2M_MAX,T2M_MIN,T2MDEW,WS2M,ALLSKY_SFC_SW_DWN,PRECTOTCORR"
 DAILY_START = "20140101"
-DAILY_END = "20231231"  # 10-year window for stable averages
+DAILY_END = "20231231"          # 10-year window for stable averages
+FILL_VALUE_THRESHOLD = -900     # POWER uses -999 for missing data
+SMOOTHING_HALF_WINDOW = 7       # +/- days for the running mean
+
+CACHE_DIR = Path(__file__).resolve().parent / "cache"
 
 MONTH_KEYS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
               "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+# Day-of-year ranges for each month in a 365-day year (1-based, inclusive)
+MONTH_DOY_RANGES = {
+    "JAN": (1, 31), "FEB": (32, 59), "MAR": (60, 90), "APR": (91, 120),
+    "MAY": (121, 151), "JUN": (152, 181), "JUL": (182, 212), "AUG": (213, 243),
+    "SEP": (244, 273), "OCT": (274, 304), "NOV": (305, 334), "DEC": (335, 365),
+}
+MID_MONTH_DAY = {
+    "JAN": 15, "FEB": 46, "MAR": 74, "APR": 105, "MAY": 135, "JUN": 166,
+    "JUL": 196, "AUG": 227, "SEP": 258, "OCT": 288, "NOV": 319, "DEC": 349,
+}
 
-KWH_TO_MJ = 3.6  # in case radiation comes back in kW-hr/m2/day instead of MJ/m2/day
+KWH_TO_MJ = 3.6
 
-
-def _radiation_unit(payload):
-    meta = payload.get("parameters", {})
-    entry = meta.get("ALLSKY_SFC_SW_DWN", {})
-    return (entry.get("units") or "").lower()
+# Field names used throughout the pipeline
+FIELDS = ["temp_c", "temp_max_c", "temp_min_c", "dewpoint_c",
+          "wind_speed_ms", "solar_radiation_mj", "precip_mm_day"]
+_POWER_TO_FIELD = {
+    "T2M": "temp_c", "T2M_MAX": "temp_max_c", "T2M_MIN": "temp_min_c",
+    "T2MDEW": "dewpoint_c", "WS2M": "wind_speed_ms",
+    "ALLSKY_SFC_SW_DWN": "solar_radiation_mj", "PRECTOTCORR": "precip_mm_day",
+}
 
 
 def _radiation_to_mj(value, unit_string):
-    if "mj" in unit_string:
+    u = (unit_string or "").lower()
+    if "mj" in u:
         return value
-    if "kw" in unit_string:
+    if "kw" in u:
         return value * KWH_TO_MJ
-    # Unknown unit -- don't silently guess wrong, surface it
-    raise ValueError(f"Unrecognised radiation unit '{unit_string}' -- check API response before assuming a conversion")
+    raise ValueError(f"Unrecognised radiation unit '{unit_string}' -- check API response")
 
 
 def _elevation_from_payload(payload):
@@ -62,46 +93,39 @@ def _elevation_from_payload(payload):
     return 0.0
 
 
-def fetch_climatology(lat, lon, retries=3, delay=1):
+def _doy_365(date_key):
+    """'YYYYMMDD' -> day of year in a 365-day calendar (29 Feb folded to day 59)."""
+    import datetime as _dt
+    d = _dt.date(int(date_key[:4]), int(date_key[4:6]), int(date_key[6:8]))
+    doy = d.timetuple().tm_yday
+    leap = d.year % 4 == 0 and (d.year % 100 != 0 or d.year % 400 == 0)
+    if leap and doy >= 60:       # after 29 Feb in a leap year
+        doy -= 1
+    return doy
+
+
+def _smooth_circular(values, half_window):
+    """Centred running mean on a circular (day-of-year) series."""
+    n = len(values)
+    out = []
+    w = 2 * half_window + 1
+    for i in range(n):
+        s = 0.0
+        for k in range(-half_window, half_window + 1):
+            s += values[(i + k) % n]
+        out.append(s / w)
+    return out
+
+
+def _cache_path(lat, lon):
+    CACHE_DIR.mkdir(exist_ok=True)
+    return CACHE_DIR / f"power_daily_v2_{lat:.2f}_{lon:.2f}_{DAILY_START}_{DAILY_END}.json"
+
+
+def fetch_daily_raw(lat, lon, retries=3, delay=2):
+    """One API call: 10 years of daily data for all parameters."""
     params = {
-        "parameters": CLIMATOLOGY_PARAMETERS,
-        "community": "AG",
-        "longitude": lon,
-        "latitude": lat,
-        "format": "JSON",
-    }
-    for attempt in range(retries):
-        try:
-            response = requests.get(CLIMATOLOGY_URL, params=params, timeout=30)
-            response.raise_for_status()
-            payload = response.json()
-            raw = payload["properties"]["parameter"]
-            rad_unit = _radiation_unit(payload)
-            elevation = _elevation_from_payload(payload)
-
-            monthly = {}
-            for month in MONTH_KEYS:
-                monthly[month] = {
-                    "temp_c": raw["T2M"][month],
-                    "dewpoint_c": raw["T2MDEW"][month],
-                    "humidity_pct": raw["RH2M"][month],
-                    "wind_speed_ms": raw["WS2M"][month],
-                    "solar_radiation_mj": _radiation_to_mj(raw["ALLSKY_SFC_SW_DWN"][month], rad_unit),
-                    "precip_mm_day": raw["PRECTOTCORR"][month],
-                }
-            return monthly, elevation
-
-        except (requests.exceptions.RequestException, KeyError) as e:
-            print(f"  Climatology attempt {attempt+1} failed for ({lat}, {lon}): {e}")
-            if attempt < retries - 1:
-                time.sleep(delay)
-            else:
-                raise
-
-
-def fetch_daily_minmax_averages(lat, lon, retries=3, delay=1):
-    params = {
-        "parameters": DAILY_MINMAX_PARAMETERS,
+        "parameters": DAILY_PARAMETERS,
         "community": "AG",
         "longitude": lon,
         "latitude": lat,
@@ -111,52 +135,126 @@ def fetch_daily_minmax_averages(lat, lon, retries=3, delay=1):
     }
     for attempt in range(retries):
         try:
-            response = requests.get(DAILY_URL, params=params, timeout=60)
-            response.raise_for_status()
-            raw = response.json()["properties"]["parameter"]
-
-            monthly_max = defaultdict(list)
-            monthly_min = defaultdict(list)
-            for date_key, value in raw["T2M_MAX"].items():
-                monthly_max[date_key[4:6]].append(value)
-            for date_key, value in raw["T2M_MIN"].items():
-                monthly_min[date_key[4:6]].append(value)
-
-            result = {}
-            for i, month in enumerate(MONTH_KEYS):
-                month_num = f"{i+1:02d}"
-                result[month] = {
-                    "temp_max_c": sum(monthly_max[month_num]) / len(monthly_max[month_num]),
-                    "temp_min_c": sum(monthly_min[month_num]) / len(monthly_min[month_num]),
-                }
-            return result
-
-        except (requests.exceptions.RequestException, KeyError, ZeroDivisionError) as e:
-            print(f"  Daily attempt {attempt+1} failed for ({lat}, {lon}): {e}")
+            r = requests.get(DAILY_URL, params=params, timeout=120)
+            r.raise_for_status()
+            return r.json()
+        except (requests.exceptions.RequestException, ValueError) as e:
+            print(f"  POWER daily attempt {attempt + 1} failed for ({lat}, {lon}): {e}")
             if attempt < retries - 1:
                 time.sleep(delay)
             else:
                 raise
 
 
-def fetch_climate_data(lat, lon):
-    """Combines climatology + daily-derived min/max, plus elevation."""
-    climatology, elevation = fetch_climatology(lat, lon)
-    daily_minmax = fetch_daily_minmax_averages(lat, lon)
+def build_daily_climatology(payload):
+    """
+    Turns a POWER daily payload into a 365-entry list of dicts (index 0 =
+    1 Jan) plus elevation. Fill values are dropped; a day with no valid
+    data for a variable raises, rather than silently producing garbage.
+    """
+    raw = payload["properties"]["parameter"]
+    rad_unit = (payload.get("parameters", {}).get("ALLSKY_SFC_SW_DWN", {}) or {}).get("units", "")
+    elevation = _elevation_from_payload(payload)
 
+    sums = {f: defaultdict(float) for f in FIELDS}
+    counts = {f: defaultdict(int) for f in FIELDS}
+    dropped = defaultdict(int)
+
+    for power_name, field in _POWER_TO_FIELD.items():
+        series = raw[power_name]
+        for date_key, value in series.items():
+            if value is None or value <= FILL_VALUE_THRESHOLD:
+                dropped[field] += 1
+                continue
+            if field == "solar_radiation_mj":
+                value = _radiation_to_mj(value, rad_unit)
+            doy = _doy_365(date_key)
+            sums[field][doy] += value
+            counts[field][doy] += 1
+
+    # Raw per-year daily Tmax/Tmin (unsmoothed) for temperature-tolerance
+    # exceedance statistics. Index 0 = 1 Jan; None where POWER had no value.
+    raw_years = {}
+    for power_name, field in (("T2M_MAX", "temp_max_c"), ("T2M_MIN", "temp_min_c")):
+        for date_key, value in raw[power_name].items():
+            if value is None or value <= FILL_VALUE_THRESHOLD:
+                continue
+            year = date_key[:4]
+            raw_years.setdefault(year, {"temp_max_c": [None] * 365, "temp_min_c": [None] * 365})
+            raw_years[year][field][_doy_365(date_key) - 1] = value
+
+    clim = []
+    for doy in range(1, 366):
+        entry = {"doy": doy}
+        for f in FIELDS:
+            if counts[f][doy] == 0:
+                raise ValueError(f"No valid POWER data for {f} on day-of-year {doy}")
+            entry[f] = sums[f][doy] / counts[f][doy]
+        clim.append(entry)
+
+    # Smooth each field on the circular year
+    for f in FIELDS:
+        smoothed = _smooth_circular([c[f] for c in clim], SMOOTHING_HALF_WINDOW)
+        for c, v in zip(clim, smoothed):
+            c[f] = v
+
+    meta = {"elevation_m": elevation, "dropped_fill_values": dict(dropped),
+            "period": f"{DAILY_START}-{DAILY_END}", "smoothing_half_window_days": SMOOTHING_HALF_WINDOW,
+            "raw_years": raw_years}
+    return clim, meta
+
+
+def fetch_daily_climatology_full(lat, lon, use_cache=True):
+    """
+    Returns (climatology, elevation_m, raw_years).
+    climatology: list of 365 dicts (smoothed typical year) with keys doy,
+      temp_c, temp_max_c, temp_min_c, dewpoint_c, wind_speed_ms,
+      solar_radiation_mj, precip_mm_day.
+    raw_years: {year: {"temp_max_c": [365], "temp_min_c": [365]}} unsmoothed,
+      used only for temperature-tolerance exceedance statistics.
+    """
+    path = _cache_path(lat, lon)
+    if use_cache and path.exists():
+        with open(path) as fh:
+            cached = json.load(fh)
+        return cached["climatology"], cached["meta"]["elevation_m"], cached["meta"].get("raw_years", {})
+
+    payload = fetch_daily_raw(lat, lon)
+    clim, meta = build_daily_climatology(payload)
+    with open(path, "w") as fh:
+        json.dump({"climatology": clim, "meta": meta}, fh)
+    return clim, meta["elevation_m"], meta["raw_years"]
+
+
+def fetch_daily_climatology(lat, lon, use_cache=True):
+    """Backward-compatible: (climatology, elevation_m)."""
+    clim, elev, _ = fetch_daily_climatology_full(lat, lon, use_cache)
+    return clim, elev
+
+
+def monthly_from_daily(clim):
+    """Monthly means computed from the daily climatology (for legacy callers)."""
     monthly = {}
-    for month in MONTH_KEYS:
-        monthly[month] = {**climatology[month], **daily_minmax[month]}
+    for m, (a, b) in MONTH_DOY_RANGES.items():
+        days = clim[a - 1:b]
+        monthly[m] = {f: sum(d[f] for d in days) / len(days) for f in FIELDS}
+        monthly[m]["humidity_pct"] = None  # RH2M no longer fetched; RHmin is derived from dew point
+    return monthly
 
-    return monthly, elevation
+
+def fetch_climate_data(lat, lon):
+    """Backward-compatible: (monthly dict, elevation). Same data source as the daily climatology."""
+    clim, elevation = fetch_daily_climatology(lat, lon)
+    return monthly_from_daily(clim), elevation
 
 
 if __name__ == "__main__":
     print("Testing with Riyadh (24.71, 46.68)...")
-    result, elevation = fetch_climate_data(24.71, 46.68)
-    print(f"Elevation: {elevation}m\n")
-    for month, v in result.items():
-        print(f"  {month}: temp={v['temp_c']:.2f}, max={v['temp_max_c']:.2f}, min={v['temp_min_c']:.2f}, "
-              f"dewpoint={v['dewpoint_c']:.2f}, humidity={v['humidity_pct']:.1f}%, "
-              f"wind={v['wind_speed_ms']:.2f}m/s, radiation={v['solar_radiation_mj']:.2f}MJ, "
-              f"precip={v['precip_mm_day']:.3f}")
+    clim, elevation = fetch_daily_climatology(24.71, 46.68)
+    print(f"Elevation: {elevation} m, {len(clim)} days")
+    for d in (15, 105, 196, 288):
+        c = clim[d - 1]
+        print(f"  DOY {d:3d}: Tmean={c['temp_c']:.1f} Tmax={c['temp_max_c']:.1f} Tmin={c['temp_min_c']:.1f} "
+              f"Tdew={c['dewpoint_c']:.1f} u2={c['wind_speed_ms']:.2f} Rs={c['solar_radiation_mj']:.1f}")
+    m = monthly_from_daily(clim)
+    print("  JAN monthly Tmax/Tmin:", round(m['JAN']['temp_max_c'], 2), round(m['JAN']['temp_min_c'], 2))

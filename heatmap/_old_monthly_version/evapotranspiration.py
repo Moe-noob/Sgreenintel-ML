@@ -81,22 +81,15 @@ def net_radiation(temp_max_c, temp_min_c, solar_radiation_mj, ea, ra, elevation_
     return rns - rnl
 
 
-def penman_monteith_et0_doy(temp_mean_c, temp_max_c, temp_min_c, dewpoint_c,
-                              wind_speed_ms, solar_radiation_mj, elevation_m,
-                              latitude_deg, day_of_year, soil_heat_flux_mj=0.0):
+def penman_monteith_et0(temp_mean_c, temp_max_c, temp_min_c, dewpoint_c,
+                          wind_speed_ms, solar_radiation_mj, elevation_m,
+                          latitude_deg, month):
     """
-    FAO-56 Penman-Monteith reference evapotranspiration, Eq. 6, for a
-    given day of year. Returns ET0 in mm/day.
-
-    Soil heat flux G: FAO-56 states G may be ignored (G ~ 0) for DAILY and
-    ten-day periods (Eq. 42). For MONTHLY periods FAO-56 gives
-    Eq. 43, G = 0.07 (T_month,i+1 - T_month,i-1); the monthly wrapper below
-    passes that in. (The earlier comment claiming FAO-56 says G is
-    negligible at monthly resolution was wrong; the effect is small --
-    ~0.04 mm/day in FAO-56 Example 18 -- but the citation now matches.)
-
-    Validated against FAO-56 Example 18 (Bangkok, April): 5.72 mm/day.
+    FAO-56 Penman-Monteith reference evapotranspiration, Eq. 6.
+    Returns ET0 in mm/day.
     """
+    day_of_year = MID_MONTH_DAY[month]
+
     delta = slope_vapor_pressure_curve(temp_mean_c)
     gamma = psychrometric_constant(elevation_m)
 
@@ -109,33 +102,13 @@ def penman_monteith_et0_doy(temp_mean_c, temp_max_c, temp_min_c, dewpoint_c,
     ra = extraterrestrial_radiation(latitude_deg, day_of_year)
     rn = net_radiation(temp_max_c, temp_min_c, solar_radiation_mj, ea, ra, elevation_m)
 
-    G = soil_heat_flux_mj
+    G = 0  # soil heat flux, assumed negligible at monthly resolution (FAO-56 guidance)
 
     numerator = (0.408 * delta * (rn - G)) + (gamma * (900 / (temp_mean_c + 273)) * wind_speed_ms * (es - ea))
     denominator = delta + gamma * (1 + 0.34 * wind_speed_ms)
 
     et0 = numerator / denominator
     return max(et0, 0)  # ET0 can't be physically negative
-
-
-def penman_monteith_et0(temp_mean_c, temp_max_c, temp_min_c, dewpoint_c,
-                        wind_speed_ms, solar_radiation_mj, elevation_m,
-                        latitude_deg, month, soil_heat_flux_mj=0.0):
-    """
-    Monthly wrapper (mid-month day of year). Pass soil_heat_flux_mj from
-    FAO-56 Eq. 43 if the neighbouring months' mean temperatures are
-    available; defaults to 0 (small, documented approximation).
-    """
-    return penman_monteith_et0_doy(
-        temp_mean_c, temp_max_c, temp_min_c, dewpoint_c, wind_speed_ms,
-        solar_radiation_mj, elevation_m, latitude_deg, MID_MONTH_DAY[month],
-        soil_heat_flux_mj=soil_heat_flux_mj,
-    )
-
-
-def monthly_soil_heat_flux(t_next_month_c, t_prev_month_c):
-    """FAO-56 Eq. 43: G for a monthly period, MJ m-2 day-1."""
-    return 0.07 * (t_next_month_c - t_prev_month_c)
 
 
 def real_rhmin(temp_max_c, dewpoint_c):

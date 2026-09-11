@@ -1,28 +1,21 @@
 """
-Location-based crop advisor: given a location, ranks our 6 crops by how
-well the local climate matches each crop's known ideal temperature
-range, identifies the best planting months, and reports real FAO-56
-water requirements (per hectare, per square meter, and a stated-
-assumption per-plant estimate for home growers).
+Location-based crop advisor (planting-date simulation version).
 
-Deliberate design choice: crops are ranked by CLIMATE FIT (how many
-months fall inside the crop's ideal range), not by total water use or
-growing-season length. Ranking by water/season length was checked and
-rejected -- it rewards short-season crops regardless of whether they
-actually suit the climate (e.g. a crop could "win" by having a short
-season in mediocre conditions, rather than genuinely thriving there).
-Key (use lowercase)	City
-riyadh	Riyadh
-jeddah	Jeddah
-dammam	Dammam
-najran	Najran
-jazan	Jazan
-abha	Abha
-tabuk	Tabuk
-qassim	Qassim
-madinah	Madinah
-makkah	Makkah
-hail	Hail
+For each location the advisor answers, per crop:
+  "If I plant on date X, can the crop complete its growth cycle here,
+   and how much water does it need in each growth stage?"
+
+Method chain (every step sourced -- see crop_database.py):
+  NASA POWER daily climatology (2014-2023)
+    -> FAO-56 Penman-Monteith ET0 (Eq. 6), per day
+    -> FAO56rev growing-degree-day stage lengths (Paredes et al. 2025)
+    -> FAO-56 Kc curve (Eq. 66) with arid-climate adjustment (Eq. 62/65)
+    -> ETc = Kc x ET0 (Eq. 58), summed per stage and per season
+    -> planting-date selection per Elnesr & Alazba 2016 (KSU):
+       heat units met -> shock check -> minimum seasonal ETc
+
+Known cities (lowercase): riyadh, jeddah, dammam, najran, jazan, abha,
+tabuk, qassim, madinah, makkah, hail -- or pass (lat, lon).
 """
 
 import sys
@@ -31,208 +24,131 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "care"))
 
-from nasa_power import fetch_climate_data, MONTH_KEYS
-from evapotranspiration import penman_monteith_et0, real_rhmin
-from crop_coefficients import CROP_COEFFICIENTS, calculate_etc
-from care_profiles import SPECIES_PROFILES
+from nasa_power import fetch_daily_climatology_full
+from crop_database import CROP_DB, SCAN_CROPS, PERENNIAL_CROPS, UNRESOLVED_CROPS
+from season_simulator import scan_planting_dates, simulate_perennial_cycle, contiguous_windows
 
-# A few major Saudi cities for convenience -- users can also pass raw lat/lon.
 KNOWN_LOCATIONS = {
-    "riyadh": (24.71, 46.68),
-    "jeddah": (21.54, 39.17),
-    "dammam": (26.43, 50.10),
-    "najran": (17.49, 44.13),
-    "jazan": (16.89, 42.55),
-    "abha": (18.22, 42.51),
-    "tabuk": (28.38, 36.57),
-    "qassim": (26.33, 43.98),
-    "madinah": (24.47, 39.61),
-    "makkah": (21.39, 39.86),
-    "hail": (27.52, 41.69),
+    "riyadh": (24.71, 46.68), "jeddah": (21.54, 39.17), "dammam": (26.43, 50.10),
+    "najran": (17.49, 44.13), "jazan": (16.89, 42.55), "abha": (18.22, 42.51),
+    "tabuk": (28.38, 36.57), "qassim": (26.33, 43.98), "madinah": (24.47, 39.61),
+    "makkah": (21.39, 39.86), "hail": (27.52, 41.69),
 }
 
-# Planting density assumptions, cross-checked against real horticultural
-# extension spacing guidance (not arbitrary picks):
-#   Tomato: 24-36in spacing (UC ANR, Gardening Know How) -> ~1.8-3.6/m^2
-#   Pepper: 18-24in spacing (Utah State Extension)        -> ~4.8-5/m^2
-#   Potato: 10-12in x 30-36in rows (USU, UMN Extension)   -> ~4.25-5.2/m^2
-#   Corn:   9-12in x 24-36in rows (U Maryland Extension)  -> ~4.9/m^2
-#   Grape:  9x6ft real vineyard spacing (eVineyard)        -> ~0.2/m^2
-#   Apple:  modern dwarf-rootstock spacing (current commercial standard)
-ASSUMED_PLANTS_PER_M2 = {
-    "Tomato": 2.5,
-    "Potato": 5,
-    "Pepper,_bell": 5,
-    "Grape": 1 / 4,
-    "Apple": 1 / 5,
-    "Corn_(maize)": 5,
-}
+PLANTING_STEP_DAYS = 10
 
 
 def resolve_location(location):
-    """Accepts either a known city name (case-insensitive) or a (lat, lon) tuple."""
     if isinstance(location, str):
         key = location.strip().lower()
         if key not in KNOWN_LOCATIONS:
-            raise ValueError(f"Unknown location '{location}'. Known: {list(KNOWN_LOCATIONS)} "
-                              f"or pass (lat, lon) directly.")
+            raise ValueError(f"Unknown location '{location}'. Known: {list(KNOWN_LOCATIONS)} or pass (lat, lon).")
         return KNOWN_LOCATIONS[key]
     return location
 
 
-def evaluate_month_fit(temp_max_c, ideal_range):
-    """True if this month's typical daytime high falls inside the crop's
-    ideal range."""
-    low, high = ideal_range
-    return low <= temp_max_c <= high
+def per_plant_liters(etc_mm_day, crop_name):
+    """ETc (mm/day = L/m2/day) / plants per m2 -> L per plant per day.
+    This is a field-equivalent figure (closed canopy at the stated spacing)."""
+    return etc_mm_day / CROP_DB[crop_name]["plants_per_m2"]
 
 
-def analyze_crop(crop_name, monthly_climate, elevation, latitude):
-    """
-    Returns per-crop analysis: suitable months, and water requirement
-    (ETc-based) averaged across those suitable months.
-    """
-    ideal_range = SPECIES_PROFILES[crop_name]["ideal_temp_range_c"]
-
-    suitable_months = []
-    etc_values = []
-    clamped_any = False
-
-    for month in MONTH_KEYS:
-        v = monthly_climate[month]
-        is_suitable = evaluate_month_fit(v["temp_c"], ideal_range)
-
-        if is_suitable:
-            et0 = penman_monteith_et0(
-                temp_mean_c=v["temp_c"], temp_max_c=v["temp_max_c"], temp_min_c=v["temp_min_c"],
-                dewpoint_c=v["dewpoint_c"], wind_speed_ms=v["wind_speed_ms"],
-                solar_radiation_mj=v["solar_radiation_mj"], elevation_m=elevation,
-                latitude_deg=latitude, month=month,
-            )
-            rhmin = real_rhmin(v["temp_max_c"], v["dewpoint_c"])
-            etc, kc_adj, clamped = calculate_etc(et0, crop_name, v["wind_speed_ms"], rhmin)
-
-            suitable_months.append(month)
-            etc_values.append(etc)
-            clamped_any = clamped_any or clamped
-
-    avg_etc = sum(etc_values) / len(etc_values) if etc_values else None
-    min_etc = min(etc_values) if etc_values else None
-    max_etc = max(etc_values) if etc_values else None
-
-    return {
-        "crop": crop_name,
-        "suitable_months": suitable_months,
-        "num_suitable_months": len(suitable_months),
-        "avg_etc_mm_day": avg_etc,
-        "min_etc_mm_day": min_etc,
-        "max_etc_mm_day": max_etc,
-        "any_clamped": clamped_any,
-    }
-    
-def get_monthly_breakdown(location, crop_name):
-    """
-    On-demand detailed view for one specific crop at one location --
-    the full month-by-month water requirement, not just the suitable-
-    months average. Useful once a user has settled on a crop and wants
-    to plan their actual watering schedule through the season.
-    """
+def get_recommendations(location, step_days=PLANTING_STEP_DAYS):
     lat, lon = resolve_location(location)
-    monthly_climate, elevation = fetch_climate_data(lat, lon)
-    ideal_range = SPECIES_PROFILES[crop_name]["ideal_temp_range_c"]
+    clim, elevation, raw_years = fetch_daily_climatology_full(lat, lon)
 
-    print(f"\n=== {crop_name} monthly breakdown for {location} ===\n")
-    for month in MONTH_KEYS:
-        v = monthly_climate[month]
-        is_suitable = evaluate_month_fit(v["temp_c"], ideal_range)
+    annual = {name: scan_planting_dates(name, clim, elevation, lat, step_days, raw_years) for name in SCAN_CROPS}
+    perennial = {name: simulate_perennial_cycle(name, clim, elevation, lat) for name in PERENNIAL_CROPS}
 
-        et0 = penman_monteith_et0(
-            temp_mean_c=v["temp_c"], temp_max_c=v["temp_max_c"], temp_min_c=v["temp_min_c"],
-            dewpoint_c=v["dewpoint_c"], wind_speed_ms=v["wind_speed_ms"],
-            solar_radiation_mj=v["solar_radiation_mj"], elevation_m=elevation,
-            latitude_deg=lat, month=month,
-        )
-        rhmin = real_rhmin(v["temp_max_c"], v["dewpoint_c"])
-        etc, kc_adj, clamped = calculate_etc(et0, crop_name, v["wind_speed_ms"], rhmin)
-        liters_per_plant = etc / ASSUMED_PLANTS_PER_M2[crop_name]
-
-        marker = "✓" if is_suitable else " "
-        clamp_note = " [conservative]" if clamped else ""
-        print(f"  [{marker}] {month}: {etc:.2f} mm/day -> {liters_per_plant:.2f} L/plant/day{clamp_note}")
-
-    print(f"\n  ✓ = climate-suitable month (modeled, open-field)\n")
-
-def water_breakdown(etc_mm_day, crop_name):
-    """Converts ETc (mm/day) into two simple, audience-specific numbers:
-    liters per plant per day (home growers) and cubic meters per
-    hectare per day (farmers) -- deliberately kept to two numbers, not
-    four, to avoid the extra unit-conversion step (mm -> L/m2 -> m3/ha
-    -> per-month) making the result harder to read than it needs to be."""
-    plants_per_m2 = ASSUMED_PLANTS_PER_M2[crop_name]
-    liters_per_plant_day = etc_mm_day / plants_per_m2
-    m3_per_hectare_day = etc_mm_day * 10  # 1mm over 1 hectare = 10 m^3
-
+    # Ranking (presentation only): widest shock-free planting window first,
+    # then lowest seasonal water among best dates.
+    ranked = sorted(annual.values(),
+                    key=lambda s: (-s["n_shock_free"], -s["n_viable"],
+                                   s["best"]["seasonal_etc_mm"] if s["best"] else 1e9))
     return {
-        "liters_per_plant_per_day": round(liters_per_plant_day, 2),
-        "m3_per_hectare_per_day": round(m3_per_hectare_day, 1),
-        "assumed_plants_per_m2": plants_per_m2,
+        "location": location, "coordinates": (lat, lon), "elevation_m": elevation,
+        "annual_crops": ranked, "perennial_crops": list(perennial.values()),
+        "unresolved_crops": UNRESOLVED_CROPS,
     }
 
 
-def get_recommendations(location):
-    """
-    Main entry point. location: a known city name (str) or (lat, lon) tuple.
-    Returns crops ranked by climate fit, with water requirements for each.
-    """
-    lat, lon = resolve_location(location)
-    monthly_climate, elevation = fetch_climate_data(lat, lon)
-
-    results = []
-    for crop_name in CROP_COEFFICIENTS:
-        analysis = analyze_crop(crop_name, monthly_climate, elevation, lat)
-        if analysis["avg_etc_mm_day"] is not None:
-            analysis["water"] = water_breakdown(analysis["avg_etc_mm_day"], crop_name)
-        results.append(analysis)
-
-    # Ranked by climate fit (number of suitable months) -- NOT by water use.
-    results.sort(key=lambda r: r["num_suitable_months"], reverse=True)
-
-    return {
-        "location": location,
-        "coordinates": (lat, lon),
-        "elevation_m": elevation,
-        "recommendations": results,
-    }
+def _print_stages(run, crop_name, indent="      "):
+    ppm2 = CROP_DB[crop_name]["plants_per_m2"]
+    print(f"{indent}{'Stage':<13}{'Days':>5}  {'Dates':<17}{'mm/day':>7}{'mm total':>10}{'ETc-eq L/plant/day':>20}")
+    for s in run["stages"]:
+        print(f"{indent}{s['stage']:<13}{s['days']:>5}  {s['start']}-{s['end']:<8}"
+              f"{s['etc_mm_per_day']:>7.2f}{s['etc_mm']:>10.0f}"
+              f"{per_plant_liters(s['etc_mm_per_day'], crop_name):>20.2f}")
+    print(f"{indent}{'TOTAL':<13}{run['total_days']:>5}  {'':<17}{'':>7}{run['seasonal_etc_mm']:>10.0f}")
+    print(f"{indent}Seasonal crop water use (ETc): {run['seasonal_etc_mm']:.0f} mm  =  {run['seasonal_m3_per_ha']:.0f} m3/ha;  "
+          f"mean {run['seasonal_etc_mm']/run['total_days']:.2f} mm/day  "
+          f"(ET0 {run['seasonal_et0_mm']:.0f} mm; Kc_mid adj {run['kc_mid_adjusted']:.2f}, Kc_end adj {run['kc_end_adjusted']:.2f})")
+    print(f"{indent}Peak crop water use: {run['peak_etc_mm_day']:.2f} mm/day around {run['peak_date']}")
+    print(f"{indent}Per-plant figures are the field ETc divided by an assumed density of {ppm2} plants/m2 -- an area-equivalent, not measured uptake.")
+    if run["kc_clamp_note"]:
+        print(f"{indent}Limitation: a Kc-adjustment input (RHmin or wind) was outside FAO-56 Eq.62's validated range and was clamped "
+              f"to the limit as FAO-56 prescribes; {run['kc_clamp_note']}. Interpret ETc with added uncertainty.")
 
 
 def print_recommendations(result):
-    print(f"\n=== Crop Suitability for {result['location']} "
-          f"({result['coordinates'][0]}, {result['coordinates'][1]}, "
-          f"elevation {result['elevation_m']:.0f}m) ===\n")
+    lat, lon = result["coordinates"]
+    print(f"\n=== Crop advisor for {result['location']} ({lat}, {lon}, elevation {result['elevation_m']:.0f} m) ===")
+    print("    Climate: NASA POWER daily climatology 2014-2023 (a typical year, not a forecast). ET0: FAO-56 Penman-Monteith.")
+    print("    Annual crops: FAO56rev GDD phenology (Paredes et al. 2025). Perennials: FAO-56 Table 11 reference phenology, mature plant.")
+    print("    Planting-date selection adapted from Elnesr & Alazba (2016, KSU). All water figures are crop water use (ETc), not irrigation requirement.\n")
 
-    for r in result["recommendations"]:
-        print(f"{r['crop']:15s}  Climate-suitable months (modeled, open-field): "
-              f"{r['num_suitable_months']}/12 "
-              f"({', '.join(r['suitable_months']) if r['suitable_months'] else 'none'})")
-
-        if r["avg_etc_mm_day"] is not None:
-            w = r["water"]
-            clamp_note = "  [estimate may be conservative in extreme dryness]" if r["any_clamped"] else ""
-            print(f"                 Estimated water use during those months: "
-                  f"{r['avg_etc_mm_day']:.2f} mm/day avg "
-                  f"(ranges {r['min_etc_mm_day']:.2f}-{r['max_etc_mm_day']:.2f} across the suitable months){clamp_note}")
-            print(f"                   Home garden: ~{w['liters_per_plant_per_day']} L per single plant, per day "
-                  f"(based on an assumed spacing of {w['assumed_plants_per_m2']} plants per m²)")
-            print(f"                   Farm scale: ~{w['m3_per_hectare_per_day']} m³/ha/day")
+    for scan in result["annual_crops"]:
+        name, best = scan["crop"], scan["best"]
+        print(f"{name}")
+        print(f"   Candidate planting dates tested: {scan['n_candidates']} (every {scan['step_days']} days); "
+              f"complete the cycle within a year: {scan['n_viable']}; shock-free: {scan['n_shock_free']}")
+        if best is None:
+            print("   -> NOT VIABLE: no planting date lets this crop complete its heat-unit (GDD) requirement here.\n")
+            continue
+        sf_doys = [r["start_doy"] for r in scan["runs"] if r["viable"] and r["shock_free"]]
+        windows = contiguous_windows(sf_doys, scan["step_days"])
+        if windows:
+            print("   Planting window(s) with no tolerance exceedances: " + "; ".join(f"{a} to {b}" for a, b in windows))
+            print(f"   RECOMMENDED planting date: {best['start_date']}  ->  harvest ~{best['end_date']}  ({best['total_days']} days)")
+        else:
+            print("   No planting date is free of temperature-tolerance exceedances at this location.")
+            print(f"   LEAST-WATER VIABLE CANDIDATE: {best['start_date']}  ->  harvest ~{best['end_date']}  ({best['total_days']} days)")
+        print(f"   Basis: {scan['selection_basis']}")
+        print(f"   Stage lengths from GDD (ini/dev/mid/late): {'/'.join(str(x) for x in best['stage_lengths'])} days")
+        print(f"   Days above tolerable Tmax: {best['heat_shock_days']};  days below tolerable Tmin: {best['cold_shock_days']}  "
+              f"(Elnesr & Alazba 2016 thresholds on the smoothed climatology; warning only, not a rejection)")
+        rx = best.get("raw_exceedances")
+        if rx:
+            print(f"   Observed 2014-2023 ({len(rx['years'])} seasons, unsmoothed daily data): "
+                  f"above Tmax {rx['heat_mean']:.0f} days/season (range {rx['heat_min']}-{rx['heat_max']}); "
+                  f"below Tmin {rx['cold_mean']:.0f} days/season (range {rx['cold_min']}-{rx['cold_max']})")
+        print(f"   Phenology counts: days at GDD ceiling (Tavg > Tupper) {best['heat_ceiling_days']}, days below Tbase {best['cold_days']}")
+        if CROP_DB[name].get("disclosure"):
+            print(f"   Note: {CROP_DB[name]['disclosure']}")
+        _print_stages(best, name)
         print()
+
+    for run in result["perennial_crops"]:
+        name = run["crop"]
+        print(f"{name}  (perennial -- one annual cycle of an ESTABLISHED plant)")
+        print(f"   Cycle: {run['start_date']} to {run['end_date']} ({run['total_days']} days), stage lengths {run['stage_source']}")
+        est = CROP_DB[name].get("establishment")
+        if est:
+            print(f"   Planting: {est['planting_season']}")
+            print(f"   First harvest: {est['years_to_first_harvest']}")
+        print(f"   {run['establishment_note']}")
+        print(f"   Suitability status: {run['suitability_status'].upper()} -- {run['suitability_reason']}")
+        print(f"   Phenology counts: days at GDD ceiling {run['heat_ceiling_days']}, days below Tbase {run['cold_days']} "
+              f"(no temperature-tolerance test: not in the Elnesr & Alazba dataset)")
+        _print_stages(run, name)
+        print()
+
+    if result["unresolved_crops"]:
+        print(f"Not simulated (no sourced stage-length data yet): {', '.join(result['unresolved_crops'])}\n")
 
 
 if __name__ == "__main__":
     test_cities = ["riyadh", "jeddah", "dammam", "najran", "jazan", "abha", "tabuk"]
     for city in test_cities:
-        result = get_recommendations(city)
-        print_recommendations(result)
-        print("=" * 70)
-        
-        
-#get_recommendations((26.30, 43.98))  # e.g. Buraidah, or anywhere else
+        print_recommendations(get_recommendations(city))
+        print("=" * 90)
