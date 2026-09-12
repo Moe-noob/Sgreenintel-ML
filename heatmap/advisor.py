@@ -137,6 +137,9 @@ def print_recommendations(result):
             print(f"   Planting: {est['planting_season']}")
             print(f"   First harvest: {est['years_to_first_harvest']}")
         print(f"   {run['establishment_note']}")
+        print(f"   Per-plant water figures below are ETc divided by assumed vine/tree spacing density -- a rougher approximation "
+              f"than for annuals, since mature root systems extend well beyond nominal row/plant spacing and draw water from a "
+              f"larger soil volume than the spacing figure implies. Use the mm/day and m3/ha figures for farm-scale planning.")
         print(f"   Suitability status: {run['suitability_status'].upper()} -- {run['suitability_reason']}")
         print(f"   Phenology counts: days at GDD ceiling {run['heat_ceiling_days']}, days below Tbase {run['cold_days']} "
               f"(no temperature-tolerance test: not in the Elnesr & Alazba dataset)")
