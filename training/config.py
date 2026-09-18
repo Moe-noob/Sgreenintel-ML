@@ -36,4 +36,6 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 CHECKPOINT_NAME = "mobilenetv2_sgreenintel_v2.pth"
 FINETUNE_CHECKPOINT_NAME = "mobilenetv2_sgreenintel_v3.pth"
 FINETUNE_MODEL_PATH = MODEL_SAVE_DIR / FINETUNE_CHECKPOINT_NAME
+V4_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v4.pth"
+V4P2_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v4p2.pth"
 BEST_MODEL_PATH = MODEL_SAVE_DIR / CHECKPOINT_NAME

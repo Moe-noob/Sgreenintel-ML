@@ -34,7 +34,9 @@ def build_model(num_classes):
 
 
 def load_best_model():
-    checkpoint = torch.load(config.FINETUNE_MODEL_PATH, map_location=config.DEVICE)
+    model_path = config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists() else config.V4_MODEL_PATH
+    print(f"Using model: {model_path.name}")
+    checkpoint = torch.load(model_path, map_location=config.DEVICE)
     model = build_model(config.NUM_CLASSES)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
