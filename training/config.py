@@ -34,4 +34,6 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # ---- Checkpointing ----
 CHECKPOINT_NAME = "mobilenetv2_sgreenintel_v2.pth"
+FINETUNE_CHECKPOINT_NAME = "mobilenetv2_sgreenintel_v3.pth"
+FINETUNE_MODEL_PATH = MODEL_SAVE_DIR / FINETUNE_CHECKPOINT_NAME
 BEST_MODEL_PATH = MODEL_SAVE_DIR / CHECKPOINT_NAME

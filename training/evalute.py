@@ -34,13 +34,14 @@ def build_model(num_classes):
 
 
 def load_best_model():
-    checkpoint = torch.load(config.BEST_MODEL_PATH, map_location=config.DEVICE)
+    checkpoint = torch.load(config.FINETUNE_MODEL_PATH, map_location=config.DEVICE)
     model = build_model(config.NUM_CLASSES)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
 
     print(f"Loaded checkpoint from epoch {checkpoint['epoch']}")
-    print(f"  (val_loss={checkpoint['val_loss']:.4f}, val_accuracy={checkpoint['val_accuracy']:.2f}%)\n")
+    val_acc_key = 'val_accuracy' if 'val_accuracy' in checkpoint else 'val_acc'
+    print(f"  (val_loss={checkpoint['val_loss']:.4f}, val_accuracy={checkpoint[val_acc_key]:.2f}%)\n")
 
     return model, checkpoint["class_names"]
 
