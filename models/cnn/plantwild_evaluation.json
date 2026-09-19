@@ -1,32 +1,32 @@
 {
-  "overall_accuracy": 58.22454308093995,
+  "overall_accuracy": 63.53350739773717,
   "total_images": 1149,
-  "correct": 669,
+  "correct": 730,
   "plantvillage_test_accuracy": 90.29,
-  "domain_gap": 32.065456919060054,
+  "domain_gap": 26.75649260226284,
   "classes_evaluated": 25,
   "per_class": {
     "Apple___Black_rot": {
-      "accuracy": 44.11764705882353,
-      "correct": 15,
+      "accuracy": 38.23529411764706,
+      "correct": 13,
       "total": 34,
       "plantwild_folder": "apple black rot"
     },
     "Apple___healthy": {
-      "accuracy": 53.40909090909091,
-      "correct": 47,
+      "accuracy": 64.77272727272727,
+      "correct": 57,
       "total": 88,
       "plantwild_folder": "apple leaf"
     },
     "Apple___Cedar_apple_rust": {
-      "accuracy": 75.40983606557377,
-      "correct": 46,
+      "accuracy": 80.32786885245902,
+      "correct": 49,
       "total": 61,
       "plantwild_folder": "apple rust"
     },
     "Apple___Apple_scab": {
-      "accuracy": 39.6551724137931,
-      "correct": 23,
+      "accuracy": 53.44827586206896,
+      "correct": 31,
       "total": 58,
       "plantwild_folder": "apple scab"
     },
@@ -43,56 +43,56 @@
       "plantwild_folder": "bell pepper leaf spot"
     },
     "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
-      "accuracy": 34.883720930232556,
-      "correct": 15,
+      "accuracy": 32.55813953488372,
+      "correct": 14,
       "total": 43,
       "plantwild_folder": "corn gray leaf spot"
     },
     "Corn_(maize)___healthy": {
-      "accuracy": 96.7741935483871,
-      "correct": 30,
+      "accuracy": 90.32258064516128,
+      "correct": 28,
       "total": 31,
       "plantwild_folder": "corn leaf"
     },
     "Corn_(maize)___Northern_Leaf_Blight": {
-      "accuracy": 81.81818181818183,
-      "correct": 36,
+      "accuracy": 86.36363636363636,
+      "correct": 38,
       "total": 44,
       "plantwild_folder": "corn northern leaf blight"
     },
     "Corn_(maize)___Common_rust_": {
-      "accuracy": 78.72340425531915,
-      "correct": 37,
+      "accuracy": 82.97872340425532,
+      "correct": 39,
       "total": 47,
       "plantwild_folder": "corn rust"
     },
     "Grape___Black_rot": {
-      "accuracy": 86.66666666666667,
-      "correct": 39,
+      "accuracy": 93.33333333333333,
+      "correct": 42,
       "total": 45,
       "plantwild_folder": "grape black rot"
     },
     "Grape___healthy": {
-      "accuracy": 82.5,
-      "correct": 33,
+      "accuracy": 87.5,
+      "correct": 35,
       "total": 40,
       "plantwild_folder": "grape leaf"
     },
     "Potato___Early_blight": {
-      "accuracy": 55.55555555555556,
-      "correct": 25,
+      "accuracy": 60.0,
+      "correct": 27,
       "total": 45,
       "plantwild_folder": "potato early blight"
     },
     "Potato___Late_blight": {
-      "accuracy": 58.333333333333336,
-      "correct": 28,
+      "accuracy": 72.91666666666666,
+      "correct": 35,
       "total": 48,
       "plantwild_folder": "potato late blight"
     },
     "Potato___healthy": {
-      "accuracy": 75.51020408163265,
-      "correct": 37,
+      "accuracy": 81.63265306122449,
+      "correct": 40,
       "total": 49,
       "plantwild_folder": "potato leaf"
     },
@@ -103,44 +103,44 @@
       "plantwild_folder": "strawberry leaf"
     },
     "Strawberry___Leaf_scorch": {
-      "accuracy": 60.0,
-      "correct": 9,
+      "accuracy": 66.66666666666666,
+      "correct": 10,
       "total": 15,
       "plantwild_folder": "strawberry leaf scorch"
     },
     "Tomato___Bacterial_spot": {
-      "accuracy": 19.642857142857142,
-      "correct": 11,
+      "accuracy": 28.57142857142857,
+      "correct": 16,
       "total": 56,
       "plantwild_folder": "tomato bacterial leaf spot"
     },
     "Tomato___Early_blight": {
-      "accuracy": 43.47826086956522,
-      "correct": 30,
+      "accuracy": 49.275362318840585,
+      "correct": 34,
       "total": 69,
       "plantwild_folder": "tomato early blight"
     },
     "Tomato___Late_blight": {
-      "accuracy": 44.06779661016949,
-      "correct": 26,
+      "accuracy": 57.6271186440678,
+      "correct": 34,
       "total": 59,
       "plantwild_folder": "tomato late blight"
     },
     "Tomato___healthy": {
-      "accuracy": 60.0,
-      "correct": 27,
+      "accuracy": 71.11111111111111,
+      "correct": 32,
       "total": 45,
       "plantwild_folder": "tomato leaf"
     },
     "Tomato___Leaf_Mold": {
-      "accuracy": 72.3404255319149,
-      "correct": 34,
+      "accuracy": 65.95744680851064,
+      "correct": 31,
       "total": 47,
       "plantwild_folder": "tomato leaf mold"
     },
     "Tomato___Tomato_mosaic_virus": {
-      "accuracy": 56.75675675675676,
-      "correct": 21,
+      "accuracy": 59.45945945945946,
+      "correct": 22,
       "total": 37,
       "plantwild_folder": "tomato mosaic virus"
     },
@@ -151,8 +151,8 @@
       "plantwild_folder": "tomato septoria leaf spot"
     },
     "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
-      "accuracy": 17.647058823529413,
-      "correct": 6,
+      "accuracy": 26.47058823529412,
+      "correct": 9,
       "total": 34,
       "plantwild_folder": "tomato yellow leaf curl virus"
     }

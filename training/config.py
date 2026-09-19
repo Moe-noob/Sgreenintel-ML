@@ -15,8 +15,8 @@ TEST_DIR = DATA_DIR / "test"
 MODEL_SAVE_DIR = PROJECT_ROOT / "models" / "cnn"
 
 # ---- Data ----
-IMAGE_SIZE = 224          # required input size for MobileNetV2
-BATCH_SIZE = 16           # kept modest deliberately for GTX 1650 (4GB VRAM)
+IMAGE_SIZE = 320         # required input size for MobileNetV2
+BATCH_SIZE = 8           # kept modest deliberately for GTX 1650 (4GB VRAM)
 NUM_WORKERS = 2           # kept low to avoid Windows dataloader stalls
 SEED = 42
 
@@ -38,4 +38,6 @@ FINETUNE_CHECKPOINT_NAME = "mobilenetv2_sgreenintel_v3.pth"
 FINETUNE_MODEL_PATH = MODEL_SAVE_DIR / FINETUNE_CHECKPOINT_NAME
 V4_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v4.pth"
 V4P2_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v4p2.pth"
+V5_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v5.pth"
+V5P2_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v5p2.pth"
 BEST_MODEL_PATH = MODEL_SAVE_DIR / CHECKPOINT_NAME
