@@ -93,7 +93,9 @@ def build_and_load_model():
     num_features = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(num_features, config.NUM_CLASSES)
     model = model.to(config.DEVICE)
-    model_path = (config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
+    model_path = (config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
+              else config.V6_MODEL_PATH if config.V6_MODEL_PATH.exists()
+              else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
               else config.V5_MODEL_PATH if config.V5_MODEL_PATH.exists()
               else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
               else config.V4_MODEL_PATH)

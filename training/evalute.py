@@ -34,7 +34,9 @@ def build_model(num_classes):
 
 
 def load_best_model():
-    model_path = (config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
+    model_path = (config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
+              else config.V6_MODEL_PATH if config.V6_MODEL_PATH.exists()
+              else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
               else config.V5_MODEL_PATH if config.V5_MODEL_PATH.exists()
               else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
               else config.V4_MODEL_PATH)
