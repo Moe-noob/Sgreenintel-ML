@@ -61,7 +61,10 @@ def predict(image_path, top_k=3, use_ood=True):
 
     With use_ood=False: raw predictions, no filtering.
     """
-    model_path = config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists() else config.V4_MODEL_PATH
+    model_path = (config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
+              else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
+              else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
+              else config.V4_MODEL_PATH)
     checkpoint = torch.load(model_path, map_location=config.DEVICE)
     model = build_model(config.NUM_CLASSES)
     model.load_state_dict(checkpoint["model_state_dict"])
