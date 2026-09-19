@@ -253,7 +253,7 @@ def main():
     )
 
     # v4 checkpoint path
-    v4_path = config.V5_MODEL_PATH
+    v4_path = config.V6_MODEL_PATH
 
     NUM_EPOCHS = 7
     best_val_loss = float("inf")
@@ -308,13 +308,13 @@ def main():
                 "val_acc": val_acc,
                 "val_loss": avg_val_loss,
                 "class_names": class_names,
-            }, config.V5_MODEL_PATH)
-            print(f"  --> Saved v5 checkpoint (val_acc={val_acc:.2f}%)")
+            }, config.V6_MODEL_PATH)
+            print(f"  --> Saved v6 checkpoint (val_acc={val_acc:.2f}%)")
 
     print(f"\nBest val_acc: {best_val_acc:.2f}%")
-    print(f"v5 checkpoint: {config.V5_MODEL_PATH}")
+    print(f"v6 checkpoint: {config.V6_MODEL_PATH}")
     print(f"\nNext: run evalute.py, evaluate_plantdoc.py, evaluate_plantwild.py")
-    print(f"with V5_MODEL_PATH to compare against v4p2 baseline")
+    print(f"with V6P2_MODEL_PATH after running finetune_phase2.py")
 
 
 if __name__ == "__main__":

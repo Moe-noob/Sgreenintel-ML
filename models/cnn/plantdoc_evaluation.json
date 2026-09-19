@@ -1,9 +1,9 @@
 {
-  "overall_accuracy": 70.27027027027027,
+  "overall_accuracy": 70.8108108108108,
   "total_images": 370,
-  "correct": 260,
+  "correct": 262,
   "plantvillage_test_accuracy": 90.29,
-  "domain_gap": 20.019729729729733,
+  "domain_gap": 19.4791891891892,
   "classes_evaluated": 21,
   "per_class": {
     "Apple___healthy": {
@@ -25,14 +25,14 @@
       "plantdoc_folder": "Apple Scab Leaf"
     },
     "Pepper,_bell___healthy": {
-      "accuracy": 87.5,
-      "correct": 14,
+      "accuracy": 75.0,
+      "correct": 12,
       "total": 16,
       "plantdoc_folder": "Bell_pepper leaf"
     },
     "Pepper,_bell___Bacterial_spot": {
-      "accuracy": 55.55555555555556,
-      "correct": 10,
+      "accuracy": 66.66666666666666,
+      "correct": 12,
       "total": 18,
       "plantdoc_folder": "Bell_pepper leaf spot"
     },
@@ -43,8 +43,8 @@
       "plantdoc_folder": "Corn Gray leaf spot"
     },
     "Corn_(maize)___Northern_Leaf_Blight": {
-      "accuracy": 66.66666666666666,
-      "correct": 16,
+      "accuracy": 50.0,
+      "correct": 12,
       "total": 24,
       "plantdoc_folder": "Corn leaf blight"
     },
@@ -61,20 +61,20 @@
       "plantdoc_folder": "grape leaf"
     },
     "Grape___Black_rot": {
-      "accuracy": 87.5,
-      "correct": 14,
+      "accuracy": 75.0,
+      "correct": 12,
       "total": 16,
       "plantdoc_folder": "grape leaf black rot"
     },
     "Potato___Early_blight": {
-      "accuracy": 25.0,
-      "correct": 4,
+      "accuracy": 50.0,
+      "correct": 8,
       "total": 16,
       "plantdoc_folder": "Potato leaf early blight"
     },
     "Potato___Late_blight": {
-      "accuracy": 37.5,
-      "correct": 6,
+      "accuracy": 62.5,
+      "correct": 10,
       "total": 16,
       "plantdoc_folder": "Potato leaf late blight"
     },
@@ -85,8 +85,8 @@
       "plantdoc_folder": "Strawberry leaf"
     },
     "Tomato___Early_blight": {
-      "accuracy": 66.66666666666666,
-      "correct": 12,
+      "accuracy": 77.77777777777779,
+      "correct": 14,
       "total": 18,
       "plantdoc_folder": "Tomato Early blight leaf"
     },
@@ -97,20 +97,20 @@
       "plantdoc_folder": "Tomato leaf"
     },
     "Tomato___Bacterial_spot": {
-      "accuracy": 22.22222222222222,
-      "correct": 4,
+      "accuracy": 33.33333333333333,
+      "correct": 6,
       "total": 18,
       "plantdoc_folder": "Tomato leaf bacterial spot"
     },
     "Tomato___Late_blight": {
-      "accuracy": 80.0,
-      "correct": 16,
+      "accuracy": 70.0,
+      "correct": 14,
       "total": 20,
       "plantdoc_folder": "Tomato leaf late blight"
     },
     "Tomato___Tomato_mosaic_virus": {
-      "accuracy": 50.0,
-      "correct": 10,
+      "accuracy": 40.0,
+      "correct": 8,
       "total": 20,
       "plantdoc_folder": "Tomato leaf mosaic virus"
     },
@@ -121,14 +121,14 @@
       "plantdoc_folder": "Tomato leaf yellow virus"
     },
     "Tomato___Leaf_Mold": {
-      "accuracy": 50.0,
-      "correct": 6,
+      "accuracy": 66.66666666666666,
+      "correct": 8,
       "total": 12,
       "plantdoc_folder": "Tomato mold leaf"
     },
     "Tomato___Septoria_leaf_spot": {
-      "accuracy": 81.81818181818183,
-      "correct": 18,
+      "accuracy": 72.72727272727273,
+      "correct": 16,
       "total": 22,
       "plantdoc_folder": "Tomato Septoria leaf spot"
     }

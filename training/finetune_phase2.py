@@ -58,7 +58,7 @@ def main():
     print("=== SGreen Intel v4 Phase 2: Lower LR continuation ===\n")
     print(f"Loading v4 checkpoint: {config.V4_MODEL_PATH}")
 
-    checkpoint = torch.load(config.V5_MODEL_PATH, map_location=config.DEVICE)
+    checkpoint = torch.load(config.V6_MODEL_PATH, map_location=config.DEVICE)
     class_names = checkpoint["class_names"]
     class_to_idx = {name: i for i, name in enumerate(class_names)}
 
@@ -126,7 +126,7 @@ def main():
         lr=1e-5
     )
 
-    v4p2_path = config.MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v5p2.pth"
+    v4p2_path = config.V6P2_MODEL_PATH
 
     NUM_EPOCHS = 5
     PATIENCE = 2  # stop if val_loss increases for 2 consecutive epochs
@@ -194,14 +194,15 @@ def main():
                 print(f"\nEarly stopping — val_loss hasn't improved for {PATIENCE} epochs.")
                 break
 
-    print(f"\nBest val_acc: {best_val_acc:.2f}%  (v4 was {checkpoint['val_acc']:.2f}%)")
+    print(f"Best val_acc: {best_val_acc:.2f}%  (v6 was {checkpoint['val_acc']:.2f}%)")
     if v4p2_path.exists():
         improvement = best_val_acc - checkpoint['val_acc']
-        print(f"Improvement over v4: {improvement:+.2f}pp")
-        print(f"v4p2 checkpoint: {v4p2_path}")
-        print(f"\nNext: run evalute.py and evaluate_plantdoc.py with V4P2_MODEL_PATH")
+        print(f"Improvement over v6: {improvement:+.2f}pp")
+        print(f"v6p2 checkpoint: {v4p2_path}")
+        print(f"\nNext: run evalute.py, evaluate_plantdoc.py, evaluate_plantwild.py")
+        print(f"with V6P2_MODEL_PATH to compare against v5p2 baseline")
     else:
-        print("No improvement over v4 -- use v4 as the final model.")
+        print("No improvement over v6 -- use v6 as the final model.")
 
 
 if __name__ == "__main__":
