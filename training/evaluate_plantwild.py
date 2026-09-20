@@ -69,10 +69,11 @@ def build_and_load_model():
     model.classifier[1] = nn.Linear(num_features, config.NUM_CLASSES)
     model = model.to(config.DEVICE)
     # Use v4p2 if it exists, otherwise v4
-    model_path = (config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
+    model_path = (config.V7P2_MODEL_PATH if config.V7P2_MODEL_PATH.exists()
+              else config.V7_MODEL_PATH if config.V7_MODEL_PATH.exists()
+              else config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
               else config.V6_MODEL_PATH if config.V6_MODEL_PATH.exists()
               else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
-              else config.V5_MODEL_PATH if config.V5_MODEL_PATH.exists()
               else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
               else config.V4_MODEL_PATH)
     print(f"Using model: {model_path.name}")

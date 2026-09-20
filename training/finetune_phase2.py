@@ -58,7 +58,7 @@ def main():
     print("=== SGreen Intel v4 Phase 2: Lower LR continuation ===\n")
     print(f"Loading v4 checkpoint: {config.V4_MODEL_PATH}")
 
-    checkpoint = torch.load(config.V6_MODEL_PATH, map_location=config.DEVICE)
+    checkpoint = torch.load(config.V7_MODEL_PATH, map_location=config.DEVICE)
     class_names = checkpoint["class_names"]
     class_to_idx = {name: i for i, name in enumerate(class_names)}
 
@@ -126,7 +126,7 @@ def main():
         lr=1e-5
     )
 
-    v4p2_path = config.V6P2_MODEL_PATH
+    v4p2_path = config.V7P2_MODEL_PATH
 
     NUM_EPOCHS = 5
     PATIENCE = 2  # stop if val_loss increases for 2 consecutive epochs

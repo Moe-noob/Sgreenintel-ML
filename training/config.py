@@ -42,4 +42,6 @@ V5_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v5.pth"
 V5P2_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v5p2.pth"
 V6_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v6.pth"
 V6P2_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v6p2.pth"
+V7_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v7.pth"
+V7P2_MODEL_PATH = MODEL_SAVE_DIR / "mobilenetv2_sgreenintel_v7p2.pth"
 BEST_MODEL_PATH = MODEL_SAVE_DIR / CHECKPOINT_NAME
