@@ -24,34 +24,27 @@ except ImportError:
     from dataset import get_dataloaders, get_datasets
 
 
-def build_model(num_classes):
-    """Must match the architecture used in train_cnn.py exactly, or the
-    saved weights won't load correctly."""
-    model = models.mobilenet_v2(weights=None)  # no need to redownload ImageNet weights
-    num_features = model.classifier[1].in_features
-    model.classifier[1] = nn.Linear(num_features, num_classes)
+def build_model(num_classes, architecture="mobilenet_v2"):
+    if architecture == "efficientnet_b0":
+        model = models.efficientnet_b0(weights=None)
+        in_features = model.classifier[1].in_features
+        model.classifier[1] = nn.Linear(in_features, num_classes)
+    else:
+        model = models.mobilenet_v2(weights=None)
+        num_features = model.classifier[1].in_features
+        model.classifier[1] = nn.Linear(num_features, num_classes)
     return model.to(config.DEVICE)
 
 
-def load_best_model():
-    model_path = (config.V7P2_MODEL_PATH if config.V7P2_MODEL_PATH.exists()
-              else config.V7_MODEL_PATH if config.V7_MODEL_PATH.exists()
-              else config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
-              else config.V6_MODEL_PATH if config.V6_MODEL_PATH.exists()
-              else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
-              else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
-              else config.V4_MODEL_PATH)
-    print(f"Using model: {model_path.name}")
-    checkpoint = torch.load(model_path, map_location=config.DEVICE)
-    model = build_model(config.NUM_CLASSES)
-    model.load_state_dict(checkpoint["model_state_dict"])
-    model.eval()
+from model_loader import load_best_model as _load_best_model
 
+def load_best_model():
+    model, class_names, path = _load_best_model()
+    checkpoint = torch.load(path, map_location=config.DEVICE)
     print(f"Loaded checkpoint from epoch {checkpoint['epoch']}")
     val_acc_key = 'val_accuracy' if 'val_accuracy' in checkpoint else 'val_acc'
     print(f"  (val_loss={checkpoint['val_loss']:.4f}, val_accuracy={checkpoint[val_acc_key]:.2f}%)\n")
-
-    return model, checkpoint["class_names"]
+    return model, class_names
 
 
 def run_inference(model, dataloader, device):

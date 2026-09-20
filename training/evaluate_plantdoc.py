@@ -67,23 +67,11 @@ eval_transform = transforms.Compose([
 ])
 
 
+from model_loader import load_best_model
+
 def build_and_load_model():
-    model = models.mobilenet_v2(weights=None)
-    num_features = model.classifier[1].in_features
-    model.classifier[1] = nn.Linear(num_features, config.NUM_CLASSES)
-    model = model.to(config.DEVICE)
-    model_path = (config.V7P2_MODEL_PATH if config.V7P2_MODEL_PATH.exists()
-              else config.V7_MODEL_PATH if config.V7_MODEL_PATH.exists()
-              else config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
-              else config.V6_MODEL_PATH if config.V6_MODEL_PATH.exists()
-              else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
-              else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
-              else config.V4_MODEL_PATH)
-    print(f"Using model: {model_path.name}")
-    checkpoint = torch.load(model_path, map_location=config.DEVICE)
-    model.load_state_dict(checkpoint["model_state_dict"])
-    model.eval()
-    return model, checkpoint["class_names"]
+    model, class_names, _ = load_best_model()
+    return model, class_names
 
 
 def evaluate():

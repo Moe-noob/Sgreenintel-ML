@@ -50,6 +50,7 @@ def build_model(num_classes):
     model.classifier[1] = nn.Linear(num_features, num_classes)
     return model.to(config.DEVICE)
 
+from model_loader import load_best_model
 
 def predict(image_path, top_k=3, use_ood=True):
     """
@@ -61,15 +62,8 @@ def predict(image_path, top_k=3, use_ood=True):
 
     With use_ood=False: raw predictions, no filtering.
     """
-    model_path = (config.V6P2_MODEL_PATH if config.V6P2_MODEL_PATH.exists()
-              else config.V5P2_MODEL_PATH if config.V5P2_MODEL_PATH.exists()
-              else config.V4P2_MODEL_PATH if config.V4P2_MODEL_PATH.exists()
-              else config.V4_MODEL_PATH)
-    checkpoint = torch.load(model_path, map_location=config.DEVICE)
-    model = build_model(config.NUM_CLASSES)
-    model.load_state_dict(checkpoint["model_state_dict"])
-    model.eval()
-    class_names = checkpoint["class_names"]
+    
+    model, class_names, _ = load_best_model()
 
     image = Image.open(image_path).convert("RGB")
     input_tensor = predict_transform(image).unsqueeze(0).to(config.DEVICE)
