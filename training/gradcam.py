@@ -54,19 +54,8 @@ predict_transform = transforms.Compose([
 # ---------------------------------------------------------------------------
 
 def build_and_load_model():
-    model = models.mobilenet_v2(weights=None)
-    num_features = model.classifier[1].in_features
-    model.classifier[1] = nn.Linear(num_features, config.NUM_CLASSES)
-    model = model.to(config.DEVICE)
-
-    checkpoint = torch.load(config.BEST_MODEL_PATH, map_location=config.DEVICE)
-    model.load_state_dict(checkpoint["model_state_dict"])
-    class_names = checkpoint["class_names"]
-
-    # Keep in eval mode for batchnorm/dropout, but do NOT use torch.no_grad()
-    # during the forward pass -- Grad-CAM requires gradients to flow back
-    # through the network to the target layer.
-    model.eval()
+    from model_loader import load_best_model
+    model, class_names, path = load_best_model()
     return model, class_names
 
 

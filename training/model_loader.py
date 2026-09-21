@@ -55,11 +55,11 @@ def get_best_checkpoint_path():
     checking from newest to oldest.
     """
     candidates = [
-        config.V8P2_MODEL_PATH,
+        config.V6P2_MODEL_PATH, # production model -- best real-world performance
+        config.V8P2_MODEL_PATH, # EfficientNet experiment -- better lab, worse real-world
         config.V8_MODEL_PATH,
         config.V7P2_MODEL_PATH,
         config.V7_MODEL_PATH,
-        config.V6P2_MODEL_PATH,
         config.V6_MODEL_PATH,
         config.V5P2_MODEL_PATH,
         config.V4P2_MODEL_PATH,
