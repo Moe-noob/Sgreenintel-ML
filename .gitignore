@@ -33,3 +33,6 @@ Thumbs.db
 .vscode/
 
 .env
+data/processed/*.html
+data/geo/**/*.html
+data/geo/**/*.ipynb
