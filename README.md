@@ -23,7 +23,7 @@ Planting-date simulation for 11 Saudi cities using FAO-56 Penman-Monteith evapot
 **Cities covered:** Riyadh, Jeddah, Dammam, Najran, Jazan, Abha, Tabuk, Qassim, Madinah, Makkah, Hail
 
 ### Feature 3 — Smart Plant Care Tracker
-Tracks a saved plant through its growth cycle using GDD accumulation on the same NASA POWER climatological baseline as Feature 2. Integrates OpenWeatherMap 5-day forecasts and fires sourced temperature-tolerance alerts when forecast conditions exceed Elnesr & Alazba (2016) thresholds.
+Tracks a saved plant through its growth cycle using GDD accumulation on the same NASA POWER climatological baseline as Feature 2. Integrates Open-Meteo 5-day forecasts, computes a live daily water requirement via full FAO-56 Penman-Monteith (using actual forecast solar radiation, temperature, humidity, and wind) and compares it against the climatological baseline for the same days -- isolating whether this week is running above or below the seasonal norm for that growth stage. Fires sourced temperature-tolerance alerts when forecast conditions exceed Elnesr & Alazba (2016) thresholds.
 
 ---
 
@@ -103,10 +103,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**Required environment variables (.env, not committed):**
-```
-OWM_API_KEY=your_openweathermap_api_key
-```
+No API keys required. NASA POWER and Open-Meteo (weather/forecast data) are both free, public APIs with no authentication.
 
 **Data:** raw datasets are not committed (large files). The processed split in `data/processed_v2/` must be generated locally using `training/prepare_data_v2.py` after downloading the raw sources.
 
