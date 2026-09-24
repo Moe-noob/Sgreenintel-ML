@@ -150,9 +150,19 @@ def real_rhmin(temp_max_c, dewpoint_c):
     return min(max((ea / es_tmax) * 100, 0), 100)
 
 
-def hargreaves_et0(temp_mean_c, temp_max_c, temp_min_c, latitude_deg, month):
-    """Kept for comparison against Penman-Monteith."""
-    day_of_year = MID_MONTH_DAY[month]
+def hargreaves_et0_doy(temp_mean_c, temp_max_c, temp_min_c, latitude_deg, day_of_year):
+    """
+    Hargreaves-Samani reference evapotranspiration for a specific day of
+    year. Temperature-only method -- no humidity, wind, or solar
+    radiation input required (Ra is computed purely from latitude and
+    day-of-year via extraterrestrial_radiation()).
+
+    Kept as a fallback if Open-Meteo (used for care/tracker.py's live
+    ETc) is ever unreachable -- not used in the primary live-ETc path,
+    since FAO-56 documents this method can diverge from Penman-Monteith
+    by up to ~30% in extreme arid conditions (confirmed for Riyadh:
+    -22% to -34% across all 12 months in this file's own self-test).
+    """
     ra_mj = extraterrestrial_radiation(latitude_deg, day_of_year)
     ra_mm = 0.408 * ra_mj  # convert energy units to mm/day equivalent
 
@@ -161,6 +171,24 @@ def hargreaves_et0(temp_mean_c, temp_max_c, temp_min_c, latitude_deg, month):
         raise ValueError(f"temp_max ({temp_max_c}) is less than temp_min ({temp_min_c})")
 
     return 0.0023 * (temp_mean_c + 17.8) * (temp_range ** 0.5) * ra_mm
+
+
+def hargreaves_et0(temp_mean_c, temp_max_c, temp_min_c, latitude_deg, month):
+    """Monthly wrapper (mid-month day of year). Kept for comparison
+    against Penman-Monteith in the monthly climatology self-test below."""
+    return hargreaves_et0_doy(
+        temp_mean_c, temp_max_c, temp_min_c, latitude_deg, MID_MONTH_DAY[month]
+    )
+
+
+def wind_speed_2m(wind_speed_10m_ms):
+    """
+    FAO-56 Eq.47 -- converts wind speed measured at 10m height (Open-
+    Meteo's standard) to the 2m height Penman-Monteith requires.
+    NASA POWER's AG-community WS2M is already at 2m and needs no
+    conversion; this is only for sources reporting at 10m.
+    """
+    return wind_speed_10m_ms * 4.87 / math.log(67.8 * 10 - 5.42)
 
 
 if __name__ == "__main__":
