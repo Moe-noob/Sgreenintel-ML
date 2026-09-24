@@ -1329,7 +1329,7 @@ function toggleCard(id) {
 }
 
 // ---------- TRACK ----------
-
+document.getElementById('trackDate').max = new Date().toISOString().split('T')[0];
 document.getElementById('trackGo').addEventListener('click', runTracker);
 
 async function runTracker() {
@@ -1419,28 +1419,30 @@ function renderTracker(data) {
       </div>`;
   }
 
-  if (data.forecast_error) {
-    html += `<div class="section-label">Forecast</div><div class="unresolved-note">${data.forecast_error}</div>`;
-  } else if (data.forecast && data.forecast.length) {
-    html += `<div class="section-label">5-day forecast</div><div class="forecast-row">` +
-      data.forecast.map(f => `
-        <div class="forecast-day">
-          <div class="forecast-date">${f.date.slice(5)}</div>
-          <div class="forecast-temps">${Math.round(f.tmax)}° <span class="lo">${Math.round(f.tmin)}°</span></div>
-          <div class="forecast-hum">${f.humidity_max}% humidity</div>
-          <div class="forecast-summary">${f.summary}</div>
-        </div>`).join('') + `</div>`;
-  }
+  if (!si.season_complete) {
+    if (data.forecast_error) {
+      html += `<div class="section-label">Forecast</div><div class="unresolved-note">${data.forecast_error}</div>`;
+    } else if (data.forecast && data.forecast.length) {
+      html += `<div class="section-label">5-day forecast</div><div class="forecast-row">` +
+        data.forecast.map(f => `
+          <div class="forecast-day">
+            <div class="forecast-date">${f.date.slice(5)}</div>
+            <div class="forecast-temps">${Math.round(f.tmax)}° <span class="lo">${Math.round(f.tmin)}°</span></div>
+            <div class="forecast-hum">${f.humidity_max}% humidity</div>
+            <div class="forecast-summary">${f.summary}</div>
+          </div>`).join('') + `</div>`;
+    }
 
-  html += `<div class="section-label">Alerts</div>`;
-  if (data.alerts && data.alerts.length) {
-    html += data.alerts.map(a => `
-      <div class="alert-card warning">
-        <div class="alert-type">${a.type.replace(/_/g, ' ')}</div>
-        ${a.message}
-      </div>`).join('');
-  } else {
-    html += `<div class="no-alerts">No temperature alerts for the next 5 days.</div>`;
+    html += `<div class="section-label">Alerts</div>`;
+    if (data.alerts && data.alerts.length) {
+      html += data.alerts.map(a => `
+        <div class="alert-card warning">
+          <div class="alert-type">${a.type.replace(/_/g, ' ')}</div>
+          ${a.message}
+        </div>`).join('');
+    } else {
+      html += `<div class="no-alerts">No temperature alerts for the next 5 days.</div>`;
+    }
   }
 
   if (data.limitations && data.limitations.length) {
