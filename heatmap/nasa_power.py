@@ -42,8 +42,10 @@ import requests
 
 DAILY_URL = "https://power.larc.nasa.gov/api/temporal/daily/point"
 DAILY_PARAMETERS = "T2M,T2M_MAX,T2M_MIN,T2MDEW,WS2M,ALLSKY_SFC_SW_DWN,PRECTOTCORR"
-DAILY_START = "20140101"
-DAILY_END = "20231231"          # 10-year window for stable averages
+DAILY_START = "20160101"
+DAILY_END = "20251231"          # 10-year window for stable averages, refreshed Sep 2026
+                                  # (previously 2014-2023; shifted forward as more
+                                  # current NASA POWER data became available)
 FILL_VALUE_THRESHOLD = -900     # POWER uses -999 for missing data
 SMOOTHING_HALF_WINDOW = 7       # +/- days for the running mean
 
