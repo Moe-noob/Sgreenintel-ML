@@ -25,7 +25,7 @@ from collections import defaultdict
 
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "heatmap"))
 
 from nasa_power import (
     fetch_daily_raw, build_daily_climatology, _doy_365,

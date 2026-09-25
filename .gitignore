@@ -36,3 +36,4 @@ Thumbs.db
 data/processed/*.html
 data/geo/**/*.html
 data/geo/**/*.ipynb
+research/cache/

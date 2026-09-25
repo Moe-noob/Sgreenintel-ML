@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "training"))
 from dataset import get_datasets, get_class_weights, get_class_names
 
 train_ds, val_ds, test_ds = get_datasets()
