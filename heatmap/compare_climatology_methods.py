@@ -301,124 +301,273 @@ def build_moving_average_from_subset(by_field_date_value, excluded_year):
     return clim
 
 
+def build_raw_doy_means_from_subset(by_field_date_value, excluded_year):
+    """
+    Per-day-of-year mean across all years except excluded_year, BEFORE
+    any smoothing -- shared by the moving-average and Gaussian methods,
+    so the only difference tested between them is the smoothing kernel
+    itself (uniform box-car vs. Gaussian-weighted), not the underlying
+    per-day averages.
+    """
+    sums = {f: defaultdict(float) for f in FIELDS}
+    counts = {f: defaultdict(int) for f in FIELDS}
+    for field in FIELDS:
+        for date_key, value in by_field_date_value[field].items():
+            if date_key[:4] == excluded_year:
+                continue
+            doy = _doy_365(date_key)
+            sums[field][doy] += value
+            counts[field][doy] += 1
+    return {f: [sums[f][doy] / counts[f][doy] for doy in range(1, 366)] for f in FIELDS}
+
+
+def gaussian_smooth_circular(values, sigma=5.0, half_window=None):
+    """
+    Gaussian-weighted circular smoothing: same idea as the existing
+    method's uniform +/-7-day box-car average, but weights nearby days
+    more than distant ones instead of an equal-weight hard cutoff at
+    the window edge.
+
+    sigma=5.0 gives an effective spread of about +/-15 days (3 sigma),
+    matching the existing method's ~15-day-wide window -- chosen for a
+    fair comparison, not tuned against this project's own data.
+    """
+    import math
+    n = len(values)
+    if half_window is None:
+        half_window = int(round(3 * sigma))
+    offsets = list(range(-half_window, half_window + 1))
+    weights = [math.exp(-0.5 * (o / sigma) ** 2) for o in offsets]
+    total_w = sum(weights)
+
+    smoothed = []
+    for i in range(n):
+        s = sum(values[(i + o) % n] * w for o, w in zip(offsets, weights))
+        smoothed.append(s / total_w)
+    return smoothed
+
+
+def build_gaussian_climatology_from_subset(by_field_date_value, excluded_year, sigma=5.0):
+    """Gaussian-weighted equivalent of build_moving_average_from_subset."""
+    raw_means = build_raw_doy_means_from_subset(by_field_date_value, excluded_year)
+    smoothed_by_field = {f: gaussian_smooth_circular(raw_means[f], sigma) for f in FIELDS}
+    clim = []
+    for doy in range(1, 366):
+        entry = {"doy": doy}
+        for f in FIELDS:
+            entry[f] = smoothed_by_field[f][doy - 1]
+        clim.append(entry)
+    return clim
+
+
+def fit_loess_circular(doy_value_pairs, frac=None):
+    """
+    Fits LOESS (locally weighted regression, statsmodels' standard
+    implementation) to (day_of_year, value) pairs.
+
+    Handles the year's circular boundary by tripling the data (shifted
+    -365, 0, +365) before fitting -- the standard trick for periodic
+    LOESS, so Dec 31 -> Jan 1 is treated as adjacent, not a break,
+    without needing custom wraparound code.
+
+    frac defaults to a window matching the existing method's ~15-day-
+    wide smoothing, for a fair comparison, not tuned against this data.
+
+    Returns (sorted_x, sorted_y) -- evaluate with evaluate_loess().
+    """
+    from statsmodels.nonparametric.smoothers_lowess import lowess
+
+    doys = np.array([d for d, v in doy_value_pairs], dtype=float)
+    values = np.array([v for d, v in doy_value_pairs], dtype=float)
+
+    tripled_x = np.concatenate([doys - 365, doys, doys + 365])
+    tripled_y = np.concatenate([values, values, values])
+
+    if frac is None:
+        target_window_days = 15
+        frac = target_window_days / (3 * 365)
+
+    result = lowess(tripled_y, tripled_x, frac=frac, it=0, return_sorted=True)
+    return result[:, 0], result[:, 1]
+
+
+def evaluate_loess(fitted_xy, doy):
+    sorted_x, sorted_y = fitted_xy
+    return float(np.interp(doy, sorted_x, sorted_y))
+
+
 def cross_validate(lat, lon, label, fields=("temp_c", "temp_max_c", "temp_min_c",
                                              "wind_speed_ms", "dewpoint_c",
                                              "solar_radiation_mj", "precip_mm_day")):
     """
-    Leave-one-year-out cross-validation: for each of the 10 years,
-    refits BOTH methods using only the other 9 years, then measures
-    each method's error against the REAL observed values in the held-
-    out year -- genuine held-out accuracy, not just a difference
-    between two smoothing choices.
-
-    Lower mean absolute error (MAE) = more accurate against real,
-    unseen years.
+    Leave-one-year-out cross-validation across FOUR methods: the
+    existing moving-average (uniform box-car), harmonic regression,
+    Gaussian-weighted smoothing, and LOESS. Each is refit on 9 years
+    and checked against the real observed values in the held-out 10th
+    year, repeated for all 10 years -- genuine held-out accuracy for
+    every method, on identical folds, for a fully fair comparison.
     """
-    print(f"\n{'='*78}")
-    print(f"  LEAVE-ONE-YEAR-OUT CROSS-VALIDATION -- {label}")
-    print(f"{'='*78}")
+    print(f"\n{'='*90}")
+    print(f"  LEAVE-ONE-YEAR-OUT CROSS-VALIDATION (4 methods) -- {label}")
+    print(f"{'='*90}")
 
     payload = _raw_payload_cached(lat, lon)
     by_field_date_value = build_field_date_value(payload)
-
     years = sorted(set(dk[:4] for dk in by_field_date_value["temp_c"].keys()))
     print(f"\n  Years available: {years}")
 
-    ma_errors = {f: [] for f in fields}
-    hr_errors = {f: [] for f in fields}
+    errors = {method: {f: [] for f in fields} for method in ["moving_avg", "harmonic", "gaussian", "loess"]}
 
     for held_out_year in years:
-        # Moving-average: refit on the other 9 years
         ma_clim = build_moving_average_from_subset(by_field_date_value, held_out_year)
+        ga_clim = build_gaussian_climatology_from_subset(by_field_date_value, held_out_year)
 
         for field in fields:
-            # Harmonic: refit on the other 9 years for this field
             train_pairs = [
                 (_doy_365(dk), v) for dk, v in by_field_date_value[field].items()
                 if dk[:4] != held_out_year
             ]
-            coeffs, _ = fit_harmonic(train_pairs)
+            hr_coeffs, _ = fit_harmonic(train_pairs)
+            lo_fit = fit_loess_circular(train_pairs)
 
-            # Test against REAL observed values in the held-out year
             for date_key, actual in by_field_date_value[field].items():
                 if date_key[:4] != held_out_year:
                     continue
                 doy = _doy_365(date_key)
-                ma_pred = ma_clim[doy - 1][field]
-                hr_pred = evaluate_harmonic(coeffs, doy)
-                ma_errors[field].append(abs(ma_pred - actual))
-                hr_errors[field].append(abs(hr_pred - actual))
+                errors["moving_avg"][field].append(abs(ma_clim[doy - 1][field] - actual))
+                errors["harmonic"][field].append(abs(evaluate_harmonic(hr_coeffs, doy) - actual))
+                errors["gaussian"][field].append(abs(ga_clim[doy - 1][field] - actual))
+                errors["loess"][field].append(abs(evaluate_loess(lo_fit, doy) - actual))
 
     print(f"\n  Cross-validated MAE against real held-out years (lower = more accurate):")
-    print(f"  {'Field':<20}{'Moving-avg':>14}{'Harmonic':>14}{'Winner':>14}")
+    print(f"  {'Field':<20}{'Moving-avg':>13}{'Harmonic':>13}{'Gaussian':>13}{'LOESS':>13}{'Winner':>13}")
     results = {}
     for field in fields:
-        ma_mae = sum(ma_errors[field]) / len(ma_errors[field])
-        hr_mae = sum(hr_errors[field]) / len(hr_errors[field])
-        winner = "Harmonic" if hr_mae < ma_mae else "Moving-avg"
-        margin = abs(ma_mae - hr_mae)
-        print(f"  {field:<20}{ma_mae:>14.4f}{hr_mae:>14.4f}{winner:>14}  (by {margin:.4f})")
-        results[field] = {"ma_mae": ma_mae, "hr_mae": hr_mae, "winner": winner}
+        maes = {m: sum(errors[m][field]) / len(errors[m][field]) for m in errors}
+        winner = min(maes, key=maes.get)
+        print(f"  {field:<20}{maes['moving_avg']:>13.4f}{maes['harmonic']:>13.4f}"
+              f"{maes['gaussian']:>13.4f}{maes['loess']:>13.4f}{winner:>13}")
+        results[field] = maes
 
     return results
 
 
 def cross_validate_all_cities(cities, fields=("temp_c", "temp_max_c", "temp_min_c")):
     """
-    Runs the leave-one-year-out CV for every known city and summarizes
-    which method wins more often, and by how much on average -- checks
-    whether the winner is consistent across Saudi Arabia's different
-    climate zones, not just one city's luck.
+    Runs the 4-method leave-one-year-out CV for every known city and
+    summarizes win counts -- checks whether any method wins consistently
+    across Saudi Arabia's different climate zones.
     """
-    print(f"\n{'#'*78}")
-    print(f"  MULTI-CITY CROSS-VALIDATION SUMMARY (temperature fields)")
-    print(f"{'#'*78}")
+    print(f"\n{'#'*90}")
+    print(f"  MULTI-CITY CROSS-VALIDATION SUMMARY (4 methods, temperature fields)")
+    print(f"{'#'*90}")
 
-    all_results = {f: {"ma": [], "hr": []} for f in fields}
-    wins = {f: {"Harmonic": 0, "Moving-avg": 0} for f in fields}
+    all_maes = {f: {m: [] for m in ["moving_avg", "harmonic", "gaussian", "loess"]} for f in fields}
+    wins = {f: {"moving_avg": 0, "harmonic": 0, "gaussian": 0, "loess": 0} for f in fields}
 
     for name, (lat, lon) in cities.items():
         payload = _raw_payload_cached(lat, lon)
         by_field_date_value = build_field_date_value(payload)
         years = sorted(set(dk[:4] for dk in by_field_date_value["temp_c"].keys()))
 
-        ma_errors = {f: [] for f in fields}
-        hr_errors = {f: [] for f in fields}
+        errors = {method: {f: [] for f in fields} for method in ["moving_avg", "harmonic", "gaussian", "loess"]}
 
         for held_out_year in years:
             ma_clim = build_moving_average_from_subset(by_field_date_value, held_out_year)
+            ga_clim = build_gaussian_climatology_from_subset(by_field_date_value, held_out_year)
             for field in fields:
                 train_pairs = [
                     (_doy_365(dk), v) for dk, v in by_field_date_value[field].items()
                     if dk[:4] != held_out_year
                 ]
-                coeffs, _ = fit_harmonic(train_pairs)
+                hr_coeffs, _ = fit_harmonic(train_pairs)
+                lo_fit = fit_loess_circular(train_pairs)
                 for date_key, actual in by_field_date_value[field].items():
                     if date_key[:4] != held_out_year:
                         continue
                     doy = _doy_365(date_key)
-                    ma_pred = ma_clim[doy - 1][field]
-                    hr_pred = evaluate_harmonic(coeffs, doy)
-                    ma_errors[field].append(abs(ma_pred - actual))
-                    hr_errors[field].append(abs(hr_pred - actual))
+                    errors["moving_avg"][field].append(abs(ma_clim[doy - 1][field] - actual))
+                    errors["harmonic"][field].append(abs(evaluate_harmonic(hr_coeffs, doy) - actual))
+                    errors["gaussian"][field].append(abs(ga_clim[doy - 1][field] - actual))
+                    errors["loess"][field].append(abs(evaluate_loess(lo_fit, doy) - actual))
 
         row = []
         for field in fields:
-            ma_mae = sum(ma_errors[field]) / len(ma_errors[field])
-            hr_mae = sum(hr_errors[field]) / len(hr_errors[field])
-            all_results[field]["ma"].append(ma_mae)
-            all_results[field]["hr"].append(hr_mae)
-            winner = "H" if hr_mae < ma_mae else "M"
-            wins[field][("Harmonic" if winner == "H" else "Moving-avg")] += 1
-            row.append(f"{field.split('_')[0][:4]}: MA={ma_mae:.3f} HR={hr_mae:.3f} [{winner}]")
+            maes = {m: sum(errors[m][field]) / len(errors[m][field]) for m in errors}
+            for m in maes:
+                all_maes[field][m].append(maes[m])
+            winner = min(maes, key=maes.get)
+            wins[field][winner] += 1
+            row.append(f"{field.split('_')[0][:4]}:[{winner[:4]}]")
         print(f"  {name:10s} " + "  ".join(row))
 
-    print(f"\n  Wins out of {len(cities)} cities:")
+    print(f"\n  Wins out of {len(cities)} cities, and average MAE per method:")
     for field in fields:
-        avg_ma = sum(all_results[field]["ma"]) / len(all_results[field]["ma"])
-        avg_hr = sum(all_results[field]["hr"]) / len(all_results[field]["hr"])
-        print(f"  {field:<20} Harmonic won {wins[field]['Harmonic']}/{len(cities)}  "
-              f"(avg MAE: moving-avg={avg_ma:.4f}, harmonic={avg_hr:.4f})")
+        print(f"\n  {field}:")
+        print(f"    Wins:    " + "  ".join(f"{m}={wins[field][m]}" for m in wins[field]))
+        avgs = {m: sum(all_maes[field][m]) / len(all_maes[field][m]) for m in all_maes[field]}
+        print(f"    Avg MAE: " + "  ".join(f"{m}={avgs[m]:.4f}" for m in avgs))
+
+
+def sweep_gaussian_sigma(lat, lon, label, fields=("temp_c", "temp_max_c", "temp_min_c"),
+                         sigma_values=(2.0, 3.0, 5.0, 7.0, 10.0, 15.0, 20.0)):
+    """
+    Tests whether sigma=5.0 (chosen to roughly match the existing
+    method's ~15-day window) was actually a good choice, or just a
+    reasonable-looking default -- same leave-one-year-out CV used
+    everywhere else, swept across sigma instead of comparing methods.
+
+    If MAE stays flat across a wide sigma range, the method is robust
+    to this choice (our earlier conclusion isn't an artifact of picking
+    a lucky sigma). If one sigma is clearly better, that's new,
+    actionable information.
+    """
+    print(f"\n{'-'*90}")
+    print(f"  GAUSSIAN SIGMA SWEEP -- {label}")
+    print(f"{'-'*90}\n")
+
+    payload = _raw_payload_cached(lat, lon)
+    by_field_date_value = build_field_date_value(payload)
+    years = sorted(set(dk[:4] for dk in by_field_date_value["temp_c"].keys()))
+
+    results = {field: {} for field in fields}
+
+    for sigma in sigma_values:
+        errors = {f: [] for f in fields}
+        for held_out_year in years:
+            ga_clim = build_gaussian_climatology_from_subset(by_field_date_value, held_out_year, sigma=sigma)
+            for field in fields:
+                for date_key, actual in by_field_date_value[field].items():
+                    if date_key[:4] != held_out_year:
+                        continue
+                    doy = _doy_365(date_key)
+                    errors[field].append(abs(ga_clim[doy - 1][field] - actual))
+        for field in fields:
+            results[field][sigma] = sum(errors[field]) / len(errors[field])
+
+    # Also compute the existing moving-average MAE for reference, same folds
+    ma_errors = {f: [] for f in fields}
+    for held_out_year in years:
+        ma_clim = build_moving_average_from_subset(by_field_date_value, held_out_year)
+        for field in fields:
+            for date_key, actual in by_field_date_value[field].items():
+                if date_key[:4] != held_out_year:
+                    continue
+                doy = _doy_365(date_key)
+                ma_errors[field].append(abs(ma_clim[doy - 1][field] - actual))
+    ma_mae = {f: sum(ma_errors[f]) / len(ma_errors[f]) for f in fields}
+
+    print(f"{'Field':<15}{'MA (ref)':>10}" + "".join(f"{'σ='+str(s):>9}" for s in sigma_values))
+    for field in fields:
+        best_sigma = min(results[field], key=results[field].get)
+        row = f"{field:<15}{ma_mae[field]:>10.4f}"
+        for s in sigma_values:
+            marker = "*" if s == best_sigma else " "
+            row += f"{results[field][s]:>8.4f}{marker}"
+        print(row)
+    print("\n  (* = best sigma for that field; MA (ref) = existing moving-average MAE, same folds)")
+
+    return results, ma_mae
 
 
 if __name__ == "__main__":
@@ -438,3 +587,6 @@ if __name__ == "__main__":
 
     cross_validate(24.71, 46.68, "Riyadh")
     cross_validate_all_cities(KNOWN_LOCATIONS)
+
+    sweep_gaussian_sigma(24.71, 46.68, "Riyadh")
+    sweep_gaussian_sigma(18.22, 42.51, "Abha")
