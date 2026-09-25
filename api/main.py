@@ -1,16 +1,22 @@
 """
-SGreen Intel API — FastAPI backend wrapping the three ML features:
+SGreen Intel API -- FastAPI backend wrapping the three ML features:
   1. CNN disease detection (training/predict.py)
   2. Crop advisor (heatmap/advisor.py)
   3. Plant care tracker (care/tracker.py)
+
+Location handling: the 11 known cities (GET /locations) are the
+validated, fast-path option -- their planting-date results have been
+manually cross-checked against known KSA agricultural practice. Any
+other Saudi location can be used via geocoding (GET /geocode) plus
+the coordinate-based endpoints (/advisor/at, /tracker with lat/lon).
+Geocoding is restricted to Saudi Arabia: the FAO-56 tolerance
+thresholds and arid-climate calibrations this project uses (Elnesr &
+Alazba 2016) are specific to Saudi conditions, not validated elsewhere.
 
 Run locally:
     uvicorn api.main:app --reload --port 8000
 
 Then visit http://localhost:8000/docs for interactive API testing.
-
-CORS is open to all origins for local development. Restrict this before
-any real deployment.
 """
 
 import sys
@@ -18,30 +24,32 @@ import shutil
 import tempfile
 from pathlib import Path
 
+import requests
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 
-# Make training/, heatmap/, care/ importable from the project root
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "training"))
 sys.path.insert(0, str(PROJECT_ROOT / "heatmap"))
 sys.path.insert(0, str(PROJECT_ROOT / "care"))
 
-from predict_api import predict_structured  # new function, see predict_api.py
+from predict_api import predict_structured
 from advisor import get_recommendations, KNOWN_LOCATIONS
 from tracker import get_plant_status
+
+GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search"
 
 app = FastAPI(
     title="SGreen Intel API",
     description="CNN disease detection, crop advisor, and plant care tracker for Saudi agriculture.",
-    version="1.0.0",
+    version="1.1.0",
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten before real deployment
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,28 +65,19 @@ def root():
     return {
         "service": "SGreen Intel API",
         "status": "running",
-        "endpoints": ["/predict", "/advisor/{city}", "/tracker", "/locations"],
+        "endpoints": ["/predict", "/advisor/{city}", "/advisor/at", "/tracker", "/locations", "/geocode"],
     }
 
 
 # ---------------------------------------------------------------------------
-# Feature 1 — CNN disease detection
+# Feature 1 -- CNN disease detection
 # ---------------------------------------------------------------------------
 
 @app.post("/predict")
 async def predict_endpoint(file: UploadFile = File(...)):
-    """
-    Upload a leaf image, get back a disease diagnosis or a rejection
-    message if the model is too uncertain (OOD rejection).
-
-    Accepts: JPG, PNG, JFIF, WEBP.
-    Returns: structured JSON -- see predict_structured() in predict_api.py
-    for the exact response shape.
-    """
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image.")
 
-    # Save the upload to a temp file -- predict_structured() expects a path
     suffix = Path(file.filename).suffix or ".jpg"
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
         shutil.copyfileobj(file.file, tmp)
@@ -95,47 +94,125 @@ async def predict_endpoint(file: UploadFile = File(...)):
 
 
 # ---------------------------------------------------------------------------
-# Feature 2 — Crop advisor
+# Geocoding -- Saudi Arabia only
+# ---------------------------------------------------------------------------
+
+@app.get("/geocode")
+def geocode_endpoint(query: str = Query(..., min_length=2)):
+    """
+    Searches for a location by name, restricted to Saudi Arabia.
+
+    Only Saudi results are returned: the FAO-56 tolerance thresholds
+    and arid-climate calibrations this project uses (Elnesr & Alazba
+    2016) are specific to Saudi conditions, not validated for other
+    locations. This is a methodology boundary, not a coverage gap.
+
+    Returns up to 5 matches with name, region, coordinates, and
+    Open-Meteo's own elevation estimate (for reference only -- the
+    advisor/tracker use NASA POWER's elevation for actual calculations).
+    """
+    try:
+        r = requests.get(GEOCODE_URL, params={
+            "name": query, "count": 10, "language": "en", "format": "json",
+        }, timeout=10)
+        r.raise_for_status()
+        data = r.json()
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"Geocoding service unavailable: {e}")
+
+    results = data.get("results", [])
+    saudi_results = [r for r in results if r.get("country_code") == "SA"][:5]
+
+    return {
+        "query": query,
+        "matches": [
+            {
+                "name": r["name"],
+                "region": r.get("admin1", ""),
+                "lat": r["latitude"],
+                "lon": r["longitude"],
+                "elevation_m": r.get("elevation"),
+            }
+            for r in saudi_results
+        ],
+        "note": (
+            "Only Saudi Arabia locations are supported -- this project's "
+            "temperature thresholds and climate calibrations are specific "
+            "to Saudi conditions."
+        ) if not saudi_results else None,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Feature 2 -- Crop advisor
 # ---------------------------------------------------------------------------
 
 @app.get("/locations")
 def list_locations():
-    """Returns the list of known Saudi cities the advisor supports."""
+    """The 11 known, individually validated cities (fast path)."""
     return {"cities": sorted(KNOWN_LOCATIONS.keys())}
+
+
+@app.get("/advisor/at")
+def advisor_at_endpoint(
+    lat: float = Query(..., ge=15.0, le=33.0, description="Latitude (Saudi Arabia range)"),
+    lon: float = Query(..., ge=34.0, le=56.0, description="Longitude (Saudi Arabia range)"),
+    label: Optional[str] = Query(None, description="Display name for this location, e.g. from /geocode"),
+):
+    """
+    Planting-date recommendations for any Saudi coordinate pair, typically
+    obtained via GET /geocode. Lat/lon are range-checked against Saudi
+    Arabia's approximate bounding box; this is a coarse sanity check, not
+    a precise border check.
+
+    Note: this location has not been individually cross-checked against
+    known agricultural practice the way the 11 known cities have. Elevation
+    accuracy also depends entirely on NASA POWER's grid cell for this exact
+    point (see the Abha discrepancy documented in the project's known
+    limitations) -- a real source of uncertainty for arbitrary coordinates.
+    """
+    try:
+        result = get_recommendations((lat, lon))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Advisor failed: {e}")
+
+    result = _make_json_safe(result)
+    result["location"] = label or f"{lat}, {lon}"
+    result["_uncertainty_note"] = (
+        "This location was not individually validated against known agricultural "
+        "practice, unlike the 11 known cities. Elevation accuracy depends on NASA "
+        "POWER's grid cell for this exact point."
+    )
+    return result
 
 
 @app.get("/advisor/{city}")
 def advisor_endpoint(city: str):
-    """
-    Returns planting-date recommendations, growth-stage water requirements,
-    and temperature-tolerance warnings for every supported crop at the
-    given Saudi city.
-
-    city: one of the values from GET /locations (e.g. "riyadh", "jeddah")
-    """
+    """Planting-date recommendations for one of the 11 known cities."""
     city_key = city.strip().lower()
     if city_key not in KNOWN_LOCATIONS:
         raise HTTPException(
             status_code=404,
-            detail=f"Unknown city '{city}'. See /locations for supported cities.",
+            detail=f"Unknown city '{city}'. See /locations, or use /advisor/at for other Saudi locations.",
         )
-
     try:
         result = get_recommendations(city_key)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Advisor failed: {e}")
-
     return _make_json_safe(result)
 
 
 # ---------------------------------------------------------------------------
-# Feature 3 — Plant care tracker
+# Feature 3 -- Plant care tracker
 # ---------------------------------------------------------------------------
 
 class TrackerRequest(BaseModel):
     crop_name: str
-    location: str
     planting_date: str  # "YYYY-MM-DD"
+    location: Optional[str] = None       # known city name
+    lat: Optional[float] = None          # OR raw coordinates (from /geocode)
+    lon: Optional[float] = None
+    location_label: Optional[str] = None  # display name when using lat/lon
     include_forecast: Optional[bool] = True
 
 
@@ -145,15 +222,22 @@ def tracker_endpoint(req: TrackerRequest):
     Returns the current growth stage, water needs, and any weather
     alerts for a saved plant.
 
-    crop_name: e.g. "Tomato", "Potato" (must match a class in the CNN's
-               35 supported classes -- see care_profiles.py)
-    location: a known city name (see GET /locations) or omit forecast
-    planting_date: "YYYY-MM-DD"
+    Provide EITHER `location` (a known city name, see GET /locations)
+    OR `lat`+`lon` (typically from GET /geocode) -- not both.
     """
+    if req.lat is not None and req.lon is not None:
+        location_arg = (req.lat, req.lon)
+        display_location = req.location_label or f"{req.lat}, {req.lon}"
+    elif req.location:
+        location_arg = req.location
+        display_location = req.location
+    else:
+        raise HTTPException(status_code=400, detail="Provide either 'location' or 'lat'+'lon'.")
+
     try:
         result = get_plant_status(
             crop_name=req.crop_name,
-            location_name=req.location,
+            location_name=location_arg,
             planting_date_str=req.planting_date,
             include_forecast=req.include_forecast,
         )
@@ -162,7 +246,9 @@ def tracker_endpoint(req: TrackerRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Tracker failed: {e}")
 
-    return _make_json_safe(result)
+    result = _make_json_safe(result)
+    result["location"] = display_location
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -170,9 +256,6 @@ def tracker_endpoint(req: TrackerRequest):
 # ---------------------------------------------------------------------------
 
 def _make_json_safe(obj):
-    """Recursively converts tuples to lists so FastAPI's JSON encoder
-    doesn't choke on them (coordinates are stored as tuples in our
-    advisor/tracker code)."""
     if isinstance(obj, tuple):
         return [_make_json_safe(x) for x in obj]
     if isinstance(obj, list):
