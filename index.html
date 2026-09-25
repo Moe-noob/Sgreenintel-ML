@@ -250,6 +250,77 @@
   }
 
   .field select:hover,
+    .search-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .search-row input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--paper);
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    min-width: 200px;
+  }
+
+  .search-row input:hover { border-color: var(--gold-dim); }
+
+  .search-results {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .search-result-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .search-result-item:hover { border-color: var(--gold); background: var(--surface-raised); }
+  .search-result-item .region { color: var(--paper-faint); font-size: 12px; margin-left: 6px; }
+
+  .location-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(212, 162, 76, 0.12);
+    border: 1px solid rgba(212, 162, 76, 0.35);
+    border-radius: 20px;
+    padding: 6px 8px 6px 14px;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .location-chip button {
+    background: none;
+    border: none;
+    color: var(--paper-faint);
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    padding: 2px 6px;
+  }
+
+  .location-chip button:hover { color: var(--clay); }
+
+  .uncertainty-note {
+    font-size: 12px;
+    color: var(--gold);
+    background: rgba(212, 162, 76, 0.08);
+    border: 1px solid rgba(212, 162, 76, 0.25);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
   .field input[type="date"]:hover {
     border-color: var(--gold-dim);
   }
@@ -956,10 +1027,20 @@
 
       <div class="field-row">
         <div class="field">
-          <label for="planCity">City</label>
+          <label for="planCity">City (validated)</label>
           <select id="planCity"></select>
         </div>
         <button class="btn" id="planGo">Get recommendations</button>
+      </div>
+
+      <div class="field" style="margin-bottom: 24px;">
+        <label for="planSearchInput">Or search any Saudi location</label>
+        <div class="search-row">
+          <input type="text" id="planSearchInput" placeholder="e.g. Buraidah, Taif...">
+          <button class="btn-quiet" id="planSearchBtn">Search</button>
+        </div>
+        <div class="search-results" id="planSearchResults"></div>
+        <div id="planSelectedChip"></div>
       </div>
 
       <div id="planResult">
@@ -985,7 +1066,7 @@
           </select>
         </div>
         <div class="field">
-          <label for="trackCity">City</label>
+          <label for="trackCity">City (validated)</label>
           <select id="trackCity"></select>
         </div>
         <div class="field">
@@ -993,6 +1074,16 @@
           <input type="date" id="trackDate">
         </div>
         <button class="btn" id="trackGo">Track plant</button>
+      </div>
+
+      <div class="field" style="margin-bottom: 24px;">
+        <label for="trackSearchInput">Or search any Saudi location</label>
+        <div class="search-row">
+          <input type="text" id="trackSearchInput" placeholder="e.g. Buraidah, Taif...">
+          <button class="btn-quiet" id="trackSearchBtn">Search</button>
+        </div>
+        <div class="search-results" id="trackSearchResults"></div>
+        <div id="trackSelectedChip"></div>
       </div>
 
       <div id="trackResult">
@@ -1197,12 +1288,17 @@ document.getElementById('planGo').addEventListener('click', runAdvisor);
 
 async function runAdvisor() {
   const city = document.getElementById('planCity').value;
-  if (!city) return;
+  if (!city && !planCoords) return;
+  const label = planCoords ? planCoords.label : city;
   const out = document.getElementById('planResult');
-  out.innerHTML = `<div class="load-line"><span class="spinner"></span>Simulating planting dates for ${city}…</div>`;
+  out.innerHTML = `<div class="load-line"><span class="spinner"></span>Simulating planting dates for ${label}…</div>`;
+
+  const url = planCoords
+    ? `${API_BASE}/advisor/at?lat=${planCoords.lat}&lon=${planCoords.lon}&label=${encodeURIComponent(planCoords.label)}`
+    : `${API_BASE}/advisor/${city}`;
 
   try {
-    const res = await fetch(`${API_BASE}/advisor/${city}`);
+    const res = await fetch(url);
     if (!res.ok) throw new Error();
     const data = await res.json();
     renderAdvisor(data);
@@ -1240,7 +1336,11 @@ function stageTableHtml(stages) {
 
 function renderAdvisor(data) {
   const out = document.getElementById('planResult');
-  let html = `
+  let html = '';
+  if (data._uncertainty_note) {
+    html += `<div class="uncertainty-note">⚠ ${data._uncertainty_note}</div>`;
+  }
+  html += `
     <div class="stat-chips">
       <div class="chip">Coordinates <strong>${data.coordinates[0]}, ${data.coordinates[1]}</strong></div>
       <div class="chip">Elevation <strong>${Math.round(data.elevation_m)} m</strong></div>
@@ -1332,6 +1432,69 @@ function toggleCard(id) {
 document.getElementById('trackDate').max = new Date().toISOString().split('T')[0];
 document.getElementById('trackGo').addEventListener('click', runTracker);
 
+// ---------- Location search (geocoding) ----------
+
+let planCoords = null;
+let trackCoords = null;
+
+function setupLocationSearch(inputId, btnId, resultsId, chipId, citySelectId, onClear) {
+  const input = document.getElementById(inputId);
+  const btn = document.getElementById(btnId);
+  const results = document.getElementById(resultsId);
+  const chip = document.getElementById(chipId);
+  const citySelect = document.getElementById(citySelectId);
+
+  async function doSearch() {
+    const query = input.value.trim();
+    if (query.length < 2) return;
+    results.innerHTML = `<div class="load-line"><span class="spinner"></span>Searching…</div>`;
+    try {
+      const res = await fetch(`${API_BASE}/geocode?query=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (!data.matches || !data.matches.length) {
+        results.innerHTML = `<div class="empty-hint" style="padding:8px 0;">${data.note || 'No Saudi location found for that search.'}</div>`;
+        return;
+      }
+      results.innerHTML = data.matches.map((m, i) => `
+        <div class="search-result-item" data-idx="${i}">
+          ${m.name}<span class="region">${m.region}</span>
+        </div>`).join('');
+      results.querySelectorAll('.search-result-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const m = data.matches[parseInt(el.dataset.idx)];
+          const coords = { lat: m.lat, lon: m.lon, label: `${m.name}, ${m.region}` };
+          if (citySelectId === 'planCity') planCoords = coords; else trackCoords = coords;
+          citySelect.value = '';
+          results.innerHTML = '';
+          input.value = '';
+          chip.innerHTML = `
+            <div class="location-chip">
+              📍 ${coords.label}
+              <button type="button" data-clear="1">✕</button>
+            </div>`;
+          chip.querySelector('[data-clear]').addEventListener('click', () => {
+            if (citySelectId === 'planCity') planCoords = null; else trackCoords = null;
+            chip.innerHTML = '';
+          });
+        });
+      });
+    } catch {
+      results.innerHTML = apiErrorHtml('location search');
+    }
+  }
+
+  btn.addEventListener('click', doSearch);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+  citySelect.addEventListener('change', () => {
+    if (citySelectId === 'planCity') planCoords = null; else trackCoords = null;
+    chip.innerHTML = '';
+  });
+}
+
+setupLocationSearch('planSearchInput', 'planSearchBtn', 'planSearchResults', 'planSelectedChip', 'planCity');
+setupLocationSearch('trackSearchInput', 'trackSearchBtn', 'trackSearchResults', 'trackSelectedChip', 'trackCity');
+
 async function runTracker() {
   const crop = document.getElementById('trackCrop').value;
   const city = document.getElementById('trackCity').value;
@@ -1342,14 +1505,22 @@ async function runTracker() {
     out.innerHTML = `<div class="error-line">Choose a planting date to continue.</div>`;
     return;
   }
+  if (!city && !trackCoords) {
+    out.innerHTML = `<div class="error-line">Choose a city or search for a location.</div>`;
+    return;
+  }
 
   out.innerHTML = `<div class="load-line"><span class="spinner"></span>Checking growth stage and forecast…</div>`;
+
+  const body = trackCoords
+    ? { crop_name: crop, lat: trackCoords.lat, lon: trackCoords.lon, location_label: trackCoords.label, planting_date: date, include_forecast: true }
+    : { crop_name: crop, location: city, planting_date: date, include_forecast: true };
 
   try {
     const res = await fetch(API_BASE + '/tracker', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ crop_name: crop, location: city, planting_date: date, include_forecast: true }),
+      body: JSON.stringify(body),
     });
     if (res.status === 400) {
       const err = await res.json();
@@ -1373,7 +1544,7 @@ function renderTracker(data) {
     return;
   }
 
-  let html = '';
+  let html = data._uncertainty_note ? `<div class="uncertainty-note">⚠ ${data._uncertainty_note}</div>` : '';
 
   if (si.season_complete) {
     html += `
