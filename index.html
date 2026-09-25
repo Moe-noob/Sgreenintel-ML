@@ -1038,6 +1038,7 @@
         <div class="search-row">
           <input type="text" id="planSearchInput" placeholder="e.g. Buraidah, Taif...">
           <button class="btn-quiet" id="planSearchBtn">Search</button>
+          <button class="btn-quiet" id="planLocateBtn">📍 Use my location</button>
         </div>
         <div class="search-results" id="planSearchResults"></div>
         <div id="planSelectedChip"></div>
@@ -1081,6 +1082,7 @@
         <div class="search-row">
           <input type="text" id="trackSearchInput" placeholder="e.g. Buraidah, Taif...">
           <button class="btn-quiet" id="trackSearchBtn">Search</button>
+          <button class="btn-quiet" id="trackLocateBtn">📍 Use my location</button>
         </div>
         <div class="search-results" id="trackSearchResults"></div>
         <div id="trackSelectedChip"></div>
@@ -1494,6 +1496,57 @@ function setupLocationSearch(inputId, btnId, resultsId, chipId, citySelectId, on
 
 setupLocationSearch('planSearchInput', 'planSearchBtn', 'planSearchResults', 'planSelectedChip', 'planCity');
 setupLocationSearch('trackSearchInput', 'trackSearchBtn', 'trackSearchResults', 'trackSelectedChip', 'trackCity');
+
+function setupGeolocation(btnId, chipId, citySelectId, coordsSetter) {
+  const btn = document.getElementById(btnId);
+  const chip = document.getElementById(chipId);
+  const citySelect = document.getElementById(citySelectId);
+
+  btn.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      chip.innerHTML = `<div class="error-line">Your browser doesn't support location access.</div>`;
+      return;
+    }
+    chip.innerHTML = `<div class="load-line"><span class="spinner"></span>Getting your location…</div>`;
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude.toFixed(5);
+        const lon = pos.coords.longitude.toFixed(5);
+        try {
+          const res = await fetch(`${API_BASE}/reverse-geocode?lat=${lat}&lon=${lon}`);
+          const data = await res.json();
+
+          if (!data.name) {
+            chip.innerHTML = `<div class="error-line">${data.note}</div>`;
+            return;
+          }
+
+          const label = data.name === data.region ? data.name : `${data.name}, ${data.region}`;
+          coordsSetter({ lat: parseFloat(lat), lon: parseFloat(lon), label });
+          citySelect.value = '';
+          chip.innerHTML = `
+            <div class="location-chip">
+              📍 ${label} (detected)
+              <button type="button" data-clear="1">✕</button>
+            </div>`;
+          chip.querySelector('[data-clear]').addEventListener('click', () => {
+            coordsSetter(null);
+            chip.innerHTML = '';
+          });
+        } catch {
+          chip.innerHTML = apiErrorHtml('reverse geocoding');
+        }
+      },
+      (err) => {
+        chip.innerHTML = `<div class="error-line">Location access denied or unavailable. Use the search box instead.</div>`;
+      }
+    );
+  });
+}
+
+setupGeolocation('planLocateBtn', 'planSelectedChip', 'planCity', (c) => { planCoords = c; });
+setupGeolocation('trackLocateBtn', 'trackSelectedChip', 'trackCity', (c) => { trackCoords = c; });
 
 async function runTracker() {
   const crop = document.getElementById('trackCrop').value;

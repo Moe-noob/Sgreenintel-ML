@@ -142,6 +142,45 @@ def geocode_endpoint(query: str = Query(..., min_length=2)):
         ) if not saudi_results else None,
     }
 
+@app.get("/reverse-geocode")
+def reverse_geocode_endpoint(lat: float, lon: float):
+    """
+    Converts raw coordinates (e.g. from the browser's Geolocation API)
+    into a readable place name, restricted to Saudi Arabia for the same
+    reason as /geocode.
+
+    Uses OpenStreetMap's Nominatim (not Open-Meteo, which has no
+    reverse-geocoding endpoint -- confirmed via Open-Meteo's own GitHub
+    issue tracker before writing this). Nominatim's usage policy requires
+    a descriptive User-Agent and a max of 1 request/second, which is
+    well within this app's real usage pattern.
+    """
+    try:
+        r = requests.get("https://nominatim.openstreetmap.org/reverse", params={
+            "lat": lat, "lon": lon, "format": "json", "addressdetails": 1,
+            "accept-language": "en",
+        }, headers={"User-Agent": "SGreenIntel/1.0 (capstone project)"}, timeout=10)
+        r.raise_for_status()
+        data = r.json()
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"Reverse geocoding unavailable: {e}")
+
+    address = data.get("address", {})
+    country_code = address.get("country_code", "").upper()
+
+    if country_code != "SA":
+        return {
+            "lat": lat, "lon": lon, "name": None,
+            "note": "This location doesn't appear to be within Saudi Arabia -- "
+                    "this project's methodology is calibrated for Saudi conditions only.",
+        }
+
+    name = (address.get("city") or address.get("town") or
+            address.get("village") or address.get("municipality") or
+            address.get("state") or "your location")
+    region = address.get("state", "")
+
+    return {"lat": lat, "lon": lon, "name": name, "region": region, "note": None}
 
 # ---------------------------------------------------------------------------
 # Feature 2 -- Crop advisor
@@ -248,6 +287,12 @@ def tracker_endpoint(req: TrackerRequest):
 
     result = _make_json_safe(result)
     result["location"] = display_location
+    if req.lat is not None and req.lon is not None:
+        result["_uncertainty_note"] = (
+            "This location was not individually validated against known agricultural "
+            "practice, unlike the 11 known cities. Elevation accuracy depends on NASA "
+            "POWER's grid cell for this exact point."
+        )
     return result
 
 
