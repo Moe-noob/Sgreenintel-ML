@@ -20,6 +20,8 @@ python feature2_v2/validation/alsadon2002.py               # benchmark vs Saudi 
 python feature2_v2/validation/fao56rev1_gdd.py --old       # why season lengths moved to FAO-56 Rev.1
 ```
 
+**Full audit trail** — every change from v1, every issue found, every source and every validation — is in [`DOCUMENTATION.md`](DOCUMENTATION.md).
+
 Open `outputs/report.html` in any browser for the interactive report: city picker, sowing calendar, stage table, daily and monthly water charts, in light or dark mode. `outputs/summary_11_cities.csv` has one row per city × crop.
 
 ---
@@ -173,5 +175,6 @@ Why the paper's heat-unit test is not used as a hard gate: it requires the mean 
 | `report.py`, `report_template.html` | builds `outputs/report.html` and `outputs/summary_11_cities.csv` |
 | `api_router.py` | optional FastAPI router (`/v2/advisor/...`), not mounted by default |
 | `validation/alsadon2002.py` | benchmark vs directorate sowing dates (writes `alsadon2002_results.json`) |
+| `validation/compare_with_v1.py` | v1 vs v2 side by side (needs NASA POWER access) |
 | `validation/fao56rev1_gdd.py` | season length vs FAO-56 Rev.1 GDD (`--old` reproduces the check that triggered the switch) |
 | `tests/` | the evidence suite |
