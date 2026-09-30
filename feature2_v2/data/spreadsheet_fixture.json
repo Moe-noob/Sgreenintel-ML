@@ -8473,6 +8473,7 @@
   "n_hu_days": 68,
   "n_hu_temp_days": 56,
   "max_comb_idx_hu_sum": 71.45,
+  "max_comb_idx_hu_temp_sum": 71.45,
   "max_comb_idx_hu_int": 71.30000000000001
  }
 }

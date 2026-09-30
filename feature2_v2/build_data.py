@@ -188,7 +188,7 @@ def build_fixture(wb_values, wb_formulas):
             "hu_windows": [[fmt(v("AT21")), fmt(v("AU21"))], [fmt(v("AV21")), fmt(v("AW21"))]],
             "hu_temp_windows": [[fmt(v("AT22")), fmt(v("AU22"))], [fmt(v("AV22")), fmt(v("AW22"))]],
             "n_hu_days": v("AD20"), "n_hu_temp_days": v("AJ20"),
-            "max_comb_idx_hu_sum": v("AF18"), "max_comb_idx_hu_int": v("AI18"),
+            "max_comb_idx_hu_sum": v("AF18"), "max_comb_idx_hu_temp_sum": v("AL18"), "max_comb_idx_hu_int": v("AI18"),
         },
     }
 

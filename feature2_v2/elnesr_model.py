@@ -136,6 +136,14 @@ def run(fits, p):
         top = max(r["idx_comb_sum"] for r in hu_ok)
         tied = [r["doy"] for r in hu_ok if r["idx_comb_sum"] == top]
         best_doy = sum(tied) / len(tied)
+    # Same selection restricted to the "yellow band" (HU and sowing-day temperature both
+    # satisfied): the spreadsheet's column AL, whose maximum is Model!AL18.
+    yellow = [r for r in rows if r["flag_all"]]
+    best_doy_yellow = None
+    if yellow:
+        top_y = max(r["idx_comb_sum"] for r in yellow)
+        tied_y = [r["doy"] for r in yellow if r["idx_comb_sum"] == top_y]
+        best_doy_yellow = sum(tied_y) / len(tied_y)
     days = [r["doy"] for r in rows]
     return {
         "rows": rows,
@@ -145,6 +153,8 @@ def run(fits, p):
         "n_hu_days": len(hu_ok), "n_hu_temp_days": sum(r["flag_all"] for r in rows),
         "best_doy": best_doy,
         "max_comb_idx_hu": max((r["idx_comb_sum"] for r in hu_ok), default=None),
+        "best_doy_hu_temp": best_doy_yellow,
+        "max_comb_idx_hu_temp": max((r["idx_comb_sum"] for r in yellow), default=None),
     }
 
 

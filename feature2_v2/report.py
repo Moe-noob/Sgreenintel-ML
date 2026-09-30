@@ -49,6 +49,10 @@ def _compact(res):
                                      for s in ir["stages"]],
                           "monthly": [{"m": m["month"], "days": m["days"], "gross": round(m["gross_m3_ha"]),
                                        "net": round(m["net_m3_ha"])} for m in ir["monthly"]]}
+            item["rule"] = c["best_rule"]
+            lr = c["lowest_risk"]
+            item["lowRisk"] = {"sow": lr["sow_date"], "doy": lr["sow_doy"], "harvest": lr["harvest_date"], "days": lr["total_days"],
+                               "stress": round(lr["stress_dd"]), "gross": round(lr["gross_m3_ha"])}
             item["daily"] = {"etc": [round(d["etc"], 2) for d in c["daily"]],
                              "et0": [round(d["et0"], 2) for d in c["daily"]],
                              "date": [d["date"] for d in c["daily"]],
@@ -62,7 +66,8 @@ def write_csv(results, path):
     cols = ["city", "station", "crop", "arabic", "workbook_row", "condition", "status", "best_sowing", "harvest",
             "season_days", "stages_ini_dev_mid_late", "heat_days", "cold_nights", "stress_degC_days",
             "et0_mm", "etc_mm", "net_m3_ha", "net_dry_air_bound_m3_ha", "gross_m3_ha", "peak_etc_mm_day",
-            "low_stress_windows", "finishes_in_time_windows", "paper_method_best"]
+            "low_stress_windows", "finishes_in_time_windows", "paper_method_best",
+            "best_date_rule", "lowest_risk_sowing", "lowest_risk_stress_degC_days", "lowest_risk_gross_m3_ha"]
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(cols)
@@ -79,7 +84,9 @@ def write_csv(results, path):
                             b and round(b["peak_etc_mm_day"], 2),
                             "; ".join(f"{x['from']}-{x['to']}" for x in c["windows_stress_free"]),
                             "; ".join(f"{x['from']}-{x['to']}" for x in c["windows_heat_sufficient"]),
-                            c["paper_method"]["best_date"]])
+                            c["paper_method"]["best_date"], c.get("best_rule"),
+                            b and c["lowest_risk"]["sow_date"], b and round(c["lowest_risk"]["stress_dd"], 1),
+                            b and round(c["lowest_risk"]["gross_m3_ha"])])
 
 
 def main(argv=None):

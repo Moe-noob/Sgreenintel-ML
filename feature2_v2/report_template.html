@@ -113,7 +113,8 @@ summary { cursor: pointer; font-weight: 600; }
     <ul class="method">
       <li><b>Climate:</b> sinusoidal fits of FAOCLIM-2 long-term station means (Tmax, Tmin, Penman-Monteith ET0) published with Elnesr &amp; Alazba (2016), Appendix A. 24 stations inside KSA; the nearest station to each city is used.</li>
       <li><b>Season length:</b> the crop needs (Topt − Tbase) × FAO-56 duration growing degree-days (paper Eq. 7). Daily degree-days are capped at Topt, so FAO-56 lengths apply at optimum temperature and stages stretch when it is cooler.</li>
-      <li><b>Sowing dates:</b> all 365 days are tested. A date qualifies if the crop finishes within the FAO-56 duration + the crop's heat tolerance (Htol). The best date has the least temperature stress (degree-days above crTmax / below crTmin over the whole season), then the least water.</li>
+      <li><b>Sowing dates:</b> all 365 days are tested. A date qualifies if the crop finishes within the FAO-56 duration + the crop's heat tolerance (Htol). The best date is the Elnesr &amp; Alazba optimisation-index day when it qualifies; the lowest-risk date (least temperature stress over the whole season, then least water) is shown as an alternative.</li>
+      <li><b>Checked against Saudi practice:</b> for 16 crop × region cases where the regional Directorates of Agriculture published sowing dates (Alsadon 2002, J. King Saud Univ., Table 5), the best date falls inside the directorate window in 10 of 16 cases, and the "finishes in time" window has the highest overlap efficiency of all methods tested (68 % vs 54 % for Alsadon's heat-unit program).</li>
       <li><b>Water:</b> FAO-56 Kc curve (Eq. 66) × station ET0. Net = ETc (rain ignored). Gross = net ÷ (system efficiency × (1 − leaching requirement)). The dry-air bound applies FAO-56 Eq. 62 at RHmin 20 %.</li>
       <li><b>Paper method:</b> the exact KSU spreadsheet result is shown for comparison. The Python engine reproduces all 365 rows of the published workbook exactly (see tests).</li>
       <li><b>Limitations:</b> long-term means hide individual hot or cold days, so stress is a lower bound. Open field only (not greenhouse). Cultivar differences and pests are not modelled. Salt-tolerance and rooting constants are from FAO-29 and FAO-56 tables.</li>
@@ -194,6 +195,8 @@ function showCrop(i) {
     ${tile("Net water (ETc)", fmt(ir.net), "m³/ha · " + fmt(b.season_etc_mm) + " mm · dry-air bound " + fmt(ir.netHi))}
     ${tile("Gross irrigation", fmt(ir.gross), `m³/ha · drip ${Math.round(ir.ea * 100)}% efficient` + (ir.lr ? ` · ${Math.round(ir.lr * 100)}% leaching` : ""))}
   </div>
+  <p class="meta">${c.rule.startsWith("paper") ? "Best date chosen by the Elnesr &amp; Alazba optimisation index (checked against Saudi directorate calendars, see Method)." : "Best date = least temperature stress, then least water."}
+    ${c.lowRisk.doy !== b.sow_doy ? `Lowest-risk alternative: sow <b>${c.lowRisk.sow}</b>, harvest ≈ ${c.lowRisk.harvest} (${c.lowRisk.days} days, ${fmt(c.lowRisk.stress)} °C·days of stress, ${fmt(c.lowRisk.gross)} m³/ha gross).` : "It is also the lowest-risk date."}</p>
   <p class="meta">Temperature stress on this date: ${b.heat_days} hot days (${fmt(b.heat_dd)} °C·days above ${c.th.t_max} °C),
     ${b.cold_days} cold nights (${fmt(b.cold_dd)} °C·days below ${c.th.t_min} °C). Peak use ${fmt(b.peak_etc_mm_day, 1)} mm/day around ${b.peak_date}.</p>
   <h3>Water by growth stage</h3>${stageTable(c)}

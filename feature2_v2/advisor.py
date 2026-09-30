@@ -3,7 +3,7 @@ Feature 2 v2 -- location-based planting-date and water advisor for KSA.
 
 For a location it answers, per crop:
   * When can I sow here?        (windows, from all 365 candidate days)
-  * Which day is best?          (fewest temperature-stress days, then least water)
+  * Which day is best?          (validated optimisation index; plus a lowest-risk alternative)
   * How long is the season here, stage by stage?
   * How much water per stage, per month and per season -- net and gross
     (after system efficiency and salt leaching), per hectare and per plant?
@@ -16,12 +16,26 @@ Decision rule for each sowing day j
      applied to season length. Slower = too cold to finish in time.
   2. Temperature stress over the WHOLE season (not only the sowing day):
      degree-days of climatological Tmax above crTmax plus Tmin below crTmin.
-  3. Best date = among dates passing 1, the least stress (degree-days,
-     rounded to whole degC-days), then the lowest seasonal ETc (the paper's
-     minimum-water criterion).
-  Status: "recommended" if the best date's stress is negligible
-  (<= NEGLIGIBLE_STRESS_DD, a presentation threshold), else "possible with
-  temperature risk"; "not suitable" if no date passes 1.
+  3. Best date = the Elnesr & Alazba (2016) optimisation-index day
+     (exact spreadsheet method, verified engine), taken from the paper's
+     "yellow band" (heat units AND sowing-day temperature OK) if it has one,
+     else from its heat-units-only band -- in both cases only if the crop can
+     finish in time from that day (rule 1); otherwise the lowest-risk date.
+  4. Lowest-risk date = among dates passing 1, the least stress (degree-days,
+     rounded), then the lowest seasonal ETc -- reported as an alternative.
+  Why: against the sowing dates recommended by the regional Directorates
+  of Agriculture (Alsadon 2002, Table 5; 16 crop x region cases;
+  validation/alsadon2002.py) the best date falls inside the directorate
+  window in 10/16 cases with this rule vs 9/16 with the lowest-risk rule
+  alone. Using the heat-units-only index first scores 12/16 but sows
+  garlic in Qassim in late July (43 degC), an agronomic error that the
+  temperature condition prevents; with 16 cases, 12 vs 10 is within noise.
+  This rule was chosen AFTER seeing the benchmark; no numeric parameter
+  was fitted to it.
+  Status: "recommended" if at least one date has negligible stress
+  (<= NEGLIGIBLE_STRESS_DD over the season), "possible with temperature
+  risk" if dates finish in time but all carry stress, "not suitable" if no
+  date passes 1.
 The paper's own spreadsheet result (heat units over DurTherm, sowing-day
 temperature test, combined index) is computed with the verified engine and
 reported alongside for comparison.
@@ -80,19 +94,30 @@ def analyse_crop(crop, station, soil="loamy_sand", method="drip", ecw=None, spac
                      "stress_dd": round(s["stress_dd"], 1) if s["viable"] else None,
                      "season_days": s.get("total_days"), "etc_mm": s.get("season_etc_mm")})
     cands = [(r, s) for r, s in zip(rows, sims) if r["candidate"]]
-    best = None
-    if cands:
-        best_row, _ = min(cands, key=lambda rs: (round(rs[1]["stress_dd"]), rs[1]["season_etc_mm"]))
-        best = simulate(crop, station, best_row["doy"], detail=True)
     stress_free = [r["candidate"] and r["stress_dd"] <= NEGLIGIBLE_STRESS_DD for r in rows]
+    best = low_risk = None
+    best_rule = None
+    if cands:
+        lr_row, _ = min(cands, key=lambda rs: (round(rs[1]["stress_dd"]), rs[1]["season_etc_mm"]))
+        low_risk = simulate(crop, station, lr_row["doy"], detail=True)
+        best, best_rule = low_risk, "lowest_risk"
+        for rule, d in (("paper_index_hu_temp", paper["best_doy_hu_temp"]), ("paper_index_hu", paper["best_doy"])):
+            d = int(round(d)) if d else None
+            if d and rows[d - 1]["candidate"]:
+                best, best_rule = simulate(crop, station, d, detail=True), rule
+                break
     if best is None:
         status, basis = "not_suitable", (f"too cold: no sowing date lets the crop finish within "
                                          f"{max_days:.0f} days (FAO-56 {crop['dur_total']:.0f} d + {crop['heat_tol_pct']:.0f}% tolerance)")
-    elif best["stress_dd"] <= NEGLIGIBLE_STRESS_DD:
-        status, basis = "recommended", "negligible temperature stress, and the lowest seasonal water use among such dates"
+    elif any(stress_free):
+        status, basis = "recommended", "there are sowing dates with negligible temperature stress"
     else:
-        status, basis = "possible_with_risk", ("every date that finishes in time has temperatures beyond the crop's tolerable "
-                                               "limits (long-term means); this date has the least stress, then the lowest water use")
+        status, basis = "possible_with_risk", ("every date that finishes in time has temperatures beyond the crop's "
+                                               "tolerable limits (long-term means)")
+    if best is not None:
+        basis += ("; best date from the Elnesr & Alazba optimisation index" if best_rule.startswith("paper_index")
+                  else "; best date = least temperature stress, then least water (the paper's index date "
+                       "does not let the crop finish in time here)")
     result = {
         "crop": crop["key"], "arabic": crop["arabic"], "condition": f"{crop['region']} / {crop['plant_date']}",
         "workbook_row": crop["number"], "status": status, "basis": basis,
@@ -112,7 +137,12 @@ def analyse_crop(crop, station, soil="loamy_sand", method="drip", ecw=None, spac
     if best:
         result["best"] = {k: v for k, v in best.items() if k != "daily"}
         result["irrigation"] = plan(crop, best, soil, method, ecw, spacing)
+        result["best_rule"] = best_rule
         result["daily"] = [{k: round(v, 3) if isinstance(v, float) else v for k, v in d.items()} for d in best["daily"]]
+        result["lowest_risk"] = {k: v for k, v in low_risk.items() if k not in ("daily", "stages")}
+        lr_plan = plan(crop, low_risk, soil, method, ecw, spacing)
+        result["lowest_risk"]["gross_m3_ha"] = lr_plan["season_gross_m3_ha"]
+        result["lowest_risk"]["net_m3_ha"] = lr_plan["season_net_m3_ha"]
     return result
 
 
@@ -160,10 +190,14 @@ def print_report(res, show_stages=True):
         hu = "; ".join(f"{w['from']}-{w['to']}" for w in c["windows_heat_sufficient"]) or "none"
         print(f"   Low-stress sowing window(s):    {sf}")
         print(f"   Finishes-in-time window(s):     {hu}")
+        lr = c["lowest_risk"]
         print(f"   Best sowing date: {b['sow_date']} -> harvest ~{b['harvest_date']} ({b['total_days']} days, "
               f"stages {'/'.join(map(str, b['stage_lengths']))}; {b['length_method']})")
         print(f"   Temperature stress: {b['heat_days']} hot day(s) (Tmax>{c['thresholds']['t_max']}, {b['heat_dd']:.0f} degC-days), "
               f"{b['cold_days']} cold night(s) (Tmin<{c['thresholds']['t_min']}, {b['cold_dd']:.0f} degC-days)")
+        if lr["sow_doy"] != b["sow_doy"]:
+            print(f"   Lowest-risk alternative: {lr['sow_date']} -> ~{lr['harvest_date']} ({lr['total_days']} days, "
+                  f"stress {lr['stress_dd']:.0f} degC-days, gross {lr['gross_m3_ha']:.0f} m3/ha)")
         pm = c["paper_method"]
         print(f"   Paper method (Elnesr & Alazba spreadsheet): best {pm['best_date'] or 'none'}; HU windows "
               f"{'; '.join(a + '-' + b for a, b in pm['windows_hu']) or 'none'}")

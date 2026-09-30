@@ -56,6 +56,7 @@ class A_SpreadsheetReproduction(unittest.TestCase):
         self.assertEqual(self.res["n_hu_days"], s["n_hu_days"])
         self.assertEqual(self.res["n_hu_temp_days"], s["n_hu_temp_days"])
         self.assertEqual(self.res["max_comb_idx_hu"], s["max_comb_idx_hu_sum"])
+        self.assertEqual(self.res["max_comb_idx_hu_temp"], s["max_comb_idx_hu_temp_sum"])
         self.assertEqual(self.res["best_doy"], 199)   # Excel shows serial 199 as "Jul-17"
 
     def test_integral_matches_summation(self):
@@ -176,6 +177,25 @@ class D_ModelBehaviour(unittest.TestCase):
         # kc_eq x ET0 over the same stages equals the daily sum (Eq. 14-15 are exact for a linear Kc)
         kc_eq = em.kc_equivalent(0.6, 1.15, 0.8, 30, 40, 40, 25)
         self.assertAlmostEqual(sim["season_etc_mm"], kc_eq * 5.0 * 135, delta=1.0)
+
+
+class F_Alsadon2002Benchmark(unittest.TestCase):
+    """Directorate sowing dates, Alsadon (2002) Table 5 -- see validation/alsadon2002.py."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(HERE / "validation"))
+        import alsadon2002
+        cls.cases, cls.summary = alsadon2002.main(write=False)
+
+    def test_best_date_hit_rate(self):
+        # 10/16 with the chosen rule (see advisor.py docstring for why not the 12/16 variant)
+        self.assertGreaterEqual(self.summary["v2_best_date_hit_rate"], 10 / 16)
+
+    def test_broad_window_overlap_beats_published_baselines(self):
+        s = self.summary
+        self.assertGreater(s["v2_in_time"]["mean_omega"], s["alsadon_program"]["mean_omega"])
+        self.assertGreater(s["v2_in_time"]["mean_omega"], s["paper_hu"]["mean_omega"])
 
 
 class E_KsaPractice(unittest.TestCase):
