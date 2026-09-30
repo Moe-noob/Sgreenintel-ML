@@ -20,7 +20,8 @@ Decision rule for each sowing day j
      (exact spreadsheet method, verified engine), taken from the paper's
      "yellow band" (heat units AND sowing-day temperature OK) if it has one,
      else from its heat-units-only band -- in both cases only if the crop can
-     finish in time from that day (rule 1); otherwise the lowest-risk date.
+     finish in time from that day (rule 1) AND its season stress is negligible
+     or no worse than the lowest-risk date's; otherwise the lowest-risk date.
   4. Lowest-risk date = among dates passing 1, the least stress (degree-days,
      rounded), then the lowest seasonal ETc -- reported as an alternative.
   Why: against the sowing dates recommended by the regional Directorates
@@ -102,9 +103,13 @@ def analyse_crop(crop, station, soil="loamy_sand", method="drip", ecw=None, spac
         lr_row, _ = min(cands, key=lambda rs: (round(rs[1]["stress_dd"]), rs[1]["season_etc_mm"]))
         low_risk = simulate(crop, station, lr_row["doy"], detail=True)
         best, best_rule = low_risk, "lowest_risk"
+        # The paper's index favours heat units (weight 0.75), so for cool-season
+        # crops it can pick the hottest acceptable date. It is used only when its
+        # date is no more stressed than negligible or than the lowest-risk date.
+        stress_ok = max(NEGLIGIBLE_STRESS_DD, low_risk["stress_dd"])
         for rule, d in (("paper_index_hu_temp", paper["best_doy_hu_temp"]), ("paper_index_hu", paper["best_doy"])):
             d = int(round(d)) if d else None
-            if d and rows[d - 1]["candidate"]:
+            if d and rows[d - 1]["candidate"] and rows[d - 1]["stress_dd"] <= stress_ok:
                 best, best_rule = simulate(crop, station, d, detail=True), rule
                 break
     if best is None:

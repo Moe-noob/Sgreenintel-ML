@@ -2,11 +2,14 @@
 Location- and date-specific season length, growth stages and daily water use.
 
 1. Season and stage lengths -- FAO-56 Rev.1 (2025) method, where available
-   GDD_day = min(max(Ta - Tbase, 0), Tupper - Tbase), Ta = (Tx + Tn) / 2,
-   with Tbase/Tupper from Rev.1 Table 6.10, and each stage ending when the
-   field-observed cumulative GDD of Rev.1 Table 6.11 (or the ranges of
-   Table 6.12) is reached; where two rows are given (short/long season)
-   their mean is used. 18 of the 22 KSA crops are covered.
+   GDD_day = min(max(Ta - Tbase, 0), Tcap - Tbase), Ta = (Tx + Tn) / 2,
+   with Tbase from Rev.1 Table 6.10 and Tcap = min(Rev.1 Tupper, crop Topt
+   from the Elnesr & Alazba table); each stage ends when the field-observed
+   cumulative GDD of Rev.1 Table 6.11 (or the ranges of Table 6.12) is
+   reached; where two rows are given (short/long season) their mean is used.
+   18 of the 22 KSA crops are covered. The Topt cap was added after review:
+   with Rev.1's Tupper alone, hot sowings gave unrealistically short seasons
+   (spinach 29 d, broccoli 42 d, garlic 56 d); see DOCUMENTATION.md.
 
 2. Fallback for crops not in Rev.1 Tables 6.11/6.12 (watermelon, radish,
    okra, molokhia): the Elnesr & Alazba heat-unit requirement
@@ -53,10 +56,20 @@ def thermal_rate(ta, tb, topt):
 
 
 def thermal_params(crop):
-    """(Tbase, cap temperature, method label) used for this crop's development rate."""
+    """
+    (Tbase, cap temperature, method label) used for this crop's development rate.
+
+    For FAO-56 Rev.1 crops the cap is min(Tupper, crop Topt): Rev.1's GDD totals
+    were observed mostly in climates where the mean temperature rarely exceeds
+    the optimum, so Tupper there hardly bound; in Saudi heat, letting development
+    keep accelerating up to Tupper (e.g. 30 degC for broccoli and garlic) gave
+    unrealistic seasons (broccoli 42 d, garlic 56 d, spinach 29 d). Capping at
+    the optimum is also how Elnesr & Alazba define heat units (Eq. 7).
+    """
     g = crop.get("gdd_rev1")
     if g:
-        return g["t_base"], g["t_upper"], f"FAO-56 Rev.1 GDD ({g['source']})"
+        cap = min(g["t_upper"], crop["t_opt"])
+        return g["t_base"], cap, f"FAO-56 Rev.1 GDD ({g['source']}), capped at Topt {cap:g} degC"
     return crop["t_base"], crop["t_opt"], "heat units, Elnesr & Alazba Eq. 7 (not in FAO-56 Rev.1 GDD tables)"
 
 

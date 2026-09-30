@@ -4,7 +4,7 @@ This document records **everything v2 does differently from v1**, **every issue 
 
 - Code: `feature2_v2/` (self-contained; delete the folder to remove v2 — nothing else imports it).
 - v1: `heatmap/` (`advisor.py`, `season_simulator.py`, `crop_database.py`, `nasa_power.py`, `evapotranspiration.py`, `crop_coefficients.py`) — **unchanged by this work**.
-- Branch: `claude/compassionate-hopper-lh08ol`. Commits: `0fe823c` (v2 created), `c14eee4` (Saudi benchmark), `df0e179` (FAO-56 Rev.1 adopted), and the commit that adds this document.
+- Branch: `claude/compassionate-hopper-lh08ol`. Commits: `0fe823c` (v2 created), `c14eee4` (Saudi benchmark), `df0e179` (FAO-56 Rev.1 adopted), `b1ac47b` (this document), and the season-length fix (§7, D11).
 
 Contents
 
@@ -80,11 +80,11 @@ Book page numbers in S5 = PDF page − 32.
 | Location | 11 cities + geocoded lat/lon | 11 cities + any lat/lon → nearest station, warns if > 100 km or > 300 m elevation difference (`climate.py`) | station network |
 | Crops | Tomato, bell pepper, potato, maize, strawberry (unresolved), grape, apple (`crop_database.py`) | 22 crops: tomato ×2 seasons, pepper, potato, cucumber ×2, eggplant, onion, lettuce, carrot, spinach, squash, watermelon, melon, cabbage, cauliflower, broccoli, green bean, radish, lentil, okra, sweet corn, garlic, molokhia (`crops.py`) | workbook has arid-region rows for these |
 | Paper method | adapted (mean daily ETc, whole-season shock count) (`season_simulator.py`) | exact spreadsheet logic incl. integral forms and indices (`elnesr_model.py`), reported alongside v2's own choice | reproducibility; lets the paper be benchmarked on its own terms |
-| Season length | GDD per stage, Paredes 2025 Table 5, cap at Tupper (`crop_database.py`) | FAO-56 Rev.1 Tables 6.10–6.12 GDD per stage (18 crops); paper Eq. 7 heat units for watermelon, radish, okra, molokhia (`season.py`) | same principle as v1, now from the official FAO table and for more crops |
+| Season length | GDD per stage, Paredes 2025 Table 5, cap at Tupper (`crop_database.py`) | FAO-56 Rev.1 Tables 6.10–6.12 GDD per stage (18 crops), development capped at min(Tupper, crop Topt); paper Eq. 7 heat units for watermelon, radish, okra, molokhia (`season.py`) | same GDD data as v1, for more crops; the Topt cap stops unrealistic acceleration in Saudi heat (§7, D11). **Note: v1 caps at Tupper, so v1 may also give short seasons for hot sowings** |
 | Kc | FAO-56 1998 Table 12 | FAO-56 Rev.1 Tables 6.1/6.2 (`agronomy.py` `KC_REV1`) | newer standard; several values changed (see §4) |
 | Kc climate adjustment | Eq. 62/65 with actual RHmin and wind | central = table Kc; upper bound = Eq. 62/65 at RHmin 20 %, u2 2 m/s | v2 has no humidity/wind data (v1 is better here) |
 | Temperature stress | days above/below tolerance, smoothed + observed-year stats | degree-days above crTmax / below crTmin over the whole season, per stage | a 44 °C day and a 36 °C day are not equally harmful |
-| Sowing-date choice | shock-free first, then lowest mean daily ETc | best = paper optimisation index when the crop can finish in time; lowest-risk alternative = least stress then least water (`advisor.py`) | chosen after the Saudi benchmark (§6.5) |
+| Sowing-date choice | shock-free first, then lowest mean daily ETc | best = paper optimisation index when the crop can finish in time and the date is not more stressed than the lowest-risk date; otherwise the lowest-risk date (least stress, then least water) (`advisor.py`) | chosen after the Saudi benchmark (§6.5) and review (§7, D11) |
 | Irrigation | ETc only ("not irrigation requirement") | gross = ETc / (Ea × (1 − LR)); LR from FAO-29 with Rev.1 salt tolerance; yield range under saline water; RAW-based irrigation interval; monthly m³/ha (`irrigation.py`) | what a farmer has to pump |
 | Per-plant water | ETc ÷ assumed plants/m² (spacing marked "TODO verify") | only when the user gives row × plant spacing | no unsourced numbers in the output |
 | Outputs | console, API | console, JSON, interactive HTML report, CSV for 11 cities, optional FastAPI router | |
@@ -119,7 +119,7 @@ Each item was verified in the v1 code; file and line are given so you can check.
 ### 4.3 Things v1 gets right (confirmed independently)
 
 - **Temperature tolerances** (crTmax/crTmin) for tomato 35/14, pepper 35/15, potato 27/7, sweet-corn proxy 40/10, strawberry 28/8 match the workbook rows exactly (checked programmatically against S2).
-- **GDD stage values and thresholds** for tomato (market 325/660/880/200, Tbase 7, Tupper 28), bell pepper (445/1180/745/45, 10/35), potato long season (405/530/490/835, 2/30) and maize grain short season (200/380/500/340, 10/32) are **identical to FAO-56 Rev.1 Tables 6.10–6.11**. v2's first version departed from this and was wrong (§7, item D7); v2 now uses the same method.
+- **GDD stage values and thresholds** for tomato (market 325/660/880/200, Tbase 7, Tupper 28), bell pepper (445/1180/745/45, 10/35), potato long season (405/530/490/835, 2/30) and maize grain short season (200/380/500/340, 10/32) are **identical to FAO-56 Rev.1 Tables 6.10–6.11**. v2's first version departed from this and was wrong (§7, item D7); v2 now uses the same data, with one addition: development is capped at the crop's optimum temperature rather than Tupper (§7, D11), because capping at Tupper gives unrealistically short seasons for hot sowings. v1 caps at Tupper, so check v1's hot-season sowings for the same problem.
 - FAO-56 Eq. 62 Kc adjustment with actual RHmin/u2 and validity clamping, and FAO-56 Examples 27–28 self-tests.
 - Year-to-year exceedance statistics from the unsmoothed record.
 
@@ -154,7 +154,7 @@ Found while reproducing the workbook (S2) and reading the papers (S1, S4, S5):
 
 ## 6. Validation
 
-All of it is automated. `python -m unittest discover feature2_v2/tests -v` runs 28 tests (all pass). Validation scripts are in `feature2_v2/validation/`.
+All of it is automated. `python -m unittest discover feature2_v2/tests -v` runs 29 tests (all pass). Validation scripts are in `feature2_v2/validation/`.
 
 ### 6.1 Exact reproduction of the published KSU spreadsheet
 
@@ -201,13 +201,13 @@ All of it is automated. `python -m unittest discover feature2_v2/tests -v` runs 
 | Elnesr & Alazba spreadsheet, heat-unit window | 68 % | 36 % | 51 % |
 | Elnesr & Alazba spreadsheet, heat units + temperature | 53 % | 7 % | 36 % |
 | v2 "finishes in time" window | 41 % | 89 % | 77 % |
-| v2 low-stress window | 55 % | 26 % | 46 % |
+| v2 low-stress window | 58 % | 24 % | 48 % |
 
-Best date inside the directorate window: **v2 9/16**; paper's index alone 11/16.
+Best date inside the directorate window: **v2 11/16**; paper's index alone 11/16.
 
 **How to read this honestly:**
 - v2's broad window wins on Ω mainly through **recall**. For cool-season crops it covers most of the year (precision 17–25 %), and Ω rewards coverage. Precision is the fairer measure of how selective a method is, and there the paper's heat-unit window (68 %) and Alsadon's program (60 %) are better.
-- v2's **best single date** is not better than the paper's own index (9 vs 11 of 16).
+- v2's **best single date** now equals the paper's own index (11 of 16 each), after the season-length fix in §7 (D11). Before that fix it was 9 of 16.
 - The best-date rule was chosen after seeing this benchmark (history in §7). No numeric parameter was fitted, but the result is not an independent test.
 - 16 cases are few: differences of one or two cases are noise.
 - Al-Ahsa has no FAOCLIM station; Qatif (~125 km) is used.
@@ -216,21 +216,21 @@ Best date inside the directorate window: **v2 9/16**; paper's index alone 11/16.
 
 | Region | Crop | Directorate dates (S4, Arabic) | Alsadon program P/R | Paper HU window P/R | v2 window P/R | v2 best date |
 |---|---|---|---|---|---|---|
-| Tabuk | Potato | فبراير، أغسطس- سبتمبر | 77%/65% | 75%/81% | 24%/100% | Mar 08 ✗ |
+| Tabuk | Potato | فبراير، أغسطس- سبتمبر | 77%/65% | 75%/81% | 24%/100% | Oct 28 ✗ |
 | Tabuk | Squash | مارس، إبريل، يوليو، أغسطس | 55%/62% | 100%/42% | 48%/100% | Apr 29 ✓ |
-| Tabuk | Tomato | أبريل- مايو، يوليو- أغسطس | 59%/37% | 78%/47% | 39%/100% | Apr 21 ✓ |
+| Tabuk | Tomato | أبريل- مايو، يوليو- أغسطس | 59%/37% | 78%/47% | 41%/98% | Jun 28 ✗ |
 | Tabuk | Watermelon | مارس- إبريل، يوليو | 0%/0% | –/0% | 27%/24% | Jun 20 ✗ |
-| Al-Ahsa | Eggplant | 15 فبراير- 15 مارس، 15 يوليو- 30 أغسطس | 50%/39% | 55%/24% | 21%/100% | Aug 29 ✓ |
-| Al-Ahsa | Onion | سبتمبر- أكتوبر | 48%/49% | 50%/51% | 17%/100% | Jan 17 ✗ |
-| Al-Ahsa | Tomato | أغسطس- 15 أكتوبر | 52%/39% | 50%/38% | 21%/100% | Mar 17 ✗ |
+| Al-Ahsa | Eggplant | 15 فبراير- 15 مارس، 15 يوليو- 30 أغسطس | 50%/39% | 55%/24% | 21%/100% | Feb 19 ✓ |
+| Al-Ahsa | Onion | سبتمبر- أكتوبر | 48%/49% | 50%/51% | 17%/100% | Oct 06 ✓ |
+| Al-Ahsa | Tomato | أغسطس- 15 أكتوبر | 52%/39% | 50%/38% | 21%/100% | Oct 08 ✓ |
 | Al-Ahsa | Watermelon | فبراير- أغسطس | 100%/15% | 100%/25% | 100%/68% | Jul 08 ✓ |
-| Qassim | Pumpkin | مارس- أغسطس | 76%/24% | 87%/18% | 72%/100% | Jul 24 ✓ |
-| Qassim | Green bean | مارس- سبتمبر | 100%/21% | 100%/29% | 82%/100% | Apr 10 ✓ |
-| Qassim | Lettuce | سبتمبر- أكتوبر | 33%/25% | 51%/74% | 17%/100% | Feb 13 ✗ |
-| Qassim | Tomato | يناير- مارس | 66%/32% | 49%/31% | 25%/100% | Aug 01 ✗ |
+| Qassim | Pumpkin | مارس- أغسطس | 76%/24% | 87%/18% | 75%/100% | Mar 25 ✓ |
+| Qassim | Green bean | مارس- سبتمبر | 100%/21% | 100%/29% | 83%/100% | Mar 25 ✓ |
+| Qassim | Lettuce | سبتمبر- أكتوبر | 33%/25% | 51%/74% | 17%/100% | Nov 14 ✗ |
+| Qassim | Tomato | يناير- مارس | 66%/32% | 49%/31% | 25%/100% | Mar 02 ✓ |
 | Jazan | Cucumber | سبتمبر- نوفمبر، يناير | 78%/88% | 61%/40% | 33%/100% | Dec 31 ✗ |
-| Jazan | Okra | سبتمبر- 15 يوليو | 66%/29% | 76%/46% | 87%/100% | Apr 28 ✓ |
-| Jazan | Bell pepper | أكتوبر- ديسمبر | 72%/85% | –/0% | 25%/100% | Dec 31 ✓ |
+| Jazan | Okra | سبتمبر- 15 يوليو | 66%/29% | 76%/46% | 87%/100% | Dec 26 ✓ |
+| Jazan | Bell pepper | أكتوبر- ديسمبر | 72%/85% | –/0% | 25%/100% | Nov 14 ✓ |
 | Jazan | Watermelon | يوليو، نوفمبر- ديسمبر | 20%/34% | 21%/25% | 11%/34% | Jul 09 ✓ |
 
 Full numbers: `validation/alsadon2002_results.json`. Tests: `F_Alsadon2002Benchmark`.
@@ -240,11 +240,13 @@ Full numbers: `validation/alsadon2002_results.json`. Tests: `F_Alsadon2002Benchm
 - **Against:** S5 Tables 6.10 (Tbase/Tupper), 6.11 (field-observed stage GDD), 6.12 (ranges derived from the 1998 durations).
 - **How:** `validation/fao56rev1_gdd.py --old` computes, for every city × crop at v2's best sowing date, the season length Rev.1's method gives (short–long range) and compares it with v2's length.
 - **Result for v2's original method** (paper Eq. 7 heat units capped at Topt): only 8 of 210 cases inside the Rev.1 range and **188 longer** (e.g. cucumber at Makkah 136 vs 54–90 days; spinach 100 vs ~30). This led to the switch in §7, item D7.
-- After the switch, the same script reports 220/220 inside. That is true **by construction** (v2 now uses those tables), so it is a consistency check, not evidence.
+- After the switch, the same script reported 220/220 inside, true **by construction**. After the Topt cap added in §7 (D11), it reports 94/220 inside the Rev.1 range and 174/220 (79 %) inside or within 15 % of it; the 46 others are longer than Rev.1, because the cap deliberately stops development from speeding up above the crop's optimum temperature.
+- Independent sanity check of the final lengths: across all 11 cities, the median best-date season is 0.96 × the literature season length in the workbook (`DurTherm`; Maynard & Hochmuth and others cited by S1). Before D11 it was 0.74 ×.
 
 ### 6.7 Behaviour and agreement with established Saudi practice
 
-- Rev.1 stage lengths are followed exactly (tomato at a constant 17 °C: 33/66/88/20 days); the Eq. 7 fallback reproduces FAO-56 durations at the optimum temperature; cooler means longer; nothing finishes below the base temperature.
+- Rev.1 stage lengths are followed exactly (tomato at a constant 17 °C: 33/66/88/20 days); above the optimum the rate stays at its maximum (tomato: 122 days at both 24 °C and 40 °C); the Eq. 7 fallback reproduces FAO-56 durations at the optimum; cooler means longer; nothing finishes below the base temperature.
+- No unrealistically short seasons for spinach, broccoli, garlic, squash or green beans in Riyadh, Jazan, Hail or Tabuk (`test_no_unrealistically_short_seasons`).
 - Practice checks:
   - Tihama (Jazan) tomato is best sown Sep–Jan.
   - Asir (Abha) tomato is sown Mar–Jun.
@@ -270,6 +272,7 @@ v2's own mistakes and wrong turns are listed here so the final design can be jud
 | D8 | Best-date rule: first "least stress, then least water" (9/16 on §6.5). Changed to the paper's index with a lowest-risk alternative (10/16). A variant scoring 12/16 was rejected because it sowed garlic in Qassim in late July. After D7, one case changed (Qassim tomato) → 9/16 | §6.5 | documented; not re-tuned further to avoid overfitting 16 cases |
 | D9 | Hand-typed FAO constants (from memory, because fao.org was blocked) had errors: zucchini salt slope 9.4 (Rev.1: 10.0–10.5); several p values were 1998 values; and the salt entry was keyed "Zucchini" while the crop is "Squash", so squash never got a salt value | comparison with S5 once you added it | all replaced with S5 values, checked against the PDF text |
 | D10 | A small bug in the leaching function after the salt table gained range columns | test failure | fixed before commit |
+| D11 | **Seasons too short after D7.** Your review flagged spinach at 37 days and radish at 40. Checking all 261 best-date seasons found 61 of 60 days or less. Radish (40 d) is correct, since it equals FAO's own radish durations (35 and 40 d). But hot sowings gave unrealistic results: spinach 29–30 d on the coast, broccoli 42 d, garlic 56 d sown in June, squash 44–55 d and green beans 45–50 d. There were two causes: (a) Rev.1's Tupper (e.g. 30 °C for broccoli and garlic) lets development keep accelerating in Saudi heat, beyond the climates its GDD totals were observed in; (b) the paper's index weights heat units 0.75, so it picked cool-season crops' hottest acceptable dates | your review; `DurTherm` and FAO-1998 comparison | (a) development capped at min(Tupper, crop Topt), consistent with the paper's Eq. 7 heat-unit definition; (b) the paper's date is used only if its season stress is negligible or no worse than the lowest-risk date's. Result: median season / literature length 0.74 → 0.96; seasons under 60 % of FAO's duration 110 → 39; median best-date stress 64 → 5 °C·days; benchmark best date 9 → 11/16; low-stress window Ω 46 → 48 %. Examples: spinach Riyadh 49 d (sown Nov 29), broccoli Hail 72 d (Mar 7), Jazan tomato 122 d (Oct 16). New test: minimum realistic season lengths |
 
 ---
 
@@ -306,6 +309,8 @@ Quick manual checks against v1:
 - `validation/alsadon2002.py` transcribes S4 Table 5 from the Arabic; re-read the 16 rows against the document.
 
 **Known limitations:**
+- A few season lengths lean long: potato ~140 days (FAO 122; the workbook's potato Topt of 16 °C slows it), and okra and molokhia 130–150 days (they use the paper's Eq. 7 method because FAO-56 Rev.1 has no GDD data for them; FAO's own molokhia row is 140 days including repeated cuttings).
+- "Season" follows FAO-56: sowing (or transplanting) to the end of harvest. Seed-packet "days to maturity" count to the first harvest, so they are shorter.
 - **ET0 probably runs high** (both v1 and v2). FAO-56 Rev.1 Sec. 2.5 shows ET0 from dry, non-irrigated station surroundings, or from gridded data, is overstated (~17 % in its example). FAOCLIM-2 gives ET0 without dew-point data, so Rev.1's correction cannot be applied. Treat water totals as upper-leaning.
 - Long-term means hide individual hot or cold days, so stress is a lower bound. v1's observed-year statistics are better here.
 - Kc is not adjusted for actual humidity and wind (no data); only a dry-air upper bound is given. v1 is better here.
@@ -335,7 +340,7 @@ Quick manual checks against v1:
 | `advisor.py` | sowing-date scan and choice; CLI |
 | `report.py`, `report_template.html`, `outputs/` | interactive HTML report and CSV for 11 cities |
 | `api_router.py` | optional FastAPI router, not mounted |
-| `tests/test_feature2_v2.py` | 28 tests (§6) |
+| `tests/test_feature2_v2.py` | 29 tests (§6) |
 | `validation/alsadon2002.py` (+ `_results.json`) | Saudi directorate benchmark (§6.5) |
 | `validation/fao56rev1_gdd.py` (+ `_results*.json`) | season length vs FAO-56 Rev.1 (§6.6) |
 | `validation/compare_with_v1.py` | v1 vs v2 side by side (§8) |

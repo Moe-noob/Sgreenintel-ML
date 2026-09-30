@@ -3,7 +3,7 @@
 A stronger, better-evidenced version of Feature 2 (the location-based crop advisor). For any Saudi location it answers, per crop:
 
 - **When can I sow here, and which day is best?** Every one of the 365 days is tested. You get a best date and a lowest-risk alternative.
-- **How long is the season here?** Total and per FAO-56 growth stage, from the field-observed growing-degree-days of the 2025 FAO-56 revision, so it is shorter in hot places (Jazan, Makkah) and longer in cool ones (Abha, winter Tabuk).
+- **How long is the season here?** Total and per FAO-56 growth stage, from the field-observed growing-degree-days of the 2025 FAO-56 revision, with development capped at the crop's optimum temperature. It is longer in cool places (Abha, winter Tabuk) and never unrealistically short in hot ones.
 - **How much water per stage, per month and per season?** Net crop water use (ETc) and the gross amount to pump after system efficiency and salt leaching. Given in mm, m³/ha and litres per plant.
 - **How often to irrigate?** Root-zone water balance per stage, for your soil.
 
@@ -15,7 +15,7 @@ python feature2_v2/advisor.py riyadh                       # all crops for Riyad
 python feature2_v2/advisor.py jazan --crop tomato --ecw 2.0 --spacing 1.2 0.4
 python feature2_v2/advisor.py 26.0 44.0 --soil sandy_loam --method sprinkler
 python feature2_v2/report.py         # rebuild outputs/report.html + summary CSV (~30 s)
-python -m unittest discover feature2_v2/tests -v           # evidence suite (28 tests)
+python -m unittest discover feature2_v2/tests -v           # evidence suite (29 tests)
 python feature2_v2/validation/alsadon2002.py               # benchmark vs Saudi directorate calendars
 python feature2_v2/validation/fao56rev1_gdd.py --old       # why season lengths moved to FAO-56 Rev.1
 ```
@@ -42,7 +42,7 @@ Open `outputs/report.html` in any browser for the interactive report: city picke
 
 ## Evidence
 
-Run `python -m unittest discover feature2_v2/tests -v`. All 28 tests pass.
+Run `python -m unittest discover feature2_v2/tests -v`. All 29 tests pass.
 
 **A. The published KSU model is reproduced exactly.**
 The workbook that ships with the paper (`data/sources/…mmc1.xlsx`) contains Excel's cached results on its `Model` sheet. `elnesr_model.py` recomputes all 365 sowing days from the same inputs. For every column (Tmax, Tmin, ET0, GDD, seasonal HU and ET by summation and by integral, the three suitability flags, the ET/HU/combined indices), the difference is **0 to 9 decimal places**. The heat-unit windows (DOY 90–123 and 199–232), the heat-unit + temperature windows (102–123, 199–232), the day counts (68, 56) and the best day (DOY 199) are also identical.
@@ -61,7 +61,7 @@ Reproducing the workbook surfaced these details of how it actually computes, whi
 
 All crop and soil constants in `agronomy.py` now come from **FAO-56 Rev.1** (Pereira, Allen, Paredes et al., December 2025; `cd6621en.pdf` at the repo root), checked against the text extracted from that PDF, with book page numbers cited. Compared with the 1998 values v2 used before, several Kc values changed (tomato fresh market mid/end 1.15/0.80 → 1.10/1.00; okra 1.15/1.00 → 0.95/0.80; potato end 0.75 → 0.40), and several depletion fractions changed (potato and pepper 0.40, cabbage 0.35, squash 0.45). Garlic, pumpkin, okra and molokhia gained values. The paper-method engine keeps the workbook's 1998 Kc so the spreadsheet reproduction stays exact.
 
-**Season length was switched to FAO-56 Rev.1 after a check against it.** `validation/fao56rev1_gdd.py --old` compares v2's original season length (paper Eq. 7 heat units, capped at the optimum temperature) with the length Rev.1's field-observed growing-degree-days give at the same sowing date and station. Only 8 of 210 city × crop cases fell inside the Rev.1 range, and **188 were longer** (cucumber, Makkah: 136 vs 54–90 days; spinach: 100 vs ~30). Capping development at the optimum made the 1998 durations a minimum that hot Saudi sites could never beat, which also overstated seasonal water. Seasons now use Rev.1 Tables 6.10–6.12 for the 18 crops listed there; watermelon, radish, okra and molokhia keep the Eq. 7 method.
+**Season length was switched to FAO-56 Rev.1 after a check against it, then corrected after review.** `validation/fao56rev1_gdd.py --old` compares v2's original season length (paper Eq. 7 heat units, capped at the optimum temperature) with the length Rev.1's field-observed growing-degree-days give at the same sowing date and station. Only 8 of 210 city × crop cases fell inside the Rev.1 range, and **188 were longer** (cucumber, Makkah: 136 vs 54–90 days; spinach: 100 vs ~30). Capping development at the optimum made the 1998 durations a minimum that hot Saudi sites could never beat, which also overstated seasonal water. Seasons now use Rev.1 Tables 6.10–6.12 for the 18 crops listed there; watermelon, radish, okra and molokhia keep the Eq. 7 method. A review then found the opposite problem for hot sowings (spinach 29 d, broccoli 42 d, garlic 56 d): Rev.1's upper temperature (e.g. 30 °C) let development keep accelerating in Saudi heat. Development is now capped at the crop's optimum temperature, which puts the median season at 0.96 × the literature season length (`DurTherm`), up from 0.74 ×.
 
 **D. Data integrity.**
 - The workbook labels 33 stations "Saudi Arabia", but 9 are actually in Kuwait, Bahrain or Jordan (e.g. "Kuwait International Airport", "Azraq", "Wadi Rum"). They are removed with a point-in-polygon test against `data/geo/national_border/SAU-geo.json`.
@@ -77,42 +77,38 @@ Alsadon (2002, *J. King Saud Univ.*; copy in `data/sources/alsadon_2002_planting
 | Elnesr & Alazba spreadsheet, heat-unit window | 68 % | 36 % | 51 % |
 | Elnesr & Alazba spreadsheet, heat units + temperature | 53 % | 7 % | 36 % |
 | **v2 "finishes in time" window** | 41 % | **89 %** | **77 %** |
-| v2 low-stress window | 55 % | 26 % | 46 % |
+| v2 low-stress window | 58 % | 24 % | 48 % |
 
 - Precision is the share of a method's window that the directorate agrees with (Alsadon's own "% agreement" definition).
 - Recall is the share of the directorate's window that the method covers.
 - Ω is the paper's Eqs. 19–28 overlap efficiency.
 - The directorates publish broad "you can plant" calendars. v2's broad window matches them best; its low-stress window is a conservative subset.
 
-**Best single date inside the directorate window:** v2 9/16; the paper's index alone 11/16. History, for transparency:
-- v2's first rule (least stress, then least water) scored 9/16.
-- Switching to the paper's index, with the lowest-risk date as the alternative, raised it to 10/16. The rule was chosen after seeing this benchmark (no numeric parameter was fitted).
-- A variant that tries the paper's heat-units-only index first scored 12/16, but it recommended sowing garlic in Qassim in late July at 43 °C, so it was not used.
-- Moving season lengths to FAO-56 Rev.1 changed one case (Qassim tomato: the paper's Aug 1 index date now finishes in time, and it lies outside the directorate's Jan–Mar window), giving 9/16. The same change raised the window overlap from 68 % to 77 %.
+**Best single date inside the directorate window:** v2 11/16, the same as the paper's index alone. The rule and the season-length method were changed during development (history in `DOCUMENTATION.md` §7), so this is not an independent test. With 16 cases, differences of one or two are noise. The broad window's high Ω comes mostly from recall: for cool-season crops it spans most of the year.
 
-With 16 cases, differences of one or two are noise; the window results are the more robust signal.
-
-Where the best date misses: Tabuk potato and watermelon, Al-Ahsa onion and tomato (the nearest station, Qatif, is about 125 km away), Qassim lettuce and tomato, and Jazan cucumber (Dec 31, one day outside the Sep–Nov and Jan windows).
+Where the best date misses: Tabuk potato, tomato and watermelon, Qassim lettuce, and Jazan cucumber (Dec 31, one day outside the Sep–Nov and Jan windows).
 
 **F. Behaviour and agreement with KSA practice.**
-- Stage lengths follow the Rev.1 GDD targets exactly (tomato at a constant 17 °C: 33/66/88/20 days), and the Eq. 7 fallback reproduces the FAO-56 durations at the optimum temperature.
+- Stage lengths follow the Rev.1 GDD targets exactly (tomato at a constant 17 °C: 33/66/88/20 days), heat above the optimum does not shorten the season, and no spinach, broccoli, garlic, squash or bean season is unrealistically short.
 - Cooler weather gives a longer season; nothing finishes below the base temperature.
 - Against well-established Saudi practice: Tihama (Jazan) tomato is best sown in the mild winter; Asir (Abha) tomato in spring; potato, lettuce, carrot, onion and garlic in Riyadh, Qassim and Madinah are never sown in May–July; Riyadh potato is recommended.
 
 ### Sample results (drip, loamy sand, fresh water)
 
-| City | Crop (FAO-56 row) | Status | Best sowing | Harvest | Days | Gross m³/ha | Lowest-risk date (gross m³/ha) |
-|---|---|---|---|---|---|---|---|
-| Riyadh | Tomato (arid, Jan) | possible, with temperature risk | Aug 10 | Nov 30 | 113 | 6,135 | Feb 15 (7,414) |
-| Riyadh | Potato (semi-arid) | recommended | Feb 08 | May 13 | 95 | 4,270 | Nov 16 (3,914) |
-| Riyadh | Lettuce (arid, Oct/Nov) | recommended | Feb 01 | Apr 14 | 73 | 2,921 | Nov 18 (2,612) |
-| Riyadh | Watermelon (Near East desert) | recommended | Apr 21 | Jul 12 | 83 | 5,932 | Mar 27 (5,900) |
-| Jeddah | Tomato (arid, Jan) | recommended | Oct 03 | Jan 18 | 108 | 5,095 | Oct 02 (5,056) |
-| Jazan | Tomato (arid, Jan) | recommended | Oct 16 | Jan 25 | 102 | 4,653 | Dec 28 (3,841) |
-| Makkah | Cucumber (fresh, arid Nov) | recommended | Oct 03 | Dec 12 | 71 | 3,191 | Oct 07 (3,176) |
-| Tabuk | Watermelon (Near East desert) | recommended | Jun 20 | Sep 10 | 83 | 6,123 | same |
+| City | Crop (FAO-56 row) | Status | Best sowing | Harvest | Days | Gross m³/ha |
+|---|---|---|---|---|---|---|
+| Riyadh | Potato (semi-arid) | possible, slight risk (6 °C·days) | Nov 11 | Apr 02 | 143 | 4,209 |
+| Riyadh | Lettuce (arid, Oct/Nov) | recommended | Nov 16 | Feb 24 | 101 | 2,808 |
+| Riyadh | Spinach (arid, Nov) | recommended | Nov 29 | Jan 16 | 49 | 1,222 |
+| Riyadh | Watermelon (Near East desert) | recommended | Mar 27 | Jun 27 | 93 | 5,900 |
+| Riyadh | Tomato (arid, Jan) | possible, with temperature risk | Feb 07 | Jun 23 | 137 | 8,614 |
+| Jeddah | Tomato (arid, Jan) | recommended | Oct 03 | Feb 01 | 122 | 5,671 |
+| Jazan | Tomato (arid, Jan) | recommended | Oct 16 | Feb 14 | 122 | 5,312 |
+| Makkah | Cucumber (fresh, arid Nov) | recommended | Oct 03 | Dec 25 | 84 | 3,662 |
+| Hail | Broccoli (Calif. desert) | possible, with temperature risk | Mar 07 | May 17 | 72 | 4,698 |
+| Abha | Radish (arid, winter) | recommended | May 04 | Jun 12 | 40 | 2,193 |
 
-Across all 11 cities × 24 crop seasons: 140 recommended, 121 possible with temperature risk, 3 not suitable (too cold to finish in time). Riyadh tomato's best date is now the classic autumn sowing (August), and it is still flagged for heat stress in open fields.
+Across all 11 cities × 24 crop seasons: 130 recommended, 131 possible with temperature risk, 3 not suitable (too cold to finish in time). Open-field tomato inland remains risky in every month.
 
 ---
 
@@ -120,7 +116,7 @@ Across all 11 cities × 24 crop seasons: 140 recommended, 121 possible with temp
 
 1. **Climate** (`climate.py`): `X(j) = a + ρ sin(ωj + φ)` for Tmax, Tmin and ET0 (paper Eq. 4), with parameters from the workbook's `Stations` sheet (FAOCLIM-2 long-term means). The nearest station to the location is used, with a warning beyond 100 km or ±300 m elevation.
 2. **Season length** (`season.py`):
-   - For the 18 crops in FAO-56 Rev.1 Tables 6.11/6.12, the daily rate is `min(max(Ta − Tbase, 0), Tupper − Tbase)` with Tbase/Tupper from Table 6.10, and each stage ends when its field-observed cumulative GDD is reached (mean of the short- and long-season rows where both are given).
+   - For the 18 crops in FAO-56 Rev.1 Tables 6.11/6.12, the daily rate is `min(max(Ta − Tbase, 0), Tcap − Tbase)` with Tbase from Table 6.10 and Tcap = min(Tupper, crop Topt), and each stage ends when its field-observed cumulative GDD is reached (mean of the short- and long-season rows where both are given).
    - For watermelon, radish, okra and molokhia the rate is capped at the optimum temperature and the crop needs `(Topt − Tbase) × DUR_total` (paper Eq. 7, the workbook's `ThermN` column), split over the FAO-56 stage shares.
 3. **Water** (`season.py`, `irrigation.py`):
    - Crop water use: `ETc = Kc × ET0`, with FAO-56 Rev.1 Table 6.1/6.2 Kc values on the Eq. 66 curve.
@@ -130,8 +126,8 @@ Across all 11 cities × 24 crop seasons: 140 recommended, 121 possible with temp
    - Salinity: where Rev.1 Table 8.8 gives a range, the leaching requirement uses its most sensitive end and the expected yield is shown as a range.
 4. **Sowing-date choice** (`advisor.py`):
    - A date qualifies if the crop finishes within `DUR_total × (1 + Htol/100)` days, i.e. the paper's heat tolerance applied to duration.
-   - **Best date:** the paper's optimisation-index day, taken first from its "yellow band" (heat units and sowing-day temperature both OK), else from its heat-units-only band, as long as it qualifies. Otherwise the lowest-risk date is used.
-   - **Lowest-risk date:** the fewest stress degree-days over the whole season, and among those the lowest seasonal ETc. It can differ substantially in water (Riyadh potato: Nov 16, 3,914 m³/ha, vs Feb 08, 4,270 m³/ha).
+   - **Best date:** the paper's optimisation-index day, taken first from its "yellow band" (heat units and sowing-day temperature both OK), else from its heat-units-only band, as long as it qualifies and its season stress is negligible or no worse than the lowest-risk date's. Otherwise the lowest-risk date is used.
+   - **Lowest-risk date:** the fewest stress degree-days over the whole season, and among those the lowest seasonal ETc.
    - "Recommended" means at least one qualifying date has ≤ 5 °C·days of stress for the whole season.
 
 Why the paper's heat-unit test is not used as a hard gate: it requires the mean temperature over `DurTherm` to reach `Topt`, which rejects warm-season crops in the highlands altogether (e.g. every tomato date in Abha). The paper itself reports that `Topt` had to be hand-tuned for 24 of 34 crops in its own validation.

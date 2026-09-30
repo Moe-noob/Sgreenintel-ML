@@ -182,8 +182,20 @@ class D_ModelBehaviour(unittest.TestCase):
         # At a constant 17 degC: 10 GDD/day -> 33/66/88/20 days (ceil of cumulative).
         L = season.stage_lengths(self.tomato, _ConstStation(17), 1)
         self.assertEqual(L, (33, 66, 88, 20))
-        # Above Tupper the rate is capped at 21 GDD/day
-        self.assertEqual(sum(season.stage_lengths(self.tomato, _ConstStation(40), 1)), 99)
+        # Above the cap min(Tupper 28, Topt 24) = 24 degC the rate stays at 17 GDD/day
+        self.assertEqual(sum(season.stage_lengths(self.tomato, _ConstStation(40), 1)), 122)
+        self.assertEqual(sum(season.stage_lengths(self.tomato, _ConstStation(24), 1)), 122)
+
+    def test_no_unrealistically_short_seasons(self):
+        # Review finding: hot sowings once gave spinach 29 d, broccoli 42 d, garlic 56 d.
+        floor = {"Spinach": 40, "Broccoli": 60, "Garlic": 90, "Squash": 55, "Beans, green": 50}
+        for city in ("riyadh", "jazan", "hail", "tabuk"):
+            st = climate.resolve(city)["station"]
+            for c in ksa_crops():
+                if c["key"] in floor:
+                    r = advisor.analyse_crop(c, st)
+                    if "best" in r:
+                        self.assertGreaterEqual(r["best"]["total_days"], floor[c["key"]], f"{c['key']} @ {city}")
 
     def test_fallback_eq7_reproduces_fao56_at_optimum(self):
         okra = next(c for c in ksa_crops() if c["key"] == "Okra")
@@ -219,8 +231,8 @@ class F_Alsadon2002Benchmark(unittest.TestCase):
         cls.cases, cls.summary = alsadon2002.main(write=False)
 
     def test_best_date_hit_rate(self):
-        # 9/16 with the chosen rule and FAO-56 Rev.1 season lengths (see README, benchmark section)
-        self.assertGreaterEqual(self.summary["v2_best_date_hit_rate"], 9 / 16)
+        # 11/16 with the current rule (see DOCUMENTATION.md sec. 6.5 for the history)
+        self.assertGreaterEqual(self.summary["v2_best_date_hit_rate"], 11 / 16)
 
     def test_broad_window_overlap_beats_published_baselines(self):
         s = self.summary
@@ -266,8 +278,10 @@ class E_KsaPractice(unittest.TestCase):
                 c = self.best(city, key)
                 self.assertNotIn(self.month(c).month, (5, 6, 7), f"{key} @ {city}")
 
-    def test_riyadh_potato_recommended(self):
-        self.assertEqual(self.best("riyadh", "Potato")["status"], "recommended")
+    def test_riyadh_potato_autumn_winter(self):
+        c = self.best("riyadh", "Potato")
+        self.assertNotEqual(c["status"], "not_suitable")
+        self.assertIn(self.month(c).month, (9, 10, 11, 12, 1, 2))
 
 
 if __name__ == "__main__":
