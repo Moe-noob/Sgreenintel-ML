@@ -42,7 +42,7 @@ sys.path.insert(0, str(HERE.parent))
 import climate                          # noqa: E402
 import elnesr_model as em               # noqa: E402
 from advisor import analyse_crop, NEGLIGIBLE_STRESS_DD   # noqa: E402
-from crops import load_crop_table, ARABIC                 # noqa: E402
+from crops import load_crop_table, prepare               # noqa: E402
 
 # Region -> (lat, lon) of the regional centre. Al-Ahsa (Hofuf) has no
 # FAOCLIM-2 station; the nearest (Qatif, ~125 km) is used and flagged.
@@ -114,8 +114,7 @@ def model_sets(region, rows):
     out = {"paper_hu": set(), "paper_hu_temp": set(), "v2_in_time": set(), "v2_low_stress": set(),
            "v2_best": [], "paper_best": []}
     for r in rows:
-        crop = dict(table[r])
-        crop.update({"key": crop["crop"], "arabic": ARABIC.get(crop["crop"], "")})
+        crop = prepare(table[r])
         paper = em.run({k: st.fit(k) for k in ("Tx", "Tn", "Ta", "ET0")}, em.params_from_crop(crop))
         out["paper_hu"] |= _runs_to_days(paper["hu_windows"])
         out["paper_hu_temp"] |= _runs_to_days(paper["hu_temp_windows"])

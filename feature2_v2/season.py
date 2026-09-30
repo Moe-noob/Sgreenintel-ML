@@ -1,21 +1,23 @@
 """
 Location- and date-specific season length, growth stages and daily water use.
 
-1. Thermal time (development rate)
-   rate_j = min(max(Ta_j - Tbase, 0), Topt - Tbase)             [degC day]
-   i.e. growing degree days (Elnesr & Alazba Eq. 2) with a horizontal
-   cutoff at the crop's optimum temperature (the cutoff form of Paredes
-   et al. 2025, Eq. 1, with Tupper := crTopt). Ta = (Tx + Tn) / 2.
+1. Season and stage lengths -- FAO-56 Rev.1 (2025) method, where available
+   GDD_day = min(max(Ta - Tbase, 0), Tupper - Tbase), Ta = (Tx + Tn) / 2,
+   with Tbase/Tupper from Rev.1 Table 6.10, and each stage ending when the
+   field-observed cumulative GDD of Rev.1 Table 6.11 (or the ranges of
+   Table 6.12) is reached; where two rows are given (short/long season)
+   their mean is used. 18 of the 22 KSA crops are covered.
 
-2. Requirement and stages
-   The season needs HU_req = (Topt - Tbase) x DUR_total -- Elnesr & Alazba
-   Eq. 7 applied to the FAO-56 total duration, tabulated in the workbook's
-   "ThermN" column. Each stage ends when its FAO-56 share of HU_req has
-   accumulated. The FAO-56 stage lengths are therefore what the crop takes
-   at its optimum temperature; where or when it is cooler the stages
-   stretch (highland Abha, winter Tabuk). They never shorten below FAO-56,
-   because development is not faster above the optimum -- heat is handled
-   as stress instead (point 4) and by the paper's HU_max test.
+2. Fallback for crops not in Rev.1 Tables 6.11/6.12 (watermelon, radish,
+   okra, molokhia): the Elnesr & Alazba heat-unit requirement
+   HU_req = (Topt - Tbase) x DUR_total (paper Eq. 7, workbook "ThermN"),
+   split over stages by the FAO-56 1998 stage shares, with the daily rate
+   capped at Topt.
+   Why Rev.1 first: validation/fao56rev1_gdd.py showed the Eq. 7 method
+   gives seasons LONGER than Rev.1's field-observed GDD in 188 of 210 city x
+   crop cases (e.g. cucumber, Makkah: 136 vs 54-90 days), because capping
+   at Topt makes the 1998 durations a minimum that hot KSA sites can never
+   beat. Longer seasons also overstate seasonal water.
 
 3. Daily water use
    Kc follows FAO-56 Eq. 66 (constant ini, linear dev, constant mid, linear
@@ -50,8 +52,23 @@ def thermal_rate(ta, tb, topt):
     return min(max(ta - tb, 0.0), topt - tb)
 
 
+def thermal_params(crop):
+    """(Tbase, cap temperature, method label) used for this crop's development rate."""
+    g = crop.get("gdd_rev1")
+    if g:
+        return g["t_base"], g["t_upper"], f"FAO-56 Rev.1 GDD ({g['source']})"
+    return crop["t_base"], crop["t_opt"], "heat units, Elnesr & Alazba Eq. 7 (not in FAO-56 Rev.1 GDD tables)"
+
+
 def stage_requirements(crop):
     """Cumulative thermal-time targets (degC day) at the end of each stage."""
+    g = crop.get("gdd_rev1")
+    if g:
+        cum, targets = 0.0, []
+        for v in g["stages"]:
+            cum += v
+            targets.append(cum)
+        return targets
     durs = [crop[k] for k in ("dur_ini", "dur_dev", "dur_mid", "dur_late")]
     total = sum(durs)
     cum, targets = 0.0, []
@@ -64,9 +81,10 @@ def stage_requirements(crop):
 def stage_lengths(crop, station, sow_doy):
     """Location-specific (L_ini, L_dev, L_mid, L_late) or None if not completed in a year."""
     targets = stage_requirements(crop)
+    tb, tcap, _ = thermal_params(crop)
     cum, bounds = 0.0, []
     for n in range(MAX_SEASON_DAYS):
-        cum += thermal_rate(station.ta(sow_doy + n), crop["t_base"], crop["t_opt"])
+        cum += thermal_rate(station.ta(sow_doy + n), tb, tcap)
         while len(bounds) < 4 and cum >= targets[len(bounds)] - 1e-9:
             bounds.append(n + 1)
         if len(bounds) == 4:
@@ -157,7 +175,7 @@ def simulate(crop, station, sow_doy, detail=False):
         "mean_etc_mm_day": sum(etc) / total, "peak_etc_mm_day": peak[0], "peak_date": doy_label(peak[1]),
         "heat_days": sum(heat), "cold_days": sum(cold),
         "heat_dd": sum(heat_dd), "cold_dd": sum(cold_dd), "stress_dd": sum(heat_dd) + sum(cold_dd),
-        "length_method": "thermal time (Eq. 7 requirement, cutoff at Topt)",
+        "length_method": thermal_params(crop)[2],
     }
     if detail:
         out["daily"] = daily

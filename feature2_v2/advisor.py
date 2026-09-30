@@ -25,13 +25,14 @@ Decision rule for each sowing day j
      rounded), then the lowest seasonal ETc -- reported as an alternative.
   Why: against the sowing dates recommended by the regional Directorates
   of Agriculture (Alsadon 2002, Table 5; 16 crop x region cases;
-  validation/alsadon2002.py) the best date falls inside the directorate
-  window in 10/16 cases with this rule vs 9/16 with the lowest-risk rule
-  alone. Using the heat-units-only index first scores 12/16 but sows
+  validation/alsadon2002.py) this rule put the best date inside the
+  directorate window in 10/16 cases vs 9/16 for the lowest-risk rule alone
+  (9/16 after season lengths moved to FAO-56 Rev.1; the paper's index alone
+  scores 11/16). Using the heat-units-only index first scored 12/16 but sows
   garlic in Qassim in late July (43 degC), an agronomic error that the
-  temperature condition prevents; with 16 cases, 12 vs 10 is within noise.
-  This rule was chosen AFTER seeing the benchmark; no numeric parameter
-  was fitted to it.
+  temperature condition prevents; with 16 cases these differences are
+  within noise. The rule was chosen AFTER seeing the benchmark; no numeric
+  parameter was fitted to it.
   Status: "recommended" if at least one date has negligible stress
   (<= NEGLIGIBLE_STRESS_DD over the season), "possible with temperature
   risk" if dates finish in time but all carry stress, "not suitable" if no
@@ -205,7 +206,9 @@ def print_report(res, show_stages=True):
               f"(dry-air bound {ir['season_net_hi_m3_ha']:.0f});  gross {ir['season_gross_m3_ha']:.0f} m3/ha "
               f"(Ea {ir['application_efficiency']:.0%}, LR {ir['leaching_requirement']:.0%}); peak {b['peak_etc_mm_day']:.1f} mm/day ~{b['peak_date']}")
         if ir.get("expected_yield_pct_from_salinity") is not None:
-            print(f"   Salinity: expected relative yield {ir['expected_yield_pct_from_salinity']:.0f}% at ECw {ir['water_ecw_ds_m']} dS/m")
+            y = ir["expected_yield_pct_from_salinity"]
+            rng = f"{y['low']:.0f}%" if round(y["low"]) == round(y["high"]) else f"{y['low']:.0f}-{y['high']:.0f}%"
+            print(f"   Salinity: expected relative yield {rng} at ECw {ir['water_ecw_ds_m']} dS/m (FAO-56 Rev.1 Table 8.8)")
         if show_stages:
             print(f"      {'stage':<12}{'days':>5} {'dates':<16}{'ETc/day':>8}{'ETc mm':>8}{'gross m3/ha':>12}{'every':>7}{'L/plant/d':>11}")
             for r in ir["stages"]:

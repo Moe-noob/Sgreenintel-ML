@@ -160,7 +160,9 @@ def run(fits, p):
 
 def params_from_crop(crop, hu_weight=0.75, dur=None):
     """Build model parameters from a crops_eln16.json row (defaults as the sheet uses them)."""
-    return {"kc_ini": crop["kc_ini"], "kc_mid": crop["kc_mid"], "kc_end": crop["kc_end"],
+    # the paper method always uses the workbook's own (FAO-56 1998) Kc values
+    kc = lambda k: crop.get(k + "_1998", crop[k])
+    return {"kc_ini": kc("kc_ini"), "kc_mid": kc("kc_mid"), "kc_end": kc("kc_end"),
             "dur_ini": crop["dur_ini"], "dur_dev": crop["dur_dev"], "dur_mid": crop["dur_mid"],
             "dur_late": crop["dur_late"], "dur": dur if dur is not None else crop["dur_therm"],
             "t_base": crop["t_base"], "t_opt": crop["t_opt"], "t_max": crop["t_max"], "t_min": crop["t_min"],

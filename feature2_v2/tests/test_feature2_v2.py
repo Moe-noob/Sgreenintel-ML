@@ -94,16 +94,37 @@ class B_FAOExamples(unittest.TestCase):
         self.assertAlmostEqual(season.adjust_kc(1.20, 2.0, u2=1.3, rhmin=75), 1.07, places=2)
 
     def test_leaching_fao29_eq7(self):
-        lr, _ = agronomy.leaching_requirement("Tomato", 1.2, "surface")
-        self.assertAlmostEqual(lr, 1.2 / (5 * 2.5 - 1.2), places=6)
+        lr, _ = agronomy.leaching_requirement("Potato", 1.2, "surface")
+        self.assertAlmostEqual(lr, 1.2 / (5 * 1.7 - 1.2), places=6)
 
     def test_maas_hoffman(self):
-        self.assertEqual(agronomy.salinity_yield_pct("Tomato", 1.0), 100.0)        # ECe 1.5 < 2.5
-        self.assertAlmostEqual(agronomy.salinity_yield_pct("Tomato", 4.0), 100 - 9.9 * (6.0 - 2.5))
+        self.assertEqual(agronomy.salinity_yield_pct("Tomato", 0.5)["low"], 100.0)   # ECe 0.75 < 0.9
+        y = agronomy.salinity_yield_pct("Tomato", 4.0)                             # ECe 6.0
+        self.assertAlmostEqual(y["low"], 100 - 9.9 * (6.0 - 0.9))
+        self.assertAlmostEqual(y["high"], 100 - 9.0 * (6.0 - 2.5))
 
     def test_p_adjustment_limits(self):
         self.assertAlmostEqual(agronomy.adjusted_p(0.40, 5.0), 0.40)
         self.assertEqual(agronomy.adjusted_p(0.40, 15.0), 0.10)
+
+
+class B_Fao56Rev1(unittest.TestCase):
+    """Values transcribed from FAO-56 Rev.1 (2025), spot-checked here against the printed tables."""
+
+    def test_table_6_1_kc(self):
+        self.assertEqual(agronomy.KC_REV1["Tomato"][:3], (0.60, 1.10, 1.00))
+        self.assertEqual(agronomy.KC_REV1["Okra"][:3], (0.50, 0.95, 0.80))
+
+    def test_table_8_1_p_and_8_8_salt(self):
+        self.assertEqual(agronomy.ROOTING["Potato"][2], 0.40)
+        self.assertEqual(agronomy.ROOTING["Spinach"][2], 0.25)
+        self.assertEqual(agronomy.SALT_TOLERANCE["Garlic"][:4], (3.9, 3.9, 14.3, 14.3))
+
+    def test_water_uses_rev1_but_paper_uses_1998(self):
+        t = next(c for c in ksa_crops() if c["number"] == 34)
+        self.assertEqual((t["kc_mid"], t["kc_end"]), (1.10, 1.00))
+        p = em.params_from_crop(t)
+        self.assertEqual((p["kc_mid"], p["kc_end"]), (1.15, 0.80))
 
 
 class C_DataIntegrity(unittest.TestCase):
@@ -156,27 +177,36 @@ class D_ModelBehaviour(unittest.TestCase):
     def setUp(self):
         self.tomato = next(c for c in ksa_crops() if c["number"] == 34)
 
-    def test_optimum_reproduces_fao56(self):
-        L = season.stage_lengths(self.tomato, _ConstStation(self.tomato["t_opt"]), 1)
-        self.assertEqual(L, (30, 40, 40, 25))
+    def test_rev1_gdd_stage_lengths(self):
+        # Tomato (market), Rev.1 Table 6.11: 325/660/880/200 GDD, Tbase 7, Tupper 28.
+        # At a constant 17 degC: 10 GDD/day -> 33/66/88/20 days (ceil of cumulative).
+        L = season.stage_lengths(self.tomato, _ConstStation(17), 1)
+        self.assertEqual(L, (33, 66, 88, 20))
+        # Above Tupper the rate is capped at 21 GDD/day
+        self.assertEqual(sum(season.stage_lengths(self.tomato, _ConstStation(40), 1)), 99)
 
-    def test_cooler_is_longer_hotter_is_not_shorter(self):
-        opt = sum(season.stage_lengths(self.tomato, _ConstStation(self.tomato["t_opt"]), 1))
-        cool = sum(season.stage_lengths(self.tomato, _ConstStation(self.tomato["t_opt"] - 5), 1))
-        hot = sum(season.stage_lengths(self.tomato, _ConstStation(self.tomato["t_opt"] + 8), 1))
-        self.assertGreater(cool, opt)
-        self.assertEqual(hot, opt)
+    def test_fallback_eq7_reproduces_fao56_at_optimum(self):
+        okra = next(c for c in ksa_crops() if c["key"] == "Okra")
+        self.assertNotIn("gdd_rev1", okra)
+        L = season.stage_lengths(okra, _ConstStation(okra["t_opt"]), 1)
+        self.assertEqual(L, tuple(int(okra[k]) for k in ("dur_ini", "dur_dev", "dur_mid", "dur_late")))
+
+    def test_cooler_is_longer(self):
+        warm = sum(season.stage_lengths(self.tomato, _ConstStation(24), 1))
+        cool = sum(season.stage_lengths(self.tomato, _ConstStation(15), 1))
+        self.assertGreater(cool, warm)
 
     def test_below_base_never_finishes(self):
-        self.assertIsNone(season.stage_lengths(self.tomato, _ConstStation(self.tomato["t_base"] - 1), 1))
+        self.assertIsNone(season.stage_lengths(self.tomato, _ConstStation(6), 1))
 
     def test_water_totals_consistent(self):
         sim = season.simulate(self.tomato, _ConstStation(24), 1, detail=True)
         self.assertAlmostEqual(sim["season_etc_mm"], sum(d["etc"] for d in sim["daily"]), places=6)
         self.assertAlmostEqual(sim["season_etc_mm"], sum(s["etc_mm"] for s in sim["stages"]), places=6)
         # kc_eq x ET0 over the same stages equals the daily sum (Eq. 14-15 are exact for a linear Kc)
-        kc_eq = em.kc_equivalent(0.6, 1.15, 0.8, 30, 40, 40, 25)
-        self.assertAlmostEqual(sim["season_etc_mm"], kc_eq * 5.0 * 135, delta=1.0)
+        t = self.tomato
+        kc_eq = em.kc_equivalent(t["kc_ini"], t["kc_mid"], t["kc_end"], *sim["stage_lengths"])
+        self.assertAlmostEqual(sim["season_etc_mm"], kc_eq * 5.0 * sim["total_days"], delta=1.0)
 
 
 class F_Alsadon2002Benchmark(unittest.TestCase):
@@ -189,8 +219,8 @@ class F_Alsadon2002Benchmark(unittest.TestCase):
         cls.cases, cls.summary = alsadon2002.main(write=False)
 
     def test_best_date_hit_rate(self):
-        # 10/16 with the chosen rule (see advisor.py docstring for why not the 12/16 variant)
-        self.assertGreaterEqual(self.summary["v2_best_date_hit_rate"], 10 / 16)
+        # 9/16 with the chosen rule and FAO-56 Rev.1 season lengths (see README, benchmark section)
+        self.assertGreaterEqual(self.summary["v2_best_date_hit_rate"], 9 / 16)
 
     def test_broad_window_overlap_beats_published_baselines(self):
         s = self.summary

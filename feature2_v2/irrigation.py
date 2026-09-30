@@ -92,7 +92,7 @@ def plan(crop, sim, soil="loamy_sand", method="drip", ecw_ds_m=None, spacing_m=N
     out = {
         "soil": soil, "method": method, "application_efficiency": ea,
         "water_ecw_ds_m": ecw_ds_m, "leaching_requirement": lr,
-        "salt_tolerance": SALT_TOLERANCE.get(crop["key"]),
+        "salt_tolerance": SALT_TOLERANCE.get(crop["key"]),   # (thr low, thr high, b low, b high, table row)
         "expected_yield_pct_from_salinity": salinity_yield_pct(crop["key"], ecw_ds_m),
         "season_net_mm": net, "season_net_m3_ha": net * 10,
         "season_gross_mm": net * gross_factor, "season_gross_m3_ha": net * gross_factor * 10,
