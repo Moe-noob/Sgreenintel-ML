@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KSA Crop Water Planner</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #f3f2ee;
+  --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --s1: #2a78d6; --s2: #eb6834; --band: rgba(42,120,214,0.06);
+  --good: #0ca30c; --warn: #fab219; --crit: #d03b3b; --none: #e1e0d9;
+  --good-ink: #006300;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --surface-2: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --s1: #3987e5; --s2: #d95926; --band: rgba(57,135,229,0.10);
+    --none: #383835; --good-ink: #0ca30c;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --surface-2: #232321;
+  --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+  --s1: #3987e5; --s2: #d95926; --band: rgba(57,135,229,0.10);
+  --none: #383835; --good-ink: #0ca30c;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 24px; margin: 0 0 4px; letter-spacing: -0.01em; }
+h2 { font-size: 18px; margin: 0 0 8px; }
+h3 { font-size: 13px; margin: 20px 0 8px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+p { margin: 0 0 8px; }
+.sub { color: var(--ink-2); margin-bottom: 20px; max-width: 760px; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 16px; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--axis);
+  border-radius: 8px; padding: 6px 10px; min-width: 180px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.tile .k { color: var(--ink-2); font-size: 13px; }
+.tile .v { font-size: 22px; font-weight: 600; }
+.tile .u { color: var(--muted); font-size: 13px; }
+.layout { display: grid; grid-template-columns: 300px 1fr; gap: 16px; align-items: start; }
+.layout > *, .two > * { min-width: 0; }
+@media (max-width: 820px) { .layout { grid-template-columns: 1fr; } }
+.list { display: flex; flex-direction: column; gap: 6px; max-height: 78vh; overflow-y: auto; padding: 8px; }
+.item { display: grid; grid-template-columns: 20px 1fr auto; gap: 8px; align-items: center; text-align: left;
+  width: 100%; font: inherit; color: var(--ink); background: transparent; border: 1px solid transparent;
+  border-radius: 8px; padding: 8px; cursor: pointer; }
+.item:hover { background: var(--surface-2); }
+.item[aria-selected="true"] { border-color: var(--s1); background: var(--surface-2); }
+.item .nm { font-weight: 600; font-size: 14px; }
+.item .cd { color: var(--muted); font-size: 12px; }
+.item .gv { color: var(--ink-2); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ico { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center;
+  font-size: 11px; font-weight: 700; color: #fff; }
+.ico.g { background: var(--good); } .ico.w { background: var(--warn); color: #0b0b0b; } .ico.n { background: var(--crit); }
+.badge { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.meta { color: var(--ink-2); font-size: 13px; }
+.note { color: var(--ink-2); font-size: 13px; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; margin: 8px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--ink-2); font-weight: 600; }
+td { font-variant-numeric: tabular-nums; }
+.tscroll { overflow-x: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-2); margin: 6px 0; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+.ln { display: inline-block; width: 16px; height: 2px; vertical-align: 3px; margin-right: 5px; }
+svg text { fill: var(--muted); font-size: 11px; font-family: inherit; }
+.chart { position: relative; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--ring);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-radius: 8px; padding: 6px 8px; font-size: 12px;
+  color: var(--ink); white-space: nowrap; display: none; z-index: 2; }
+.tip b { font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: 1fr; gap: 8px; }
+details { margin-top: 24px; }
+summary { cursor: pointer; font-weight: 600; }
+.method li { margin-bottom: 6px; color: var(--ink-2); }
+.empty { color: var(--ink-2); padding: 24px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>KSA Crop Water Planner</h1>
+  <p class="sub">When to sow, how long the crop takes and how much water it needs at each growth stage, for 11 Saudi cities.
+    Climate comes from FAOCLIM-2 station records; the planting-date method is Elnesr &amp; Alazba (2016, King Saud University);
+    water use follows FAO-56. Every figure is for a typical (long-term mean) year, not a forecast.</p>
+
+  <div class="controls">
+    <label>City <select id="city"></select></label>
+    <span class="meta" id="station"></span>
+  </div>
+  <div class="note" id="warn" hidden></div>
+  <div class="tiles" id="cityTiles"></div>
+
+  <div class="layout">
+    <div class="card list" id="list" role="listbox" aria-label="Crops"></div>
+    <div class="card" id="detail"></div>
+  </div>
+
+  <details class="card">
+    <summary>Method, sources and limitations</summary>
+    <ul class="method">
+      <li><b>Climate:</b> sinusoidal fits of FAOCLIM-2 long-term station means (Tmax, Tmin, Penman-Monteith ET0) published with Elnesr &amp; Alazba (2016), Appendix A. 24 stations inside KSA; the nearest station to each city is used.</li>
+      <li><b>Season length:</b> the crop needs (Topt − Tbase) × FAO-56 duration growing degree-days (paper Eq. 7). Daily degree-days are capped at Topt, so FAO-56 lengths apply at optimum temperature and stages stretch when it is cooler.</li>
+      <li><b>Sowing dates:</b> all 365 days are tested. A date qualifies if the crop finishes within the FAO-56 duration + the crop's heat tolerance (Htol). The best date has the least temperature stress (degree-days above crTmax / below crTmin over the whole season), then the least water.</li>
+      <li><b>Water:</b> FAO-56 Kc curve (Eq. 66) × station ET0. Net = ETc (rain ignored). Gross = net ÷ (system efficiency × (1 − leaching requirement)). The dry-air bound applies FAO-56 Eq. 62 at RHmin 20 %.</li>
+      <li><b>Paper method:</b> the exact KSU spreadsheet result is shown for comparison. The Python engine reproduces all 365 rows of the published workbook exactly (see tests).</li>
+      <li><b>Limitations:</b> long-term means hide individual hot or cold days, so stress is a lower bound. Open field only (not greenhouse). Cultivar differences and pests are not modelled. Salt-tolerance and rooting constants are from FAO-29 and FAO-56 tables.</li>
+    </ul>
+  </details>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const STAGE_NAMES = {initial: "Initial", development: "Development", mid_season: "Mid-season", late_season: "Late season"};
+const STATUS = {
+  recommended: {cls: "g", icon: "✓", label: "Recommended"},
+  possible_with_risk: {cls: "w", icon: "!", label: "Possible, with temperature risk"},
+  not_suitable: {cls: "n", icon: "✕", label: "Not suitable"},
+};
+const MONTH_START = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmt = (n, d = 0) => n == null ? "–" : Number(n).toLocaleString("en-US", {maximumFractionDigits: d, minimumFractionDigits: d});
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const cropName = c => c.crop.replace(/\s*\{(.*)\}/, " ($1)");
+const $ = id => document.getElementById(id);
+let state = {city: null, idx: 0};
+
+function init() {
+  const sel = $("city");
+  Object.keys(DATA).forEach(k => { const o = document.createElement("option"); o.value = k; o.textContent = k[0].toUpperCase() + k.slice(1); sel.appendChild(o); });
+  let saved = null;
+  try { saved = localStorage.getItem("f2v2-city"); } catch (e) {}
+  sel.value = saved && DATA[saved] ? saved : "riyadh";
+  sel.addEventListener("change", () => { try { localStorage.setItem("f2v2-city", sel.value); } catch (e) {} showCity(sel.value); });
+  showCity(sel.value);
+}
+
+function showCity(city) {
+  state = {city, idx: 0};
+  const d = DATA[city], s = d.station;
+  $("station").textContent = `Station: ${s.name} · ${fmt(d.dist, 0)} km away · ${fmt(s.elevation_m)} m`;
+  const w = $("warn");
+  w.hidden = !d.warnings.length;
+  w.textContent = d.warnings.join(" ");
+  const nRec = d.crops.filter(c => c.status === "recommended").length;
+  $("cityTiles").innerHTML = [
+    ["Recommended crops", nRec, `of ${d.crops.length} crop seasons`],
+    ["Reference ET0", fmt(s.et0_annual_mm), "mm per year"],
+    ["Hottest days", fmt(s.tmax_hottest_c, 1) + " °C", "mean daily max"],
+    ["Coldest nights", fmt(s.tmin_coldest_c, 1) + " °C", "mean daily min"],
+  ].map(([k, v, u]) => `<div class="card tile"><div class="k">${k}</div><div class="v">${v}</div><div class="u">${u}</div></div>`).join("");
+  const list = $("list");
+  list.innerHTML = d.crops.map((c, i) => {
+    const st = STATUS[c.status];
+    const g = c.ir ? `${fmt(c.ir.gross)} m³/ha` : "";
+    return `<button class="item" role="option" data-i="${i}" aria-selected="${i === 0}">
+      <span class="ico ${st.cls}" title="${st.label}" aria-label="${st.label}">${st.icon}</span>
+      <span><div class="nm">${esc(cropName(c))} <span class="cd">${esc(c.ar)}</span></div><div class="cd">${esc(c.cond)}</div></span>
+      <span class="gv">${g}</span></button>`;
+  }).join("");
+  list.querySelectorAll(".item").forEach(b => b.addEventListener("click", () => {
+    list.querySelectorAll(".item").forEach(x => x.setAttribute("aria-selected", "false"));
+    b.setAttribute("aria-selected", "true");
+    showCrop(+b.dataset.i);
+  }));
+  showCrop(0);
+}
+
+function showCrop(i) {
+  const c = DATA[state.city].crops[i], st = STATUS[c.status];
+  const el = $("detail");
+  let html = `<h2>${esc(cropName(c))} <span class="meta">${esc(c.ar)}</span></h2>
+    <div class="badge"><span class="ico ${st.cls}">${st.icon}</span>${st.label}</div>
+    <p class="meta" style="margin-top:6px">${esc(c.basis[0].toUpperCase() + c.basis.slice(1))}. FAO-56 growing condition: ${esc(c.cond)} (workbook row ${c.row}).
+      Tolerable ${c.th.t_min}–${c.th.t_max} °C, base ${c.th.t_base} °C, optimum ${c.th.t_opt} °C.</p>
+    <h3>Sowing calendar</h3>${calendar(c)}`;
+  if (!c.best) { el.innerHTML = html + `<p class="empty">No sowing date lets this crop finish within ${c.maxDays} days here.</p>`; bindCalendar(c); return; }
+  const b = c.best, ir = c.ir;
+  html += `<div class="tiles" style="margin-top:16px">
+    ${tile("Best sowing date", b.sow_date, "harvest ≈ " + b.harvest_date)}
+    ${tile("Season length", b.total_days + " days", "stages " + b.stage_lengths.join(" / "))}
+    ${tile("Net water (ETc)", fmt(ir.net), "m³/ha · " + fmt(b.season_etc_mm) + " mm · dry-air bound " + fmt(ir.netHi))}
+    ${tile("Gross irrigation", fmt(ir.gross), `m³/ha · drip ${Math.round(ir.ea * 100)}% efficient` + (ir.lr ? ` · ${Math.round(ir.lr * 100)}% leaching` : ""))}
+  </div>
+  <p class="meta">Temperature stress on this date: ${b.heat_days} hot days (${fmt(b.heat_dd)} °C·days above ${c.th.t_max} °C),
+    ${b.cold_days} cold nights (${fmt(b.cold_dd)} °C·days below ${c.th.t_min} °C). Peak use ${fmt(b.peak_etc_mm_day, 1)} mm/day around ${b.peak_date}.</p>
+  <h3>Water by growth stage</h3>${stageTable(c)}
+  <div class="two">
+    <div><h3>Daily crop water use</h3>${dailyChart(c)}</div>
+    <div><h3>Gross irrigation by month</h3>${monthChart(c)}</div>
+  </div>
+  <p class="meta" style="margin-top:12px">Paper method (exact Elnesr &amp; Alazba spreadsheet): best date ${c.paper.best || "none"};
+    heat-unit windows ${c.paper.win.join("; ") || "none"}.</p>`;
+  if (ir.notes.length) html += ir.notes.map(n => `<div class="note">${esc(n)}</div>`).join("");
+  el.innerHTML = html;
+  bindCalendar(c); bindDaily(c); bindMonth(c);
+}
+
+const tile = (k, v, u) => `<div class="card tile"><div class="k">${k}</div><div class="v">${v}</div><div class="u">${u}</div></div>`;
+
+function calendar(c) {
+  const W = 730, H = 46;
+  let rects = "";
+  for (let d = 0; d < 365; d++) {
+    const k = c.cal[d], col = k === "g" ? "var(--good)" : k === "w" ? "var(--warn)" : "var(--none)";
+    rects += `<rect x="${d * 2}" y="4" width="2" height="26" fill="${col}"/>`;
+  }
+  let ticks = MONTH_START.map((m, i) => `<line x1="${(m - 1) * 2}" x2="${(m - 1) * 2}" y1="4" y2="34" stroke="var(--surface)" stroke-width="1"/><text x="${(m - 1) * 2 + 3}" y="44">${MONTHS[i]}</text>`).join("");
+  let best = "";
+  if (c.best) { const x = (c.best.sow_doy - 1) * 2 + 1; best = `<line x1="${x}" x2="${x}" y1="0" y2="34" stroke="var(--ink)" stroke-width="2"/><path d="M${x - 4} 0 L${x + 4} 0 L${x} 5 Z" fill="var(--ink)"/>`; }
+  const win = (arr, lbl) => `<div class="meta"><b>${lbl}:</b> ${arr.length ? arr.join("; ") : "none"}</div>`;
+  return `<div class="chart" id="calWrap"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Sowing calendar">
+      ${rects}${ticks}${best}<rect id="calHit" x="0" y="0" width="${W}" height="34" fill="transparent"/></svg><div class="tip" id="calTip"></div></div>
+    <div class="legend"><span><span class="sw" style="background:var(--good)"></span>Low stress</span>
+      <span><span class="sw" style="background:var(--warn)"></span>Finishes in time, some temperature stress</span>
+      <span><span class="sw" style="background:var(--none)"></span>Too cold to finish in time</span>
+      ${c.best ? `<span><span class="ln" style="background:var(--ink)"></span>Best date</span>` : ""}</div>
+    ${win(c.sf, "Low-stress sowing windows")}${win(c.ok, "Finishes-in-time windows")}`;
+}
+
+function doyLabel(d) { const m = MONTH_START.findLastIndex(s => s <= d); return `${MONTHS[m]} ${d - MONTH_START[m] + 1}`; }
+
+function place(tip, wrap, x, y) {
+  tip.style.display = "block";
+  const w = wrap.clientWidth, tw = tip.offsetWidth;
+  tip.style.left = Math.max(0, Math.min(w - tw, x + 12)) + "px";
+  tip.style.top = (y + 12) + "px";
+}
+
+function bindCalendar(c) {
+  const hit = $("calHit"), tip = $("calTip"), wrap = $("calWrap");
+  if (!hit) return;
+  const lab = {g: "Low stress", w: "Some temperature stress", n: "Too cold to finish in time"};
+  hit.addEventListener("mousemove", e => {
+    const r = hit.getBoundingClientRect(), d = Math.min(365, Math.max(1, Math.floor((e.clientX - r.left) / r.width * 365) + 1));
+    tip.innerHTML = `Sow <b>${doyLabel(d)}</b> · ${lab[c.cal[d - 1]]}`;
+    const wr = wrap.getBoundingClientRect();
+    place(tip, wrap, e.clientX - wr.left, e.clientY - wr.top);
+  });
+  hit.addEventListener("mouseleave", () => tip.style.display = "none");
+}
+
+function stageTable(c) {
+  const hasInt = c.ir.stages.some(s => s.max_interval_days);
+  const rows = c.ir.stages.map(s => `<tr><td>${STAGE_NAMES[s.stage]}</td><td>${s.days}</td><td>${s.start} – ${s.end}</td>
+    <td>${fmt(s.etc_mm_day, 2)}</td><td>${fmt(s.etc_mm)}</td><td>${fmt(s.etc_m3_ha)}</td><td>${fmt(s.gross_m3_ha)}</td>
+    ${hasInt ? `<td>${s.root_depth_m ? fmt(s.root_depth_m, 2) : "–"}</td><td>${s.max_interval_days ? "every " + s.max_interval_days + " d" : "–"}</td><td>${s.gross_per_event_mm ? fmt(s.gross_per_event_mm, 1) : "–"}</td>` : ""}</tr>`).join("");
+  return `<div class="tscroll"><table><thead><tr><th>Stage</th><th>Days</th><th>Dates</th><th>mm/day</th><th>mm</th><th>Net m³/ha</th><th>Gross m³/ha</th>
+    ${hasInt ? "<th>Root depth m</th><th>Max interval</th><th>Gross mm/irrigation</th>" : ""}</tr></thead><tbody>${rows}
+    <tr><td><b>Season</b></td><td><b>${c.best.total_days}</b></td><td>${c.best.sow_date} – ${c.best.harvest_date}</td><td></td>
+    <td><b>${fmt(c.best.season_etc_mm)}</b></td><td><b>${fmt(c.ir.net)}</b></td><td><b>${fmt(c.ir.gross)}</b></td>${hasInt ? "<td></td><td></td><td></td>" : ""}</tr></tbody></table></div>
+    <p class="meta">1 mm = 1 litre per m² = 10 m³ per hectare. Intervals assume loamy sand; drip systems usually run daily with a smaller depth.</p>`;
+}
+
+const CH = {w: 700, h: 240, l: 44, r: 12, t: 22, b: 26};
+
+function dailyChart(c) {
+  const d = c.daily, n = d.etc.length, W = CH.w, H = CH.h;
+  const ymax = Math.ceil(Math.max(...d.et0, ...d.etc) + 0.5);
+  const x = i => CH.l + (i / (n - 1)) * (W - CH.l - CH.r), y = v => H - CH.b - (v / ymax) * (H - CH.t - CH.b);
+  let g = "";
+  for (let v = 0; v <= ymax; v += ymax > 8 ? 2 : 1) g += `<line x1="${CH.l}" x2="${W - CH.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${CH.l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  let acc = 0, bands = "";
+  c.best.stage_lengths.forEach((L, i) => {
+    if (i % 2 === 1) bands += `<rect x="${x(acc)}" y="${CH.t}" width="${x(Math.min(n - 1, acc + L)) - x(acc)}" height="${H - CH.t - CH.b}" fill="var(--band)"/>`;
+    bands += `<text x="${x(acc) + 3}" y="${CH.t - 6}">${["Ini", "Dev", "Mid", "Late"][i]}</text>`;
+    acc += L;
+  });
+  const path = arr => arr.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("");
+  const ticks = [0, Math.floor(n / 2), n - 1].map(i => `<text x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}">${d.date[i]}</text>`).join("");
+  return `<div class="chart" id="dWrap"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Daily ET0 and crop water use">
+    ${bands}${g}<line x1="${CH.l}" x2="${W - CH.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--axis)"/>
+    <path d="${path(d.et0)}" fill="none" stroke="var(--s2)" stroke-width="2"/>
+    <path d="${path(d.etc)}" fill="none" stroke="var(--s1)" stroke-width="2"/>
+    ${ticks}<line id="dX" y1="${CH.t}" y2="${H - CH.b}" stroke="var(--axis)" visibility="hidden"/>
+    <circle id="dP1" r="4" fill="var(--s1)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+    <circle id="dP2" r="4" fill="var(--s2)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
+    <rect id="dHit" x="${CH.l}" y="0" width="${W - CH.l - CH.r}" height="${H}" fill="transparent"/></svg><div class="tip" id="dTip"></div></div>
+    <div class="legend"><span><span class="ln" style="background:var(--s1)"></span>Crop water use ETc (mm/day)</span>
+    <span><span class="ln" style="background:var(--s2)"></span>Reference ET0 (mm/day)</span></div>`;
+}
+
+function bindDaily(c) {
+  const hit = $("dHit"); if (!hit) return;
+  const d = c.daily, n = d.etc.length, tip = $("dTip"), wrap = $("dWrap");
+  const ymax = Math.ceil(Math.max(...d.et0, ...d.etc) + 0.5);
+  const x = i => CH.l + (i / (n - 1)) * (CH.w - CH.l - CH.r), y = v => CH.h - CH.b - (v / ymax) * (CH.h - CH.t - CH.b);
+  const st = {i: "Initial", d: "Development", m: "Mid-season", l: "Late season"};
+  hit.addEventListener("mousemove", e => {
+    const r = hit.getBoundingClientRect(), i = Math.round((e.clientX - r.left) / r.width * (n - 1));
+    const k = Math.max(0, Math.min(n - 1, i));
+    [["dX", null], ["dP1", d.etc[k]], ["dP2", d.et0[k]]].forEach(([id, v]) => {
+      const el = $(id); el.setAttribute("visibility", "visible");
+      if (v == null) { el.setAttribute("x1", x(k)); el.setAttribute("x2", x(k)); } else { el.setAttribute("cx", x(k)); el.setAttribute("cy", y(v)); }
+    });
+    tip.innerHTML = `<div>${d.date[k]} · day ${k + 1} · ${st[d.stage[k]]}</div><div><span class="ln" style="background:var(--s1)"></span>ETc <b>${d.etc[k].toFixed(2)}</b> mm</div><div><span class="ln" style="background:var(--s2)"></span>ET0 <b>${d.et0[k].toFixed(2)}</b> mm</div>`;
+    const wr = wrap.getBoundingClientRect();
+    place(tip, wrap, e.clientX - wr.left, e.clientY - wr.top);
+  });
+  hit.addEventListener("mouseleave", () => { tip.style.display = "none"; ["dX", "dP1", "dP2"].forEach(id => $(id).setAttribute("visibility", "hidden")); });
+}
+
+function monthChart(c) {
+  const m = c.ir.monthly, W = CH.w, H = CH.h, n = m.length;
+  const vmax = Math.max(...m.map(r => r.gross)), top = Math.ceil(vmax / 500) * 500 || 500;
+  const bw = (W - CH.l - CH.r) / n, y = v => H - CH.b - (v / top) * (H - CH.t - CH.b);
+  let g = "";
+  const step = top / 4;
+  for (let v = 0; v <= top; v += step) g += `<line x1="${CH.l}" x2="${W - CH.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${CH.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+  const imax = m.findIndex(r => r.gross === vmax);
+  const bars = m.map((r, i) => {
+    const bx = CH.l + i * bw + 2, w = Math.max(2, bw - 4), yy = y(r.gross), h = Math.max(0, y(0) - yy), rad = Math.min(4, w / 2, h);
+    const p = `M${bx} ${y(0)} L${bx} ${yy + rad} Q${bx} ${yy} ${bx + rad} ${yy} L${bx + w - rad} ${yy} Q${bx + w} ${yy} ${bx + w} ${yy + rad} L${bx + w} ${y(0)} Z`;
+    return `<path d="${p}" fill="var(--s1)"/><text x="${bx + w / 2}" y="${H - 8}" text-anchor="middle">${r.m}</text>` +
+      (i === imax ? `<text x="${bx + w / 2}" y="${yy - 5}" text-anchor="middle" style="fill:var(--ink-2)">${fmt(r.gross)}</text>` : "") +
+      `<rect class="mHit" data-i="${i}" x="${CH.l + i * bw}" y="${CH.t}" width="${bw}" height="${H - CH.t - CH.b}" fill="transparent"/>`;
+  }).join("");
+  return `<div class="chart" id="mWrap"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Gross irrigation by month, m3 per hectare">
+    ${g}${bars}<line x1="${CH.l}" x2="${W - CH.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--axis)"/></svg><div class="tip" id="mTip"></div></div>
+    <div class="meta">m³ per hectare, gross (after system efficiency and leaching). Partial months cover only the growing days.</div>`;
+}
+
+function bindMonth(c) {
+  const wrap = $("mWrap"); if (!wrap) return;
+  const tip = $("mTip");
+  wrap.querySelectorAll(".mHit").forEach(h => {
+    h.addEventListener("mousemove", e => {
+      const r = c.ir.monthly[+h.dataset.i];
+      tip.innerHTML = `<div>${r.m} · ${r.days} growing days</div><div>Gross <b>${fmt(r.gross)}</b> m³/ha</div><div>Net <b>${fmt(r.net)}</b> m³/ha</div>`;
+      const wr = wrap.getBoundingClientRect();
+      place(tip, wrap, e.clientX - wr.left, e.clientY - wr.top);
+    });
+    h.addEventListener("mouseleave", () => tip.style.display = "none");
+  });
+}
+
+init();
+</script>
+</body>
+</html>

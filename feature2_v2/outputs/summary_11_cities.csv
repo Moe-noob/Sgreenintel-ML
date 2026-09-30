@@ -1,0 +1,265 @@
+city,station,crop,arabic,workbook_row,condition,status,best_sowing,harvest,season_days,stages_ini_dev_mid_late,heat_days,cold_nights,stress_degC_days,et0_mm,etc_mm,net_m3_ha,net_dry_air_bound_m3_ha,gross_m3_ha,peak_etc_mm_day,low_stress_windows,finishes_in_time_windows,paper_method_best
+riyadh,الرياض (Riyadh),Garlic,ثوم,11,Undefined / Undefined,recommended,Oct 30,Feb 21,115,20/32/38/25,2,0,0.5,337,288,2883,2992,3203,2.84,Oct 25-Dec 27,Jan 01-Dec 31,Aug 06
+riyadh,الرياض (Riyadh),Radish,فجل,28,Arid Region / Winter,recommended,Nov 07,Dec 17,41,10/10/16/5,0,1,0.0,123,100,1002,1039,1114,2.67,Jan 29-Mar 01; Oct 25-Nov 15,Jan 01-Dec 31,Oct 08
+riyadh,الرياض (Riyadh),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Sep 08,Dec 18,102,20/32/29/21,0,2,0.1,439,409,4094,4283,4549,4.75,Feb 08-Mar 11; Aug 29-Sep 09,Feb 08-Sep 09,Jul 19
+riyadh,الرياض (Riyadh),Lettuce,خس,17,Arid Region / Oct/Nov,recommended,Nov 16,Mar 01,106,25/37/34/10,2,0,0.3,305,268,2681,2774,2979,3.81,Nov 11-Dec 20,Jan 01-Dec 31,Sep 20
+riyadh,الرياض (Riyadh),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Mar 27,Jun 27,93,19/24/20/30,1,0,0.1,657,520,5199,5463,5776,7.89,Mar 22-Apr 17; Jul 27-Aug 06,Mar 22-Aug 06,Jun 29
+riyadh,الرياض (Riyadh),Carrots,جزر,4,Arid climate / Oct/Jan,recommended,Nov 10,Mar 22,133,21/36/54/22,2,0,0.4,421,397,3974,4128,4415,4.83,Nov 05-Nov 29,Jan 01-Dec 31,Sep 01
+riyadh,الرياض (Riyadh),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,recommended,Nov 16,Mar 24,129,25/32/42/30,2,0,0.3,411,371,3706,3890,4117,4.24,Nov 11-Nov 27,Jan 01-Dec 31,Sep 14
+riyadh,الرياض (Riyadh),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Nov 23,Mar 19,117,21/37/49/10,11,0,5.1,363,331,3306,3436,3674,4.68,Nov 24-Nov 26,Jan 01-Dec 31,Oct 08
+riyadh,الرياض (Riyadh),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",possible_with_risk,Mar 01,May 24,85,23/27/25/10,25,21,86.5,486,415,4150,4327,4611,7.71,,Feb 07-Sep 17,Aug 07
+riyadh,الرياض (Riyadh),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Oct 31,Apr 13,165,37/63/50/15,1,77,90.4,585,539,5392,5585,5991,5.96,,Jan 01-Dec 31,Aug 30
+riyadh,الرياض (Riyadh),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,possible_with_risk,Mar 06,Jun 26,113,38/35/25/15,41,16,135.7,739,558,5584,5809,6204,7.87,,Feb 09-Aug 09,Aug 24
+riyadh,الرياض (Riyadh),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Oct 25,Apr 18,176,37/74/50/15,11,77,97.1,642,591,5906,6135,6563,6.2,,Jan 01-Dec 31,Aug 29
+riyadh,الرياض (Riyadh),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Mar 06,Jul 01,118,33/30/40/15,63,22,345.5,782,669,6686,6958,7429,8.39,,Feb 13-Aug 04,Aug 11
+riyadh,الرياض (Riyadh),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Oct 16,Apr 28,195,41/82/57/15,30,77,135.3,751,691,6912,7179,7680,6.67,,Jan 01-Dec 31,Aug 30
+riyadh,الرياض (Riyadh),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Mar 01,Jul 10,132,37/35/40/20,72,21,415.8,877,821,8208,8601,9119,9.72,,Mar 01-Jul 22,Jul 05
+riyadh,الرياض (Riyadh),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,Mar 06,Jul 26,143,38/35/50/20,88,22,561.7,994,857,8566,8919,9517,8.57,,Feb 05-Jul 10,Aug 11
+riyadh,الرياض (Riyadh),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Mar 02,Jul 22,143,43/40/40/20,84,20,517.8,976,863,8634,9069,9593,8.99,,Feb 01-Jul 13,Aug 20
+riyadh,الرياض (Riyadh),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Feb 14,Jul 13,150,45/40/40/25,75,29,465.3,952,896,8962,9370,9958,9.69,,Jan 06-Aug 02,Aug 10
+riyadh,الرياض (Riyadh),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,possible_with_risk,Sep 24,May 18,237,20/35/137/45,20,0,19.4,1019,956,9563,10020,10625,6.22,,Jan 01-Dec 31,Aug 17
+riyadh,الرياض (Riyadh),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,Feb 19,Jul 28,160,36/34/60/30,90,31,606.8,1063,979,9790,10243,10877,8.97,,Jan 27-Jul 12,Aug 11
+riyadh,الرياض (Riyadh),Sweet Melons,شمام,52,Arid Region / Dec/Jan,possible_with_risk,Mar 15,Aug 31,170,40/45/65/20,107,7,449.9,1240,1077,10770,11248,11967,9.0,,Jan 30-Jun 07,Aug 05
+riyadh,الرياض (Riyadh),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Feb 25,Aug 25,182,37/35/70/40,118,25,800.4,1265,1082,10819,11313,12021,9.43,,Jan 01-Jun 28,Aug 07
+riyadh,الرياض (Riyadh),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Feb 18,Aug 29,193,48/45/70/30,122,25,823.1,1317,1287,12867,13470,14297,9.85,,Jan 01-Jun 26,Aug 10
+riyadh,الرياض (Riyadh),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,possible_with_risk,Apr 10,Nov 07,212,30/40/110/32,159,1,900.3,1479,1389,13890,14625,15433,9.0,,Jan 08-Apr 24,Aug 22
+jeddah,جدة (Jeddah I.E.),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,recommended,Oct 09,Jan 18,102,25/35/26/16,0,0,0.0,460,337,3374,3502,3749,4.01,Jan 01-Dec 31,Jan 01-Dec 31,Sep 23
+jeddah,جدة (Jeddah I.E.),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Oct 22,Jan 12,83,20/31/21/11,0,0,0.0,366,345,3447,3612,3830,4.83,Jan 01-Dec 31,Jan 01-Dec 31,Jul 22
+jeddah,جدة (Jeddah I.E.),Sweet Melons,شمام,52,Arid Region / Dec/Jan,recommended,Aug 26,Feb 12,171,30/45/71/25,0,0,0.0,840,695,6953,7244,7726,4.89,Jan 01-Dec 31,Jan 01-Dec 31,Aug 28
+jeddah,جدة (Jeddah I.E.),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Sep 07,Dec 05,90,10/21/21/38,0,0,0.0,464,370,3696,3883,4107,5.48,Mar 02-Sep 18,Mar 02-Sep 18,Jun 21
+jeddah,جدة (Jeddah I.E.),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",recommended,Nov 01,Jan 15,76,15/25/26/10,0,0,0.0,329,275,2747,2859,3052,4.41,Sep 21-Mar 13,Jan 01-Dec 31,Aug 25
+jeddah,جدة (Jeddah I.E.),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,recommended,Oct 12,Jan 27,108,20/30/42/16,0,0,0.0,483,406,4065,4222,4516,4.3,Sep 21-Feb 09,Jan 01-Dec 31,Sep 15
+jeddah,جدة (Jeddah I.E.),EggPlant,باذنجان,30,Arid Region / October,recommended,Oct 12,Feb 19,131,30/40/41/20,0,0,0.0,591,508,5077,5317,5641,4.73,Sep 21-Jan 16,Jan 01-Dec 31,Oct 07
+jeddah,جدة (Jeddah I.E.),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,recommended,Oct 02,Feb 13,135,25/35/53/22,1,0,0.1,617,519,5187,5390,5764,4.38,Sep 21-Jan 12,Jan 01-Dec 31,Sep 15
+jeddah,جدة (Jeddah I.E.),Tomato,طماطم,34,Arid Region / January,recommended,Oct 09,Feb 21,136,30/40/41/25,0,0,0.0,617,557,5574,5808,6193,5.13,Sep 21-Jan 11,Jan 01-Dec 31,Sep 10
+jeddah,جدة (Jeddah I.E.),Mulukhiyah,ملوخية,62,Undefined / Undefined,recommended,Sep 30,Mar 03,155,20/31/67/37,3,0,0.4,719,650,6496,6790,7218,4.67,Sep 21-Dec 31,Jan 01-Dec 31,Aug 09
+jeddah,جدة (Jeddah I.E.),Lentil,عدس,106,Arid Region / Oct/Nov,recommended,Sep 30,Mar 23,175,25/35/73/42,3,0,0.4,830,670,6695,6987,7439,5.18,Sep 21-Dec 18,Jan 01-Dec 31,Aug 25
+jeddah,جدة (Jeddah I.E.),Tomato,طماطم,37,Arid Region / Oct/Nov,recommended,Sep 30,Mar 29,181,35/45/71/30,3,0,0.4,866,810,8098,8459,8998,5.92,Sep 21-Dec 12,Jan 01-Dec 31,Sep 10
+jeddah,جدة (Jeddah I.E.),Radish,فجل,28,Arid Region / Winter,recommended,Dec 14,Jan 22,40,10/10/15/5,4,0,0.3,169,139,1391,1445,1545,3.88,Dec 04-Feb 02,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Sep 30,Apr 27,210,20/35/110/45,3,0,0.4,1052,994,9937,10408,11042,5.82,Sep 21-Nov 13,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,recommended,Sep 30,Apr 28,211,30/40/111/30,3,0,0.4,1059,985,9850,10374,10944,6.31,Sep 21-Nov 12,Jan 01-Dec 31,Oct 09
+jeddah,جدة (Jeddah I.E.),Garlic,ثوم,11,Undefined / Undefined,recommended,Dec 08,Mar 17,100,20/30/30/20,12,0,2.4,462,401,4013,4172,4459,5.1,Dec 04-Dec 20,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Lettuce,خس,17,Arid Region / Oct/Nov,possible_with_risk,Dec 09,Mar 18,100,25/35/30/10,100,0,236.2,463,409,4087,4230,4541,5.4,,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Dec 09,Mar 18,100,20/30/40/10,100,0,436.2,463,418,4185,4344,4650,5.4,,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Carrots,جزر,4,Arid climate / Oct/Jan,possible_with_risk,Dec 04,Mar 23,110,20/30/40/20,110,0,160.5,513,483,4826,5011,5362,5.55,,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,possible_with_risk,Nov 28,Mar 29,122,25/30/37/30,122,0,315.4,575,518,5175,5428,5750,5.92,,Jan 01-Dec 31,
+jeddah,جدة (Jeddah I.E.),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Sep 20,Jan 29,132,21/32/51/28,13,0,5.7,617,571,5710,5981,6344,5.29,,Jan 24-Sep 20,Jul 06
+jeddah,جدة (Jeddah I.E.),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Nov 24,Apr 07,135,35/45/40/15,47,0,29.5,648,590,5904,6107,6560,6.13,,Jan 01-Dec 31,Nov 14
+jeddah,جدة (Jeddah I.E.),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Nov 19,Apr 07,140,35/50/40/15,52,0,37.1,670,610,6096,6324,6773,6.13,,Jan 01-Dec 31,Oct 19
+jeddah,جدة (Jeddah I.E.),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Nov 06,Apr 19,165,40/60/50/15,77,0,85.5,807,737,7367,7643,8185,6.49,,Jan 01-Dec 31,Nov 14
+dammam,Al-Milaha (Qatif),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Sep 16,Dec 25,101,20/32/29/20,0,0,0.0,320,298,2978,3114,3308,3.55,Feb 10-Sep 18,Feb 10-Sep 18,Jul 21
+dammam,Al-Milaha (Qatif),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,recommended,Aug 11,Nov 28,110,25/35/26/24,0,0,0.0,472,336,3361,3479,3734,3.88,Mar 11-Aug 14,Feb 10-Aug 18,Aug 29
+dammam,Al-Milaha (Qatif),Radish,فجل,28,Arid Region / Winter,recommended,Nov 27,Jan 07,42,10/11/16/5,0,0,0.0,86,70,703,730,782,1.79,Oct 12-Mar 15,Jan 01-Dec 31,Oct 15
+dammam,Al-Milaha (Qatif),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Aug 11,Nov 12,94,10/20/21/43,0,0,0.0,432,343,3433,3605,3814,5.35,Mar 27-Aug 12,Mar 27-Aug 12,Jun 28
+dammam,Al-Milaha (Qatif),Sweet Melons,شمام,52,Arid Region / Dec/Jan,recommended,Jun 10,Nov 30,174,30/45/66/33,0,1,0.1,886,728,7280,7576,8089,6.26,Mar 11-Jun 12,Jan 31-Jun 16,Aug 09
+dammam,Al-Milaha (Qatif),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Sep 07,Apr 24,230,20/35/129/46,2,0,0.2,766,710,7096,7421,7884,4.21,Aug 30-Nov 28,Jan 01-Dec 31,Aug 25
+dammam,Al-Milaha (Qatif),Garlic,ثوم,11,Undefined / Undefined,recommended,Oct 29,Feb 13,108,20/31/33/24,0,0,0.0,250,213,2129,2208,2366,2.28,Oct 12-Jan 08,Jan 01-Dec 31,Aug 17
+dammam,Al-Milaha (Qatif),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",recommended,Oct 18,Mar 23,157,35/53/53/16,2,0,0.3,420,381,3807,3936,4230,4.01,Oct 12-Dec 31,Jan 01-Dec 31,Sep 06
+dammam,Al-Milaha (Qatif),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",recommended,Oct 18,Apr 04,169,36/63/53/17,2,0,0.3,474,433,4325,4489,4806,4.5,Oct 12-Dec 21,Jan 01-Dec 31,Sep 04
+dammam,Al-Milaha (Qatif),Carrots,جزر,4,Arid climate / Oct/Jan,recommended,Nov 01,Mar 05,125,20/31/50/24,2,0,0.4,303,282,2822,2928,3135,3.28,Oct 26-Dec 31,Jan 01-Dec 31,Sep 08
+dammam,Al-Milaha (Qatif),Lettuce,خس,17,Arid Region / Oct/Nov,recommended,Nov 09,Feb 17,101,25/35/31/10,2,0,0.2,228,198,1979,2045,2199,2.71,Nov 03-Dec 31,Jan 01-Dec 31,Sep 28
+dammam,Al-Milaha (Qatif),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,recommended,Nov 09,Mar 12,124,25/30/38/31,2,0,0.2,304,268,2681,2812,2979,2.99,Nov 03-Dec 31,Jan 01-Dec 31,Sep 21
+dammam,Al-Milaha (Qatif),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",recommended,Oct 18,Apr 22,187,40/75/57/15,2,0,0.3,566,522,5221,5424,5801,5.2,Oct 12-Nov 29,Jan 01-Dec 31,Sep 06
+dammam,Al-Milaha (Qatif),Spinach,سبانخ,26,Arid Region / November,recommended,Nov 24,Mar 14,111,20/34/46/11,2,0,0.3,272,248,2480,2578,2755,3.64,Nov 18-Dec 31,Jan 01-Dec 31,Oct 15
+dammam,Al-Milaha (Qatif),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",recommended,Sep 10,Nov 30,82,15/25/28/14,0,1,0.1,300,242,2423,2517,2692,3.84,Mar 14-Mar 15; Mar 17-Mar 17; Aug 30-Sep 14,Feb 08-Sep 27,Aug 11
+dammam,Al-Milaha (Qatif),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Aug 06,Nov 28,115,20/30/41/24,34,6,51.0,503,414,4142,4292,4602,4.73,,Feb 14-Aug 12,Aug 16
+dammam,Al-Milaha (Qatif),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Jul 29,Dec 07,132,20/30/46/36,42,8,73.8,575,517,5173,5408,5748,5.83,,Mar 05-Jul 29,Jun 30
+dammam,Al-Milaha (Qatif),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Jul 17,Dec 04,141,30/40/41/30,54,5,104.5,649,537,5373,5602,5970,4.97,,Feb 02-Jul 23,Aug 25
+dammam,Al-Milaha (Qatif),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Jul 26,Dec 20,148,30/40/41/37,45,14,89.0,621,538,5380,5581,5978,4.99,,Jan 02-Aug 15,Aug 15
+dammam,Al-Milaha (Qatif),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,Jul 12,Nov 28,140,25/35/51/29,59,6,119.3,669,552,5515,5715,6128,5.35,,Feb 06-Jul 19,Aug 16
+dammam,Al-Milaha (Qatif),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,Jul 08,Dec 10,156,20/30/61/45,63,11,136.5,722,642,6423,6694,7137,6.16,,Jan 28-Jul 21,Aug 14
+dammam,Al-Milaha (Qatif),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Jun 11,Dec 06,179,25/35/70/49,90,7,190.2,893,736,7355,7677,8173,6.99,,Jan 01-Jul 12,Aug 11
+dammam,Al-Milaha (Qatif),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Jun 07,Dec 13,190,35/45/71/39,94,7,194.4,933,850,8498,8841,9442,6.78,,Dec 23-Jul 13,Aug 15
+dammam,Al-Milaha (Qatif),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,possible_with_risk,Apr 27,Dec 01,219,30/40/110/39,106,2,198.2,1141,1060,10598,11149,11776,7.07,,Jan 09-May 04,Aug 28
+najran,تصلال (Najran),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Aug 08,Nov 01,86,20/31/22/13,0,0,0.0,569,534,5339,5590,5932,7.37,Feb 03-Aug 31,Feb 03-Sep 01,May 22
+najran,تصلال (Najran),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Jun 14,Sep 02,81,10/20/20/31,0,0,0.0,645,519,5190,5455,5766,8.22,Mar 30-Jul 16,Mar 30-Jul 16,May 22
+najran,تصلال (Najran),Garlic,ثوم,11,Undefined / Undefined,recommended,Dec 01,Mar 13,103,21/32/30/20,0,0,0.0,388,333,3332,3456,3703,3.75,Oct 22-Dec 21,Jan 01-Dec 31,Nov 16
+najran,تصلال (Najran),Radish,فجل,28,Arid Region / Winter,recommended,Feb 10,Mar 21,40,10/10/15/5,0,0,0.0,216,179,1788,1860,1987,5.31,Jan 29-Feb 23; Oct 22-Nov 02,Jan 01-Dec 31,Sep 26
+najran,تصلال (Najran),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Sep 29,May 08,222,20/36/121/45,3,0,0.4,999,938,9379,9809,10421,4.71,Sep 09-Oct 05,Jan 01-Dec 31,Dec 31
+najran,تصلال (Najran),Carrots,جزر,4,Arid climate / Oct/Jan,recommended,Nov 16,Mar 12,117,21/33/43/20,11,0,3.2,452,416,4158,4306,4619,3.92,Nov 09-Nov 18,Jan 01-Dec 31,Aug 17
+najran,تصلال (Najran),Lettuce,خس,17,Arid Region / Oct/Nov,possible_with_risk,Nov 22,Mar 01,100,25/35/30/10,16,0,5.4,380,328,3282,3388,3647,3.72,,Jan 01-Dec 31,Sep 09
+najran,تصلال (Najran),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Nov 22,Mar 04,103,21/31/41/10,103,0,117.3,392,347,3466,3589,3852,3.77,,Jan 01-Dec 31,Sep 26
+najran,تصلال (Najran),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,possible_with_risk,Nov 12,Mar 13,122,25/30/37/30,38,0,32.2,475,412,4121,4309,4578,4.18,,Jan 01-Dec 31,Aug 31
+najran,تصلال (Najran),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",possible_with_risk,Mar 17,Jun 03,79,19/25/25/10,27,13,47.1,566,477,4767,4966,5297,8.33,,Jan 31-Sep 11,Jul 01
+najran,تصلال (Najran),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Oct 31,Mar 27,148,37/54/42/15,4,61,43.1,596,526,5265,5427,5850,4.32,,Jan 01-Dec 31,Aug 12
+najran,تصلال (Najran),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Oct 24,Mar 31,159,38/62/44/15,15,61,48.3,652,575,5746,5937,6385,4.42,,Jan 01-Dec 31,Aug 08
+najran,تصلال (Najran),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,possible_with_risk,Mar 25,Jul 06,104,29/35/25/15,27,5,18.4,789,591,5914,6148,6571,7.84,,Feb 02-Aug 02,Jul 27
+najran,تصلال (Najran),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Oct 16,Apr 11,178,41/70/52/15,34,61,75.1,749,663,6628,6850,7364,4.73,,Jan 01-Dec 31,Aug 12
+najran,تصلال (Najran),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Mar 19,Jul 07,111,26/30/40/15,61,18,177.3,833,708,7082,7364,7869,8.26,,Feb 07-Jul 27,Jul 14
+najran,تصلال (Najran),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Mar 13,Jul 18,128,32/36/40/20,72,17,217.9,959,876,8759,9166,9732,9.51,,Mar 05-Jul 05,Jun 06
+najran,تصلال (Najran),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,Mar 19,Aug 01,136,31/35/50/20,86,18,276.8,1037,885,8846,9202,9829,8.27,,Jan 28-Jul 04,Jul 14
+najran,تصلال (Najran),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Mar 10,Jul 24,137,37/40/40/20,78,20,248.8,1025,894,8939,9375,9932,8.68,,Jan 23-Jul 09,Jul 28
+najran,تصلال (Najran),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Feb 22,Jul 15,144,39/40/40/25,69,28,233.3,1038,958,9577,9995,10641,9.49,,Dec 09-Aug 09,Jul 12
+najran,تصلال (Najran),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,Mar 15,Aug 10,149,28/31/60/30,95,15,300.0,1131,1029,10292,10755,11435,8.68,,Jan 21-Jul 05,Jun 16
+najran,تصلال (Najran),Sweet Melons,شمام,52,Arid Region / Dec/Jan,possible_with_risk,May 05,Oct 14,163,30/45/65/23,66,1,47.4,1236,1047,10472,10920,11636,8.58,,Jan 23-May 31,Jul 02
+najran,تصلال (Najran),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Apr 29,Oct 16,171,25/35/70/41,133,3,354.4,1292,1087,10866,11353,12074,9.1,,Nov 26-Jul 07,Jul 01
+najran,تصلال (Najran),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Apr 26,Oct 23,181,35/45/70/31,133,2,354.1,1353,1276,12761,13319,14179,9.44,,Oct 21-Jul 31,Jul 12
+najran,تصلال (Najran),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,possible_with_risk,Mar 23,Oct 22,214,33/40/110/31,133,16,362.1,1575,1474,14744,15524,16383,8.68,,Dec 18-Apr 25,Jul 30
+jazan,جيزان (Gizan),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,recommended,Dec 26,Apr 04,100,25/35/25/15,0,0,0.0,361,267,2675,2778,2972,3.42,Jan 01-Dec 31,Jan 01-Dec 31,Oct 19
+jazan,جيزان (Gizan),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Dec 31,Mar 20,80,20/30/20/10,0,0,0.0,286,270,2702,2832,3002,4.05,Jan 01-Dec 31,Jan 01-Dec 31,Aug 19
+jazan,جيزان (Gizan),Sweet Melons,شمام,52,Arid Region / Dec/Jan,recommended,Nov 23,May 01,160,30/45/65/20,0,0,0.0,613,512,5121,5338,5690,4.08,Jan 01-Dec 31,Jan 01-Dec 31,Sep 22
+jazan,جيزان (Gizan),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Oct 21,Jan 24,96,11/21/25/39,0,0,0.0,425,340,3399,3571,3777,4.74,Jan 11-Oct 21,Jan 11-Oct 21,Jul 09
+jazan,جيزان (Gizan),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",recommended,Dec 31,Mar 15,75,15/25/25/10,0,0,0.0,268,224,2238,2329,2486,3.67,Oct 04-Feb 26,Jan 01-Dec 31,Sep 18
+jazan,جيزان (Gizan),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,recommended,Dec 26,Apr 09,105,20/30/40/15,0,0,0.0,381,321,3214,3340,3571,3.65,Oct 04-Jan 27,Jan 01-Dec 31,Dec 31
+jazan,جيزان (Gizan),Okra,بامية,29,Undefined / Undefined,recommended,Dec 26,Apr 29,125,25/36/44/20,0,0,0.0,461,422,4219,4415,4687,4.43,Oct 04-Jan 10,Jan 01-Dec 31,Jun 15
+jazan,جيزان (Gizan),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,recommended,Dec 12,Apr 20,130,25/35/50/20,0,0,0.0,482,406,4062,4222,4513,3.72,Oct 04-Jan 02,Jan 01-Dec 31,Dec 31
+jazan,جيزان (Gizan),EggPlant,باذنجان,30,Arid Region / October,recommended,Dec 10,Apr 18,130,30/40/40/20,0,0,0.0,482,414,4141,4337,4602,3.88,Oct 04-Jan 02,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Tomato,طماطم,34,Arid Region / January,recommended,Dec 08,Apr 21,135,30/40/40/25,0,0,0.0,503,455,4546,4737,5051,4.23,Oct 04-Dec 31,Jan 01-Dec 31,Oct 08
+jazan,جيزان (Gizan),Mulukhiyah,ملوخية,62,Undefined / Undefined,recommended,Dec 07,Apr 27,142,21/31/60/30,0,0,0.0,532,478,4783,4995,5315,3.87,Oct 04-Dec 31,Jan 01-Dec 31,Sep 04
+jazan,جيزان (Gizan),Lentil,عدس,106,Arid Region / Oct/Nov,recommended,Nov 22,May 10,170,25/35/70/40,0,0,0.0,657,529,5289,5518,5876,4.1,Oct 04-Dec 10,Jan 01-Dec 31,Sep 18
+jazan,جيزان (Gizan),Tomato,طماطم,37,Arid Region / Oct/Nov,recommended,Nov 13,May 11,180,35/45/70/30,0,0,0.0,705,653,6528,6812,7253,4.47,Oct 04-Nov 30,Jan 01-Dec 31,Oct 08
+jazan,جيزان (Gizan),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,recommended,Oct 22,May 19,210,30/40/110/30,3,0,0.3,856,781,7805,8203,8672,4.22,Oct 04-Oct 31,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Oct 22,May 19,210,20/35/110/45,3,0,0.3,856,804,8043,8409,8936,4.41,Oct 04-Oct 31,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Radish,فجل,28,Arid Region / Winter,possible_with_risk,Jan 01,Feb 09,40,10/10/15/5,40,0,28.3,169,140,1398,1454,1553,4.07,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Garlic,ثوم,11,Undefined / Undefined,possible_with_risk,Dec 16,Mar 25,100,20/30/30/20,100,0,102.5,365,314,3137,3253,3485,3.52,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Lettuce,خس,17,Arid Region / Oct/Nov,possible_with_risk,Dec 16,Mar 25,100,25/35/30/10,100,0,402.5,365,316,3159,3261,3510,3.56,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Dec 16,Mar 25,100,20/30/40/10,100,0,602.5,365,324,3240,3356,3600,3.56,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Carrots,جزر,4,Arid climate / Oct/Jan,possible_with_risk,Dec 10,Mar 29,110,20/30/40/20,110,0,341.3,405,374,3738,3872,4153,3.73,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,possible_with_risk,Dec 03,Apr 03,122,25/30/37/30,122,0,513.3,455,396,3961,4142,4401,4.11,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Nov 28,Apr 11,135,35/45/40/15,135,0,180.4,508,450,4504,4644,5004,3.86,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Nov 23,Apr 11,140,35/50/40/15,140,0,193.5,531,470,4699,4856,5221,3.86,,Jan 01-Dec 31,
+jazan,جيزان (Gizan),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Nov 12,Apr 25,165,40/60/50/15,165,0,273.4,641,567,5674,5865,6304,4.06,,Jan 01-Dec 31,
+abha,Al-Mahsh (Abha),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Jun 18,Feb 24,252,20/35/127/70,0,0,0.0,1124,1064,10644,11130,11826,6.41,Nov 24-Jun 18,Nov 24-Jun 18,May 01
+abha,Al-Mahsh (Abha),Radish,فجل,28,Arid Region / Winter,recommended,Mar 09,Apr 20,43,12/11/15/5,0,3,0.4,181,149,1493,1551,1659,4.23,Mar 01-May 29; Jul 29-Sep 28,Feb 01-Oct 31,Jul 23
+abha,Al-Mahsh (Abha),Lettuce,خس,17,Arid Region / Oct/Nov,recommended,Oct 25,Feb 19,118,26/42/39/11,0,0,0.0,377,327,3274,3382,3638,3.24,Sep 15-Feb 06,Jan 01-Dec 31,Jul 01
+abha,Al-Mahsh (Abha),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,recommended,Oct 11,Mar 04,145,25/34/50/36,0,0,0.0,483,426,4259,4458,4732,3.51,Jan 01-Jan 06; Sep 15-Dec 30,Jan 01-Dec 31,May 26
+abha,Al-Mahsh (Abha),Garlic,ثوم,11,Undefined / Undefined,recommended,Feb 03,May 25,112,28/34/30/20,0,5,0.5,479,416,4164,4329,4627,5.3,Jan 23-Mar 29; Jul 29-Aug 26,Dec 07-Oct 05,Mar 31
+abha,Al-Mahsh (Abha),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,May 30,Sep 05,99,26/35/25/13,0,0,0.0,609,576,5755,6032,6395,7.23,Apr 23-Jun 20,Apr 23-Jun 20,
+abha,Al-Mahsh (Abha),Carrots,جزر,4,Arid climate / Oct/Jan,recommended,Sep 12,Feb 01,143,20/33/58/32,2,0,0.1,522,483,4828,5003,5365,4.0,Dec 17-Jan 23; Sep 03-Sep 12,Dec 17-Sep 12,May 17
+abha,Al-Mahsh (Abha),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",recommended,May 27,Aug 20,86,19/28/28/11,0,0,0.0,534,446,4459,4642,4954,6.7,May 05-Jun 09,Apr 10-Jul 09,
+abha,Al-Mahsh (Abha),Spinach,سبانخ,26,Arid Region / November,recommended,Dec 07,Apr 15,130,30/44/46/10,0,0,0.0,456,409,4090,4243,4545,4.76,Dec 07-Dec 21,Dec 07-Oct 05,Jul 23
+abha,Al-Mahsh (Abha),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Mar 06,Jul 27,144,44/45/40/15,36,6,18.2,773,703,7025,7263,7806,6.7,,Dec 14-Aug 14,May 21
+abha,Al-Mahsh (Abha),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Jun 05,Oct 28,146,35/50/43/18,53,1,22.3,825,732,7322,7569,8136,6.05,,Dec 23-Jul 29,Jun 01
+abha,Al-Mahsh (Abha),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Apr 15,Sep 18,157,41/44/42/30,0,29,16.5,919,836,8357,8710,9286,7.34,,Mar 03-May 31,
+abha,Al-Mahsh (Abha),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,May 14,Oct 29,169,40/60/52/17,53,2,22.4,957,852,8523,8813,9470,6.22,,Nov 18-Aug 01,May 21
+abha,Al-Mahsh (Abha),Tomato,طماطم,37,Arid Region / Oct/Nov,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),EggPlant,باذنجان,30,Arid Region / October,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Sweet Melons,شمام,52,Arid Region / Dec/Jan,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Lentil,عدس,106,Arid Region / Oct/Nov,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Okra,بامية,29,Undefined / Undefined,not_suitable,,,,,,,,,,,,,,,,
+abha,Al-Mahsh (Abha),Mulukhiyah,ملوخية,62,Undefined / Undefined,not_suitable,,,,,,,,,,,,,,,,
+tabuk,مورد الزور (Tabuk),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Aug 03,Oct 30,89,20/31/23/15,0,0,0.0,575,537,5371,5621,5968,7.2,Mar 19-Aug 11,Mar 08-Aug 14,Jun 04
+tabuk,مورد الزور (Tabuk),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Jun 20,Sep 10,83,11/20/20/32,0,0,0.0,675,538,5382,5654,5980,8.55,Apr 20-Jul 11,Apr 20-Jul 11,
+tabuk,مورد الزور (Tabuk),Radish,فجل,28,Arid Region / Winter,possible_with_risk,Oct 07,Nov 16,41,10/10/16/5,6,8,8.3,182,149,1488,1542,1653,4.04,,Feb 07-Nov 03,Sep 13
+tabuk,مورد الزور (Tabuk),Lettuce,خس,17,Arid Region / Oct/Nov,possible_with_risk,Dec 31,May 13,134,47/47/30/10,3,55,66.3,389,346,3458,3583,3842,5.26,,Jan 01-Dec 31,Aug 25
+tabuk,مورد الزور (Tabuk),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Sep 21,Jan 28,130,20/31/58/21,52,29,235.7,444,387,3866,3994,4295,4.42,,Jan 03-Sep 21,Sep 13
+tabuk,مورد الزور (Tabuk),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,possible_with_risk,Oct 28,Apr 19,174,26/42/74/32,3,105,248.4,464,409,4090,4282,4544,3.32,,Jan 01-Dec 31,Aug 18
+tabuk,مورد الزور (Tabuk),Garlic,ثوم,11,Undefined / Undefined,possible_with_risk,Sep 03,Dec 22,111,20/30/32/29,40,31,181.5,497,421,4210,4350,4678,5.01,,Jan 03-Sep 21,Jun 23
+tabuk,مورد الزور (Tabuk),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",possible_with_risk,Aug 06,Oct 24,80,15/25/27/13,35,16,83.4,524,431,4305,4478,4783,6.99,,Mar 06-Aug 23,Jun 24
+tabuk,مورد الزور (Tabuk),Carrots,جزر,4,Arid climate / Oct/Jan,possible_with_risk,Sep 06,Jan 25,142,20/30/50/42,49,49,280.8,539,488,4879,5043,5421,4.92,,Jan 05-Sep 06,Aug 03
+tabuk,مورد الزور (Tabuk),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,possible_with_risk,Jun 30,Oct 09,102,25/35/25/17,40,1,20.1,765,557,5571,5777,6190,7.05,,Mar 08-Jul 15,Jul 22
+tabuk,مورد الزور (Tabuk),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Jun 29,Oct 15,109,20/30/41/18,73,13,210.4,805,674,6745,7001,7494,7.84,,Mar 12-Jul 10,Jul 07
+tabuk,مورد الزور (Tabuk),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Jul 19,Dec 11,146,35/45/43/23,86,33,555.1,840,724,7244,7444,8049,6.0,,Jan 01-Aug 11,Aug 02
+tabuk,مورد الزور (Tabuk),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Jul 12,Dec 12,154,35/50/45/24,93,34,620.3,902,780,7800,8037,8667,6.06,,Jan 02-Aug 01,Aug 01
+tabuk,مورد الزور (Tabuk),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Jun 18,Oct 18,123,21/30/43/29,84,10,236.9,915,841,8414,8807,9349,9.38,,Mar 29-Jun 26,Jun 16
+tabuk,مورد الزور (Tabuk),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Jun 05,Oct 14,132,30/40/40/22,97,6,258.0,1007,856,8559,8950,9511,8.37,,Feb 28-Jun 18,Jul 20
+tabuk,مورد الزور (Tabuk),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,May 28,Oct 05,131,25/35/50/21,105,3,263.8,1025,865,8651,8984,9612,8.44,,Mar 04-Jun 15,Jul 07
+tabuk,مورد الزور (Tabuk),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Jun 08,Oct 23,138,30/40/40/28,94,9,257.0,1025,919,9187,9557,10208,9.05,,Feb 08-Jul 02,Jul 05
+tabuk,مورد الزور (Tabuk),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Jun 18,Dec 09,175,40/60/53/22,117,31,804.7,1103,954,9540,9828,10600,6.6,,Jan 01-Jul 18,Aug 02
+tabuk,مورد الزور (Tabuk),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,May 20,Oct 10,144,21/30/60/33,109,2,264.4,1118,1014,10137,10584,11264,9.11,,Feb 25-Jun 15,Jun 27
+tabuk,مورد الزور (Tabuk),Sweet Melons,شمام,52,Arid Region / Dec/Jan,possible_with_risk,Apr 27,Oct 10,167,33/45/65/24,46,2,21.2,1292,1091,10911,11375,12124,9.07,,Feb 26-May 12,Jun 25
+tabuk,مورد الزور (Tabuk),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Apr 24,Oct 13,173,27/35/70/41,109,7,266.3,1329,1122,11217,11720,12463,9.57,,Jan 30-May 26,Jun 24
+tabuk,مورد الزور (Tabuk),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,possible_with_risk,Jun 07,Feb 13,252,20/35/114/83,95,0,252.2,1325,1256,12558,13107,13953,8.75,,Jan 01-Jun 07,Jul 16
+tabuk,مورد الزور (Tabuk),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Apr 19,Oct 18,183,37/45/70/31,109,5,265.4,1389,1311,13105,13675,14561,9.97,,Jan 23-May 20,Jul 05
+tabuk,مورد الزور (Tabuk),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,not_suitable,,,,,,,,,,,,,,,,Jul 23
+qassim,Al-Aryaf (Gassim),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Jul 23,Oct 18,88,10/20/20/38,0,0,0.0,689,550,5495,5772,6106,8.68,Apr 02-Jul 30,Apr 02-Jul 30,May 31
+qassim,Al-Aryaf (Gassim),Lettuce,خس,17,Arid Region / Oct/Nov,recommended,Nov 14,Mar 11,118,26/42/39/11,0,0,0.0,336,293,2932,3030,3258,3.62,Nov 06-Dec 31,Jan 01-Dec 31,Sep 12
+qassim,Al-Aryaf (Gassim),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Aug 28,Dec 03,98,20/31/27/20,1,3,0.4,554,517,5168,5408,5743,6.35,Feb 21-Mar 21; Aug 20-Aug 30,Feb 20-Aug 31,Jul 06
+qassim,Al-Aryaf (Gassim),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,recommended,Nov 12,Apr 04,144,25/36/52/31,1,12,0.4,452,404,4037,4233,4485,4.05,Nov 06-Dec 05,Jan 01-Dec 31,Sep 05
+qassim,Al-Aryaf (Gassim),Radish,فجل,28,Arid Region / Winter,recommended,Feb 27,Apr 08,41,11/10/15/5,0,3,0.5,218,181,1808,1882,2009,5.59,Feb 21-Mar 06; Oct 21-Oct 30,Jan 18-Nov 25,Sep 30
+qassim,Al-Aryaf (Gassim),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Sep 28,Jun 04,250,20/36/149/45,5,0,1.3,1117,1047,10465,10963,11628,6.68,Sep 24-Oct 03,Jan 01-Dec 31,Aug 07
+qassim,Al-Aryaf (Gassim),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Dec 09,Apr 17,130,27/47/46/10,8,0,5.2,431,392,3922,4076,4358,5.61,,Dec 09-Nov 05,Sep 30
+qassim,Al-Aryaf (Gassim),Garlic,ثوم,11,Undefined / Undefined,possible_with_risk,Dec 31,May 04,125,31/43/31/20,0,49,37.3,483,423,4231,4407,4701,5.73,,Dec 09-Nov 05,Jul 22
+qassim,Al-Aryaf (Gassim),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",possible_with_risk,Mar 19,Jun 08,82,21/26/25/10,34,19,119.0,621,528,5276,5500,5863,9.53,,Feb 19-Sep 09,Jul 28
+qassim,Al-Aryaf (Gassim),Carrots,جزر,4,Arid climate / Oct/Jan,possible_with_risk,Dec 20,May 11,143,32/48/43/20,15,0,21.7,561,533,5333,5545,5925,6.97,,Dec 20-Oct 12,Aug 23
+qassim,Al-Aryaf (Gassim),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,possible_with_risk,Mar 25,Jul 10,108,33/35/25/15,48,13,140.9,897,675,6753,7023,7504,9.2,,Feb 20-Jul 31,Aug 16
+qassim,Al-Aryaf (Gassim),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Dec 13,Jun 05,175,60/60/40/15,30,88,275.0,780,725,7252,7518,8058,8.28,,Dec 13-Sep 17,Aug 22
+qassim,Al-Aryaf (Gassim),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Oct 17,May 14,210,42/96/57/15,19,100,216.0,831,758,7582,7868,8425,7.13,,Jan 01-Dec 31,Aug 22
+qassim,Al-Aryaf (Gassim),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Mar 25,Jul 15,113,28/30/40/15,71,19,365.3,945,808,8076,8402,8974,9.72,,Feb 24-Jul 26,Aug 02
+qassim,Al-Aryaf (Gassim),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Dec 22,Jun 21,182,65/62/40/15,46,79,370.2,899,835,8354,8687,9282,9.09,,Dec 22-Sep 02,Aug 21
+qassim,Al-Aryaf (Gassim),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Mar 15,Jul 22,130,36/34/40/20,78,23,428.2,1066,984,9837,10300,10930,11.19,,Mar 12-Jul 15,Jun 15
+qassim,Al-Aryaf (Gassim),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,Mar 25,Aug 09,138,33/35/50/20,96,19,547.2,1181,1014,10137,10550,11263,9.73,,Feb 16-Jul 01,Aug 02
+qassim,Al-Aryaf (Gassim),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Mar 19,Aug 04,139,39/40/40/20,91,19,510.8,1168,1026,10260,10768,11400,10.22,,Feb 13-Jul 04,Aug 11
+qassim,Al-Aryaf (Gassim),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Mar 02,Jul 27,148,43/40/40/25,83,29,487.3,1174,1094,10938,11424,12154,11.19,,Jan 21-Jul 21,Aug 01
+qassim,Al-Aryaf (Gassim),Sweet Melons,شمام,52,Arid Region / Dec/Jan,possible_with_risk,May 17,Oct 27,164,30/45/65/24,112,1,329.9,1367,1148,11476,11958,12752,9.89,,Feb 10-May 29,Jul 26
+qassim,Al-Aryaf (Gassim),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,Mar 19,Aug 16,151,30/31/60/30,103,19,591.0,1277,1170,11700,12234,13000,10.22,,Feb 09-Jul 03,Jul 31
+qassim,Al-Aryaf (Gassim),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Mar 28,Sep 17,174,29/35/70/40,135,10,713.5,1487,1272,12721,13300,14134,10.7,,Jan 12-Jun 15,Jul 28
+qassim,Al-Aryaf (Gassim),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Mar 27,Sep 25,183,38/45/70/30,143,4,720.2,1549,1493,14930,15607,16589,11.19,,Jan 04-Jun 10,Aug 01
+qassim,Al-Aryaf (Gassim),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,possible_with_risk,Apr 02,Nov 02,215,33/40/110/32,148,12,727.2,1729,1622,16219,17076,18021,10.22,,Jan 20-Apr 15,Aug 14
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Aug 15,Nov 10,88,10/20/21/37,0,0,0.0,521,414,4140,4347,4600,6.56,Mar 09-Aug 23,Mar 09-Aug 23,Jul 13
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Oct 04,Jan 14,103,20/34/30/19,0,0,0.0,392,368,3680,3854,4089,4.08,Jan 17-Mar 17; Aug 28-Oct 05,Jan 17-Oct 05,Aug 02
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Radish,فجل,28,Arid Region / Winter,recommended,Dec 29,Feb 07,41,10/11/15/5,0,0,0.0,110,90,902,937,1002,2.43,Nov 10-Feb 13,Jan 01-Dec 31,Oct 29
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Garlic,ثوم,11,Undefined / Undefined,recommended,Nov 27,Mar 07,101,20/31/30/20,0,0,0.0,294,252,2516,2609,2795,2.87,Nov 10-Dec 31,Jan 01-Dec 31,Sep 12
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",recommended,Nov 15,Apr 08,145,36/51/43/15,3,0,0.5,464,417,4168,4305,4631,4.26,Nov 10-Dec 20,Jan 01-Dec 31,Sep 18
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Carrots,جزر,4,Arid climate / Oct/Jan,recommended,Nov 30,Mar 24,115,20/32/43/20,2,0,0.3,345,321,3212,3331,3569,3.71,Nov 24-Dec 31,Jan 01-Dec 31,Sep 22
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Oct 13,May 19,219,20/35/119/45,2,0,0.3,836,781,7815,8181,8683,4.76,Oct 07-Nov 10,Jan 01-Dec 31,Sep 09
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Lettuce,خس,17,Arid Region / Oct/Nov,recommended,Dec 08,Mar 17,100,25/35/30/10,2,0,0.2,292,255,2553,2639,2836,3.48,Dec 01-Dec 31,Jan 01-Dec 31,Oct 14
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",recommended,Nov 15,Apr 19,156,36/61/44/15,3,0,0.5,516,466,4665,4835,5183,4.7,Nov 10-Dec 09,Jan 01-Dec 31,Sep 15
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,recommended,Dec 08,Apr 08,122,25/30/37/30,2,0,0.2,382,340,3405,3571,3783,3.91,Dec 01-Dec 21,Jan 01-Dec 31,Oct 05
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",recommended,Nov 14,May 07,175,41/68/51/15,6,0,1.2,616,563,5627,5839,6252,5.44,Nov 10-Nov 20,Jan 01-Dec 31,Sep 18
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Spinach,سبانخ,26,Arid Region / November,recommended,Dec 20,Mar 30,101,20/31/40/10,13,0,4.4,306,276,2762,2868,3069,3.92,Dec 19-Dec 25,Jan 01-Dec 31,Oct 29
+madinah,Mazari'A Wadi Al-Haqool (Madinah),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",possible_with_risk,Sep 28,Dec 20,84,15/26/29/14,17,19,38.0,358,292,2923,3039,3248,4.45,,Jan 14-Oct 15,Aug 21
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,possible_with_risk,Aug 27,Dec 17,113,25/35/27/26,27,16,56.2,561,404,4042,4189,4491,4.53,,Jan 16-Sep 04,Sep 08
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Aug 22,Dec 17,118,20/30/42/26,54,24,222.7,597,494,4940,5123,5489,5.42,,Jan 21-Aug 29,Aug 27
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Aug 10,Dec 19,132,20/30/47/35,66,18,287.6,694,629,6291,6580,6990,6.82,,Feb 14-Aug 10,Jul 18
+madinah,Mazari'A Wadi Al-Haqool (Madinah),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Aug 05,Dec 29,147,30/40/42/35,71,28,344.3,761,635,6347,6626,7052,5.55,,Jan 06-Aug 12,Sep 06
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,Jul 30,Dec 22,146,25/35/52/34,77,29,399.5,789,651,6514,6755,7238,5.98,,Jan 12-Aug 06,Aug 27
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Dec 29,Jun 20,174,54/55/40/25,12,67,112.3,760,709,7089,7409,7876,7.51,,Dec 26-Sep 16,Aug 26
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,Aug 08,Jan 28,174,20/30/67/57,68,58,407.6,817,727,7269,7580,8076,6.32,,Jan 04-Aug 08,Aug 23
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Oct 13,May 29,229,36/63/100/30,2,84,113.2,901,857,8568,8961,9520,6.19,,Jan 01-Dec 31,Aug 26
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Dec 10,Jul 18,221,43/63/75/40,40,96,314.3,1034,863,8633,9021,9592,7.72,,Dec 10-Aug 18,Aug 21
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Sweet Melons,شمام,52,Arid Region / Dec/Jan,possible_with_risk,Jun 24,Dec 15,175,30/45/67/33,91,14,329.8,1062,869,8692,9045,9658,7.17,,Jan 06-Jul 04,Aug 19
+madinah,Mazari'A Wadi Al-Haqool (Madinah),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,possible_with_risk,May 14,Dec 21,222,30/40/110/42,154,20,871.7,1405,1287,12869,13521,14299,8.48,,Jan 01-May 31,Sep 08
+makkah,جدة (Jeddah I.E.),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,recommended,Oct 09,Jan 18,102,25/35/26/16,0,0,0.0,460,337,3374,3502,3749,4.01,Jan 01-Dec 31,Jan 01-Dec 31,Sep 23
+makkah,جدة (Jeddah I.E.),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Oct 22,Jan 12,83,20/31/21/11,0,0,0.0,366,345,3447,3612,3830,4.83,Jan 01-Dec 31,Jan 01-Dec 31,Jul 22
+makkah,جدة (Jeddah I.E.),Sweet Melons,شمام,52,Arid Region / Dec/Jan,recommended,Aug 26,Feb 12,171,30/45/71/25,0,0,0.0,840,695,6953,7244,7726,4.89,Jan 01-Dec 31,Jan 01-Dec 31,Aug 28
+makkah,جدة (Jeddah I.E.),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Sep 07,Dec 05,90,10/21/21/38,0,0,0.0,464,370,3696,3883,4107,5.48,Mar 02-Sep 18,Mar 02-Sep 18,Jun 21
+makkah,جدة (Jeddah I.E.),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",recommended,Nov 01,Jan 15,76,15/25/26/10,0,0,0.0,329,275,2747,2859,3052,4.41,Sep 21-Mar 13,Jan 01-Dec 31,Aug 25
+makkah,جدة (Jeddah I.E.),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,recommended,Oct 12,Jan 27,108,20/30/42/16,0,0,0.0,483,406,4065,4222,4516,4.3,Sep 21-Feb 09,Jan 01-Dec 31,Sep 15
+makkah,جدة (Jeddah I.E.),EggPlant,باذنجان,30,Arid Region / October,recommended,Oct 12,Feb 19,131,30/40/41/20,0,0,0.0,591,508,5077,5317,5641,4.73,Sep 21-Jan 16,Jan 01-Dec 31,Oct 07
+makkah,جدة (Jeddah I.E.),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,recommended,Oct 02,Feb 13,135,25/35/53/22,1,0,0.1,617,519,5187,5390,5764,4.38,Sep 21-Jan 12,Jan 01-Dec 31,Sep 15
+makkah,جدة (Jeddah I.E.),Tomato,طماطم,34,Arid Region / January,recommended,Oct 09,Feb 21,136,30/40/41/25,0,0,0.0,617,557,5574,5808,6193,5.13,Sep 21-Jan 11,Jan 01-Dec 31,Sep 10
+makkah,جدة (Jeddah I.E.),Mulukhiyah,ملوخية,62,Undefined / Undefined,recommended,Sep 30,Mar 03,155,20/31/67/37,3,0,0.4,719,650,6496,6790,7218,4.67,Sep 21-Dec 31,Jan 01-Dec 31,Aug 09
+makkah,جدة (Jeddah I.E.),Lentil,عدس,106,Arid Region / Oct/Nov,recommended,Sep 30,Mar 23,175,25/35/73/42,3,0,0.4,830,670,6695,6987,7439,5.18,Sep 21-Dec 18,Jan 01-Dec 31,Aug 25
+makkah,جدة (Jeddah I.E.),Tomato,طماطم,37,Arid Region / Oct/Nov,recommended,Sep 30,Mar 29,181,35/45/71/30,3,0,0.4,866,810,8098,8459,8998,5.92,Sep 21-Dec 12,Jan 01-Dec 31,Sep 10
+makkah,جدة (Jeddah I.E.),Radish,فجل,28,Arid Region / Winter,recommended,Dec 14,Jan 22,40,10/10/15/5,4,0,0.3,169,139,1391,1445,1545,3.88,Dec 04-Feb 02,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,recommended,Sep 30,Apr 27,210,20/35/110/45,3,0,0.4,1052,994,9937,10408,11042,5.82,Sep 21-Nov 13,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,recommended,Sep 30,Apr 28,211,30/40/111/30,3,0,0.4,1059,985,9850,10374,10944,6.31,Sep 21-Nov 12,Jan 01-Dec 31,Oct 09
+makkah,جدة (Jeddah I.E.),Garlic,ثوم,11,Undefined / Undefined,recommended,Dec 08,Mar 17,100,20/30/30/20,12,0,2.4,462,401,4013,4172,4459,5.1,Dec 04-Dec 20,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Lettuce,خس,17,Arid Region / Oct/Nov,possible_with_risk,Dec 09,Mar 18,100,25/35/30/10,100,0,236.2,463,409,4087,4230,4541,5.4,,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Dec 09,Mar 18,100,20/30/40/10,100,0,436.2,463,418,4185,4344,4650,5.4,,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Carrots,جزر,4,Arid climate / Oct/Jan,possible_with_risk,Dec 04,Mar 23,110,20/30/40/20,110,0,160.5,513,483,4826,5011,5362,5.55,,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,possible_with_risk,Nov 28,Mar 29,122,25/30/37/30,122,0,315.4,575,518,5175,5428,5750,5.92,,Jan 01-Dec 31,
+makkah,جدة (Jeddah I.E.),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Sep 20,Jan 29,132,21/32/51/28,13,0,5.7,617,571,5710,5981,6344,5.29,,Jan 24-Sep 20,Jul 06
+makkah,جدة (Jeddah I.E.),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Nov 24,Apr 07,135,35/45/40/15,47,0,29.5,648,590,5904,6107,6560,6.13,,Jan 01-Dec 31,Nov 14
+makkah,جدة (Jeddah I.E.),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Nov 19,Apr 07,140,35/50/40/15,52,0,37.1,670,610,6096,6324,6773,6.13,,Jan 01-Dec 31,Oct 19
+makkah,جدة (Jeddah I.E.),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Nov 06,Apr 19,165,40/60/50/15,77,0,85.5,807,737,7367,7643,8185,6.49,,Jan 01-Dec 31,Nov 14
+hail,Naqrat Qafar (Hail),Sweet corn,ذرة حلوة,64,Undefined / Undefined,recommended,Aug 01,Oct 27,88,20/31/23/14,0,0,0.0,606,566,5658,5921,6287,7.68,Mar 16-Aug 10,Mar 10-Aug 13,May 31
+hail,Naqrat Qafar (Hail),Watermelon,بطيخ,54,Near East (desert) / Mat/Aug,recommended,Jun 20,Sep 10,83,11/20/20/32,0,0,0.0,701,560,5600,5883,6222,8.87,Apr 21-Jul 10,Apr 21-Jul 10,
+hail,Naqrat Qafar (Hail),Radish,فجل,28,Arid Region / Winter,recommended,Mar 19,Apr 28,41,11/10/15/5,3,5,2.1,245,203,2035,2116,2261,6.12,Mar 16-Mar 24,Feb 11-Nov 01,Sep 12
+hail,Naqrat Qafar (Hail),Lettuce,خس,17,Arid Region / Oct/Nov,possible_with_risk,Dec 31,May 15,136,49/47/30/10,4,49,45.0,456,405,4052,4199,4502,6.03,,Jan 01-Dec 31,Aug 23
+hail,Naqrat Qafar (Hail),Potato,بطاطس,70,(Semi)Arid Climate / Jan/Nov,possible_with_risk,Oct 26,Apr 20,177,26/43/76/32,3,100,210.3,524,467,4668,4890,5187,3.9,,Jan 01-Dec 31,Aug 17
+hail,Naqrat Qafar (Hail),"Beans, green",فاصوليا خضراء,86,"Calif., Egypt, Lebanon / Aug/Sep",possible_with_risk,Apr 11,Jun 29,80,20/25/25/10,33,13,72.0,630,531,5311,5532,5901,9.28,,Mar 09-Aug 21,Jun 23
+hail,Naqrat Qafar (Hail),Spinach,سبانخ,26,Arid Region / November,possible_with_risk,Jan 08,May 17,130,42/38/40/10,50,15,219.6,614,556,5565,5779,6183,7.52,,Jan 08-Sep 17,Sep 12
+hail,Naqrat Qafar (Hail),Garlic,ثوم,11,Undefined / Undefined,possible_with_risk,Feb 06,May 30,114,32/32/30/20,35,32,155.1,651,568,5676,5906,6306,7.62,,Jan 08-Sep 17,Jun 22
+hail,Naqrat Qafar (Hail),Squash,كوسة,47,Medit.; Arid Reg. / Apr; Dec.,possible_with_risk,Apr 23,Aug 03,103,28/35/25/15,38,1,19.4,863,647,6474,6730,7193,8.51,,Mar 10-Jul 13,Jul 22
+hail,Naqrat Qafar (Hail),Carrots,جزر,4,Arid climate / Oct/Jan,possible_with_risk,Jan 09,May 31,143,44/39/40/20,47,43,249.4,727,685,6848,7113,7609,8.07,,Jan 09-Sep 03,Aug 02
+hail,Naqrat Qafar (Hail),Cucumber {Fresh Market},خيار,41,Arid Region / June/Aug,possible_with_risk,Apr 20,Aug 06,109,24/30/40/15,71,10,200.8,908,775,7746,8056,8607,8.96,,Mar 14-Jul 08,Jul 07
+hail,Naqrat Qafar (Hail),Okra,بامية,29,Undefined / Undefined,possible_with_risk,Apr 17,Aug 17,123,30/33/40/20,82,7,228.1,1020,933,9331,9765,10368,10.3,,Mar 31-Jun 25,Jun 15
+hail,Naqrat Qafar (Hail),Broccoli,بروكلي,1,"Calif. Desert, USA / Sept",possible_with_risk,Feb 15,Jul 14,150,50/45/40/15,80,37,523.1,1019,933,9331,9656,10368,9.39,,Jan 04-Aug 08,Aug 01
+hail,Naqrat Qafar (Hail),Cucumber {Fresh Market},خيار,42,Arid Region / Nov; Feb,possible_with_risk,May 01,Sep 08,131,26/35/50/20,104,0,255.5,1095,936,9359,9733,10398,8.96,,Mar 06-Jun 13,Jul 07
+hail,Naqrat Qafar (Hail),EggPlant,باذنجان,30,Arid Region / October,possible_with_risk,Apr 18,Aug 28,133,33/40/40/20,93,6,249.1,1101,961,9606,10074,10674,9.41,,Mar 03-Jun 16,Jul 19
+hail,Naqrat Qafar (Hail),Cauliflower,قرنبيط,7,"Calif. Desert, USA / Sept",possible_with_risk,Feb 16,Jul 22,157,52/50/40/15,88,36,588.1,1087,991,9915,10286,11016,9.41,,Jan 06-Jul 30,Jul 31
+hail,Naqrat Qafar (Hail),Tomato,طماطم,34,Arid Region / January,possible_with_risk,Apr 12,Aug 27,138,33/40/40/25,92,6,247.5,1131,1048,10479,10934,11643,10.3,,Feb 11-Jul 01,Jul 05
+hail,Naqrat Qafar (Hail),Mulukhiyah,ملوخية,62,Undefined / Undefined,possible_with_risk,May 19,Oct 09,144,21/30/60/33,105,2,255.8,1158,1053,10533,11001,11704,9.4,,Feb 27-Jun 14,Jun 22
+hail,Naqrat Qafar (Hail),Sweet Melons,شمام,52,Arid Region / Dec/Jan,possible_with_risk,Apr 26,Oct 10,168,34/45/65/24,45,3,21.3,1336,1131,11306,11788,12563,9.38,,Feb 28-May 11,Jun 24
+hail,Naqrat Qafar (Hail),Lentil,عدس,106,Arid Region / Oct/Nov,possible_with_risk,Apr 21,Oct 11,174,28/35/70/41,105,7,257.4,1375,1164,11640,12163,12933,9.85,,Feb 02-May 24,Jun 23
+hail,Naqrat Qafar (Hail),Cabbage,ملفوف,3,"Calif. Desert, USA / Sept",possible_with_risk,Feb 23,Aug 17,176,51/60/50/15,114,29,773.4,1285,1179,11790,12236,13100,9.41,,Jan 01-Jul 15,Aug 01
+hail,Naqrat Qafar (Hail),Onions {dry},بصل,20,Arid Region; Calif. / Oct; Jan.,possible_with_risk,Jun 04,Feb 10,252,20/35/113/84,98,0,252.6,1402,1331,13314,13902,14794,9.18,,Jan 01-Jun 04,Jul 15
+hail,Naqrat Qafar (Hail),Tomato,طماطم,37,Arid Region / Oct/Nov,possible_with_risk,Apr 15,Oct 15,184,38/45/70/31,105,5,256.3,1436,1363,13625,14224,15139,10.3,,Jan 27-May 18,Jul 05
+hail,Naqrat Qafar (Hail),Sweet peppers {bell},فلفل رومي,33,Arid Region / October,not_suitable,,,,,,,,,,,,,,,,Jul 22
