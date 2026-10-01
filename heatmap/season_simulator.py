@@ -113,7 +113,7 @@ def _stage_lengths_from_gdd(crop, clim, planting_doy):
     for n in range(MAX_SEASON_DAYS):
         d = _day(clim, planting_doy + n)
         cum += growing_degree_day(d["temp_max_c"], d["temp_min_c"], crop["t_base"], crop["t_upper"])
-        while len(boundaries) < 4 and cum >= targets[len(boundaries)]:
+        if len(boundaries) < 4 and cum >= targets[len(boundaries)]:   # at most ONE stage boundary per day, so every stage lasts >= 1 day
             boundaries.append(n + 1)      # stage ends after day n+1
         if len(boundaries) == 4:
             break
@@ -191,7 +191,7 @@ def _run_cycle(crop, clim, elevation_m, latitude_deg, start_doy, stage_lengths, 
         "heat_shock_days": heat_shock_days, "cold_shock_days": cold_shock_days,
         "shock_test_applied": txc is not None and tnc is not None,
         "shock_free": heat_shock_days == 0 and cold_shock_days == 0,
-        # Observed-year statistics from the unsmoothed 2014-2023 record
+        # Observed-year statistics from the unsmoothed 2016-2025 record
         # (reported; selection uses the climatology counts above, as in Elnesr & Alazba's sinusoidal climatology)
         "raw_exceedances": raw_year_exceedances(raw_years, start_doy, total_days, txc, tnc),
     }

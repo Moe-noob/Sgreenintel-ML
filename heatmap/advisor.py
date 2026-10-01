@@ -6,7 +6,7 @@ For each location the advisor answers, per crop:
    and how much water does it need in each growth stage?"
 
 Method chain (every step sourced -- see crop_database.py):
-  NASA POWER daily climatology (2014-2023)
+  NASA POWER daily climatology (2016-2025)
     -> FAO-56 Penman-Monteith ET0 (Eq. 6), per day
     -> FAO56rev growing-degree-day stage lengths (Paredes et al. 2025)
     -> FAO-56 Kc curve (Eq. 66) with arid-climate adjustment (Eq. 62/65)
@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "care"))
 from nasa_power import fetch_daily_climatology_full
 from crop_database import CROP_DB, SCAN_CROPS, PERENNIAL_CROPS, UNRESOLVED_CROPS
 from season_simulator import scan_planting_dates, simulate_perennial_cycle, contiguous_windows
+from season_picks import add_season_picks, season_picks_lines
 
 KNOWN_LOCATIONS = {
     "riyadh": (24.71, 46.68), "jeddah": (21.54, 39.17), "dammam": (26.43, 50.10),
@@ -47,10 +48,10 @@ def resolve_location(location):
     return location
 
 
-def per_plant_liters(etc_mm_day, crop_name):
+def per_plant_liters(etc_mm_day, plants_per_m2):
     """ETc (mm/day = L/m2/day) / plants per m2 -> L per plant per day.
-    This is a field-equivalent figure (closed canopy at the stated spacing)."""
-    return etc_mm_day / CROP_DB[crop_name]["plants_per_m2"]
+    The density must be supplied by the user; no default spacing is assumed."""
+    return etc_mm_day / plants_per_m2
 
 
 def get_recommendations(location, step_days=PLANTING_STEP_DAYS):
@@ -58,6 +59,9 @@ def get_recommendations(location, step_days=PLANTING_STEP_DAYS):
     clim, elevation, raw_years = fetch_daily_climatology_full(lat, lon)
 
     annual = {name: scan_planting_dates(name, clim, elevation, lat, step_days, raw_years) for name in SCAN_CROPS}
+    _city_key = location.strip().lower() if isinstance(location, str) else None
+    for _name, _scan in annual.items():          # autumn + spring picks next to the (unchanged) headline pick
+        add_season_picks(_name, _scan, clim, _city_key)
     perennial = {name: simulate_perennial_cycle(name, clim, elevation, lat) for name in PERENNIAL_CROPS}
 
     # Ranking (presentation only): widest shock-free planting window first,
@@ -73,18 +77,16 @@ def get_recommendations(location, step_days=PLANTING_STEP_DAYS):
 
 
 def _print_stages(run, crop_name, indent="      "):
-    ppm2 = CROP_DB[crop_name]["plants_per_m2"]
-    print(f"{indent}{'Stage':<13}{'Days':>5}  {'Dates':<17}{'mm/day':>7}{'mm total':>10}{'ETc-eq L/plant/day':>20}")
+    print(f"{indent}{'Stage':<13}{'Days':>5}  {'Dates':<17}{'mm/day':>7}{'mm total':>10}")
     for s in run["stages"]:
         print(f"{indent}{s['stage']:<13}{s['days']:>5}  {s['start']}-{s['end']:<8}"
-              f"{s['etc_mm_per_day']:>7.2f}{s['etc_mm']:>10.0f}"
-              f"{per_plant_liters(s['etc_mm_per_day'], crop_name):>20.2f}")
+              f"{s['etc_mm_per_day']:>7.2f}{s['etc_mm']:>10.0f}")
     print(f"{indent}{'TOTAL':<13}{run['total_days']:>5}  {'':<17}{'':>7}{run['seasonal_etc_mm']:>10.0f}")
     print(f"{indent}Seasonal crop water use (ETc): {run['seasonal_etc_mm']:.0f} mm  =  {run['seasonal_m3_per_ha']:.0f} m3/ha;  "
           f"mean {run['seasonal_etc_mm']/run['total_days']:.2f} mm/day  "
           f"(ET0 {run['seasonal_et0_mm']:.0f} mm; Kc_mid adj {run['kc_mid_adjusted']:.2f}, Kc_end adj {run['kc_end_adjusted']:.2f})")
     print(f"{indent}Peak crop water use: {run['peak_etc_mm_day']:.2f} mm/day around {run['peak_date']}")
-    print(f"{indent}Per-plant figures are the field ETc divided by an assumed density of {ppm2} plants/m2 -- an area-equivalent, not measured uptake.")
+    print(f"{indent}1 mm of crop water use = 1 litre per m2; multiply mm/day by your own area per plant (m2) for litres per plant.")
     if run["kc_clamp_note"]:
         print(f"{indent}Limitation: a Kc-adjustment input (RHmin or wind) was outside FAO-56 Eq.62's validated range and was clamped "
               f"to the limit as FAO-56 prescribes; {run['kc_clamp_note']}. Interpret ETc with added uncertainty.")
@@ -93,7 +95,9 @@ def _print_stages(run, crop_name, indent="      "):
 def print_recommendations(result):
     lat, lon = result["coordinates"]
     print(f"\n=== Crop advisor for {result['location']} ({lat}, {lon}, elevation {result['elevation_m']:.0f} m) ===")
-    print("    Climate: NASA POWER daily climatology 2014-2023 (a typical year, not a forecast). ET0: FAO-56 Penman-Monteith.")
+    print("    Climate: NASA POWER daily climatology 2016-2025 (a typical year, not a forecast), adjusted to the site elevation. "
+          "ET0: FAO-56 Penman-Monteith with humidity conditioned for dry-site data (FAO-56 Rev.1 Eq. 2.6); "
+          "absolute amounts are uncertain by roughly +/-15% (our estimate).")
     print("    Annual crops: FAO56rev GDD phenology (Paredes et al. 2025). Perennials: FAO-56 Table 11 reference phenology, mature plant.")
     print("    Planting-date selection adapted from Elnesr & Alazba (2016, KSU). All water figures are crop water use (ETc), not irrigation requirement.\n")
 
@@ -114,12 +118,14 @@ def print_recommendations(result):
             print("   No planting date is free of temperature-tolerance exceedances at this location.")
             print(f"   LEAST-WATER VIABLE CANDIDATE: {best['start_date']}  ->  harvest ~{best['end_date']}  ({best['total_days']} days)")
         print(f"   Basis: {scan['selection_basis']}")
+        for _line in season_picks_lines(scan):
+            print(_line)
         print(f"   Stage lengths from GDD (ini/dev/mid/late): {'/'.join(str(x) for x in best['stage_lengths'])} days")
         print(f"   Days above tolerable Tmax: {best['heat_shock_days']};  days below tolerable Tmin: {best['cold_shock_days']}  "
               f"(Elnesr & Alazba 2016 thresholds on the smoothed climatology; warning only, not a rejection)")
         rx = best.get("raw_exceedances")
         if rx:
-            print(f"   Observed 2014-2023 ({len(rx['years'])} seasons, unsmoothed daily data): "
+            print(f"   Observed 2016-2025 ({len(rx['years'])} seasons, unsmoothed daily data): "
                   f"above Tmax {rx['heat_mean']:.0f} days/season (range {rx['heat_min']}-{rx['heat_max']}); "
                   f"below Tmin {rx['cold_mean']:.0f} days/season (range {rx['cold_min']}-{rx['cold_max']})")
         print(f"   Phenology counts: days at GDD ceiling (Tavg > Tupper) {best['heat_ceiling_days']}, days below Tbase {best['cold_days']}")

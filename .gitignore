@@ -37,3 +37,10 @@ data/processed/*.html
 data/geo/**/*.html
 data/geo/**/*.ipynb
 research/cache/
+satellite/cache/
+
+*.bak*
+climate_export/
+climate_export.zip
+research/cache/
+heatmap/cache/

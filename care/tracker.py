@@ -56,6 +56,7 @@ from season_simulator import simulate_annual_season, doy_to_date, STAGES
 from crop_database import CROP_DB, SCAN_CROPS, CROP_COEFFICIENTS
 from crop_coefficients import kc_on_day
 from evapotranspiration import penman_monteith_et0_doy, wind_speed_2m
+from aridity import conditioned_dewpoint
 from care_profiles import CLASS_INFO, SPECIES_PROFILES
 
 OPEN_METEO_BASE = "https://api.open-meteo.com/v1/forecast"
@@ -183,9 +184,7 @@ def get_current_stage(crop_name, planting_date, clim, elevation_m, latitude_deg)
                 "total_season_days": total_days,
                 "harvest_date": (planting_date + datetime.timedelta(days=total_days)).strftime("%b %d, %Y"),
                 "current_stage_etc_mm_per_day": current_stage_data["etc_mm_per_day"],
-                "current_stage_liters_per_plant": (
-                    current_stage_data["etc_mm_per_day"] / CROP_DB[crop_name]["plants_per_m2"]
-                ),
+                "current_stage_liters_per_plant": None,   # filled in by get_plant_status only if the user gives a density
                 "all_stages": run["stages"],
                 "stage_lengths": stage_lengths,
                 "seasonal_etc_mm": run["seasonal_etc_mm"],
@@ -252,7 +251,7 @@ def fetch_open_meteo_forecast(lat, lon):
 # Live ETc: full Penman-Monteith, same Kc curve, same day, vs. climatology
 # ---------------------------------------------------------------------------
 
-def attach_live_etc(forecast_days, stage_info, crop_name, clim, elevation_m, latitude_deg):
+def attach_live_etc(forecast_days, stage_info, crop_name, clim, elevation_m, latitude_deg, plants_per_m2=None):
     """
     For each forecast day, computes:
       - live_etc_mm_day: FAO-56 Penman-Monteith ET0 from ACTUAL forecast
@@ -275,7 +274,7 @@ def attach_live_etc(forecast_days, stage_info, crop_name, clim, elevation_m, lat
     kc_ini = CROP_COEFFICIENTS[crop_name]["kc_ini"]
     kc_mid_adj = stage_info["kc_mid_adjusted"]
     kc_end_adj = stage_info["kc_end_adjusted"]
-    plants_per_m2 = CROP_DB[crop_name]["plants_per_m2"]
+    aT = clim[0].get("aridity_aT", 0.0)   # FAO-56 Rev.1 Eq. 2.6 humidity conditioning: same as the baseline climatology
     start_day_index = stage_info["days_since_planting"]  # today's 0-based day-in-season
 
     live_values, baseline_values = [], []
@@ -290,7 +289,7 @@ def attach_live_etc(forecast_days, stage_info, crop_name, clim, elevation_m, lat
         # Live ET0 from actual forecast weather
         et0_live = penman_monteith_et0_doy(
             temp_mean_c=day["tmean"], temp_max_c=day["tmax"], temp_min_c=day["tmin"],
-            dewpoint_c=day["dewpoint_c"], wind_speed_ms=day["wind_speed_ms"],
+            dewpoint_c=conditioned_dewpoint(day["dewpoint_c"], day["tmin"], aT), wind_speed_ms=day["wind_speed_ms"],
             solar_radiation_mj=day["solar_radiation_mj"],
             elevation_m=elevation_m, latitude_deg=latitude_deg, day_of_year=doy,
         )
@@ -309,8 +308,8 @@ def attach_live_etc(forecast_days, stage_info, crop_name, clim, elevation_m, lat
 
         day["live_etc_mm_day"] = round(live_etc, 2)
         day["baseline_etc_mm_day"] = round(baseline_etc, 2)
-        day["live_etc_liters_per_plant"] = round(live_etc / plants_per_m2, 2)
-        day["baseline_etc_liters_per_plant"] = round(baseline_etc / plants_per_m2, 2)
+        day["live_etc_liters_per_plant"] = round(live_etc / plants_per_m2, 2) if plants_per_m2 else None
+        day["baseline_etc_liters_per_plant"] = round(baseline_etc / plants_per_m2, 2) if plants_per_m2 else None
 
         live_values.append(live_etc)
         baseline_values.append(baseline_etc)
@@ -418,7 +417,7 @@ def generate_alerts(crop_name, stage_name, forecast_days):
 # ---------------------------------------------------------------------------
 
 def get_plant_status(crop_name, location_name, planting_date_str,
-                     known_locations=None, include_forecast=True):
+                     known_locations=None, include_forecast=True, plants_per_m2=None):
     """
     Main Feature 3 entry point.
 
@@ -453,14 +452,15 @@ def get_plant_status(crop_name, location_name, planting_date_str,
     # 2. Care profile
     species = SPECIES_PROFILES.get(crop_name, {})
     care = {
-        "watering_guidance": species.get("watering", "See care profile"),
-        "sun": species.get("sun", "Full sun"),
+        "watering_guidance": species.get("watering", "No crop-specific care notes yet; follow the water amount shown."),
+        "sun": species.get("sun"),
         "ideal_temp_range_c": species.get("ideal_temp_range_c"),
     }
     if stage_info.get("viable") and not stage_info.get("season_complete"):
         care["current_stage_water_mm_per_day"] = stage_info["current_stage_etc_mm_per_day"]
-        care["current_stage_liters_per_plant"] = stage_info["current_stage_liters_per_plant"]
-        care["plants_per_m2_assumption"] = CROP_DB[crop_name]["plants_per_m2"]
+        if plants_per_m2:      # litres per plant only for a density the user supplied; no default spacing is assumed
+            care["current_stage_liters_per_plant"] = stage_info["current_stage_etc_mm_per_day"] / plants_per_m2
+            care["plants_per_m2_user"] = plants_per_m2
 
     # 3. Forecast, live ETc, and alerts -- only meaningful for an active season.
     #    A completed season has no living plant left to weather-protect.
@@ -473,7 +473,7 @@ def get_plant_status(crop_name, location_name, planting_date_str,
     if include_forecast and active_season:
         try:
             forecast = fetch_open_meteo_forecast(lat, lon)
-            live_vs_baseline = attach_live_etc(forecast, stage_info, crop_name, clim, elevation_m, lat)
+            live_vs_baseline = attach_live_etc(forecast, stage_info, crop_name, clim, elevation_m, lat, plants_per_m2)
             alerts = generate_alerts(crop_name, stage_info.get("stage_name", "unknown"), forecast)
         except requests.exceptions.RequestException as e:
             forecast_error = f"Weather forecast unavailable: {e}"
@@ -497,8 +497,12 @@ def get_plant_status(crop_name, location_name, planting_date_str,
             "Live forecast ETc and the climatological baseline both use full FAO-56 Penman-Monteith and the "
             "same crop coefficient for the same calendar day; only the weather-data source differs (actual "
             "Open-Meteo forecast vs. 10-year climatological normal), isolating that one variable",
-            "Both live and baseline calculations use this location's NASA POWER-derived elevation, not "
-            "Open-Meteo's own elevation estimate, for a consistent comparison",
+            "Both live and baseline calculations use the site elevation (Copernicus 90 m DEM, the DEM "
+            "Open-Meteo downscales its forecast to); baseline temperatures are adjusted from the NASA "
+            "grid-cell elevation to the site with a standard 6.5 C/km lapse rate",
+            "Reference ET0 uses FAO-56 Rev.1 humidity conditioning for dry-site weather data (Eq. 2.6) in both the live "
+            "and the baseline calculation; wind speed is not independently verified, so absolute litres and mm are "
+            "uncertain by roughly 15% (our estimate)",
             "Temperature alerts use Elnesr & Alazba 2016 thresholds -- sourced, but conservative "
             "for some crops (e.g. potato, Txc=27°C); brief exceedances may not cause real damage",
             "Disease risk alerts not implemented: no sourced crop-disease-weather relationships "
@@ -529,10 +533,8 @@ def print_plant_status(result):
               f"= {si['seasonal_m3_per_ha']:.0f} m³/ha")
         print(f"\n  Stage breakdown:")
         for s in si["all_stages"]:
-            ppm2 = CROP_DB[result["plant"]]["plants_per_m2"]
             print(f"    {s['stage']:<13} {s['start']} -- {s['end']}  "
-                  f"{s['etc_mm_per_day']:.2f} mm/day  "
-                  f"({s['etc_mm_per_day']/ppm2:.2f} L/plant/day)")
+                  f"{s['etc_mm_per_day']:.2f} mm/day")
     else:
         print(f"\n  Growth stage:  {si['stage_name'].upper()}")
         print(f"  Stage dates:   {si['stage_start_date']} -- {si['stage_end_date']}")
@@ -548,9 +550,10 @@ def print_plant_status(result):
         care = result["care"]
         print(f"\n  Water need (climatological baseline, this stage):")
         if "current_stage_water_mm_per_day" in care:
-            print(f"    {care['current_stage_water_mm_per_day']:.2f} mm/day  "
-                  f"({care['current_stage_liters_per_plant']:.2f} L per plant, "
-                  f"assuming {care['plants_per_m2_assumption']} plants/m²)")
+            line = f"    {care['current_stage_water_mm_per_day']:.2f} mm/day"
+            if "current_stage_liters_per_plant" in care:
+                line += f"  ({care['current_stage_liters_per_plant']:.2f} L per plant at {care['plants_per_m2_user']} plants/m²)"
+            print(line)
         print(f"  General watering: {care['watering_guidance']}")
 
     if result["forecast_error"]:
@@ -559,8 +562,7 @@ def print_plant_status(result):
         print(f"\n  5-day forecast (live ETc vs. climatological baseline):")
         for day in result["forecast"]:
             print(f"    {day['date']}: {day['tmax']:.1f}°C / {day['tmin']:.1f}°C  "
-                  f"{day['summary']:<20s} live={day['live_etc_mm_day']:.2f} mm/day "
-                  f"({day['live_etc_liters_per_plant']:.2f} L/plant)  "
+                  f"{day['summary']:<20s} live={day['live_etc_mm_day']:.2f} mm/day  "
                   f"baseline={day['baseline_etc_mm_day']:.2f} mm/day")
         if result["live_vs_baseline"]:
             print(f"\n  {result['live_vs_baseline']['description']}")

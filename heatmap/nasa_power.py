@@ -4,14 +4,14 @@ NASA POWER API client -- DAILY climatology version.
 Why this changed
 ----------------
 The previous version mixed two reference periods (the POWER climatology
-endpoint for T2M/dew/wind/radiation, and 2014-2023 daily data for
+endpoint for T2M/dew/wind/radiation, and 2016-2025 daily data for
 Tmax/Tmin) and never filtered POWER's -999 fill value. The planting-date
 simulator also needs DAILY resolution: FAO-56 growth stages are 20-40
 days long, so monthly means cannot place them.
 
 What this does
 --------------
-1. Pulls one 10-year block (2014-2023) of DAILY data for every variable
+1. Pulls one 10-year block (2016-2025) of DAILY data for every variable
    the pipeline needs, from a single endpoint / single period.
 2. Drops POWER fill values (-999) before averaging.
 3. Averages by day-of-year (1..365; 29 Feb is folded into day 59) to
@@ -35,6 +35,7 @@ response metadata and converted to MJ m-2 day-1 if needed.
 
 import json
 import time
+import warnings
 from collections import defaultdict
 from pathlib import Path
 
@@ -206,8 +207,9 @@ def build_daily_climatology(payload):
     return clim, meta
 
 
-def fetch_daily_climatology_full(lat, lon, use_cache=True):
+def _fetch_uncorrected(lat, lon, use_cache=True):
     """
+    NASA grid-cell climatology exactly as POWER reports it (temperatures at the CELL elevation).
     Returns (climatology, elevation_m, raw_years).
     climatology: list of 365 dicts (smoothed typical year) with keys doy,
       temp_c, temp_max_c, temp_min_c, dewpoint_c, wind_speed_ms,
@@ -226,6 +228,54 @@ def fetch_daily_climatology_full(lat, lon, use_cache=True):
     with open(path, "w") as fh:
         json.dump({"climatology": clim, "meta": meta}, fh)
     return clim, meta["elevation_m"], meta["raw_years"]
+
+
+def _fetch_elevation_corrected(lat, lon, use_cache=True, correct_elevation=True):
+    """
+    Returns (climatology, elevation_m, raw_years), as _fetch_uncorrected, but by default with temperatures
+    and dewpoint adjusted from the NASA grid-cell elevation to the true site elevation (Copernicus 90 m DEM
+    via Open-Meteo) using a standard lapse rate -- see site_elevation.py. The returned elevation_m is then
+    the SITE elevation. If the site elevation cannot be fetched, the uncorrected cell climate is returned
+    with a warning. Pass correct_elevation=False for the raw NASA cell values.
+    """
+    clim, elevation_m, raw_years = _fetch_uncorrected(lat, lon, use_cache)
+    if not correct_elevation:
+        return clim, elevation_m, raw_years
+    try:
+        import site_elevation as _site
+    except ImportError:
+        return clim, elevation_m, raw_years
+    site_m = _site.fetch_site_elevation_m(lat, lon)
+    if site_m is None:
+        warnings.warn(f"Site elevation unavailable for ({lat}, {lon}); using uncorrected NASA cell climate "
+                      f"({elevation_m:.0f} m)", RuntimeWarning, stacklevel=2)
+        return clim, elevation_m, raw_years
+    new_clim, new_raw, info = _site.correct_climatology(clim, raw_years, elevation_m, site_m)
+    if info is None:                      # difference too small to matter
+        return clim, elevation_m, raw_years
+    return new_clim, site_m, new_raw
+
+
+def fetch_daily_climatology_full(lat, lon, use_cache=True, correct_elevation=True, correct_aridity=True):
+    """
+    Returns (climatology, elevation_m, raw_years). By default the NASA grid-cell climate is
+      (1) adjusted to the site elevation (site_elevation.py), and
+      (2) conditioned for dry-site humidity: the dewpoint becomes max(NASA dewpoint, Tmin - aT) following
+          FAO-56 Rev.1 Sec. 2.5.2, Eq. 2.6, with aT set by the location's UNEP aridity index (aridity.py).
+          Reanalysis humidity over dry land is not "reference" humidity and inflates ET0 by roughly 6-13 %.
+    The source dewpoint is kept as dewpoint_raw_c and the aT used as aridity_aT on every day.
+    Pass correct_aridity=False for the unconditioned dewpoint, correct_elevation=False for raw cell temperatures.
+    The cache always holds the raw NASA values; both corrections are applied after loading.
+    """
+    clim, elevation_m, raw_years = _fetch_elevation_corrected(lat, lon, use_cache, correct_elevation)
+    if not correct_aridity:
+        return clim, elevation_m, raw_years
+    try:
+        import aridity as _arid
+    except ImportError:                      # aridity.py not installed: behave as before
+        return clim, elevation_m, raw_years
+    new_clim, _info = _arid.condition_climatology(clim)
+    return new_clim, elevation_m, raw_years
 
 
 def fetch_daily_climatology(lat, lon, use_cache=True):

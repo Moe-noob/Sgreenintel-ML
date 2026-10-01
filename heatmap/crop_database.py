@@ -10,6 +10,12 @@ Sources
           (indicative stage lengths, days). Kc mid/end are for a sub-humid
           standard climate (RHmin 45 %, u2 2 m/s) and are climate-adjusted
           at run time with Eq. 62 / Eq. 65.
+[FAO56R1] Pereira, Allen, Paredes, Lopez-Urrea, Raes, Smith, Kilic, Salman (2025).
+          Crop evapotranspiration -- Guidelines for computing crop water requirements,
+          FAO Irrigation & Drainage Paper 56 Rev.1, doi:10.4060/cd6621en. Tables 6.1 / 6.2
+          (Kc ini/mid/end, max height h): used for the Kc values below, replacing the 1998
+          values. Kc mid/end are for the same standard climate (RHmin 45 %, u2 2 m/s) and
+          are climate-adjusted at run time with Eq. 62 / Eq. 65 as before.
 [PAR25]   Paredes, Lopez-Urrea, Martinez-Romero, Petry, Cameira, Montoya,
           Salman, Pereira (2025). "Estimating the lengths of crop growth
           stages to define the crop coefficient curves using growing degree
@@ -52,9 +58,10 @@ CROP_DB = {
         "t_max_tolerable": 35.0, "t_min_tolerable": 14.0,
         "tolerance_source": "ELN16-S Crops sheet, Tomato (crTmax 35, crTmin 14) -- verified against mmc1.xlsx Crops sheet",
         "kind": "annual",
-        # [FAO56] Table 12: Kc ini 0.6 (Solanaceae group), mid 1.15, end 0.70-0.90 -> midpoint 0.80
-        "kc_ini": 0.60, "kc_mid": 1.15, "kc_end": 0.80, "height_m": 0.6,
-        "kc_source": "FAO56 Table 12 (kc_end = midpoint of 0.70-0.90)",
+        # [FAO56R1] Table 6.1 (book p. 166), Tomato, fresh market: Kc ini 0.60, mid 1.10, end 1.00, h 0.6 m.
+        # (FAO-56 1998 Table 12 gave 0.60 / 1.15 / 0.80.)
+        "kc_ini": 0.60, "kc_mid": 1.10, "kc_end": 1.00, "height_m": 0.6,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Tomato fresh market",
         # [PAR25] Table 1 / Table 5 ("Market" tomato)
         "t_base": 7.0, "t_upper": 28.0,
         "gdd_stages": {"ini": 325, "dev": 660, "mid": 880, "late": 200},
@@ -68,9 +75,10 @@ CROP_DB = {
         "t_max_tolerable": 35.0, "t_min_tolerable": 15.0,
         "tolerance_source": "ELN16-S Crops sheet, Sweet peppers (bell) (crTmax 35, crTmin 15) -- verified against mmc1.xlsx Crops sheet",
         "kind": "annual",
-        # [FAO56] Table 12: Kc ini 0.6 (group), mid 1.05, end 0.90, h 0.7
-        "kc_ini": 0.60, "kc_mid": 1.05, "kc_end": 0.90, "height_m": 0.7,
-        "kc_source": "FAO56 Table 12",
+        # [FAO56R1] Table 6.1 (book p. 166), Bell pepper: Kc ini 0.60, mid 1.10, end 1.00, h 0.70 m.
+        # (FAO-56 1998 Table 12 gave 0.60 / 1.05 / 0.90.)
+        "kc_ini": 0.60, "kc_mid": 1.10, "kc_end": 1.00, "height_m": 0.7,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Bell pepper",
         # [PAR25] Table 1 (Bell & chili pepper 10/35), Table 5
         "t_base": 10.0, "t_upper": 35.0,
         "gdd_stages": {"ini": 445, "dev": 1180, "mid": 745, "late": 45},
@@ -83,9 +91,11 @@ CROP_DB = {
         "t_max_tolerable": 27.0, "t_min_tolerable": 7.0,
         "tolerance_source": "ELN16-S Crops sheet, Potato (crTmax 27, crTmin 7) -- verified against mmc1.xlsx Crops sheet",
         "kind": "annual",
-        # [FAO56] Table 12: Kc ini 0.5 (roots & tubers group), mid 1.15, end 0.75 (0.40 with vine kill), h 0.6
-        "kc_ini": 0.50, "kc_mid": 1.15, "kc_end": 0.75, "height_m": 0.6,
-        "kc_source": "FAO56 Table 12",
+        # [FAO56R1] Table 6.1 (book p. 165), Potato, LONG season (matches the long-season GDD row used below):
+        # Kc ini 0.50, mid 1.10, end 0.40, h 0.60 m. (A short-season crop would be end 0.60.)
+        # (FAO-56 1998 Table 12 gave 0.50 / 1.15 / 0.75.)
+        "kc_ini": 0.50, "kc_mid": 1.10, "kc_end": 0.40, "height_m": 0.6,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Potato long season",
         # [PAR25] Table 1 (2/30), Table 5 short season
         "t_base": 2.0, "t_upper": 30.0,
         "gdd_stages": {"ini": 405, "dev": 530, "mid": 490, "late": 835},
@@ -99,10 +109,10 @@ CROP_DB = {
         "tolerance_source": "ELN16-S Crops sheet, Sweet corn (crTmax 40, crTmin 10) -- field maize not in sheet; same species (Zea mays) used as proxy -- verified against mmc1.xlsx Crops sheet",
         "disclosure": "Temperature-tolerance thresholds use the sweet-corn row as a proxy; the Elnesr & Alazba dataset has no field-maize entry. Kc and GDD values are for field (grain) maize.",
         "kind": "annual",
-        # [FAO56] Table 12: Maize, field (grain): Kc ini 0.3 (cereals group), mid 1.20,
-        # end 0.60 (harvest at high grain moisture) / 0.35 (field-dried) -> 0.35 kept, h 2.0
-        "kc_ini": 0.30, "kc_mid": 1.20, "kc_end": 0.35, "height_m": 2.0,
-        "kc_source": "FAO56 Table 12, Maize field (grain), field-dried harvest",
+        # [FAO56R1] Table 6.2 (book p. 169), Maize, grain, LOW grain moisture at harvest: Kc ini 0.30, mid 1.20,
+        # end 0.30; h 2.50-3.50 m -> midpoint 3.0 m. (FAO-56 1998: 0.30 / 1.20 / 0.35, h 2.0.)
+        "kc_ini": 0.30, "kc_mid": 1.20, "kc_end": 0.30, "height_m": 3.0,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.2, Maize grain, low grain moisture (h = midpoint of 2.5-3.5 m)",
         # [PAR25] Table 2 (10/32), Table 5 Maize grain short season
         "t_base": 10.0, "t_upper": 32.0,
         "gdd_stages": {"ini": 200, "dev": 380, "mid": 500, "late": 340},
@@ -111,13 +121,168 @@ CROP_DB = {
         "plants_per_m2": 5.0, "spacing_source": "TODO verify: 9-12 in x 24-36 in rows gives 3.6-7.2/m2",
     },
     # ------------------------------------------------------------------
+    "Onion": {
+        "t_max_tolerable": 35.0, "t_min_tolerable": 2.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Onions {dry} (crTmax 35, crTmin 2)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Onions, dry: Kc ini 0.70, mid 1.05, end 0.70, h 0.45 m
+        "kc_ini": 0.70, "kc_mid": 1.05, "kc_end": 0.70, "height_m": 0.45,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Onions (dry)",
+        "t_base": 4.5, "t_upper": 35.0,
+        "gdd_stages": {"ini": 460, "dev": 470, "mid": 880, "late": 480},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.11, Onions (dry), common (= Paredes et al. 2025 Table 5)",
+        "fao56_table11_days": {"Arid Region; Calif., Oct; Jan.": (20, 35, 110, 45)},
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Carrot": {
+        "t_max_tolerable": 28.0, "t_min_tolerable": 6.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Carrots (crTmax 28, crTmin 6)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Carrots: Kc ini 0.70, mid 1.00, end 0.85, h 0.30 m
+        "kc_ini": 0.70, "kc_mid": 1.00, "kc_end": 0.85, "height_m": 0.30,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Carrots",
+        "t_base": 6.0, "t_upper": 30.0,
+        "gdd_stages": {"ini": 320, "dev": 465, "mid": 500, "late": 290},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.11, Carrots, common (= Paredes et al. 2025 Table 5)",
+        "fao56_table11_days": {"Arid climate, Oct/Jan": (20, 30, 40, 20)},
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Garlic": {
+        "t_max_tolerable": 30.0, "t_min_tolerable": 8.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Garlic (crTmax 30, crTmin 8)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Garlic: Kc ini 0.70, mid 1.05, end 0.70, h 0.50 m
+        "kc_ini": 0.70, "kc_mid": 1.05, "kc_end": 0.70, "height_m": 0.50,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Garlic",
+        "t_base": 4.0, "t_upper": 30.0,
+        # Rev.1 Table 6.11 has a short row (150/340/335/315) and a long row (580/615/315/240). The mean of the two was
+        # used: it gave 0.94x FAO-56's duration over the 11 cities (short 0.77x, long 1.13x).
+        "gdd_stages": {"ini": 365, "dev": 478, "mid": 325, "late": 278},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.11, Garlic: mean of the short and long season rows",
+        "fao56_table11_days": {"Undefined": (20, 30, 30, 20)},
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Lettuce": {
+        "t_max_tolerable": 27.0, "t_min_tolerable": 5.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Lettuce (crTmax 27, crTmin 5)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Lettuce: Kc ini 0.70, mid 1.05, end 1.05, h 0.35 m
+        "kc_ini": 0.70, "kc_mid": 1.05, "kc_end": 1.05, "height_m": 0.35,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Lettuce",
+        "t_base": 4.0, "t_upper": 28.0,
+        # Rev.1 Table 6.11 long-season row (360/455/455/20): 0.87x FAO-56's duration (short row 0.65x).
+        "gdd_stages": {"ini": 360, "dev": 455, "mid": 455, "late": 20},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.11, Lettuce, long season",
+        "fao56_table11_days": {"Arid Region, Oct/Nov": (25, 35, 30, 10)},
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Sweet_corn": {
+        "t_max_tolerable": 40.0, "t_min_tolerable": 10.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Sweet corn (crTmax 40, crTmin 10)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.2: Maize, sweet: Kc ini 0.30, mid 1.15, end 1.05, h 1.5-2.5 m -> midpoint 2.0 m
+        "kc_ini": 0.30, "kc_mid": 1.15, "kc_end": 1.05, "height_m": 2.0,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.2, Maize sweet (h = midpoint of 1.5-2.5 m)",
+        "t_base": 10.0, "t_upper": 32.0,
+        # Rev.1 Table 6.11 short-season row (200/310/360/115): 0.85x FAO-56's duration (long row 1.70x).
+        "gdd_stages": {"ini": 200, "dev": 310, "mid": 360, "late": 115},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.11, Maize sweet, short season",
+        "fao56_table11_days": {"Undefined": (20, 30, 20, 10)},
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Cucumber": {
+        "t_max_tolerable": 35.0, "t_min_tolerable": 16.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Cucumber {Fresh Market} (crTmax 35, crTmin 16)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Cucumber, fresh market: Kc ini 0.60, mid 1.00, end 0.75, h 0.40 m
+        "kc_ini": 0.60, "kc_mid": 1.00, "kc_end": 0.75, "height_m": 0.40,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Cucumber fresh market",
+        "t_base": 10.0, "t_upper": 32.0,
+        # Rev.1 Table 6.12: min row 80/170/450/270, max row 370/510/520/120 (derived from 1998 durations). Mean used: 0.97x FAO-56's
+        # duration over the 11 cities (min row 0.81x, max row 1.13x).
+        "gdd_stages": {"ini": 225, "dev": 340, "mid": 485, "late": 195},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.12, Cucumber fresh market: mean of the min and max length rows",
+        "fao56_table11_days": {"Arid Region, June/Aug": (20, 30, 40, 15), "Arid Region, Nov; Feb": (25, 35, 50, 20)},
+        "confidence": "lower", "headline_rule": "fewest_exceedance_days",
+        "confidence_note": "Heat units are a min/max range derived from the 1998 FAO-56 durations (Rev.1 Table 6.12), not field observed, and AquaCrop cannot check this crop",
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Eggplant": {
+        "t_max_tolerable": 35.0, "t_min_tolerable": 15.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, EggPlant (crTmax 35, crTmin 15)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Eggplant: Kc ini 0.60, mid 1.05, end 0.95, h 0.80 m
+        "kc_ini": 0.60, "kc_mid": 1.05, "kc_end": 0.95, "height_m": 0.80,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Eggplant",
+        "t_base": 10.0, "t_upper": 35.0,
+        # Rev.1 Table 6.12: min row 280/440/380/80, max row 230/540/480/180. Max row used: 0.95x FAO-56's duration (min row 0.83x,
+        # mean 0.94x).
+        "gdd_stages": {"ini": 230, "dev": 540, "mid": 480, "late": 180},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.12, Eggplant, max length row",
+        "fao56_table11_days": {"Arid Region, Oct": (30, 40, 40, 20)},
+        "confidence": "lower", "headline_rule": "fewest_exceedance_days",
+        "confidence_note": "Heat units are a min/max range derived from the 1998 FAO-56 durations (Rev.1 Table 6.12), not field observed, and AquaCrop cannot check this crop",
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Squash": {
+        "t_max_tolerable": 38.0, "t_min_tolerable": 15.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Squash (crTmax 38, crTmin 15)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Zucchini, Squash (Cucurbita pepo): Kc ini 0.50, mid 1.00, end 0.70, h 0.50 m
+        "kc_ini": 0.50, "kc_mid": 1.00, "kc_end": 0.70, "height_m": 0.50,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Zucchini / Squash",
+        "t_base": 10.0, "t_upper": 32.0,
+        # Rev.1 Table 6.12: min row 90/200/210/130, max row 160/370/360/260. Max row used: 0.91x FAO-56's duration (min row 0.42x,
+        # mean 0.72x).
+        "gdd_stages": {"ini": 160, "dev": 370, "mid": 360, "late": 260},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.12, Squash / Zucchini, max length row",
+        "fao56_table11_days": {"Medit.; Arid Reg., Apr; Dec.": (25, 35, 25, 15)},
+        "confidence": "lower", "headline_rule": "fewest_exceedance_days",
+        "confidence_note": "Heat units are a min/max range derived from the 1998 FAO-56 durations (Rev.1 Table 6.12), not field observed, and AquaCrop cannot check this crop",
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Pumpkin": {
+        "t_max_tolerable": 38.0, "t_min_tolerable": 15.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Pumpkin (crTmax 38, crTmin 15)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Pumpkin, winter squash (Cucurbita pepo): Kc ini 0.50, mid 0.95, end 0.70, h 0.40 m
+        "kc_ini": 0.50, "kc_mid": 0.95, "kc_end": 0.70, "height_m": 0.40,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Pumpkin / winter squash",
+        "t_base": 10.0, "t_upper": 32.0,
+        # Rev.1 Table 6.12: min row 170/380/370/150, max row 230/440/430/200. Max row used: 1.05x FAO-56's duration (min row 0.85x,
+        # mean 0.92x).
+        "gdd_stages": {"ini": 230, "dev": 440, "mid": 430, "late": 200},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.12, Pumpkin, max length row",
+        "fao56_table11_days": {"Mediterranean, Mar, Aug": (20, 30, 30, 20)},
+        "confidence": "lower", "headline_rule": "fewest_exceedance_days",
+        "confidence_note": "Heat units are a min/max range derived from the 1998 FAO-56 durations (Rev.1 Table 6.12), not field observed, and AquaCrop cannot check this crop",
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
+    "Green_bean": {
+        "t_max_tolerable": 35.0, "t_min_tolerable": 15.0,
+        "tolerance_source": "Elnesr & Alazba 2016 workbook, Crops sheet, Beans, green (crTmax 35, crTmin 15)",
+        "kind": "annual",
+        # [FAO56R1] Table 6.1: Common bean, green: Kc ini 0.50, mid 1.05, end 0.95, h 0.50-0.70 m -> midpoint 0.60 m
+        "kc_ini": 0.50, "kc_mid": 1.05, "kc_end": 0.95, "height_m": 0.60,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Common bean green (h = midpoint of 0.5-0.7 m)",
+        "t_base": 10.0, "t_upper": 32.0,
+        # Rev.1 Table 6.12: min row 20/110/220/100, max row 230/390/400/150. Mean used: 0.80x FAO-56's duration (min row 0.47x,
+        # max row 1.29x).
+        "gdd_stages": {"ini": 125, "dev": 250, "mid": 310, "late": 125},
+        "gdd_source": "FAO-56 Rev.1 (2025) Table 6.12, Beans green: mean of the min and max length rows",
+        "fao56_table11_days": {"Calif., Mediterranean, Feb/Mar": (20, 30, 30, 10), "Calif., Egypt, Lebanon, Aug/Sep": (15, 25, 25, 10)},
+        "confidence": "lower", "headline_rule": "fewest_exceedance_days",
+        "confidence_note": "Heat units are a min/max range derived from the 1998 FAO-56 durations (Rev.1 Table 6.12), not field observed, and AquaCrop cannot check this crop",
+        "plants_per_m2": None, "spacing_source": "none: litres per plant need a user-supplied density",
+    },
     "Strawberry": {
         "t_max_tolerable": 28.0, "t_min_tolerable": 8.0,
         "tolerance_source": "ELN16-S Crops sheet, Strawberries (crTmax 28, crTmin 8) -- verified against mmc1.xlsx Crops sheet",
         "kind": "annual",   # fruits in first season, unlike Grape/Apple
-        # [FAO56] Table 12: Strawberries 0.40 / 0.85 / 0.75, h 0.2
-        "kc_ini": 0.40, "kc_mid": 0.85, "kc_end": 0.75, "height_m": 0.2,
-        "kc_source": "FAO56 Table 12",
+        # [FAO56R1] Table 6.1 (book p. 166), Strawberries: 0.50 / 0.80 / 0.75, h 0.20 m (1998: 0.40 / 0.85 / 0.75).
+        # Strawberry is still excluded from the planting-date scan (no sourced stage GDD).
+        "kc_ini": 0.50, "kc_mid": 0.80, "kc_end": 0.75, "height_m": 0.2,
+        "kc_source": "FAO-56 Rev.1 (2025) Table 6.1, Strawberries",
         # [PAR25] Table 1 gives Tbase 3 / Tupper 30 but NO cumulative GDD row for strawberry,
         # and FAO-56 Table 11 has no strawberry entry either.
         "t_base": 3.0, "t_upper": 30.0,
@@ -181,6 +346,8 @@ CROP_COEFFICIENTS = {
     name: {"kc_ini": c["kc_ini"], "kc_mid": c["kc_mid"], "kc_end": c["kc_end"], "height_m": c["height_m"]}
     for name, c in CROP_DB.items()
 }
+# NOTE: these densities are UNSOURCED (see spacing_source above). The advisor and the tracker no longer use them:
+# litres per plant are shown only when the user supplies a planting density.
 ASSUMED_PLANTS_PER_M2 = {name: c["plants_per_m2"] for name, c in CROP_DB.items()}
 
 SCAN_CROPS = [n for n, c in CROP_DB.items() if c["kind"] == "annual" and c["gdd_stages"]]

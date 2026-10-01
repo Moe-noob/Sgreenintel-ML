@@ -267,6 +267,18 @@
 
   .search-row input:hover { border-color: var(--gold-dim); }
 
+  .field input[type="number"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--paper);
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    width: 150px;
+  }
+
+  .field input[type="number"]:hover { border-color: var(--gold-dim); }
+
   .search-results {
     margin-top: 8px;
     display: flex;
@@ -1022,7 +1034,7 @@
     <section class="view" id="view-plan">
       <div class="view-head">
         <h1 class="view-title">Plan a planting</h1>
-        <p class="view-desc">Choose a city to see which crops suit the local climate, the recommended planting date, and the water each growth stage will need.</p>
+        <p class="view-desc">Choose a city to see which crops suit the local climate, the lowest-water feasible planting window for each, and the water each growth stage will need.</p>
       </div>
 
       <div class="field-row">
@@ -1064,6 +1076,16 @@
             <option value="Potato">Potato</option>
             <option value="Pepper,_bell">Bell pepper</option>
             <option value="Corn_(maize)">Corn</option>
+            <option value="Onion">Onion</option>
+            <option value="Carrot">Carrot</option>
+            <option value="Garlic">Garlic</option>
+            <option value="Lettuce">Lettuce</option>
+            <option value="Sweet_corn">Sweet corn</option>
+            <option value="Cucumber">Cucumber</option>
+            <option value="Eggplant">Eggplant</option>
+            <option value="Squash">Squash</option>
+            <option value="Pumpkin">Pumpkin</option>
+            <option value="Green_bean">Green bean</option>
           </select>
         </div>
         <div class="field">
@@ -1073,6 +1095,10 @@
         <div class="field">
           <label for="trackDate">Planting date</label>
           <input type="date" id="trackDate">
+        </div>
+        <div class="field">
+          <label for="trackDensity">Plants per m² (optional)</label>
+          <input type="number" id="trackDensity" min="0.05" max="50" step="0.1" placeholder="e.g. 2.5">
         </div>
         <button class="btn" id="trackGo">Track plant</button>
       </div>
@@ -1348,7 +1374,7 @@ function renderAdvisor(data) {
       <div class="chip">Elevation <strong>${Math.round(data.elevation_m)} m</strong></div>
     </div>`;
 
-  html += `<div class="section-label">Annual crops</div>`;
+  html += `<div class="section-label">Annual crops: lowest-water feasible window (not a yield-optimized recommendation)</div>`;
   data.annual_crops.forEach((scan, idx) => {
     const id = `ann-${idx}`;
     if (!scan.best) {
@@ -1362,14 +1388,16 @@ function renderAdvisor(data) {
       return;
     }
     const b = scan.best;
-    const shockFree = scan.n_shock_free > 0;
+    const shockFree = (b.heat_shock_days + b.cold_shock_days) === 0;
     html += `
       <div class="crop-card" id="${id}">
         <div class="crop-card-head" onclick="toggleCard('${id}')">
           <div>
             <div class="crop-title-row">
               <div class="crop-name">${scan.crop.replace(/_/g,' ')}</div>
-              <span class="badge ${shockFree ? 'good' : 'warn'}">${shockFree ? 'Shock-free window found' : 'Least-water viable'}</span>
+              <span class="badge ${shockFree ? 'good' : 'warn'}">${shockFree ? 'Shock-free window found' : (scan.headline_rule ? 'Fewest exceedance days' : 'Least-water viable')}</span>
+              ${['Tomato', 'Potato', 'Corn_(maize)'].includes(scan.crop) ? '' : '<span class="badge info">Not checked against AquaCrop</span>'}
+              ${scan.confidence ? '<span class="badge info" title="' + (scan.confidence_note || '') + '">Lower confidence</span>' : ''}
             </div>
             <div class="crop-dates">${b.start_date}<span class="arrow">→</span>${b.end_date} · ${b.total_days} days</div>
           </div>
@@ -1377,6 +1405,8 @@ function renderAdvisor(data) {
         </div>
         <div class="crop-card-body">
           <div class="basis-line">${scan.selection_basis}</div>
+          ${seasonPicksHtml(scan)}
+          ${dateProfileHtml(scan)}
           ${stageBarHtml(b.stages)}
           ${stageTableHtml(b.stages)}
           <div class="summary-line">
@@ -1424,6 +1454,139 @@ function renderAdvisor(data) {
   }
 
   out.innerHTML = html;
+}
+
+
+// Planting-date profile for one crop, with a toggle between season-total water and water per day.
+// Paste into index.html, replacing the earlier dateProfileHtml function.
+let profileCounter = 0;
+
+function setProfileMetric(id, metric) {
+  ['total', 'daily'].forEach(m => {
+    const panel = document.getElementById(`${id}-${m}`);
+    const btn = document.getElementById(`${id}-btn-${m}`);
+    const active = (m === metric);
+    if (panel) panel.style.display = active ? 'block' : 'none';
+    if (btn) {
+      btn.style.borderColor = active ? 'var(--gold)' : 'var(--border)';
+      btn.style.color = active ? 'var(--paper)' : 'var(--paper-dim)';
+    }
+  });
+}
+
+function profileSvg(runs, bestDoy, valueOf, axisLabel, altDoys) {
+  const viable = runs.filter(r => r.viable);
+  const W = 720, H = 170, padL = 78, padR = 8, padT = 12, padB = 26;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const maxVal = Math.max(...viable.map(valueOf));
+  const slot = plotW / runs.length;
+  const barW = Math.max(slot - 2, 2);
+
+  let bars = '';
+  runs.forEach((r, i) => {
+    const x = padL + i * slot + (slot - barW) / 2;
+    if (!r.viable) {
+      bars += `<rect x="${x.toFixed(1)}" y="${padT + plotH - 2}" width="${barW.toFixed(1)}" height="2" style="fill:var(--border)"><title>Start ${r.start_date}: heat units not reached within a year</title></rect>`;
+      return;
+    }
+    const h = Math.max(plotH * valueOf(r) / maxVal, 1);
+    const y = padT + plotH - h;
+    const total = r.heat_shock_days + r.cold_shock_days;
+    const fill = total === 0 ? 'var(--leaf)' : (r.heat_shock_days > r.cold_shock_days ? 'var(--clay)' : 'var(--teal)');
+    const isBest = r.start_doy === bestDoy;
+    const isAlt = !isBest && Array.isArray(altDoys) && altDoys.includes(r.start_doy);
+    const style = `fill:${fill};` + (isBest ? 'stroke:var(--paper);stroke-width:2;' : (isAlt ? 'stroke:var(--paper);stroke-width:2;stroke-dasharray:3 2;' : 'opacity:0.85;'));
+    const tip = `Start ${r.start_date} to ${r.end_date}: ${r.total_days} days, ${Math.round(r.seasonal_etc_mm)} mm ` +
+      `(${(r.seasonal_etc_mm / r.total_days).toFixed(2)} mm/day), exceedance days: ${r.heat_shock_days} heat, ` +
+      `${r.cold_shock_days} cold${isBest ? ' (MODEL PICK)' : (isAlt ? ' (SEASON PICK)' : '')}`;
+    bars += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" style="${style}"><title>${tip}</title></rect>`;
+  });
+
+  const axis =
+    `<line x1="${padL}" y1="${padT + plotH}" x2="${W - padR}" y2="${padT + plotH}" style="stroke:var(--border)"/>` +
+    `<text x="${padL - 6}" y="${padT + 8}" text-anchor="end" style="fill:var(--paper-faint);font-size:11px;">${axisLabel(maxVal)}</text>` +
+    `<text x="${padL - 6}" y="${padT + plotH}" text-anchor="end" style="fill:var(--paper-faint);font-size:11px;">0</text>`;
+
+  const months = [['Jan', 1], ['Mar', 60], ['May', 121], ['Jul', 182], ['Sep', 244], ['Nov', 305]];
+  let labels = '';
+  months.forEach(([name, doy]) => {
+    const i = Math.round((doy - 1) / 10);
+    const x = padL + i * slot + slot / 2;
+    labels += `<text x="${x.toFixed(1)}" y="${H - 8}" text-anchor="middle" style="fill:var(--paper-faint);font-size:11px;">${name}</text>`;
+  });
+
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" ` +
+    `aria-label="Bar chart of crop water use for each candidate planting start date">${axis}${bars}${labels}</svg>`;
+}
+
+function dateProfileHtml(scan) {
+  const runs = scan.runs || [];
+  if (!runs.some(r => r.viable)) return '';
+  const id = `profile-${++profileCounter}`;
+  const bestDoy = scan.best ? scan.best.start_doy : null;
+  const sp = scan.season_picks;
+  const altDoys = sp ? [sp.autumn, sp.spring].filter(Boolean).map(p => p.start_doy) : [];
+  const viableRuns = runs.filter(r => r.viable);
+  const freeRuns = viableRuns.filter(r => r.shock_free);
+  let eligibleNote = '';
+  if (!scan.headline_rule && scan.best && freeRuns.length > 0 && freeRuns.length < viableRuns.length) {
+    const cheapest = viableRuns.reduce((a, b) => (a.seasonal_etc_mm / a.total_days <= b.seasonal_etc_mm / b.total_days ? a : b));
+    if (cheapest.start_doy !== scan.best.start_doy) {
+      eligibleNote = `Only ${freeRuns.length} of ${viableRuns.length} candidate dates have no exceedance days, and the pick is chosen among those. ` +
+        `The lowest water per day overall is a ${cheapest.start_date} start, which has exceedance days. `;
+    }
+  }
+
+  const headlineNote = scan.headline_rule ? 'For this crop the outlined bar is not the lowest-water date: it is the autumn or spring pick with the fewest exceedance days (ties: lowest water per day). The sentence below about the lowest water per day describes the rule used for the other crops. ' : '';
+  const totalSvg = profileSvg(runs, bestDoy, r => r.seasonal_etc_mm, v => `${Math.round(v)} mm`, altDoys);
+  const dailySvg = profileSvg(runs, bestDoy, r => r.seasonal_etc_mm / r.total_days, v => `${v.toFixed(1)} mm/day`, altDoys);
+
+  const btnStyle = 'padding:4px 10px;font-size:12px;';
+  const swatch = c => `<span style="display:inline-block;width:10px;height:10px;background:${c};margin-right:6px;"></span>`;
+
+  return `<div style="margin:4px 0 18px;">` +
+    `<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;">` +
+    `<div class="section-label" style="margin:0;">Crop water by planting start date</div>` +
+    `<div style="display:flex;gap:6px;">` +
+    `<button type="button" class="btn-quiet" id="${id}-btn-total" style="${btnStyle}border-color:var(--gold);color:var(--paper);" onclick="setProfileMetric('${id}','total')">Season total (mm)</button>` +
+    `<button type="button" class="btn-quiet" id="${id}-btn-daily" style="${btnStyle}" onclick="setProfileMetric('${id}','daily')">Per day (mm/day)</button>` +
+    `</div></div>` +
+    `<div id="${id}-total">${totalSvg}</div>` +
+    `<div id="${id}-daily" style="display:none;">${dailySvg}</div>` +
+    `<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--paper-faint);margin-top:6px;">` +
+    `<span>${swatch('var(--leaf)')}no exceedance days</span>` +
+    `<span>${swatch('var(--clay)')}mostly heat exceedance</span>` +
+    `<span>${swatch('var(--teal)')}mostly cold exceedance</span>` +
+    `<span>outlined bar = model pick</span>${altDoys.length ? '<span>dashed outline = season pick</span>' : ''}</div>` +
+    `<div class="basis-line" style="margin:8px 0 0;">${headlineNote}${eligibleNote}Each bar is one candidate start date (every 10 days). Hover a bar for details. ` +
+    `The model picks the lowest water <em>per day</em> among eligible dates (green bars if any exist, otherwise all ` +
+    `viable dates), so the outlined bar is not always the shortest in the season-total view. Exceedance days are heat or ` +
+    `cold days beyond the crop's tolerance limits; cold counts likely overstate risk here because the test uses the ` +
+    `night minimum. For tomato the limits used are stricter than the independent AquaCrop model's, so its counts can look worse than its yield response. Water figures are FAO-56 crop water use for a well-watered crop; against AquaCrop they run about 3% higher for tomato, about 14% higher for potato (our cycle is longer) and up to about 50% higher for cold-season corn in the northern cities. Reference ET0 is conditioned for dry-site weather data (FAO-56 Rev.1 Eq. 2.6) but stays uncertain by roughly 15% (our estimate), mainly because wind speed is not independently verified, so treat absolute litres and m³/ha as estimates.</div></div>`;
+}
+
+function seasonPicksHtml(scan) {
+  const sp = scan.season_picks;
+  if (!sp || (!sp.autumn && !sp.spring)) return '';
+  const runs = scan.runs || [];
+  const headlineDoy = scan.best ? scan.best.start_doy : null;
+  const rowHtml = (title, starts, pick) => {
+    const r = pick ? runs.find(x => x.start_doy === pick.start_doy) : null;
+    const head = `<div style="font-size:12px;color:var(--paper-faint);">${title} <span style="opacity:0.8;">(${starts} starts)</span></div>`;
+    if (!r) return `<div style="padding:8px 0;border-top:1px solid var(--border-soft);">${head}<div style="font-size:13px;color:var(--paper-dim);">No viable start date in this season.</div></div>`;
+    const tag = r.start_doy === headlineDoy ? ' <span style="color:var(--gold);font-size:12px;">· card headline</span>' : '';
+    return `<div style="padding:8px 0;border-top:1px solid var(--border-soft);">${head}` +
+      `<div style="font-size:14px;color:var(--paper);">${r.start_date} → ${r.end_date} · ${r.total_days} days · ${Math.round(r.seasonal_etc_mm)} mm (${(r.seasonal_etc_mm / r.total_days).toFixed(1)} mm/day)${tag}</div>` +
+      `<div style="font-size:12px;color:var(--paper-faint);">Exceedance days: ${r.heat_shock_days} heat, ${r.cold_shock_days} cold. Chosen for: ${pick.rule}.</div></div>`;
+  };
+  const c = sp.spring_cost;
+  const costLine = c
+    ? `AquaCrop estimates about ${c.pct}% lower water productivity (yield per m³) for the spring date than for the best date of the year (${c.scope}; range ${c.low}–${c.high}% across ${c.n} cities). `
+    : '';
+  return `<div style="margin:4px 0 14px;">` +
+    `<div class="section-label" style="margin:0 0 4px;">Two planting seasons</div>` +
+    rowHtml('Autumn', sp.autumn_starts, sp.autumn) + rowHtml('Spring', sp.spring_starts, sp.spring) +
+    `<div class="basis-line" style="margin:6px 0 0;">${costLine}${sp.spring_cost_note}</div></div>`;
 }
 
 function toggleCard(id) {
@@ -1568,6 +1731,8 @@ async function runTracker() {
   const body = trackCoords
     ? { crop_name: crop, lat: trackCoords.lat, lon: trackCoords.lon, location_label: trackCoords.label, planting_date: date, include_forecast: true }
     : { crop_name: crop, location: city, planting_date: date, include_forecast: true };
+  const density = parseFloat(document.getElementById('trackDensity').value);
+  if (density > 0) body.plants_per_m2 = density;
 
   try {
     const res = await fetch(API_BASE + '/tracker', {
@@ -1634,7 +1799,7 @@ function renderTracker(data) {
         <div class="info-card">
           <div class="info-card-label">Water needed now</div>
           <div class="info-card-value">${data.care.current_stage_water_mm_per_day?.toFixed(2) ?? '—'}<span class="info-card-unit">mm/day</span></div>
-          <div class="info-card-sub">${data.care.current_stage_liters_per_plant ? data.care.current_stage_liters_per_plant.toFixed(2) + ' L per plant, assuming ' + data.care.plants_per_m2_assumption + ' plants/m²' : ''}</div>
+          <div class="info-card-sub">${data.care.current_stage_liters_per_plant ? data.care.current_stage_liters_per_plant.toFixed(2) + ' L per plant at ' + data.care.plants_per_m2_user + ' plants/m²' : '1 mm = 1 L per m². Enter plants per m² above for litres per plant.'}</div>
         </div>
         <div class="info-card">
           <div class="info-card-label">General watering</div>
@@ -1659,9 +1824,9 @@ function renderTracker(data) {
             <div class="forecast-hum">${f.humidity_max}% humidity</div>
             <div class="forecast-summary">${f.summary}</div>
             <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border-soft); font-family:var(--font-mono); font-size:11px; color:var(--teal);">
-              ${f.live_etc_liters_per_plant.toFixed(2)} L/plant
+              ${f.live_etc_liters_per_plant != null ? f.live_etc_liters_per_plant.toFixed(2) + ' L/plant' : f.live_etc_mm_day.toFixed(1) + ' mm'}
             </div>
-            <div style="font-size:10px; color:var(--paper-faint);">typical: ${f.baseline_etc_liters_per_plant.toFixed(2)} L</div>
+            <div style="font-size:10px; color:var(--paper-faint);">typical: ${f.baseline_etc_liters_per_plant != null ? f.baseline_etc_liters_per_plant.toFixed(2) + ' L' : f.baseline_etc_mm_day.toFixed(1) + ' mm'}</div>
           </div>`).join('') + `</div>`;
     }
 

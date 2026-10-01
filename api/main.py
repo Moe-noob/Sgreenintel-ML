@@ -5,8 +5,8 @@ SGreen Intel API -- FastAPI backend wrapping the three ML features:
   3. Plant care tracker (care/tracker.py)
 
 Location handling: the 11 known cities (GET /locations) are the
-validated, fast-path option -- their planting-date results have been
-manually cross-checked against known KSA agricultural practice. Any
+validated, fast-path option -- their planting-date rule was checked against an
+independent crop model (FAO AquaCrop; see research/), not against field trials. Any
 other Saudi location can be used via geocoding (GET /geocode) plus
 the coordinate-based endpoints (/advisor/at, /tracker with lat/lon).
 Geocoding is restricted to Saudi Arabia: the FAO-56 tolerance
@@ -204,8 +204,8 @@ def advisor_at_endpoint(
     Arabia's approximate bounding box; this is a coarse sanity check, not
     a precise border check.
 
-    Note: this location has not been individually cross-checked against
-    known agricultural practice the way the 11 known cities have. Elevation
+    Note: this location has not been individually checked against the
+    AquaCrop reference run the way the 11 known cities were. Elevation
     accuracy also depends entirely on NASA POWER's grid cell for this exact
     point (see the Abha discrepancy documented in the project's known
     limitations) -- a real source of uncertainty for arbitrary coordinates.
@@ -253,6 +253,7 @@ class TrackerRequest(BaseModel):
     lon: Optional[float] = None
     location_label: Optional[str] = None  # display name when using lat/lon
     include_forecast: Optional[bool] = True
+    plants_per_m2: Optional[float] = None  # optional planting density; litres per plant are shown only if given
 
 
 @app.post("/tracker")
@@ -273,12 +274,16 @@ def tracker_endpoint(req: TrackerRequest):
     else:
         raise HTTPException(status_code=400, detail="Provide either 'location' or 'lat'+'lon'.")
 
+    if req.plants_per_m2 is not None and not (0.05 <= req.plants_per_m2 <= 50):
+        raise HTTPException(status_code=400, detail="plants_per_m2 must be between 0.05 and 50.")
+
     try:
         result = get_plant_status(
             crop_name=req.crop_name,
             location_name=location_arg,
             planting_date_str=req.planting_date,
             include_forecast=req.include_forecast,
+            plants_per_m2=req.plants_per_m2,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
