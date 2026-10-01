@@ -4,6 +4,8 @@ variables so the same code runs locally, on Colab and on a lab GPU:
 
     F1V2_DATA_ROOT   folder that holds the downloaded datasets (see RUNBOOK.md)
     F1V2_WORK_DIR    where manifests, splits, checkpoints and reports are written
+    F1V2_BENCHMARK_DIR  where the frozen benchmark and its usage log live
+                     (on Colab: a Google Drive folder, so the freeze survives a disconnect)
 """
 
 import os
@@ -15,7 +17,7 @@ REPO = PKG.parent
 DATA_ROOT = Path(os.environ.get("F1V2_DATA_ROOT", REPO / "data" / "raw"))
 WORK_DIR = Path(os.environ.get("F1V2_WORK_DIR", PKG / "work"))
 SOURCES_FILE = PKG / "sources.json"
-BENCHMARK_DIR = PKG / "benchmark"          # frozen benchmark lists (committed, small text files)
+BENCHMARK_DIR = Path(os.environ.get("F1V2_BENCHMARK_DIR", PKG / "benchmark"))   # frozen benchmark (small text files, committed)
 
 # ---- class inclusion (plan, Step 2) ----
 MIN_FIELD_TRAIN = 150    # real-field training images a class needs to enter the model

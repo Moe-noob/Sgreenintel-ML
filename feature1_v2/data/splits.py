@@ -193,12 +193,14 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--work", default=str(config.WORK_DIR))
     ap.add_argument("--force-refreeze", action="store_true")
+    ap.add_argument("--min-train", type=int, default=None, help="override config.MIN_FIELD_TRAIN (dry runs only)")
+    ap.add_argument("--min-test", type=int, default=None, help="override config.MIN_FIELD_TEST (dry runs only)")
     a = ap.parse_args(argv)
     work = Path(a.work)
     rows = mf.read(work / "manifest.csv")
     hashes = {r["path"]: r["group"] for r in mf.read(work / "hashes.csv")}
     groups = [hashes.get(r["path"], f"solo:{r['path']}") for r in rows]
-    rows, report, included = assign(rows, groups)
+    rows, report, included = assign(rows, groups, a.min_train, a.min_test)
     write_splits(rows, work / "splits.csv")
     (work / "classes.json").write_text(json.dumps(included, indent=1))
     h = freeze(rows, included, force=a.force_refreeze)

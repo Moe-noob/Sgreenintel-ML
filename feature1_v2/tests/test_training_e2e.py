@@ -122,6 +122,11 @@ class TestEndToEnd(unittest.TestCase):
         r = compare.compare(compare.read(self.tmp / "v1_val" / "predictions.csv"),
                             compare.read(self.run_dir / "ev_val" / "predictions.csv"))
         self.assertGreater(r["n"], 0)
+        out = compare.main([str(self.tmp / "v1_val" / "predictions.csv"),
+                            str(self.run_dir / "ev_val" / "predictions.csv"), "--json", str(self.tmp / "cmp.json")])
+        self.assertIn(json.loads((self.tmp / "cmp.json").read_text())["pred_auto"]["verdict"],
+                      ("B better", "A better", "no clear difference"))
+        self.assertEqual(set(out), {"pred_auto", "pred_crop_given"})
 
     def test_4_distillation(self):
         student = distill.main(["--teacher", str(self.ckpt), "--student", "test", "--epochs", "3", "--batch", "16",
@@ -133,6 +138,20 @@ class TestEndToEnd(unittest.TestCase):
         self.assertEqual(ck["meta"]["img_size"], 48)
         hist = json.loads((self.tmp / "student" / "history.json").read_text())
         self.assertGreater(max(h["val_accuracy"] for h in hist), 0.4)
+
+    def test_5_resume_after_disconnect(self):
+        common = ["--backbone", "test", "--mode", "finetune", "--batch", "16", "--lr", "3e-3", "--img-size", "48",
+                  "--no-pretrained", "--workers", "0", "--ema", "0.9", "--cutmix", "0",
+                  "--splits", str(self.work / "splits.csv"), "--data-root", str(self.tmp / "data"),
+                  "--out", str(self.tmp / "resumed"), "--resume"]
+        train.main(["--epochs", "2"] + common)                 # "disconnect" after 2 epochs
+        self.assertEqual(len(json.loads((self.tmp / "resumed" / "history.json").read_text())), 2)
+        train.main(["--epochs", "4"] + common)                 # re-run the same cell, asking for 4
+        hist = json.loads((self.tmp / "resumed" / "history.json").read_text())
+        self.assertEqual([h["epoch"] for h in hist], [1, 2, 3, 4])
+        self.assertTrue((self.tmp / "resumed" / "best.pt").exists())
+        train.main(["--epochs", "4"] + common)                 # already finished: nothing to do
+        self.assertEqual(len(json.loads((self.tmp / "resumed" / "history.json").read_text())), 4)
 
 
 if __name__ == "__main__":

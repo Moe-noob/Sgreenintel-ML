@@ -2,7 +2,7 @@
 
 This document records everything that is new or changed compared with Feature 1 v1 (the CNN in `training/`, `models/cnn/`, `care/`), every problem found in v1, where each piece of knowledge came from, and how each part was validated. It is meant to be checked against v1 line by line.
 
-**Status in one paragraph.** All code for the agreed plan is written and tested (36 automated tests, all passing). The data pipeline, frozen benchmark, training, calibration, evaluation, v1 baseline adapter, predictor, leaf detector tools, advice knowledge base, weather rules, season note, API and demo page all work. **No real model has been trained yet.** The build environment had no GPU and could not download the datasets (Hugging Face, Kaggle, Mendeley and the dataset hosts were blocked). So this document contains **no v2 accuracy numbers**, and none are claimed. They come from running [`RUNBOOK.md`](RUNBOOK.md) on Colab or a borrowed GPU; section 7 has the empty result tables to fill in.
+**Status in one paragraph.** All code for the agreed plan is written and tested (37 automated tests, all passing). The data pipeline, frozen benchmark, training, calibration, evaluation, v1 baseline adapter, predictor, leaf detector tools, advice knowledge base, weather rules, season note, API and demo page all work. **No real model has been trained yet.** The build environment had no GPU and could not download the datasets (Hugging Face, Kaggle, Mendeley and the dataset hosts were blocked). So this document contains **no v2 accuracy numbers**, and none are claimed. They come from running [`RUNBOOK.md`](RUNBOOK.md) on Colab or a borrowed GPU; section 7 has the empty result tables to fill in.
 
 To remove v2, delete `feature1_v2/`. Nothing outside the folder imports it. `api/main.py`, `index.html`, `training/` and `care/` are unchanged.
 
@@ -207,9 +207,11 @@ The advice layer (`service.enrich`) never changes the prediction.
 | Advice KB | every taxonomy label has an entry; AR and EN for every field (Arabic script checked); every source key resolves; look-alikes same crop; oomycete / bacterial categories correct for named diseases; no doses or product units | `kb.validate()` empty; tests pass |
 | Weather rules | synthetic forecasts at and just outside each threshold (Tmin 8 vs 12 °C; 5 vs 8 h humid; one vs two days; 8 vs 12 mm rain) | correct high / low in every case |
 | Season note | lettuce in Riyadh in January in season, July unusual; grape not available | test passes |
+| Resume after disconnect | train 2 epochs, re-run asking for 4: continues at epoch 3, history 1–4; re-running a finished run does nothing | test passes |
+| Colab notebook | `python -m feature1_v2.colab.dry_run`: builds a fake Drive folder with the same 5 files the guide asks for (zips with top folders as Windows/Mac make them, GitHub-style code zip, fake v1 model), executes every notebook box on CPU, deletes the local disk mid-training to simulate a disconnect, then runs everything again | every box prints ✅; training resumes at the saved epoch; data preparation is skipped the second time; `results_to_send.zip` produced |
 | API | FastAPI TestClient: crops list, AR prediction with advice, invalid crop 400, more than 3 photos 400, non-image 400, advice 404 | tests pass |
 
-Run: `python -m unittest discover -s feature1_v2/tests -t .` (36 tests) and `python -m unittest discover feature2_v2/tests` (29 tests, unchanged by this work).
+Run: `python -m unittest discover -s feature1_v2/tests -t .` (37 tests) and `python -m unittest discover feature2_v2/tests` (29 tests, unchanged by this work).
 
 **What these tests do not show:** anything about accuracy on real photos. That is section 7, after the runbook.
 
@@ -222,6 +224,8 @@ Run: `python -m unittest discover -s feature1_v2/tests -t .` (36 tests) and `pyt
 5. **Rejection reasons were English only.** The demo showed English rejection reasons in Arabic mode. Rejection reasons are now `{en, ar}`.
 6. **Network errors overflowed the page.** A failed forecast put the raw network error into the user message, which overflowed the page at phone width. Add-on errors now give a short translated message and keep the raw error in an `error` field.
 7. **Season check was too permissive.** It first used every candidate sowing day and said lettuce is in season in Riyadh all year. It was changed to the lowest-third-stress rule (section 4.5).
+8. **Colab notebook winner tie-break.** On a tie in "crop known" accuracy, the notebook picked the first model in the list rather than the stronger one (found in the dry run). It now breaks ties on overall accuracy, then macro-F1.
+9. **Free Colab loses its disk on disconnect.** The frozen benchmark lived inside the code folder and training could not continue. Fixed: `F1V2_BENCHMARK_DIR` puts the benchmark on Drive, and `train.py --resume` continues from `last.pt` (saved atomically every epoch).
 
 ## 7. Results (to fill in from RUNBOOK steps 5–10)
 
@@ -265,5 +269,6 @@ Ablation table (validation, best backbone): background swap, CutMix, field weigh
 | `advice/` | knowledge base, sources, weather rules, season note |
 | `service.py`, `api_router.py`, `demo.html` | combined response, FastAPI router, demo page |
 | `benchmark/` | frozen benchmark (created by RUNBOOK step 4) and its usage log |
-| `tests/` | 36 tests |
+| `tests/` | 37 tests |
+| `colab/` | beginner GUIDE.md, click-through Colab notebook (and its builder), fake-drive dry run |
 | `RUNBOOK.md`, `README.md`, `requirements.txt` | how to run, overview, extra dependencies |

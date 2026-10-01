@@ -15,11 +15,11 @@ What it does, in one request:
 
 ```bash
 pip install -r feature1_v2/requirements.txt
-python -m unittest discover -s feature1_v2/tests -t .      # 36 tests, CPU, synthetic data (~15 s)
+python -m unittest discover -s feature1_v2/tests -t .      # 37 tests, CPU, synthetic data (~15 s)
 python -c "from feature1_v2.advice import kb; import json; print(json.dumps(kb.advice_for('tomato__late_blight','ar'), ensure_ascii=False, indent=1))"
 ```
 
-**Status:** all code is written and tested; **the model is not trained yet**. Training needs a GPU and the datasets, which were not reachable from the build environment. [`RUNBOOK.md`](RUNBOOK.md) gives the exact Colab steps, from download to the one-time final benchmark run, with two decision gates on the way. Until then, no v2 accuracy is claimed.
+**Status:** all code is written and tested; **the model is not trained yet**. Training needs a GPU and the datasets, which were not reachable from the build environment. **Beginner path:** [`colab/GUIDE.md`](colab/GUIDE.md) plus the click-through notebook `colab/train_feature1_v2.ipynb` (upload 5 files to Google Drive, then press ▶ on each box). [`RUNBOOK.md`](RUNBOOK.md) gives the same Colab steps as plain commands, from download to the one-time final benchmark run, with two decision gates on the way. Until then, no v2 accuracy is claimed.
 
 **Full audit trail** ([`DOCUMENTATION.md`](DOCUMENTATION.md)) covers:
 - what changed from v1 and why;

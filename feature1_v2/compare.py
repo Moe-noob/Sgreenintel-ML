@@ -36,8 +36,10 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("a")
     ap.add_argument("b")
+    ap.add_argument("--json", help="also write the results to this JSON file")
     a = ap.parse_args(argv)
     A, B = read(a.a), read(a.b)
+    out = {}
     for col in ("pred_auto", "pred_crop_given"):
         r = compare(A, B, col)
         if not r["n"]:
@@ -45,8 +47,14 @@ def main(argv=None):
         d, lo, hi = r["accuracy_diff"]
         f, flo, fhi = r["macro_f1_diff"]
         verdict = "B better" if lo > 0 else "A better" if hi < 0 else "no clear difference"
+        out[col] = {**r, "verdict": verdict}
         print(f"{col}: {r['n']} common photos | accuracy A {r['accuracy_a']:.1%}, B {r['accuracy_b']:.1%}, "
               f"B-A {d:+.1%} ({lo:+.1%} to {hi:+.1%}) | macro-F1 B-A {f:+.3f} ({flo:+.3f} to {fhi:+.3f}) -> {verdict}")
+    if a.json:
+        import json
+        with open(a.json, "w") as fh:
+            json.dump(out, fh, indent=1, default=float)
+    return out
 
 
 if __name__ == "__main__":

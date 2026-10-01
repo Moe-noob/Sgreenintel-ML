@@ -1,6 +1,12 @@
 # Feature 1 v2: runbook (Google Colab or any CUDA GPU)
 
-These are the steps that turn the code in `feature1_v2/` into a trained, calibrated and evaluated model. The code was built and tested on CPU with synthetic images (`python -m unittest discover -s feature1_v2/tests -t .`, 36 tests). **No real training has been run yet**: the build environment had no GPU and no access to the datasets. So every accuracy number for v2 comes from running this runbook.
+> **New to this? Use [`colab/GUIDE.md`](colab/GUIDE.md) and the click-through notebook `colab/train_feature1_v2.ipynb`.** They run exactly these steps, check each result and survive Colab disconnects. This page is the same procedure as plain commands.
+>
+> Two settings matter on Colab:
+> - `F1V2_BENCHMARK_DIR` puts the frozen benchmark on Google Drive, so the freeze survives a disconnect.
+> - `train.py --resume` continues a run from its `last.pt` after a disconnect.
+
+These are the steps that turn the code in `feature1_v2/` into a trained, calibrated and evaluated model. The code was built and tested on CPU with synthetic images (`python -m unittest discover -s feature1_v2/tests -t .`, 37 tests). **No real training has been run yet**: the build environment had no GPU and no access to the datasets. So every accuracy number for v2 comes from running this runbook.
 
 Order matters. Steps 1–4 build and **freeze** the benchmark before any model is trained, so nothing can be tuned on it.
 
@@ -33,6 +39,7 @@ pip install -r feature1_v2/requirements.txt
 # keep data and results on Drive so a disconnect loses nothing
 export F1V2_DATA_ROOT=/content/drive/MyDrive/sgreen/data/raw
 export F1V2_WORK_DIR=/content/drive/MyDrive/sgreen/f1v2_work
+export F1V2_BENCHMARK_DIR=/content/drive/MyDrive/sgreen/f1v2_benchmark   # the frozen benchmark must survive disconnects
 ```
 
 (In a Colab cell, use `%env F1V2_DATA_ROOT=...` instead of `export`.)

@@ -81,6 +81,8 @@ def build_args(argv=None):
     ap.add_argument("--out", required=True)
     ap.add_argument("--limit", type=int, default=None, help="debug: cap images per split")
     ap.add_argument("--seed", type=int, default=config.SEED)
+    ap.add_argument("--resume", action="store_true",
+                    help="continue from <out>/last.pt if it exists (e.g. after a Colab disconnect)")
     return ap.parse_args(argv)
 
 
@@ -139,11 +141,23 @@ def main(argv=None):
     steps = a.epochs * max(1, len(tr))
     sched = cosine_with_warmup(opt, warmup=min(500, steps // 10), total=steps)
     scaler = torch.amp.GradScaler(enabled=amp and dev.type == "cuda")
-    best, history = -1.0, []
+    best, history, start = -1.0, [], 0
+    last = out / "last.pt"
+    if a.resume and last.exists():
+        st = torch.load(last, map_location=dev, weights_only=False)
+        model.load_state_dict(st["model"])
+        opt.load_state_dict(st["opt"])
+        sched.load_state_dict(st["sched"])
+        scaler.load_state_dict(st["scaler"])
+        if ema is not None and st.get("ema") is not None:
+            ema.module.load_state_dict(st["ema"])
+        best, history, start = st["best"], st["history"], st["epoch"]
+        print(f"resuming from epoch {start} of {a.epochs} (best val macro-F1 so far {best:.4f})")
     (out / "args.json").write_text(json.dumps(vars(a), indent=1))
     print(f"{len(classes)} classes | train {len(tr_ds)} | val {len(va_ds)} | {meta['timm_name']} {a.mode} on {dev}")
 
-    for epoch in range(a.epochs):
+    for epoch in range(start, a.epochs):
+        torch.manual_seed(a.seed + epoch)          # same batches whether or not the run was resumed
         model.train()
         t0, seen, loss_sum = time.time(), 0, 0.0
         for x, y in tr:
@@ -179,6 +193,10 @@ def main(argv=None):
             models.save_checkpoint(out / "best.pt", eval_model, meta, classes,
                                    {"val": val, "epoch": epoch + 1, "args": vars(a)})
         (out / "history.json").write_text(json.dumps(history, indent=1))
+        torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "sched": sched.state_dict(),
+                    "scaler": scaler.state_dict(), "ema": ema.module.state_dict() if ema is not None else None,
+                    "epoch": epoch + 1, "best": best, "history": history}, out / "last.tmp")
+        (out / "last.tmp").replace(last)           # atomic: a disconnect mid-save never corrupts last.pt
     print(f"best val macro-F1 {best:.4f} -> {out / 'best.pt'}")
     return out / "best.pt"
 
