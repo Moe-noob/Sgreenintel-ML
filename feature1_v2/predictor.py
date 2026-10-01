@@ -78,9 +78,11 @@ class Predictor:
         top_unsup = unsup_i is not None and int(p_photo.argmax()) == unsup_i
         if crop is None and (top_unsup or energy > self.cal["energy_threshold"]):
             return self._result(False, None, float(p_photo.max()), p_photo, crop, len(images), kinds, energy,
-                                "not_supported",
-                                "This does not look like a leaf of a supported crop. Supported crops: "
-                                + ", ".join(taxonomy.CROPS[c][0] for c in self.crops) + ".")
+                                "not_supported", {
+                                    "en": "This does not look like a leaf of a supported crop. Supported crops: "
+                                          + ", ".join(taxonomy.CROPS[c][0] for c in self.crops) + ".",
+                                    "ar": "لا تبدو هذه ورقة لمحصول مدعوم. المحاصيل المدعومة: "
+                                          + "، ".join(taxonomy.CROPS[c][1] for c in self.crops) + "."})
 
         # 2. crop restriction and aggregation over photos / leaves
         zz = inference.restrict_to_crop(z, self.classes, crop) if crop else z.copy()
@@ -100,9 +102,11 @@ class Predictor:
 
         conf = float(p_final.max())
         if conf < self._threshold(crop):
-            return self._result(False, None, conf, p_final, crop, len(images), kinds, energy, "low_confidence",
-                                "The model is not confident enough. Retake the photo: one leaf filling the frame, "
-                                "daylight, in focus; or add 1-2 more photos of the same plant.")
+            return self._result(False, None, conf, p_final, crop, len(images), kinds, energy, "low_confidence", {
+                "en": "The model is not confident enough. Retake the photo: one leaf filling the frame, daylight, "
+                      "in focus; or add 1-2 more photos of the same plant" + ("" if crop else ", and choose the crop") + ".",
+                "ar": "النموذج غير واثق بما يكفي. أعد التصوير: ورقة واحدة تملأ الإطار، في ضوء النهار، وبوضوح؛ "
+                      "أو أضف صورة أو صورتين أخريين للنبات نفسه" + ("" if crop else "، واختر نوع المحصول") + "."})
         return self._result(True, self.classes[int(p_final.argmax())], conf, p_final, crop, len(images), kinds,
                             energy, None, None)
 
@@ -128,7 +132,7 @@ class Predictor:
             "alternatives": alts,
             "lookalike": lookalike,
             "rejection_code": reason_code,
-            "rejection_reason": reason,
+            "rejection_reason": reason,           # {"en": ..., "ar": ...} or None
             "photos": n_photos,
             "leaves_detected": sum(k == "leaf" for k in kinds),
             "energy": round(energy, 3),

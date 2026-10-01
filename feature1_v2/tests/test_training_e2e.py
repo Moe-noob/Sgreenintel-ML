@@ -19,7 +19,7 @@ import torch.nn as nn
 from PIL import Image
 from torchvision import models as tvm
 
-from feature1_v2 import calibrate, compare, config, evaluate, models, taxonomy, train
+from feature1_v2 import calibrate, compare, config, distill, evaluate, models, taxonomy, train
 from feature1_v2.data import dedupe, manifest, splits
 
 CLASSES = {  # PlantWild raw name -> colour that makes the class learnable
@@ -122,6 +122,17 @@ class TestEndToEnd(unittest.TestCase):
         r = compare.compare(compare.read(self.tmp / "v1_val" / "predictions.csv"),
                             compare.read(self.run_dir / "ev_val" / "predictions.csv"))
         self.assertGreater(r["n"], 0)
+
+    def test_4_distillation(self):
+        student = distill.main(["--teacher", str(self.ckpt), "--student", "test", "--epochs", "3", "--batch", "16",
+                                "--img-size", "48", "--no-pretrained", "--workers", "0", "--lr", "3e-3",
+                                "--splits", str(self.work / "splits.csv"), "--data-root", str(self.tmp / "data"),
+                                "--out", str(self.tmp / "student")])
+        _, ck = models.load_checkpoint(student)
+        self.assertEqual(ck["classes"], self.included)
+        self.assertEqual(ck["meta"]["img_size"], 48)
+        hist = json.loads((self.tmp / "student" / "history.json").read_text())
+        self.assertGreater(max(h["val_accuracy"] for h in hist), 0.4)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plant Doctor v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<!--
+  Stand-alone demo of the Feature 1 v2 endpoint (POST /v2/disease/predict).
+  index.html is NOT changed; this page shows what the upload screen gains:
+  crop selector, up to 3 photos of the same plant, Arabic/English, advice,
+  look-alike help, weather risk and the season note.
+  Run the API with the v2 router included (see feature1_v2/RUNBOOK.md, step 9),
+  then open this file in a browser.
+-->
+<style>
+  :root {
+    --ink: #14201C; --surface: #1C2B25; --surface-raised: #22342C; --border: #2E4038;
+    --paper: #F3EFE3; --paper-dim: #C7CCC3; --paper-faint: #8B9690;
+    --gold: #D4A24C; --leaf: #7FB069; --teal: #4A8FA3; --clay: #C4544B;
+    --font-display: 'Fraunces', serif; --font-ui: 'IBM Plex Sans', 'IBM Plex Sans Arabic', sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) { --ink: #F6F3EA; --surface: #FFFFFF; --surface-raised: #F0ECE0; --border: #D9D3C3;
+      --paper: #1B2420; --paper-dim: #3D4A44; --paper-faint: #6B7671; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { overflow-wrap: anywhere; font-family: var(--font-ui); background: var(--ink); color: var(--paper); line-height: 1.55; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-family: var(--font-display); font-weight: 600; font-size: 1.8rem; }
+  .sub { color: var(--paper-dim); margin: 4px 0 20px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  label { display: block; font-size: .85rem; color: var(--paper-dim); margin-bottom: 4px; }
+  select, input[type=text] { width: 100%; padding: 9px 10px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface-raised); color: var(--paper); font: inherit; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 12px; }
+  .photos { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 12px; }
+  .photos img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+  .add { width: 96px; height: 96px; border: 1px dashed var(--paper-faint); border-radius: 8px; display: grid; place-items: center;
+    color: var(--paper-dim); cursor: pointer; font-size: .8rem; text-align: center; }
+  button { font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 6px; border: 0; background: var(--gold); color: #14201C; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  .band { padding: 8px 12px; border-radius: 6px; font-weight: 600; margin: 10px 0; }
+  .ok { background: color-mix(in srgb, var(--leaf) 20%, transparent); }
+  .no { background: color-mix(in srgb, var(--clay) 22%, transparent); }
+  .risk-high { background: color-mix(in srgb, var(--clay) 22%, transparent); }
+  .risk-unavailable { background: var(--surface-raised); }
+  .risk-low { background: color-mix(in srgb, var(--leaf) 16%, transparent); }
+  h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; }
+  h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); margin: 14px 0 4px; }
+  ul { padding-inline-start: 20px; } li { margin: 3px 0; }
+  .muted { color: var(--paper-faint); font-size: .85rem; }
+  .alt { display: grid; grid-template-columns: 1fr 120px 48px; gap: 8px; align-items: center; font-size: .9rem; }
+  .bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--gold); }
+  details summary { cursor: pointer; color: var(--paper-dim); margin-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1 data-en="Plant doctor" data-ar="طبيب النبات">Plant doctor</h1>
+  <p class="sub" data-en="Feature 1 v2 demo: pick the crop if you know it, and add up to 3 photos of the same plant." data-ar="عرض الميزة 1 (الإصدار 2): اختر المحصول إن كنت تعرفه، وأضف حتى 3 صور للنبات نفسه.">Feature 1 v2 demo: pick the crop if you know it, and add up to 3 photos of the same plant.</p>
+
+  <div class="card">
+    <div class="row">
+      <div><label for="lang" data-en="Language" data-ar="اللغة">Language</label>
+        <select id="lang"><option value="en">English</option><option value="ar">العربية</option></select></div>
+      <div><label for="crop" data-en="Crop" data-ar="المحصول">Crop</label>
+        <select id="crop"><option value="">Auto-detect</option></select></div>
+      <div><label for="city" data-en="City (optional, for weather risk)" data-ar="المدينة (اختياري، لخطر الطقس)">City (optional, for weather risk)</label>
+        <input id="city" type="text" placeholder="riyadh"></div>
+      <div><label for="api">API</label><input id="api" type="text" value="http://localhost:8000"></div>
+    </div>
+    <div class="photos" id="photos">
+      <label class="add" id="addBtn"><span data-en="+ Add photo" data-ar="+ أضف صورة">+ Add photo</span>
+        <input type="file" accept="image/*" id="file" hidden></label>
+    </div>
+    <button id="go" disabled data-en="Diagnose" data-ar="شخّص">Diagnose</button>
+  </div>
+  <div id="out"></div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let files = [];
+const T = {
+  en: {auto: 'Auto-detect', accepted: 'Diagnosis', rejected: 'No diagnosis', confirm: 'Confirm by checking', steps: 'Do now',
+       cultural: 'Cultural control', chem: 'Chemical control (by mode-of-action group)', prev: 'Prevention', ext: 'When to call extension',
+       look: 'Close call: check which of these you see', weather: 'Weather risk (next 7 days)', season: 'Season note', alts: 'Model output',
+       src: 'Sources', conf: 'confidence', note: 'Specific note', err: 'Could not reach the API. Is it running with the v2 router?'},
+  ar: {auto: 'تحديد تلقائي', accepted: 'التشخيص', rejected: 'لا يوجد تشخيص', confirm: 'تأكد بفحص', steps: 'افعل الآن',
+       cultural: 'المكافحة الزراعية', chem: 'المكافحة الكيميائية (حسب مجموعة طريقة التأثير)', prev: 'الوقاية', ext: 'متى تتصل بالإرشاد الزراعي',
+       look: 'النتيجة متقاربة: تحقق أيّ العلامتين تراها', weather: 'خطر الطقس (الأيام السبعة القادمة)', season: 'ملاحظة الموسم', alts: 'مخرجات النموذج',
+       src: 'المصادر', conf: 'الثقة', note: 'ملاحظة خاصة', err: 'تعذر الوصول إلى الخادم. هل يعمل مع موجّه الإصدار 2؟'},
+};
+const lang = () => $('#lang').value;
+const api = () => $('#api').value.replace(/\/$/, '');
+
+function applyLang() {
+  const l = lang();
+  document.documentElement.lang = l;
+  document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-en]').forEach(el => { el.firstChild.textContent = el.dataset[l]; });
+  loadCrops();
+}
+
+async function loadCrops() {
+  const sel = $('#crop'), keep = sel.value;
+  try {
+    const r = await fetch(`${api()}/v2/disease/crops?lang=${lang()}`);
+    const d = await r.json();
+    sel.innerHTML = `<option value="">${T[lang()].auto}</option>` +
+      d.crops.map(c => `<option value="${esc(c.key)}">${esc(c.name)}</option>`).join('');
+    sel.value = keep;
+  } catch { sel.innerHTML = `<option value="">${T[lang()].auto}</option>`; }
+}
+
+$('#file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f || files.length >= 3) return;
+  files.push(f);
+  const img = document.createElement('img');
+  img.src = URL.createObjectURL(f);
+  $('#photos').insertBefore(img, $('#addBtn'));
+  if (files.length >= 3) $('#addBtn').style.display = 'none';
+  $('#go').disabled = false;
+  e.target.value = '';
+});
+$('#lang').addEventListener('change', applyLang);
+
+$('#go').addEventListener('click', async () => {
+  const t = T[lang()], form = new FormData();
+  files.forEach(f => form.append('files', f));
+  if ($('#crop').value) form.append('crop', $('#crop').value);
+  if ($('#city').value.trim()) form.append('city', $('#city').value.trim().toLowerCase());
+  form.append('lang', lang());
+  $('#out').innerHTML = '<p class="muted">…</p>';
+  try {
+    const r = await fetch(`${api()}/v2/disease/predict`, {method: 'POST', body: form});
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || r.status);
+    render(d, t);
+  } catch (e) { $('#out').innerHTML = `<div class="card band no">${esc(t.err)} (${esc(e.message)})</div>`; }
+});
+
+const list = xs => `<ul>${(xs || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+
+function render(d, t) {
+  const p = d.prediction, a = d.advice;
+  const alts = p.alternatives.map(x => `<div class="alt"><span>${esc(x[lang()])}</span>
+      <span class="bar"><i style="width:${(x.probability * 100).toFixed(0)}%"></i></span><span>${(x.probability * 100).toFixed(0)}%</span></div>`).join('');
+  let html = '<div class="card">';
+  if (!p.accepted) {
+    html += `<div class="band no">${t.rejected}</div><p>${esc(p.rejection_reason[lang()])}</p>`;
+  } else {
+    html += `<h2>${esc(p.display[lang()])}</h2><p class="muted">${t.conf} ${(p.confidence * 100).toFixed(0)}% · ${esc(a.category_name)} · <i>${esc(a.cause || '')}</i></p>
+      <div class="band ok">${esc(a.disclaimer)}</div>`;
+    if (d.lookalike_help) html += `<h3>${t.look}</h3><ul>${d.lookalike_help.map(h => `<li><b>${esc(h.title)}</b>: ${esc(h.check_for)}</li>`).join('')}</ul>`;
+    html += `<h3>${t.confirm}</h3><p>${esc(a.confirm_symptoms)}</p>`;
+    if (a.note) html += `<h3>${t.note}</h3><p>${esc(a.note)}</p>`;
+    html += `<h3>${t.steps}</h3>${list(a.immediate_steps)}<h3>${t.cultural}</h3>${list(a.cultural_control)}`;
+    if (a.chemical_control) html += `<h3>${t.chem}</h3><p>${esc(a.chemical_control.groups)}</p><p class="muted">${esc(a.chemical_control.label_rule)}</p>`;
+    html += `<h3>${t.prev}</h3>${list(a.prevention)}`;
+    if (a.when_to_contact_extension) html += `<h3>${t.ext}</h3><p>${esc(a.when_to_contact_extension)}</p>`;
+    const w = d.weather_risk;
+    if (w && w.rule) html += `<h3>${t.weather}</h3><div class="band risk-${esc(w.risk)}">${esc(w.message)}</div><p class="muted">${esc(w.caveat || '')}</p>`;
+    if (d.season_note && d.season_note.status !== 'not_available') html += `<h3>${t.season}</h3><p>${esc(d.season_note.message)}</p>`;
+    html += `<details><summary>${t.src}</summary><ul>${a.sources.map(s => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a> — ${esc(s.publisher)}</li>`).join('')}</ul>
+      <p class="muted">${esc(a.review_status)}</p></details>`;
+  }
+  html += `<details><summary>${t.alts}</summary>${alts}</details></div>`;
+  $('#out').innerHTML = html;
+}
+loadCrops();
+</script>
+</body>
+</html>
