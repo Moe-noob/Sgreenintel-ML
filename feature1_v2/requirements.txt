@@ -1,0 +1,11 @@
+# Feature 1 v2 (in addition to the project's requirements.txt)
+torch>=2.1
+torchvision>=0.16
+timm>=1.0.0
+numpy
+Pillow
+requests
+scikit-learn            # tests only (metrics cross-check)
+fastapi
+python-multipart        # multi-photo upload in api_router.py
+ultralytics>=8.1        # optional: leaf detector (detector/)
