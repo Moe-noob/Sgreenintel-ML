@@ -18,12 +18,50 @@ MobileNetV2-based classifier for 35 disease/healthy classes across 7 crops. Trai
 - Domain gap reduced from 77pp (lab-only baseline) to 23pp through targeted fine-tuning
 
 ### Feature 2 — Location-Based Crop Advisor
-Planting-date simulation for 11 Saudi cities using FAO-56 Penman-Monteith evapotranspiration, GDD-based phenology, and the Elnesr & Alazba (2016, KSU) planting-date selection methodology. Outputs per-growth-stage water requirements and temperature-tolerance alerts.
+Planting-date and water-budget simulation for **11 validated Saudi cities** (and any other Saudi location by search or geolocation) for **14 annual crops plus grape and apple**. For each crop it reports **two planting seasons** (an autumn pick and a spring pick), per-growth-stage water use, and **exceedance days** (days outside the crop's temperature limits).
+
+**How it works**
+- Reference evapotranspiration: FAO-56 Penman-Monteith on NASA POWER daily climatology (2016-2025), with two documented corrections: a **site-elevation correction** (lapse rate from the NASA grid-cell elevation to the site's Copernicus-DEM elevation) and the **FAO-56 Rev.1 humidity conditioning** for dry-site data (Eq. 2.6, set by each location's UNEP aridity index).
+- Crop coefficients and heat-unit (GDD) phenology: FAO-56 Rev.1 (2025) tables and Paredes et al. (2025).
+- Temperature tolerances and the planting-date selection method: Elnesr & Alazba (2016, King Saud University), adapted to minimise water per day.
+- Autumn pick (sowing Jul 15-Dec 31): least water per day, shock-free dates first. Spring pick (Jan 1-Jul 14): least temperature stress among spring dates. For crops with an AquaCrop file the spring option also states what it costs in water productivity.
+
+**Crops**
+
+| Group | Crops | Status |
+|---|---|---|
+| Checked against the AquaCrop crop model | Tomato, Potato, Corn | Date rule within 5% of AquaCrop's best date in all 33 city x crop combinations |
+| Not checkable against AquaCrop (no crop file) | Bell pepper, Onion, Carrot, Garlic, Lettuce, Sweet corn | Cards say "Not checked against AquaCrop" |
+| Lower confidence (heat units are min/max ranges derived from 1998 durations) | Cucumber, Eggplant, Squash, Pumpkin, Green bean | Headline = the season pick with fewest exceedance days; cards say "Lower confidence" |
+| Perennials | Grape, Apple | Perennial water cycle (no planting-date scan) |
+
+Strawberry has no sourced stage heat units and is excluded from the planting-date scan. Not added: watermelon, radish, okra, molokhia (no heat-unit data in FAO-56 Rev.1); broccoli, melon, cabbage, cauliflower, spinach, lentil (failed the season-length checks).
 
 **Cities covered:** Riyadh, Jeddah, Dammam, Najran, Jazan, Abha, Tabuk, Qassim, Madinah, Makkah, Hail
 
+**What the dates mean:** the lowest-water feasible window under a published selection method, with heat and cold exposure shown. It is **not** a yield-optimised recommendation or an irrigation schedule.
+
 ### Feature 3 — Smart Plant Care Tracker
-Tracks a saved plant through its growth cycle using GDD accumulation on the same NASA POWER climatological baseline as Feature 2. Integrates Open-Meteo 5-day forecasts, computes a live daily water requirement via full FAO-56 Penman-Monteith (using actual forecast solar radiation, temperature, humidity, and wind) and compares it against the climatological baseline for the same days -- isolating whether this week is running above or below the seasonal norm for that growth stage. Fires sourced temperature-tolerance alerts when forecast conditions exceed Elnesr & Alazba (2016) thresholds.
+Tracks a saved plant through its growth cycle using GDD accumulation on the same corrected NASA POWER climatological baseline as Feature 2. Integrates Open-Meteo 5-day forecasts, computes a live daily water requirement via full FAO-56 Penman-Monteith (actual forecast solar radiation, temperature, humidity and wind, with the same humidity conditioning as the baseline) and compares it against the climatological baseline for the same days, isolating whether this week is running above or below the seasonal norm for that growth stage. Fires sourced temperature-tolerance alerts when forecast conditions exceed Elnesr & Alazba (2016) thresholds. Litres per plant are shown only when the user enters a planting density (plants per m²); otherwise the tracker shows mm/day (1 mm = 1 L per m²).
+
+---
+
+## How accurate is it?
+
+| Check | Result |
+|---|---|
+| AquaCrop reference (tomato, corn, potato x 11 cities) | Date rule within 5% of AquaCrop's best date in 33/33 combinations, within 20 days in 33/33 |
+| WMO 1991-2020 normals (5 stations) | Abha temperature error 6.3 C -> 0.8 C after the elevation correction |
+| FAO-56 Rev.1 constants | 23 Kc triples, 32 heat-unit rows and 19 temperature thresholds checked against the PDF |
+| Reference ET0 | Humidity correction lowers ET0 by 6-14% (about 12% typical); remaining uncertainty about +-15% (our estimate) |
+| Saudi sowing calendars (Alsadon 2002, Table 5) | AquaCrop and the directorate calendars disagree on timing (calendars list spring dates AquaCrop disfavours); the advisor therefore shows both seasons. See `DEFENSE_PREP.md`, Part II |
+
+**Known limitations**
+- Absolute water amounts (mm, m³/ha) are estimates, uncertain by roughly 15%; wind speed is not independently verified.
+- The 10 crops added after the first four are not checked against a crop model (none exists in AquaCrop for them); five of them use wide heat-unit ranges and are labelled lower confidence.
+- Spring-planting water totals are less certain than autumn ones (simulated spring seasons run shorter than FAO's autumn-based durations).
+- NASA's coastal day-night range is not corrected (tested at one station, Wejh); the warm-side elevation shifts (Makkah, Madinah) were not tested against a station.
+- No yield, price, labour, soil or irrigation-efficiency model.
 
 ---
 
@@ -43,12 +81,22 @@ training/           CNN training pipeline
 heatmap/            crop advisor pipeline
   advisor.py          main entry point
   season_simulator.py GDD phenology + ETc simulation
-  crop_database.py    per-crop parameters (FAO-56, Elnesr 2016)
-  nasa_power.py       NASA POWER API integration + caching
+  season_picks.py     autumn + spring picks, lower-confidence headline rule, AquaCrop spring-cost table
+  crop_database.py    per-crop parameters (FAO-56 Rev.1, Paredes 2025, Elnesr 2016)
+  evapotranspiration.py  FAO-56 Penman-Monteith, Hargreaves, wind adjustment
+  nasa_power.py       NASA POWER API integration + caching + elevation/humidity corrections
+  site_elevation.py   site elevation (Copernicus DEM via Open-Meteo) + lapse-rate correction
+  aridity.py          FAO-56 Rev.1 Eq. 2.6 humidity conditioning (UNEP aridity index)
 
 care/               plant care tracker
-  tracker.py          main entry point (GDD stage tracking + OWM alerts)
+  tracker.py          main entry point (GDD stage tracking + Open-Meteo live comparison + tolerance alerts)
   care_profiles.py    static disease/care knowledge base
+
+api/main.py         FastAPI backend wrapping the three features
+index.html          single-page web UI (Scan / Plan / Track)
+
+research/           validation and sensitivity scripts (see research/README.md)
+  patches/            the scripted, exact-match edits applied during the 1 Oct 2026 overhaul (audit trail)
 
 models/cnn/         saved model checkpoints (gitignored except evaluation outputs)
   evaluation_report.txt  per-class F1 on PlantVillage test set
@@ -103,7 +151,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-No API keys required. NASA POWER and Open-Meteo (weather/forecast data) are both free, public APIs with no authentication.
+No API keys required. NASA POWER and Open-Meteo (forecast and site-elevation data) are free, public services with no authentication.
 
 **Data:** raw datasets are not committed (large files). The processed split in `data/processed_v2/` must be generated locally using `training/prepare_data_v2.py` after downloading the raw sources.
 
@@ -112,22 +160,29 @@ No API keys required. NASA POWER and Open-Meteo (weather/forecast data) are both
 ## Running
 
 ```bash
+# Start the API (docs at http://localhost:8000/docs), then open index.html in a browser
+uvicorn api.main:app --reload --port 8000
+
 # Predict disease from a leaf photo
 python training\predict.py path\to\leaf.jpg
 
 # Run the crop advisor for a city
 python -c "from heatmap.advisor import get_recommendations, print_recommendations; print_recommendations(get_recommendations('riyadh'))"
 
-# Check plant care status
+# Check plant care status (add plants_per_m2=2.5 to get_plant_status for litres per plant)
 python -c "
 from care.tracker import get_plant_status, print_plant_status
 print_plant_status(get_plant_status('Tomato', 'riyadh', '2026-09-01'))
 "
 
-# Evaluate on PlantDoc real-world test set
-python training\evaluate_plantdoc.py
+# Verify the humidity correction behaves as documented (needs the NASA cache)
+python research\check_aridity_correction.py
 
-# Evaluate on PlantWild real-world test set
+# Re-run the AquaCrop reference check (pip install aquacrop first; takes about 10 minutes)
+python research\aquacrop_reference_check.py --summary
+
+# Evaluate on PlantDoc / PlantWild real-world test sets
+python training\evaluate_plantdoc.py
 python training\evaluate_plantwild.py
 ```
 
@@ -136,8 +191,12 @@ python training\evaluate_plantwild.py
 ## Key References
 
 - Allen et al. (1998). FAO Irrigation and Drainage Paper No. 56. FAO, Rome.
+- Pereira, Allen, Paredes, López-Urrea, Raes, Smith, Kilic & Salman (2025). *Crop evapotranspiration — Guidelines for computing crop water requirements* (FAO56 Rev.1). FAO Irrigation and Drainage Paper 56 Rev.1, doi:10.4060/cd6621en. (Updated Kc, GDD stage tables, and the humidity conditioning used for dry-site weather data, Sec. 2.5.)
+- Paredes et al. (2025). Growing-degree-day stage durations for FAO56rev. *Agricultural Water Management* 319:109758.
 - Elnesr & Alazba (2016). A Spreadsheet Model to Select Vegetables Planting Dates. *Computers and Electronics in Agriculture*, King Saud University.
+- Alsadon (2002). Compatibility between dates planned based on heat units and dates suggested from regional offices of the Ministry of Agriculture (Saudi Arabia). (Table 5 of directorate sowing dates is used as a benchmark.)
+- Steduto, Hsiao, Raes & Fereres (2012) and Raes et al. (2023). AquaCrop, the FAO crop model used as the independent check.
+- Copernicus 90 m DEM (via Open-Meteo elevation API) and WMO 1991-2020 climate normals (station checks of the elevation correction).
 - Singh et al. (2020). PlantDoc: A Dataset for Visual Plant Disease Detection. CODS-COMAD 2020.
 - Wei et al. (2024). PlantWild: A Benchmark for In-the-Wild Plant Disease Recognition. arXiv 2408.03120.
-- Paredes et al. (2025). FAO56rev — Updated crop coefficients and GDD phenology.
 - Afzaal et al. (2022). Strawberry disease segmentation dataset (sms). *Sensors*, MDPI.
