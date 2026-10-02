@@ -7,15 +7,16 @@ AI-powered agricultural platform for Saudi farmers. Three features: CNN plant di
 ## Features
 
 ### Feature 1 — CNN Plant Disease Detection
-MobileNetV2-based classifier for 35 disease/healthy classes across 7 crops. Trained on a hybrid lab+field dataset and fine-tuned progressively on real-world photo collections to reduce domain gap.
+MobileNetV2-based classifier for 35 disease/healthy classes across 7 crops. Trained on a hybrid lab+field dataset and fine-tuned progressively on real-world photo collections to reduce domain gap. An optional crop selector lets the user narrow the search to one crop's own classes before the model answers.
 
 **Crops covered:** Tomato, Potato, Bell Pepper, Grape, Apple, Corn, Strawberry
 
-**Final model (v6p2):**
-- PlantVillage test set: **95.44%** accuracy
-- PlantDoc real-world test: **70.81%** accuracy
-- PlantWild real-world test: **63.79%** accuracy
-- Domain gap reduced from 77pp (lab-only baseline) to 23pp through targeted fine-tuning
+**Final model (v6p2), on a frozen, de-duplicated benchmark** (`feature1_eval/`; 1,267 PlantDoc + PlantWild test photos pooled across 24 of the 35 classes; see `DEFENSE_PREP.md` for the method and what the other 11 classes lack):
+- Model guesses the crop (all 35 classes compete): **67.0%** accuracy (95% CI 64.6-69.7%)
+- User names the crop first (only that crop's classes compete; no retraining): **76.5%** accuracy (95% CI 74.3-78.9%) — about **+10 points**, the single largest accuracy gain found for Feature 1 so far
+- On photos confirmed to have no near-duplicate in v1's own training data, the same two figures are 65.3% and 75.2% — the fairer estimate of accuracy on truly unseen photos
+- PlantVillage (lab) test set: **95.44%** — domain gap to the real-world benchmark above is about **28-30 points**, not the 23pp figure previously reported, which mixed two different models' numbers (see `DEFENSE_PREP.md`)
+- Weakest crop: tomato (56.1%, the largest single crop in the benchmark); strongest: grape (93.3%)
 
 ### Feature 2 — Location-Based Crop Advisor
 Planting-date and water-budget simulation for **11 validated Saudi cities** (and any other Saudi location by search or geolocation) for **14 annual crops plus grape and apple**. For each crop it reports **two planting seasons** (an autumn pick and a spring pick), per-growth-stage water use, and **exceedance days** (days outside the crop's temperature limits).
@@ -47,6 +48,23 @@ Tracks a saved plant through its growth cycle using GDD accumulation on the same
 ---
 
 ## How accurate is it?
+
+### Feature 1
+
+| Check | Result |
+|---|---|
+| Frozen benchmark (`feature1_eval/`) | 1,267 photos, 24/35 classes; v6p2 67.0% (95% CI 64.6-69.7%) guessing the crop, 76.5% (74.3-78.9%) given the crop |
+| Contamination check | 83 of 1,267 benchmark photos (6.6%) have a near-duplicate in v1's own training data; accuracy on the remaining clean photos is 65.3% / 75.2% |
+| 11 classes (e.g. apple frog-eye, grape esca, 4 strawberry conditions, tomato spider mites/target spot) | no real-field test photos exist in PlantDoc or PlantWild; accuracy on these is unknown |
+| v6p2 vs v8p2 (EfficientNet-B0) | not significantly different on either real-world set (95% CI on the difference includes 0); v6p2 kept for being lighter |
+
+**Known limitations**
+- 11 of 35 classes have no real-world accuracy figure at all (see above).
+- About 7% of the benchmark's official test photos were dropped for a label conflict (the same or a near-identical photo carries two different labels across datasets) — mostly in exactly the classes the model confuses (potato/tomato early blight, corn gray leaf spot/northern leaf blight), so the reported accuracy is mildly optimistic.
+- The crop selector relies on the user naming the crop correctly; there is no independent crop detector.
+- Rejection thresholds (confidence ≥ 0.70, normalised entropy ≤ 0.40) are fixed values, not calibrated against a validation set.
+
+### Feature 2
 
 | Check | Result |
 |---|---|
@@ -137,7 +155,9 @@ data/               datasets (gitignored)
 | v5p2 | 95.48% | 70.27% | 63.53% | 320px resolution |
 | **v6p2** | **95.44%** | **70.81%** | **63.79%** | **384px — production model** |
 | v7p2 | 95.00% | 70.81% | 62.32% | +tomato data — regression |
-| v8p2 | 96.53% | 67.03% | 62.66% | EfficientNet-B0 — better lab, worse real-world |
+| v8p2 | 96.53% | 67.03% | 62.66% | EfficientNet-B0; not significantly different from v6p2 on either real-world set (see "How accurate is it?") |
+
+The PlantDoc/PlantWild percentages above are each model's RAW score on the full test sets, kept for comparing models the same way they always were. They are not directly comparable to the de-duplicated, class-filtered 67.0%/76.5% in "How accurate is it?", which is the number to defend.
 
 ---
 
@@ -174,6 +194,16 @@ python -c "
 from care.tracker import get_plant_status, print_plant_status
 print_plant_status(get_plant_status('Tomato', 'riyadh', '2026-09-01'))
 "
+
+# Predict disease, telling the model the crop (narrows the 35 classes to that crop's own; ~10 points more accurate)
+python -c "
+from training.predict_api import predict_structured
+import json; print(json.dumps(predict_structured('path/to/leaf.jpg', crop='Tomato'), indent=2))
+"
+
+# Re-run the Feature 1 benchmark (see feature1_eval/README.md for the full sequence)
+python -m feature1_eval.evaluate --legacy models\cnn\mobilenetv2_sgreenintel_v6p2.pth --split test --final --purpose "..."
+python -m feature1_eval.contamination --predictions feature1_eval\work\eval_mobilenetv2_sgreenintel_v6p2\test\predictions.csv
 
 # Verify the humidity correction behaves as documented (needs the NASA cache)
 python research\check_aridity_correction.py

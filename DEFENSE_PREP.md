@@ -778,3 +778,120 @@ calendars (Section D), the WMO check (Section B).
 **What we do not claim.** That the app's dates match Saudi practice (only that its picks are explained against two
 references that disagree); that absolute water is exact (about +-15%); that the 10 new crops are validated against a
 crop model (they are not, and the cards say so); that wind speed or the coast's day-night range is solved.
+
+---
+
+# PART III — Feature 1 audit and crop selector (work of 2 October 2026)
+
+Prompted by a Feature-1-v2 plan another AI agent (Claude Code) drafted on a separate branch. The plan itself trains nothing
+and has no accuracy numbers; what came out of reading it was an audit of v1's own evaluation, a frozen benchmark, and an
+optional crop selector added to the live app with no retraining.
+
+## J. "Are your evaluation numbers reproducible? What do they actually measure?"
+
+**What prompted it.** The other agent's plan said the committed `plantdoc_evaluation.json` / `plantwild_evaluation.json`
+looked like "a stale, older model". Checking this directly: both scripts always evaluated whichever checkpoint
+`load_best_model()` found first, discarded its name, and both hard-coded `plantvillage_test_accuracy = 90.29` (v2's figure)
+regardless of which checkpoint was scored, so every JSON reported v2's PlantVillage baseline and no JSON said which model
+produced its real-world numbers.
+
+**What it actually was.** Not an old model: re-running both scripts with an explicit `--checkpoint` reproduced the
+committed numbers (248/370, 720/1149) exactly from **v8p2**, not v6p2. The production model, v6p2, scores 262/370
+(70.81%) and 733/1149 (63.79%) — matching the README, which was correct for v6p2 all along; only the two JSON files on
+disk described the wrong model.
+
+**Fix applied** (`training/evaluate_plantdoc.py`, `evaluate_plantwild.py`, `model_loader.py`): `--checkpoint PATH` to
+evaluate a specific file, `--pv-acc X` to supply that checkpoint's own PlantVillage accuracy (the hard-coded 90.29 is
+gone), and every result JSON now records the checkpoint's file name, size, SHA-256 and modification date, plus a
+per-checkpoint copy so two models' results can never again overwrite each other.
+
+**One more correction this produced:** with each model's own PlantVillage accuracy, v6p2's domain gap is 24.6 points
+(PlantDoc) and 31.7 points (PlantWild) — not the 19.5/26.5 the stale 90.29 constant implied, and nowhere near the
+README's old, since-removed "77pp -> 23pp" framing (see Part I, Section 9, UPDATE block, for why that framing no longer
+applies at all).
+
+**v6p2 vs v8p2, is the "worse real-world" framing solid?** A two-proportion check (unpaired) on the raw test sets: v6p2
+minus v8p2 is +3.8 points on PlantDoc (95% CI −2.9 to +10.4) and +1.1 on PlantWild (95% CI −2.8 to +5.1). Neither
+excludes zero. v6p2 is kept for scoring at least as well on both sets and being the lighter model, not because v8p2 is
+shown to be worse.
+
+## K. "What does the frozen benchmark actually show, and is it fair?"
+
+**Built from `feature1_eval/`** (cherry-picked from the other agent's branch: manifest + perceptual-hash de-duplication +
+leakage removal + inclusion rule + freeze-and-log, modified to be legacy-only; full provenance and what was deliberately
+left out — training code, augmentation, advice base, weather rules — is in `feature1_eval/README.md`). Pooled PlantDoc
+and PlantWild test photos, removed near-duplicates and photos whose near-duplicate carries a conflicting label, applied
+`--min-train 0` (the default also demands 150 FIELD TRAINING photos per class, which is a question about training a new
+model, not about evaluating v1; at the default setting it silently removed four classes v1 predicts and finds hard —
+apple black rot, bell pepper bacterial spot, corn healthy, tomato mosaic virus — making the benchmark easier than it
+should be).
+
+**Result: 1,267 photos, 24 of v1's 35 classes.**
+
+| | Model guesses the crop | User names the crop |
+|---|---|---|
+| All benchmark photos | 67.0% (95% CI 64.6-69.7%) | 76.5% (95% CI 74.3-78.9%) |
+| Photos with no near-duplicate in v1's own training data | 65.3% (62.5-68.0%) | 75.2% (72.6-77.6%) |
+| Live app's acceptance rule (confidence >= 0.70, normalised entropy <= 0.40) | accepts 73.9% of photos, 76.9% of those correct | accepts 81.3%, 83.5% correct |
+
+**The clean-photo row (65.3% / 75.2%) is the number to quote**, not the "all photos" row: a contamination check (also
+new; `feature1_eval/contamination.py`) found that 83 of the 1,267 benchmark photos (6.6%) have a near-duplicate among
+the images v1 trained on (PlantDoc's and PlantWild's own training splits, plus v1's base training set), and those photos
+score far higher (91.5% / 94.7%) than the rest, inflating the pooled score by about 1.7-1.3 points.
+
+**Two things make this benchmark mildly OPTIMISTIC, stated for completeness:**
+1. `--min-train 0` keeps classes with enough TEST photos even if v1 never saw many of them in training — fair to v1's
+   evaluation, but it also means a class with very little training data is still included.
+2. 7.1% of official test photos were dropped for a label conflict (the same or a near-duplicate photo carries two
+   different labels across datasets) — concentrated in exactly the classes v1 confuses most (potato/tomato early
+   blight: 8 photos; corn gray leaf spot vs northern leaf blight: 15 photos). Removing disputed photos removes some of
+   the model's hardest cases along with genuinely mislabelled ones.
+
+**Coverage gap, disclose directly if asked "is every class validated?":** 11 of v1's 35 classes have NO real-field test
+photos in either PlantDoc or PlantWild, so no real-world figure exists for them at all: apple frog-eye leaf spot, apple
+powdery mildew, corn northern leaf spot, grape esca, grape leaf blight (Isariopsis), strawberry angular leaf spot, leaf
+spot, powdery mildew and leaf scorch, tomato spider mites and tomato target spot.
+
+**Weakest crop: tomato, 56.1% (408 photos, the largest crop in the benchmark)** — bacterial spot (recall 30%), leaf curl
+virus (recall 41%), mosaic virus (F1 0.46) are the worst classes. Strongest: grape, 93.3%.
+
+**A bug the first real run exposed and fixed:** the PlantWild scanner read the numeric label in `trainval.txt` as an
+index into whichever class folders happened to be extracted on disk. Correct only if all 89 official folders are
+present; with fewer, it crashed (reproduced and fixed: the class is now read from the image's own path, as v1's own
+training scripts already did) — a caution about auditing code before trusting its output, including code in this kit.
+A second bug (the evaluator decoding every validation-split photo into memory at once) caused a `MemoryError` on the
+first real run and was fixed by streaming one batch at a time; both fixes are covered by regression tests that fail on
+the unfixed code.
+
+## L. "What is the crop selector, and why no bigger retrain yet?"
+
+**What it is.** `training/predict_api.py` accepts an optional `crop` argument. When given, every logit for a class
+outside that crop is set to −inf before softmax, so the model's probabilities are computed only among that crop's own
+classes; confidence and the entropy-rejection rule are then judged against that narrower class count (entropy divided
+by log of the crop's own class count, not log(35)). No retraining, no new weights — v1's existing 35-way classifier,
+asked a narrower question. `/predict` takes an optional `crop` form field; the Scan page gets a dropdown that defaults
+to "Let the model guess" (automatic mode is byte-for-byte unchanged when left on that default).
+
+**Why this was the first thing taken from the other agent's plan, not a bigger backbone:** it is the single largest
+accuracy gain measured for Feature 1 (about +10 points, confirmed on the frozen benchmark, Section K above), costs no
+GPU time, and does not change the model being defended. A bigger backbone (the plan proposed DINOv2) is the least
+certain gain and the only one that needs a GPU v1's hardware (GTX 1650, 4 GB) cannot fine-tune directly; it stays an
+optional, gated experiment (adopt only if it beats v6p2 on this same frozen benchmark), not a step taken yet.
+
+**What was deliberately NOT taken from that plan, and why:** a 66-class taxonomy expansion (most of the new classes have
+no field photos yet to validate against); severity estimation and a YOLO leaf detector (no validated need established);
+the plan's colour-jitter / exposure augmentation (conflicts with the project's own no-colour-jitter rule for disease
+detection; would need its own ablation first); its season-risk note (imports the FAOCLIM-based Feature 2 this project
+did not adopt, Part I Section 6); date palm, sidr and red palm weevil modelling (the course supervisor advised these
+established crops do not need modelling; Feature 2 already covers the crops the course targets).
+
+## Numbers to add to the Part I/II cheat sheet
+
+| Fact | Number |
+|---|---|
+| Frozen Feature 1 benchmark | 1,267 photos, 24/35 classes; v6p2 65.3%/75.2% (clean), 67.0%/76.5% (all) |
+| Contamination in the benchmark | 83/1,267 (6.6%) share a near-duplicate with v1's own training data |
+| Classes with no real-world test data at all | 11 of 35 |
+| Crop selector gain (no retraining) | about +10 points, clean photos: 65.3% -> 75.2% |
+| v6p2 vs v8p2 | not statistically distinguishable on either real-world set |
+| v6p2 domain gap (own PlantVillage accuracy, corrected) | 24.6 pp (PlantDoc), 31.7 pp (PlantWild) |
