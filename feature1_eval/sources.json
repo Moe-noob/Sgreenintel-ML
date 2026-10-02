@@ -1,0 +1,76 @@
+{
+  "_comment": "Datasets the manifest builder scans. Paths are relative to F1E_DATA_ROOT. 'enabled': false entries are templates: download the dataset, check its folder names with `python -m feature1_eval.data.manifest --list-labels <name>`, fill 'label_map', then enable. Layouts: plantwild_trainval | split_folders | class_folders. Domain: field = real photos, lab = plain-background photos (never used in the benchmark).",
+  "sources": [
+    {
+      "name": "plantwild_v1",
+      "enabled": true,
+      "layout": "plantwild_trainval",
+      "path": "plantwild/plantwild",
+      "domain": "field",
+      "map": "plantwild",
+      "citation": "Wei et al. (2024) Benchmarking In-the-Wild Multimodal Plant Disease Recognition. ACM MM 2024. arXiv:2408.03120",
+      "licence": "research use; see dataset page"
+    },
+    {
+      "name": "plantdoc",
+      "enabled": true,
+      "layout": "split_folders",
+      "path": "PlantDoc-Dataset",
+      "domain": "field",
+      "map": "plantdoc",
+      "citation": "Singh et al. (2020) PlantDoc. CODS-COMAD 2020. doi:10.1145/3371158.3371196",
+      "licence": "CC BY 4.0 (github.com/pratikkayal/PlantDoc-Dataset)"
+    },
+    {
+      "name": "legacy_processed_v2",
+      "enabled": true,
+      "layout": "split_folders",
+      "path": "../processed_v2",
+      "domain": "auto_plantvillage_filename",
+      "map": "legacy35",
+      "split_policy": "train_only",
+      "citation": "PlantVillage (Hughes & Salathe 2015), fgvc8 Plant Pathology 2021, cds, sms (Afzaal et al. 2022) -- as assembled by training/prepare_data_v2.py",
+      "note": "Domain per file: PlantVillage files contain '___' in the file name (lab); fgvc8/cds/sms files do not (field). All of it is training data only: v1 used these splits to choose models, so none of it enters the frozen benchmark."
+    },
+    {
+      "name": "cucumber_extra",
+      "enabled": false,
+      "layout": "class_folders",
+      "path": "cucumber_disease",
+      "domain": "field",
+      "label_map": {},
+      "citation": "A dataset for successful recognition of cucumber diseases (Data in Brief 2023), PMC10338290",
+      "licence": "check dataset page"
+    },
+    {
+      "name": "eggplant_field",
+      "enabled": false,
+      "layout": "class_folders",
+      "path": "eggplant_field",
+      "domain": "field",
+      "label_map": {},
+      "citation": "A Multi-Class Real-Field Eggplant Leaf Disease Dataset, Mendeley Data pwvpb658rm",
+      "licence": "CC BY 4.0 (Mendeley Data default; verify)"
+    },
+    {
+      "name": "okra_onion_melon_extra",
+      "enabled": false,
+      "layout": "class_folders",
+      "path": "extra_crops",
+      "domain": "field",
+      "label_map": {},
+      "citation": "fill in when a real-field dataset for okra / onion / melon is added",
+      "licence": "check"
+    },
+    {
+      "name": "non_plant",
+      "enabled": false,
+      "layout": "class_folders",
+      "path": "non_plant",
+      "domain": "field",
+      "fixed_label": "_unsupported",
+      "citation": "any public non-plant photo set (e.g. a COCO val2017 subset) -- used to teach and test the 'not a supported leaf' output",
+      "licence": "check"
+    }
+  ]
+}

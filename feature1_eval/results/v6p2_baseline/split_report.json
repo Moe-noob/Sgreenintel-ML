@@ -1,0 +1,140 @@
+{
+ "label_conflict_groups": 485,
+ "dropped_label_conflict": 1222,
+ "dropped_leak_test": 99,
+ "dropped_leak_val": 31,
+ "excluded_unlabelled": 0,
+ "excluded_classes": {
+  "apple__frog_eye_leaf_spot": {
+   "field_train": 2837,
+   "test": 0
+  },
+  "apple__powdery_mildew": {
+   "field_train": 1054,
+   "test": 0
+  },
+  "corn__northern_leaf_spot": {
+   "field_train": 492,
+   "test": 0
+  },
+  "grape__esca": {
+   "field_train": 0,
+   "test": 0
+  },
+  "grape__isariopsis_leaf_spot": {
+   "field_train": 0,
+   "test": 0
+  },
+  "squash__powdery_mildew": {
+   "field_train": 115,
+   "test": 6
+  },
+  "strawberry__angular_leaf_spot": {
+   "field_train": 217,
+   "test": 0
+  },
+  "strawberry__leaf_scorch": {
+   "field_train": 43,
+   "test": 14
+  },
+  "strawberry__leaf_spot": {
+   "field_train": 334,
+   "test": 0
+  },
+  "strawberry__powdery_mildew": {
+   "field_train": 276,
+   "test": 0
+  },
+  "tomato__spider_mites": {
+   "field_train": 0,
+   "test": 0
+  },
+  "tomato__target_spot": {
+   "field_train": 0,
+   "test": 0
+  }
+ },
+ "counts": {
+  "train": {
+   "apple__black_rot": 709,
+   "apple__healthy": 6108,
+   "apple__cedar_apple_rust": 2202,
+   "apple__scab": 5190,
+   "bell_pepper__healthy": 1583,
+   "bell_pepper__bacterial_spot": 1101,
+   "corn__gray_leaf_spot": 1171,
+   "corn__healthy": 1260,
+   "corn__northern_leaf_blight": 1728,
+   "corn__common_rust": 1299,
+   "grape__black_rot": 1336,
+   "grape__healthy": 582,
+   "potato__early_blight": 1164,
+   "potato__late_blight": 1134,
+   "potato__healthy": 293,
+   "strawberry__healthy": 643,
+   "tomato__bacterial_spot": 2273,
+   "tomato__early_blight": 1190,
+   "tomato__late_blight": 2141,
+   "tomato__healthy": 1772,
+   "tomato__leaf_mold": 1146,
+   "tomato__mosaic_virus": 514,
+   "tomato__septoria_leaf_spot": 1954,
+   "tomato__leaf_curl_virus": 5474,
+   "_unsupported": 384
+  },
+  "val": {
+   "apple__black_rot": 30,
+   "apple__healthy": 535,
+   "apple__cedar_apple_rust": 244,
+   "apple__scab": 558,
+   "bell_pepper__healthy": 49,
+   "bell_pepper__bacterial_spot": 26,
+   "corn__gray_leaf_spot": 72,
+   "corn__healthy": 26,
+   "corn__northern_leaf_blight": 75,
+   "corn__common_rust": 179,
+   "grape__black_rot": 43,
+   "grape__healthy": 45,
+   "potato__early_blight": 35,
+   "potato__late_blight": 42,
+   "potato__healthy": 43,
+   "strawberry__healthy": 41,
+   "tomato__bacterial_spot": 43,
+   "tomato__early_blight": 59,
+   "tomato__late_blight": 46,
+   "tomato__healthy": 37,
+   "tomato__leaf_mold": 40,
+   "tomato__mosaic_virus": 34,
+   "tomato__septoria_leaf_spot": 36,
+   "tomato__leaf_curl_virus": 31,
+   "_unsupported": 36
+  },
+  "test": {
+   "apple__black_rot": 33,
+   "apple__healthy": 97,
+   "apple__cedar_apple_rust": 68,
+   "apple__scab": 65,
+   "bell_pepper__healthy": 55,
+   "bell_pepper__bacterial_spot": 31,
+   "corn__gray_leaf_spot": 39,
+   "corn__healthy": 31,
+   "corn__northern_leaf_blight": 47,
+   "corn__common_rust": 57,
+   "grape__black_rot": 52,
+   "grape__healthy": 52,
+   "potato__early_blight": 44,
+   "potato__late_blight": 47,
+   "potato__healthy": 49,
+   "strawberry__healthy": 47,
+   "tomato__bacterial_spot": 56,
+   "tomato__early_blight": 65,
+   "tomato__late_blight": 56,
+   "tomato__healthy": 51,
+   "tomato__leaf_mold": 51,
+   "tomato__mosaic_virus": 45,
+   "tomato__septoria_leaf_spot": 47,
+   "tomato__leaf_curl_virus": 37,
+   "_unsupported": 45
+  }
+ }
+}

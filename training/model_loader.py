@@ -80,3 +80,17 @@ def load_best_model():
     print(f"Using model: {path.name}")
     model, class_names = load_model_from_checkpoint(path)
     return model, class_names, path
+
+
+def checkpoint_fingerprint(path):
+    """Name, size, SHA-256 (first 16 hex) and modification date of a checkpoint file, for evaluation records."""
+    import datetime
+    import hashlib
+    from pathlib import Path as _Path
+    p = _Path(path)
+    h = hashlib.sha256()
+    with open(p, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return {"file": p.name, "bytes": p.stat().st_size, "sha256_16": h.hexdigest()[:16],
+            "modified": datetime.datetime.fromtimestamp(p.stat().st_mtime).isoformat(timespec="seconds")}

@@ -1,0 +1,280 @@
+{
+ "n": 1267,
+ "n_supported_known": 1222,
+ "share_unknown_to_model": 0.0,
+ "auto": {
+  "accuracy": 0.6702127659574468,
+  "accuracy_ci": [
+   0.6464607201309329,
+   0.6972381342062193
+  ],
+  "macro_f1": 0.6548144577650857,
+  "macro_f1_ci": [
+   0.6250968128807806,
+   0.6810142912611711
+  ],
+  "ece": 0.15791161881318755,
+  "ece_uncalibrated": 0.15791161881318755,
+  "accepted_share": 0.7389525368248773,
+  "accepted_accuracy": 0.7685492801771872,
+  "coverage_curve": [
+   [
+    0.0,
+    1.0,
+    0.6702127659574468
+   ],
+   [
+    0.1,
+    1.0,
+    0.6702127659574468
+   ],
+   [
+    0.2,
+    0.9950900163666121,
+    0.6726973684210527
+   ],
+   [
+    0.30000000000000004,
+    0.9754500818330606,
+    0.6812080536912751
+   ],
+   [
+    0.4,
+    0.94189852700491,
+    0.6967854039965248
+   ],
+   [
+    0.5,
+    0.886252045826514,
+    0.716528162511542
+   ],
+   [
+    0.6000000000000001,
+    0.8117839607201309,
+    0.7379032258064516
+   ],
+   [
+    0.7000000000000001,
+    0.7389525368248773,
+    0.7685492801771872
+   ],
+   [
+    0.8,
+    0.660392798690671,
+    0.7992565055762082
+   ],
+   [
+    0.9,
+    0.5450081833060556,
+    0.8348348348348348
+   ],
+   [
+    1.0,
+    0.0032733224222585926,
+    0.75
+   ]
+  ]
+ },
+ "crop_given": {
+  "accuracy": 0.765139116202946,
+  "accuracy_ci": [
+   0.7430441898527005,
+   0.7888707037643208
+  ],
+  "macro_f1": 0.7531055340542901,
+  "macro_f1_ci": [
+   0.7265013398153221,
+   0.77556719062684
+  ],
+  "ece": 0.11124193761790171,
+  "accepted_share": 0.8134206219312602,
+  "accepted_accuracy": 0.8350100603621731
+ },
+ "per_crop_accuracy_auto": {
+  "apple": {
+   "accuracy": 0.6692015209125475,
+   "n": 263
+  },
+  "bell_pepper": {
+   "accuracy": 0.6395348837209303,
+   "n": 86
+  },
+  "corn": {
+   "accuracy": 0.735632183908046,
+   "n": 174
+  },
+  "grape": {
+   "accuracy": 0.9326923076923077,
+   "n": 104
+  },
+  "potato": {
+   "accuracy": 0.6571428571428571,
+   "n": 140
+  },
+  "strawberry": {
+   "accuracy": 0.8936170212765957,
+   "n": 47
+  },
+  "tomato": {
+   "accuracy": 0.5612745098039216,
+   "n": 408
+  }
+ },
+ "per_class_auto": {
+  "apple__scab": {
+   "precision": 0.7843137254901961,
+   "recall": 0.6153846153846154,
+   "f1": 0.6896551724137931,
+   "support": 65
+  },
+  "apple__black_rot": {
+   "precision": 0.48148148148148145,
+   "recall": 0.3939393939393939,
+   "f1": 0.43333333333333324,
+   "support": 33
+  },
+  "apple__cedar_apple_rust": {
+   "precision": 0.8028169014084507,
+   "recall": 0.8382352941176471,
+   "f1": 0.8201438848920864,
+   "support": 68
+  },
+  "apple__healthy": {
+   "precision": 0.7415730337078652,
+   "recall": 0.6804123711340206,
+   "f1": 0.7096774193548387,
+   "support": 97
+  },
+  "corn__gray_leaf_spot": {
+   "precision": 0.6086956521739131,
+   "recall": 0.358974358974359,
+   "f1": 0.45161290322580644,
+   "support": 39
+  },
+  "corn__common_rust": {
+   "precision": 0.8928571428571429,
+   "recall": 0.8771929824561403,
+   "f1": 0.8849557522123894,
+   "support": 57
+  },
+  "corn__northern_leaf_blight": {
+   "precision": 0.6379310344827587,
+   "recall": 0.7872340425531915,
+   "f1": 0.7047619047619048,
+   "support": 47
+  },
+  "corn__healthy": {
+   "precision": 0.7105263157894737,
+   "recall": 0.8709677419354839,
+   "f1": 0.782608695652174,
+   "support": 31
+  },
+  "grape__black_rot": {
+   "precision": 0.7424242424242424,
+   "recall": 0.9423076923076923,
+   "f1": 0.8305084745762712,
+   "support": 52
+  },
+  "grape__healthy": {
+   "precision": 0.8,
+   "recall": 0.9230769230769231,
+   "f1": 0.8571428571428571,
+   "support": 52
+  },
+  "bell_pepper__bacterial_spot": {
+   "precision": 0.5185185185185185,
+   "recall": 0.45161290322580644,
+   "f1": 0.48275862068965514,
+   "support": 31
+  },
+  "bell_pepper__healthy": {
+   "precision": 0.7321428571428571,
+   "recall": 0.7454545454545455,
+   "f1": 0.7387387387387387,
+   "support": 55
+  },
+  "potato__early_blight": {
+   "precision": 0.6785714285714286,
+   "recall": 0.4318181818181818,
+   "f1": 0.5277777777777777,
+   "support": 44
+  },
+  "potato__late_blight": {
+   "precision": 0.7619047619047619,
+   "recall": 0.6808510638297872,
+   "f1": 0.7191011235955055,
+   "support": 47
+  },
+  "potato__healthy": {
+   "precision": 0.5,
+   "recall": 0.8367346938775511,
+   "f1": 0.6259541984732825,
+   "support": 49
+  },
+  "strawberry__healthy": {
+   "precision": 0.9130434782608695,
+   "recall": 0.8936170212765957,
+   "f1": 0.9032258064516129,
+   "support": 47
+  },
+  "tomato__bacterial_spot": {
+   "precision": 0.5483870967741935,
+   "recall": 0.30357142857142855,
+   "f1": 0.3908045977011494,
+   "support": 56
+  },
+  "tomato__early_blight": {
+   "precision": 0.5942028985507246,
+   "recall": 0.6307692307692307,
+   "f1": 0.6119402985074627,
+   "support": 65
+  },
+  "tomato__late_blight": {
+   "precision": 0.5573770491803278,
+   "recall": 0.6071428571428571,
+   "f1": 0.5811965811965811,
+   "support": 56
+  },
+  "tomato__leaf_mold": {
+   "precision": 0.6909090909090909,
+   "recall": 0.7450980392156863,
+   "f1": 0.7169811320754716,
+   "support": 51
+  },
+  "tomato__septoria_leaf_spot": {
+   "precision": 0.5625,
+   "recall": 0.574468085106383,
+   "f1": 0.5684210526315789,
+   "support": 47
+  },
+  "tomato__leaf_curl_virus": {
+   "precision": 0.625,
+   "recall": 0.40540540540540543,
+   "f1": 0.4918032786885246,
+   "support": 37
+  },
+  "tomato__mosaic_virus": {
+   "precision": 0.47619047619047616,
+   "recall": 0.4444444444444444,
+   "f1": 0.45977011494252873,
+   "support": 45
+  },
+  "tomato__healthy": {
+   "precision": 0.74,
+   "recall": 0.7254901960784313,
+   "f1": 0.7326732673267328,
+   "support": 51
+  }
+ },
+ "model": "v1 (mobilenetv2_sgreenintel_v6p2.pth)",
+ "split": "test",
+ "tta": false,
+ "calibrated": false,
+ "acceptance_rules": "v1 production rules: auto mode accepts confidence >= 0.70 and normalised entropy <= 0.40; crop-given mode accepts confidence >= 0.70 (v1 has no crop-given mode, so this is an estimate)",
+ "checkpoint": {
+  "file": "mobilenetv2_sgreenintel_v6p2.pth",
+  "bytes": 9327691,
+  "sha256_16": "8892772ce7d179e0",
+  "modified": "2026-09-20T01:04:29"
+ }
+}

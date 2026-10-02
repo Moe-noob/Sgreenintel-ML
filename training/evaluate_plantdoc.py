@@ -67,10 +67,28 @@ eval_transform = transforms.Compose([
 ])
 
 
-from model_loader import load_best_model
+from model_loader import load_best_model, load_model_from_checkpoint, checkpoint_fingerprint
+
+CHECKPOINT_USED = None   # set by build_and_load_model(); recorded in the results JSON
+
+
+def _pv_acc():
+    """PlantVillage accuracy of the evaluated checkpoint, only when given with --pv-acc X. (It used to be a hard-coded
+    90.29, which is v2's number, so every checkpoint reported v2's domain gap.)"""
+    if "--pv-acc" in sys.argv:
+        return float(sys.argv[sys.argv.index("--pv-acc") + 1])
+    return None
 
 def build_and_load_model():
-    model, class_names, _ = load_best_model()
+    # --checkpoint PATH evaluates exactly that file; otherwise the best available checkpoint, as before.
+    global CHECKPOINT_USED
+    if "--checkpoint" in sys.argv:
+        path = Path(sys.argv[sys.argv.index("--checkpoint") + 1])
+        model, class_names = load_model_from_checkpoint(path)
+        print(f"Using model: {path.name}")
+    else:
+        model, class_names, path = load_best_model()
+    CHECKPOINT_USED = path
     return model, class_names
 
 
@@ -139,8 +157,12 @@ def evaluate():
     print(f"Total images:       {total}")
     print(f"Correct:            {correct}")
     print(f"Overall accuracy:   {overall_acc:.2f}%")
-    print(f"\nFor comparison: PlantVillage held-out test set accuracy: 90.29%")
-    print(f"Domain gap (lab vs real-world): {90.29 - overall_acc:.2f} percentage points")
+    pv_acc = _pv_acc()
+    if pv_acc is not None:
+        print(f"\nFor comparison: PlantVillage held-out test set accuracy of this checkpoint: {pv_acc}%")
+        print(f"Domain gap (lab vs real-world): {pv_acc - overall_acc:.2f} percentage points")
+    else:
+        print("\nNo PlantVillage accuracy given (pass --pv-acc X): domain gap not computed.")
 
     print(f"\nPer-class breakdown (sorted by accuracy):")
     sorted_classes = sorted(per_class.items(),
@@ -159,8 +181,9 @@ def evaluate():
         "overall_accuracy": overall_acc,
         "total_images": total,
         "correct": correct,
-        "plantvillage_test_accuracy": 90.29,
-        "domain_gap": 90.29 - overall_acc,
+        "plantvillage_test_accuracy": pv_acc,
+        "domain_gap": (pv_acc - overall_acc) if pv_acc is not None else None,
+        "checkpoint": checkpoint_fingerprint(CHECKPOINT_USED) if CHECKPOINT_USED else None,
         "classes_evaluated": len(per_class),
         "per_class": {cls: {
             "accuracy": s["correct"]/s["total"]*100 if s["total"] > 0 else 0,
@@ -173,6 +196,10 @@ def evaluate():
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nResults saved to: {out_path}")
+    if CHECKPOINT_USED:
+        copy_path = out_path.with_name(f"plantdoc_evaluation_{Path(CHECKPOINT_USED).stem}.json")
+        copy_path.write_text(json.dumps(results, indent=2))
+        print(f"Also saved: {copy_path}")
 
 
 if __name__ == "__main__":
