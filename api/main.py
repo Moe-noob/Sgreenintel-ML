@@ -25,7 +25,7 @@ import tempfile
 from pathlib import Path
 
 import requests
-from fastapi import FastAPI, File, UploadFile, HTTPException, Query
+from fastapi import FastAPI, File, Form, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
@@ -35,7 +35,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "training"))
 sys.path.insert(0, str(PROJECT_ROOT / "heatmap"))
 sys.path.insert(0, str(PROJECT_ROOT / "care"))
 
-from predict_api import predict_structured
+from predict_api import predict_structured, available_crops
 from advisor import get_recommendations, KNOWN_LOCATIONS
 from tracker import get_plant_status
 
@@ -74,7 +74,7 @@ def root():
 # ---------------------------------------------------------------------------
 
 @app.post("/predict")
-async def predict_endpoint(file: UploadFile = File(...)):
+async def predict_endpoint(file: UploadFile = File(...), crop: str = Form(None)):
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image.")
 
@@ -84,13 +84,22 @@ async def predict_endpoint(file: UploadFile = File(...)):
         tmp_path = tmp.name
 
     try:
-        result = predict_structured(tmp_path)
+        result = predict_structured(tmp_path, crop=crop or None)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {e}")
     finally:
         Path(tmp_path).unlink(missing_ok=True)
 
     return result
+
+
+@app.get("/predict/crops")
+async def predict_crops_endpoint():
+    """The crops /predict accepts in its 'crop' field. Each entry's "key" is the exact value to send back (it is what
+    predict_structured(crop=...) looks up, unchanged by this endpoint); "label" is only for display."""
+    return {"crops": [{"key": c, "label": c.replace("_", " ").title()} for c in available_crops()]}
 
 
 # ---------------------------------------------------------------------------

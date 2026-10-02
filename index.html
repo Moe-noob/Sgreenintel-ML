@@ -1026,6 +1026,11 @@
         <input type="file" id="fileInput" accept="image/*">
       </div>
 
+      <div class="crop-select-row" style="margin-top:12px;">
+        <label for="cropSelect" style="font-size:0.9em; color:var(--text-muted);">Crop (optional -- narrows the search to that crop's own diseases, more accurate than letting the model guess):</label>
+        <select id="cropSelect" style="margin-left:8px;"><option value="">Let the model guess</option></select>
+      </div>
+
       <div id="previewArea"></div>
       <div id="scanResult"></div>
     </section>
@@ -1192,6 +1197,16 @@ dropzone.addEventListener('click', () => fileInput.click());
   });
 });
 
+(async function populateCropSelect() {
+  try {
+    const res = await fetch(API_BASE + '/predict/crops');
+    if (!res.ok) return;
+    const { crops } = await res.json();
+    const sel = document.getElementById('cropSelect');
+    for (const option of crops) sel.insertAdjacentHTML('beforeend', `<option value="${option.key}">${option.label}</option>`);
+  } catch { /* leave just "Let the model guess" if this fails */ }
+})();
+
 dropzone.addEventListener('drop', e => {
   const file = e.dataTransfer.files[0];
   if (file) handleFile(file);
@@ -1219,9 +1234,16 @@ async function analyzeImage(file) {
   scanResult.innerHTML = `<div class="load-line"><span class="spinner"></span>Analyzing…</div>`;
   const form = new FormData();
   form.append('file', file);
+  const chosenCrop = document.getElementById('cropSelect').value;
+  if (chosenCrop) form.append('crop', chosenCrop);
 
   try {
     const res = await fetch(API_BASE + '/predict', { method: 'POST', body: form });
+    if (res.status === 400) {
+      const err = await res.json().catch(() => ({}));
+      scanResult.innerHTML = `<div class="result-band rejected"><span class="band-dot"></span>${err.detail || 'The server could not use this request.'}</div>`;
+      return;
+    }
     if (!res.ok) throw new Error();
     const data = await res.json();
     renderScanResult(data);
@@ -1243,6 +1265,9 @@ function renderScanResult(data) {
 
   if (data.accepted) {
     const [crop, condition] = [data.crop, data.condition];
+    const modeNote = data.crop_given
+      ? `<p style="margin:4px 0 0; font-size:0.85em; color:var(--text-muted);">Narrowed to ${data.crop_given.replace(/\b\w/g, c => c.toUpperCase())}, as selected.</p>`
+      : '';
     const categoryBadge = data.category_label
       ? `<span class="badge ${categoryClass(data.category_label)}">${data.category_label}</span>`
       : '';
@@ -1258,6 +1283,7 @@ function renderScanResult(data) {
         <div class="result-hero">
           <div class="conf-ring" style="background:${ring}"><span class="conf-ring-value">${pct}%</span></div>
           <div>
+            ${modeNote}
             <div class="result-crop">${crop}</div>
             <div class="result-condition">${condition} ${categoryBadge}</div>
           </div>

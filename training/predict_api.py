@@ -30,6 +30,19 @@ MAX_ENTROPY = math.log(config.NUM_CLASSES)
 CONFIDENCE_THRESHOLD = 0.70
 ENTROPY_NORM_THRESHOLD = 0.40   
 
+# The 7 production crops, as they appear before "___" in class_names (training/config.py: NUM_CLASSES = 35, 7 crops).
+# Built once a model is loaded, not hard-coded, so it can never drift from the checkpoint's own class list.
+CROP_CLASS_INDICES = None   # dict[str, list[int]], lower-case crop name -> indices into class_names; set by _get_model()
+
+
+def _build_crop_index(class_names):
+    groups = {}
+    for i, name in enumerate(class_names):
+        crop = name.split("___")[0].lower()
+        groups.setdefault(crop, []).append(i)
+    return groups
+
+
 predict_transform = transforms.Compose([
     transforms.Resize((config.IMAGE_SIZE, config.IMAGE_SIZE)),
     transforms.ToTensor(),
@@ -44,12 +57,20 @@ _cached_class_names = None
 
 def _get_model():
     global _cached_model, _cached_class_names
+    global CROP_CLASS_INDICES
     if _cached_model is None:
         _cached_model, _cached_class_names, _ = load_best_model()
+        CROP_CLASS_INDICES = _build_crop_index(_cached_class_names)
     return _cached_model, _cached_class_names
 
 
-def predict_structured(image_path, top_k=3):
+def available_crops():
+    """The crop names predict_structured(..., crop=...) accepts, in a stable (class-list) order."""
+    _get_model()
+    return list(CROP_CLASS_INDICES)
+
+
+def predict_structured(image_path, top_k=3, crop=None):
     """
     Runs inference and returns a JSON-ready dict:
 
@@ -63,19 +84,35 @@ def predict_structured(image_path, top_k=3):
         "rejection_reason": str | None,
         "top_k": [{"class": str, "confidence": float}, ...]
     }
+
+    crop: optional crop name (case-insensitive, e.g. "Tomato"). When given, only that crop's classes compete: a photo's
+    probabilities are computed among its own disease/healthy classes only, instead of against all 35 classes, and the
+    acceptance rule is judged against that narrower class count. Raises ValueError for a name the model does not know.
     """
     model, class_names = _get_model()
+    crop_key = None
+    if crop is not None:
+        crop_key = crop.strip().lower()
+        if crop_key not in CROP_CLASS_INDICES:
+            raise ValueError(f"Unknown crop {crop!r}. Known crops: {', '.join(sorted(CROP_CLASS_INDICES))}")
 
     image = Image.open(image_path).convert("RGB")
     input_tensor = predict_transform(image).unsqueeze(0).to(config.DEVICE)
 
     with torch.no_grad():
         outputs = model(input_tensor)
+        if crop_key is not None:
+            mask = torch.full_like(outputs, float("-inf"))
+            idx = torch.tensor(CROP_CLASS_INDICES[crop_key], device=outputs.device)
+            mask[:, idx] = outputs[:, idx]
+            outputs = mask
         probs = torch.softmax(outputs, dim=1)[0]
 
+    n_classes_considered = len(CROP_CLASS_INDICES[crop_key]) if crop_key is not None else config.NUM_CLASSES
+    max_entropy = math.log(n_classes_considered) if n_classes_considered > 1 else 1.0   # a single-class crop has no entropy to speak of
     max_conf = probs.max().item()
     entropy = -(probs * torch.log(probs + 1e-9)).sum().item()
-    entropy_norm = entropy / MAX_ENTROPY
+    entropy_norm = entropy / max_entropy
 
     top_probs, top_indices = torch.topk(probs, top_k)
     top_k_list = [
@@ -112,6 +149,7 @@ def predict_structured(image_path, top_k=3):
             "uncertainty": round(entropy_norm, 3),
             "rejection_reason": rejection_reason,
             "top_k": top_k_list,
+            "crop_given": crop_key,
         }
 
     predicted_class = class_names[top_indices[0].item()]
@@ -138,4 +176,5 @@ def predict_structured(image_path, top_k=3):
         "uncertainty": round(entropy_norm, 3),
         "rejection_reason": None,
         "top_k": top_k_list,
+        "crop_given": crop_key,
     }
