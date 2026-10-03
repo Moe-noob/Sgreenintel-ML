@@ -1,11 +1,11 @@
-# v1 (mobilenetv2_sgreenintel_v6p2.pth) — test split
+# v1 (mobilenetv2_sgreenintel_v6p2.pth, current rules) — test split
 
 Photos: 1267 (supported classes this model knows: 1222; photos of classes unknown to this model: 0.0%)
 
 | Mode | Accuracy (95 % CI) | Macro-F1 (95 % CI) | ECE | Accepted share | Accuracy on accepted |
 |---|---|---|---|---|---|
 | Model picks crop and disease | 67.0% (64.6%–69.7%) | 65.5% (62.5%–68.1%) | 0.158 | 73.9% | 76.9% |
-| Crop selected by user | 76.5% (74.3%–78.9%) | 75.3% (72.7%–77.6%) | 0.111 | 81.3% | 83.5% |
+| Crop selected by user | 76.5% (74.3%–78.9%) | 75.3% (72.7%–77.6%) | 0.111 | 77.5% | 85.2% |
 
 | Crop | Accuracy | Photos |
 |---|---|---|

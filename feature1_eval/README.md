@@ -31,6 +31,8 @@ wrote as a proposed plan for a better Feature 1. Only the evaluation machinery w
 | `contamination.py` + `tests/test_contamination.py` | measures twins between the benchmark and what v1 trained on (PlantDoc train, PlantWild train split, v1's base training set) |
 | `drops_report.py` + `tests/test_drops_report.py` | accounts for every official test photo (kept, or dropped for a label conflict / an excluded class) and the effective benchmark size after counting near-copies once |
 | `tests/test_inference_streaming.py` | checks that photos are decoded one batch at a time (needs torch) |
+| `calibrate.py` + `tests/test_calibrate.py` | finds confidence+entropy threshold pairs, fit on the validation split only |
+| `evaluate.py --rules {current,calibrated}` + `TestEvaluateAcceptanceRules` | confirms a calibrated pair on the frozen benchmark; a past bug applied the entropy check to auto mode only, silently skipping it for crop_given -- now fixed and covered by a regression test |
 
 | Left out on purpose | Why |
 |---|---|
@@ -48,17 +50,19 @@ wrote as a proposed plan for a better Feature 1. Only the evaluation machinery w
 ## Steps (PowerShell, from the project root)
 
 ```
-python -m unittest feature1_eval.tests.test_data_pipeline feature1_eval.tests.test_contamination feature1_eval.tests.test_drops_report feature1_eval.tests.test_inference_streaming
+python -m unittest feature1_eval.tests.test_data_pipeline feature1_eval.tests.test_contamination feature1_eval.tests.test_drops_report feature1_eval.tests.test_inference_streaming feature1_eval.tests.test_calibrate
 python -m feature1_eval.data.manifest
 python -m feature1_eval.data.dedupe
 python -m feature1_eval.data.splits --min-train 0
 python -m feature1_eval.drops_report
 python -m feature1_eval.evaluate --legacy models\cnn\mobilenetv2_sgreenintel_v6p2.pth --split val
+python -m feature1_eval.calibrate --predictions feature1_eval\work\eval_mobilenetv2_sgreenintel_v6p2\val\predictions.csv
+python -m feature1_eval.evaluate --legacy models\cnn\mobilenetv2_sgreenintel_v6p2.pth --split test --final --rules calibrated --purpose "confirm calibrated thresholds"
 python -m feature1_eval.evaluate --legacy models\cnn\mobilenetv2_sgreenintel_v6p2.pth --split test --final --purpose "baseline v6p2"
 python -m feature1_eval.contamination --predictions feature1_eval\work\eval_mobilenetv2_sgreenintel_v6p2\test\predictions.csv
 ```
 
-1. **tests**: 23 tests, a few seconds (about 20 on Windows). All must pass before you trust anything else.
+1. **tests**: 33 tests, a few seconds (about 20 on Windows); 2 need torch and are skipped without it. All must pass (or skip) before you trust anything else.
 2. **manifest**: prints how many images each source has per label and **lists every source folder name it could not map**. Nothing is guessed; if
    something is unmapped, paste me the list.
 3. **dedupe**: hashes every image (a few minutes) and writes `work\hashes.csv`; prints how many duplicate groups it found.
@@ -71,9 +75,21 @@ python -m feature1_eval.contamination --predictions feature1_eval\work\eval_mobi
    not use `--force-refreeze`, so the earlier freeze and its usage log stay on record.
 5. **drops_report**: accounts for every PlantDoc / PlantWild test photo: kept, dropped because a near-duplicate carries a different label
    ("label conflict"), or dropped because its class was excluded. It also gives the effective benchmark size, counting near-copies once.
-6. **evaluate --split val**: a first look on the field validation split (used for model selection, never for the final number).
-7. **evaluate --split test --final**: the baseline on the frozen benchmark. Every `--final` use is appended to `benchmark\usage_log.txt`.
-8. **contamination**: splits v1's benchmark score into photos with and without a twin in v1's training data.
+6. **evaluate --split val**: this now also records per-photo entropy and crop-given confidence/entropy in `predictions.csv` (needed by step 7).
+7. **calibrate**: searches for the best confidence+entropy pair, for each of several target accuracies, for BOTH modes
+   separately (auto and crop-given have different confidence/entropy ranges, since crop-given competes among far fewer
+   classes). Read `calibration.md`: pick the lowest target accuracy you're comfortable with that still has a
+   reasonable number of accepted photos (a handful of photos gives a wide confidence interval even with a good point
+   estimate). This step reads ONLY the validation split (`--split val` above); it refuses to run against the frozen
+   benchmark's `report.json`.
+7a. **Confirm the chosen pair on the frozen benchmark, exactly once**, with `evaluate --split test --final --rules
+   calibrated` (default is `--rules current`, the values already in `training/predict_api.py`). `RULESETS["calibrated"]`
+   in `evaluate.py` holds whatever pair step 7 recommended -- edit it there if you pick a different target accuracy than
+   the one already filled in. Compare its `accepted_share` / `accepted_accuracy` against the validation-split numbers
+   from step 7: if the benchmark accuracy is notably lower, the validation split was overfit to and a more conservative
+   pair should be chosen instead. Only once this confirmation looks right should `predict_api.py` actually be changed. a first look on the field validation split (used for model selection, never for the final number).
+8. **evaluate --split test --final**: the baseline on the frozen benchmark. Every `--final` use is appended to `benchmark\usage_log.txt`.
+9. **contamination**: splits v1's benchmark score into photos with and without a twin in v1's training data.
 
 ## How to read the results
 

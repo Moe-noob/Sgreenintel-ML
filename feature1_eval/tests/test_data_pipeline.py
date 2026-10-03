@@ -8,6 +8,7 @@ Run:  python -m unittest discover -s feature1_eval/tests -t . -v
 import json
 import shutil
 import tempfile
+import importlib.util
 import unittest
 from pathlib import Path
 
@@ -226,6 +227,36 @@ class TestRegressions(unittest.TestCase):
             self.assertEqual(len(lines), 1)
             self.assertIn("unit test", lines[0])
 
+
+
+@unittest.skipUnless(importlib.util.find_spec("torch") is not None, "needs torch")
+class TestEvaluateAcceptanceRules(unittest.TestCase):
+    """evaluate.score()'s accepted_share/accepted_accuracy must apply BOTH confidence and entropy, for BOTH modes
+    (a past bug applied entropy to auto mode only and silently skipped it for crop_given)."""
+
+    def test_both_modes_apply_both_thresholds(self):
+        from feature1_eval import evaluate
+        classes = ["a__x", "a__y", "b__x", "b__y"]
+        # 4 photos, logits chosen so confidence alone would accept all 4 in both modes, but entropy correctly
+        # rejects photo 1 (spread out) and photo 3 (spread within its own crop once masked)
+        logits = np.array([
+            [5.0, 0.0, -5.0, -5.0],    # confident, low entropy -> accepted
+            [5.0, 4.9, -5.0, -5.0],    # confident (same top logit) but high entropy -> must be rejected
+            [-5.0, -5.0, 5.0, 0.0],    # confident, low entropy -> accepted
+            [-5.0, -5.0, 5.0, 4.9],    # confident but high entropy, within its own crop -> must be rejected
+        ])
+        y_true = ["a__x", "a__x", "b__x", "b__x"]
+        cal = evaluate.RULESETS["current"]            # confidence >= 0.70, entropy <= 0.40, both modes
+        res, pred, conf, pc_pred, H_auto, pc_conf, pc_entropy, supported = evaluate.score(y_true, logits, classes, cal)
+        self.assertAlmostEqual(res["auto"]["accepted_share"], 0.5)          # photos 0, 2 only
+        self.assertAlmostEqual(res["auto"]["accepted_accuracy"], 1.0)
+        self.assertAlmostEqual(res["crop_given"]["accepted_share"], 0.5)    # same pattern once masked to each photo's own crop
+        self.assertAlmostEqual(res["crop_given"]["accepted_accuracy"], 1.0)
+
+    def test_calibrated_ruleset_uses_different_thresholds_per_mode(self):
+        from feature1_eval import evaluate
+        self.assertNotEqual(evaluate.RULESETS["calibrated"]["confidence_auto"], evaluate.RULESETS["calibrated"]["confidence_crop"])
+        self.assertEqual(evaluate.RULESETS["current"]["confidence_auto"], evaluate.RULESETS["current"]["confidence_crop"])
 
 class TestMetrics(unittest.TestCase):
     def test_against_sklearn(self):

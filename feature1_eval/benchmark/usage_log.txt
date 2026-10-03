@@ -1,1 +1,2 @@
-2026-10-02T08:28:12	alkha	baseline v6p2, 25-class benchmark
+2026-10-03T08:31:26	alkha	confirm calibrated thresholds
+2026-10-03T08:35:44	alkha	re-confirm current thresholds under fixed evaluate.py

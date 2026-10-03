@@ -33,10 +33,19 @@ from feature1_eval import config, inference, legacy, metrics, taxonomy
 from feature1_eval.data import splits as sp
 
 
-# The acceptance rules of the production app (training/predict_api.py): reject when confidence < 0.70, otherwise reject when the
-# entropy of the 35-class softmax, divided by log(35), exceeds 0.40. Applied here so the report describes what the app does today.
-V1_RULES = {"temperature": 1.0, "threshold_auto": 0.70, "threshold_crop": 0.70, "energy_threshold": float("inf"),
-            "entropy_norm_max": 0.40}
+# Acceptance rulesets, by name, selected with --rules. Each has its own confidence AND entropy cutoff, separately for
+# auto mode (all 35 classes compete) and crop-given mode (only the named crop's classes compete) -- the two modes see
+# very different confidence/entropy ranges, so one shared pair is not necessarily right for both (confirmed by
+# feature1_eval.calibrate on the validation split, 2 Oct 2026).
+#   "current"    -- training/predict_api.py's shared values before calibration (0.70 confidence, 0.40 entropy, both modes)
+#   "calibrated" -- feature1_eval.calibrate's 90%-target recommendation (see calibration.md); NOT yet in production --
+#                   this ruleset exists so it can be CONFIRMED on the frozen benchmark before predict_api.py is changed
+RULESETS = {
+    "current": {"temperature": 1.0, "energy_threshold": float("inf"),
+                "confidence_auto": 0.70, "entropy_auto": 0.40, "confidence_crop": 0.70, "entropy_crop": 0.40},
+    "calibrated": {"temperature": 1.0, "energy_threshold": float("inf"),
+                  "confidence_auto": 0.6819, "entropy_auto": 0.2496, "confidence_crop": 0.5927, "entropy_crop": 0.9997},
+}
 
 
 def fingerprint(path):
@@ -52,9 +61,9 @@ def fingerprint(path):
             "modified": _dt.datetime.fromtimestamp(p.stat().st_mtime).isoformat(timespec="seconds")}
 
 
-def load_any(legacy_path):
+def load_any(legacy_path, ruleset="current"):
     m, info = legacy.load(legacy_path)
-    return m, info["classes"], info["meta"], dict(V1_RULES), f"v1 ({Path(legacy_path).name})"
+    return m, info["classes"], info["meta"], dict(RULESETS[ruleset]), f"v1 ({Path(legacy_path).name}, {ruleset} rules)"
 
 
 def score(y_true, logits, classes, cal=None):
@@ -81,24 +90,30 @@ def score(y_true, logits, classes, cal=None):
     res["auto"] = block(ys, ps, cs)
     raw = inference.softmax(logits[supported])
     res["auto"]["ece_uncalibrated"] = metrics.ece(raw.max(1), raw.argmax(1) == ys)
+    # per-photo normalised entropy, auto mode -- same formula as training/predict_api.py (H / log(n_classes_considered)),
+    # kept per-photo (not just aggregated) so a calibration script can search confidence x entropy jointly on the val split
+    p_sup = p_cal[supported]
+    H_auto = -(p_sup * np.log(p_sup + 1e-9)).sum(1) / np.log(p_sup.shape[1])
 
     # crop selector mode
-    pc_pred, pc_conf = [], []
+    pc_pred, pc_conf, pc_entropy = [], [], []
     for z, yy in zip(logits[supported], ys):
-        p = inference.softmax(inference.restrict_to_crop(z, classes, taxonomy.crop_of(classes[yy])), T)
+        crop = taxonomy.crop_of(classes[yy])
+        p = inference.softmax(inference.restrict_to_crop(z, classes, crop), T)
+        n_considered = int(np.isfinite(inference.restrict_to_crop(z, classes, crop)).sum())
         pc_pred.append(p.argmax())
         pc_conf.append(p.max())
-    pc_pred, pc_conf = np.array(pc_pred), np.array(pc_conf)
+        pc_entropy.append(-(p * np.log(p + 1e-9)).sum() / (np.log(n_considered) if n_considered > 1 else 1.0))
+    pc_pred, pc_conf, pc_entropy = np.array(pc_pred), np.array(pc_conf), np.array(pc_entropy)
     res["crop_given"] = block(ys, pc_pred, pc_conf)
 
-    # accepted photos at the calibrated thresholds
+    # accepted photos at the ruleset's thresholds -- confidence AND entropy, for BOTH modes (previously a bug here
+    # applied the entropy check to auto mode only, silently skipping it for crop_given and over-stating its accepted
+    # share/accuracy; caught by cross-checking this report against feature1_eval.calibrate on the same predictions)
     if cal:
-        for mode, pv, cv, thr in (("auto", ps, cs, cal["threshold_auto"]), ("crop_given", pc_pred, pc_conf, cal["threshold_crop"])):
-            m = (cv >= thr) & (pv != (unsup if unsup is not None else -2))
-            if mode == "auto" and cal.get("entropy_norm_max") is not None:        # v1's second rejection rule
-                P = p_cal[supported]
-                H = -(P * np.log(P + 1e-9)).sum(1) / np.log(P.shape[1])
-                m &= H <= cal["entropy_norm_max"]
+        for mode, pv, cv, ev, conf_thr, ent_thr in (("auto", ps, cs, H_auto, cal["confidence_auto"], cal["entropy_auto"]),
+                                                     ("crop_given", pc_pred, pc_conf, pc_entropy, cal["confidence_crop"], cal["entropy_crop"])):
+            m = (cv >= conf_thr) & (ev <= ent_thr) & (pv != (unsup if unsup is not None else -2))
             res[mode]["accepted_share"] = float(m.mean())
             res[mode]["accepted_accuracy"] = float((pv[m] == ys[m]).mean()) if m.any() else None
     res["auto"]["coverage_curve"] = metrics.coverage_curve(cs, ps == ys, points=11)
@@ -120,7 +135,7 @@ def score(y_true, logits, classes, cal=None):
     res["per_crop_accuracy_auto"] = {k: {"accuracy": a / n, "n": n} for k, (a, n) in sorted(per_crop.items())}
     pcl = metrics.per_class(ys, ps, labels=sorted(set(ys.tolist())))
     res["per_class_auto"] = {classes[k]: v for k, v in pcl.items()}
-    return res, pred, conf, pc_pred
+    return res, pred, conf, pc_pred, H_auto, pc_conf, pc_entropy, supported
 
 
 def to_markdown(name, split, res):
@@ -149,6 +164,7 @@ def to_markdown(name, split, res):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--legacy", required=True, help="path to a v1 checkpoint (.pth)")
+    ap.add_argument("--rules", default="current", choices=list(RULESETS), help="acceptance ruleset to report accepted_share/accepted_accuracy for")
     ap.add_argument("--split", default="val", choices=["val", "test"])
     ap.add_argument("--final", action="store_true", help="required for --split test")
     ap.add_argument("--purpose", default="")
@@ -158,15 +174,16 @@ def main(argv=None):
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
 
-    model, classes, meta, cal, name = load_any(a.legacy)
+    model, classes, meta, cal, name = load_any(a.legacy, a.rules)
     model.to(inference.device())
     rows = sp.load_split(a.split, a.splits, final=a.final, purpose=a.purpose or name)
     logits = inference.logits_for_paths(model, [str(Path(a.data_root) / r["path"]) for r in rows], meta, a.tta)
     y_true = [r["label"] for r in rows]
-    res, pred, conf, pc_pred = score(y_true, logits, classes, cal)
+    res, pred, conf, pc_pred, H_auto, pc_conf, pc_entropy, supported = score(y_true, logits, classes, cal)
     res.update({"model": name, "split": a.split, "tta": a.tta, "calibrated": False,
-                "acceptance_rules": "v1 production rules: auto mode accepts confidence >= 0.70 and normalised entropy <= 0.40; "
-                                    "crop-given mode accepts confidence >= 0.70 (v1 has no crop-given mode, so this is an estimate)",
+                "acceptance_rules": f"ruleset={a.rules}: auto accepts confidence >= {cal['confidence_auto']} and entropy <= "
+                                    f"{cal['entropy_auto']}; crop_given accepts confidence >= {cal['confidence_crop']} and entropy <= "
+                                    f"{cal['entropy_crop']}",
                 "checkpoint": fingerprint(a.legacy)})
 
     out = Path(a.out or config.WORK_DIR / f"eval_{Path(a.legacy).stem}" / a.split)
@@ -175,12 +192,19 @@ def main(argv=None):
     (out / "report.md").write_text(to_markdown(name, a.split, res))
     with open(out / "predictions.csv", "w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["path", "label", "label_known_to_model", "pred_auto", "conf_auto", "pred_crop_given"])
-        sup = [i for i, t in enumerate(y_true) if t in classes and t != taxonomy.UNSUPPORTED]
-        pc_map = dict(zip(sup, pc_pred.tolist())) if len(pc_pred) == len(sup) else {}
+        w.writerow(["path", "label", "label_known_to_model", "pred_auto", "conf_auto", "entropy_auto",
+                    "pred_crop_given", "conf_crop_given", "entropy_crop_given"])
+        sup = np.flatnonzero(supported).tolist()
+        pc_pred_map = dict(zip(sup, pc_pred.tolist())) if len(pc_pred) == len(sup) else {}
+        pc_conf_map = dict(zip(sup, pc_conf.tolist())) if len(pc_conf) == len(sup) else {}
+        pc_entropy_map = dict(zip(sup, pc_entropy.tolist())) if len(pc_entropy) == len(sup) else {}
+        H_map = dict(zip(sup, H_auto.tolist())) if len(H_auto) == len(sup) else {}
         for i, r in enumerate(rows):
             w.writerow([r["path"], r["label"], int(r["label"] in classes), classes[pred[i]], f"{conf[i]:.4f}",
-                        classes[pc_map[i]] if i in pc_map else ""])
+                        f"{H_map[i]:.4f}" if i in H_map else "",
+                        classes[pc_pred_map[i]] if i in pc_pred_map else "",
+                        f"{pc_conf_map[i]:.4f}" if i in pc_conf_map else "",
+                        f"{pc_entropy_map[i]:.4f}" if i in pc_entropy_map else ""])
     print(to_markdown(name, a.split, res))
     print(f"\n-> {out}")
 

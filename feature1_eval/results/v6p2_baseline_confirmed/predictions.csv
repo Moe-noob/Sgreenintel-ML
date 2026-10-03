@@ -1,0 +1,1268 @@
+path,label,label_known_to_model,pred_auto,conf_auto,entropy_auto,pred_crop_given,conf_crop_given,entropy_crop_given
+plantwild/plantwild/images/apple black rot/47.jpg,apple__black_rot,1,apple__black_rot,0.4494,0.4748,apple__black_rot,0.6619,0.4887
+plantwild/plantwild/images/apple black rot/google_0135.jpg,apple__black_rot,1,apple__scab,0.8740,0.1310,apple__scab,0.8746,0.2560
+plantwild/plantwild/images/apple black rot/google_0064.jpg,apple__black_rot,1,apple__healthy,0.7037,0.2385,apple__healthy,0.8052,0.2859
+plantwild/plantwild/images/apple black rot/4.jpg,apple__black_rot,1,apple__black_rot,0.9997,0.0010,apple__black_rot,1.0000,0.0003
+plantwild/plantwild/images/apple black rot/68.jpg,apple__black_rot,1,apple__scab,0.4716,0.3025,apple__scab,0.4961,0.4906
+plantwild/plantwild/images/apple black rot/google_0071.jpg,apple__black_rot,1,apple__cedar_apple_rust,0.9953,0.0097,apple__cedar_apple_rust,0.9953,0.0188
+plantwild/plantwild/images/apple black rot/google_0011.jpg,apple__black_rot,1,grape__black_rot,0.9958,0.0094,apple__black_rot,0.8430,0.3492
+plantwild/plantwild/images/apple black rot/61.jpg,apple__black_rot,1,apple__frog_eye_leaf_spot,0.8830,0.1220,apple__frog_eye_leaf_spot,0.9602,0.0935
+plantwild/plantwild/images/apple black rot/google_0136.jpg,apple__black_rot,1,apple__black_rot,0.9984,0.0035,apple__black_rot,0.9984,0.0070
+plantwild/plantwild/images/apple black rot/69.jpg,apple__black_rot,1,apple__black_rot,1.0000,0.0000,apple__black_rot,1.0000,0.0000
+plantwild/plantwild/images/apple black rot/google_0050.jpg,apple__black_rot,1,apple__black_rot,0.9952,0.0095,apple__black_rot,0.9953,0.0184
+plantwild/plantwild/images/apple black rot/59.jpg,apple__black_rot,1,apple__black_rot,0.9179,0.1211,apple__black_rot,0.9778,0.0607
+plantwild/plantwild/images/apple black rot/google_0000.jpg,apple__black_rot,1,apple__cedar_apple_rust,0.5650,0.2671,apple__cedar_apple_rust,0.5650,0.5300
+plantwild/plantwild/images/apple black rot/google_0097.jpg,apple__black_rot,1,apple__black_rot,0.5546,0.2650,apple__black_rot,0.5555,0.5191
+plantwild/plantwild/images/apple black rot/187.jpg,apple__black_rot,1,tomato__early_blight,0.1763,0.6972,apple__black_rot,0.2836,0.8607
+plantwild/plantwild/images/apple black rot/7.jpg,apple__black_rot,1,apple__scab,0.3527,0.5560,apple__scab,0.4905,0.7149
+plantwild/plantwild/images/apple black rot/google_0073.jpg,apple__black_rot,1,tomato__late_blight,0.9709,0.0427,apple__black_rot,0.9183,0.1849
+plantwild/plantwild/images/apple black rot/google_0154.jpg,apple__black_rot,1,apple__black_rot,1.0000,0.0000,apple__black_rot,1.0000,0.0000
+plantwild/plantwild/images/apple black rot/google_0062.jpg,apple__black_rot,1,apple__black_rot,0.9964,0.0067,apple__black_rot,0.9964,0.0133
+plantwild/plantwild/images/apple black rot/48.jpg,apple__black_rot,1,apple__scab,0.6185,0.3091,apple__scab,0.6682,0.4412
+plantwild/plantwild/images/apple black rot/google_0121.jpg,apple__black_rot,1,grape__black_rot,0.5643,0.4437,apple__healthy,0.7187,0.4148
+plantwild/plantwild/images/apple black rot/73.jpg,apple__black_rot,1,apple__black_rot,0.7038,0.1717,apple__black_rot,0.7040,0.3393
+plantwild/plantwild/images/apple black rot/google_0104.jpg,apple__black_rot,1,apple__healthy,0.7830,0.2217,apple__healthy,0.8091,0.3632
+plantwild/plantwild/images/apple black rot/google_0027.jpg,apple__black_rot,1,apple__cedar_apple_rust,0.3022,0.6229,apple__cedar_apple_rust,0.5317,0.6743
+plantwild/plantwild/images/apple black rot/164.jpg,apple__black_rot,1,apple__cedar_apple_rust,0.9994,0.0015,apple__cedar_apple_rust,0.9998,0.0012
+plantwild/plantwild/images/apple black rot/google_0175.jpg,apple__black_rot,1,grape__black_rot,0.9988,0.0031,apple__healthy,0.9600,0.1143
+plantwild/plantwild/images/apple black rot/109.jpg,apple__black_rot,1,apple__healthy,0.8148,0.1969,apple__healthy,0.9238,0.1605
+plantwild/plantwild/images/apple black rot/78.jpg,apple__black_rot,1,apple__black_rot,0.9981,0.0043,apple__black_rot,0.9984,0.0065
+plantwild/plantwild/images/apple black rot/google_0063.jpg,apple__black_rot,1,bell_pepper__bacterial_spot,0.8862,0.1577,apple__scab,0.5561,0.6107
+plantwild/plantwild/images/apple black rot/143.jpg,apple__black_rot,1,potato__early_blight,0.7646,0.1806,apple__black_rot,0.9396,0.1517
+plantwild/plantwild/images/apple black rot/google_0010.jpg,apple__black_rot,1,apple__black_rot,0.4306,0.5392,apple__black_rot,0.9336,0.1699
+plantwild/plantwild/images/apple black rot/google_0186.jpg,apple__black_rot,1,apple__black_rot,0.9951,0.0098,apple__black_rot,0.9951,0.0191
+plantwild/plantwild/images/apple black rot/google_0147.jpg,apple__black_rot,1,apple__cedar_apple_rust,0.6266,0.3604,apple__cedar_apple_rust,0.7305,0.4161
+plantwild/plantwild/images/apple leaf/183.jpg,apple__healthy,1,grape__healthy,0.7159,0.3343,apple__healthy,0.6496,0.5256
+plantwild/plantwild/images/apple leaf/335.jpg,apple__healthy,1,grape__healthy,0.7762,0.1759,apple__healthy,0.9992,0.0038
+plantwild/plantwild/images/apple leaf/google_0497.jpg,apple__healthy,1,apple__healthy,0.9948,0.0103,apple__healthy,0.9968,0.0122
+plantwild/plantwild/images/apple leaf/google_0581.jpg,apple__healthy,1,apple__healthy,0.5856,0.3613,apple__healthy,0.6566,0.5179
+plantwild/plantwild/images/apple leaf/54.jpg,apple__healthy,1,apple__healthy,0.9442,0.0721,apple__healthy,0.9670,0.0822
+plantwild/plantwild/images/apple leaf/130.jpg,apple__healthy,1,apple__black_rot,0.5841,0.3602,apple__black_rot,0.6475,0.5255
+plantwild/plantwild/images/apple leaf/111.jpg,apple__healthy,1,apple__healthy,0.9014,0.1140,apple__healthy,0.9981,0.0085
+plantwild/plantwild/images/apple leaf/google_0224.jpg,apple__healthy,1,bell_pepper__healthy,0.6710,0.3175,apple__healthy,0.6649,0.5454
+plantwild/plantwild/images/apple leaf/160.jpg,apple__healthy,1,apple__healthy,0.9996,0.0013,apple__healthy,0.9996,0.0020
+plantwild/plantwild/images/apple leaf/google_0573.jpg,apple__healthy,1,potato__healthy,0.9853,0.0262,apple__healthy,0.9314,0.1729
+plantwild/plantwild/images/apple leaf/263.jpg,apple__healthy,1,potato__healthy,1.0000,0.0000,apple__healthy,1.0000,0.0000
+plantwild/plantwild/images/apple leaf/288.jpg,apple__healthy,1,tomato__early_blight,0.4008,0.5811,apple__healthy,0.5020,0.6573
+plantwild/plantwild/images/apple leaf/5.jpg,apple__healthy,1,apple__healthy,0.9989,0.0027,apple__healthy,0.9999,0.0008
+plantwild/plantwild/images/apple leaf/260.jpg,apple__healthy,1,apple__powdery_mildew,0.9948,0.0114,apple__powdery_mildew,0.9961,0.0157
+plantwild/plantwild/images/apple leaf/311.jpg,apple__healthy,1,apple__healthy,0.9255,0.1064,apple__healthy,0.9932,0.0251
+plantwild/plantwild/images/apple leaf/139.jpg,apple__healthy,1,apple__healthy,0.9999,0.0002,apple__healthy,1.0000,0.0001
+plantwild/plantwild/images/apple leaf/192.jpg,apple__healthy,1,apple__healthy,0.8668,0.1532,apple__healthy,0.9916,0.0297
+plantwild/plantwild/images/apple leaf/61.jpg,apple__healthy,1,apple__black_rot,0.9605,0.0546,apple__black_rot,0.9605,0.1083
+plantwild/plantwild/images/apple leaf/278.jpg,apple__healthy,1,apple__healthy,0.7107,0.1791,apple__healthy,0.9996,0.0020
+plantwild/plantwild/images/apple leaf/318.jpg,apple__healthy,1,bell_pepper__healthy,0.7958,0.1913,apple__healthy,0.9803,0.0688
+plantwild/plantwild/images/apple leaf/71.jpg,apple__healthy,1,apple__healthy,0.9923,0.0154,apple__healthy,0.9998,0.0014
+plantwild/plantwild/images/apple leaf/207.jpg,apple__healthy,1,apple__healthy,0.9993,0.0018,apple__healthy,0.9995,0.0027
+plantwild/plantwild/images/apple leaf/177.jpg,apple__healthy,1,potato__healthy,0.9999,0.0004,apple__healthy,0.9983,0.0077
+plantwild/plantwild/images/apple leaf/85.jpg,apple__healthy,1,apple__healthy,0.6981,0.3150,apple__healthy,0.8601,0.2878
+plantwild/plantwild/images/apple leaf/106.jpg,apple__healthy,1,apple__healthy,0.9682,0.0498,apple__healthy,0.9971,0.0116
+plantwild/plantwild/images/apple leaf/google_0094.jpg,apple__healthy,1,apple__healthy,0.9990,0.0024,apple__healthy,0.9999,0.0008
+plantwild/plantwild/images/apple leaf/294.jpg,apple__healthy,1,apple__healthy,0.5997,0.2418,apple__healthy,0.9991,0.0046
+plantwild/plantwild/images/apple leaf/234.jpg,apple__healthy,1,apple__healthy,0.9913,0.0147,apple__healthy,0.9999,0.0003
+plantwild/plantwild/images/apple leaf/google_0158.jpg,apple__healthy,1,bell_pepper__healthy,0.9969,0.0065,apple__powdery_mildew,0.6226,0.4510
+plantwild/plantwild/images/apple leaf/google_0529.jpg,apple__healthy,1,grape__healthy,0.9522,0.0735,apple__healthy,0.9611,0.1064
+plantwild/plantwild/images/apple leaf/google_0110.jpg,apple__healthy,1,apple__healthy,0.9996,0.0010,apple__healthy,0.9996,0.0019
+plantwild/plantwild/images/apple leaf/233.jpg,apple__healthy,1,apple__healthy,0.7634,0.1797,apple__healthy,0.9993,0.0034
+plantwild/plantwild/images/apple leaf/google_0350.jpg,apple__healthy,1,apple__healthy,0.9988,0.0031,apple__healthy,0.9988,0.0062
+plantwild/plantwild/images/apple leaf/219.jpg,apple__healthy,1,apple__healthy,0.6375,0.2995,apple__healthy,0.9937,0.0252
+plantwild/plantwild/images/apple leaf/21.jpg,apple__healthy,1,apple__healthy,0.9995,0.0013,apple__healthy,0.9999,0.0006
+plantwild/plantwild/images/apple leaf/google_0151.jpg,apple__healthy,1,apple__healthy,0.3698,0.4407,apple__healthy,0.9803,0.0684
+plantwild/plantwild/images/apple leaf/163.jpg,apple__healthy,1,potato__healthy,0.9998,0.0006,apple__healthy,0.9954,0.0167
+plantwild/plantwild/images/apple leaf/247.jpg,apple__healthy,1,apple__scab,0.9925,0.0150,apple__scab,0.9934,0.0249
+plantwild/plantwild/images/apple leaf/243.jpg,apple__healthy,1,apple__healthy,0.9866,0.0204,apple__healthy,0.9999,0.0006
+plantwild/plantwild/images/apple leaf/114.jpg,apple__healthy,1,apple__healthy,0.9821,0.0263,apple__healthy,0.9994,0.0029
+plantwild/plantwild/images/apple leaf/google_0521.jpg,apple__healthy,1,potato__healthy,0.6339,0.3002,apple__healthy,0.9640,0.0925
+plantwild/plantwild/images/apple leaf/65.jpg,apple__healthy,1,apple__healthy,0.5102,0.2599,apple__healthy,0.9745,0.0698
+plantwild/plantwild/images/apple leaf/144.jpg,apple__healthy,1,strawberry__healthy,0.9650,0.0436,apple__healthy,0.9958,0.0155
+plantwild/plantwild/images/apple leaf/280.jpg,apple__healthy,1,potato__healthy,0.8558,0.1896,apple__cedar_apple_rust,0.5451,0.6592
+plantwild/plantwild/images/apple leaf/google_0437.jpg,apple__healthy,1,apple__healthy,0.9405,0.0742,apple__healthy,1.0000,0.0000
+plantwild/plantwild/images/apple leaf/google_0557.jpg,apple__healthy,1,corn__healthy,0.3837,0.4613,apple__healthy,0.3667,0.8030
+plantwild/plantwild/images/apple leaf/244.jpg,apple__healthy,1,grape__black_rot,1.0000,0.0000,apple__healthy,0.9981,0.0088
+plantwild/plantwild/images/apple leaf/248.jpg,apple__healthy,1,apple__healthy,0.9886,0.0201,apple__healthy,0.9986,0.0069
+plantwild/plantwild/images/apple leaf/google_0250.jpg,apple__healthy,1,bell_pepper__healthy,0.9570,0.0657,apple__healthy,0.8331,0.3507
+plantwild/plantwild/images/apple leaf/266.jpg,apple__healthy,1,apple__healthy,0.6621,0.3341,apple__healthy,0.7149,0.4843
+plantwild/plantwild/images/apple leaf/google_0570.jpg,apple__healthy,1,tomato__late_blight,0.8311,0.1489,apple__healthy,0.9988,0.0055
+plantwild/plantwild/images/apple leaf/84.jpg,apple__healthy,1,apple__healthy,0.7969,0.1881,apple__healthy,0.9994,0.0034
+plantwild/plantwild/images/apple leaf/324.jpg,apple__healthy,1,grape__black_rot,1.0000,0.0000,apple__healthy,0.8789,0.2769
+plantwild/plantwild/images/apple leaf/google_0201.jpg,apple__healthy,1,grape__healthy,0.5255,0.3440,apple__scab,0.6918,0.5073
+plantwild/plantwild/images/apple leaf/161.jpg,apple__healthy,1,apple__healthy,0.9991,0.0023,apple__healthy,0.9997,0.0014
+plantwild/plantwild/images/apple leaf/188.jpg,apple__healthy,1,apple__cedar_apple_rust,0.2856,0.5762,apple__cedar_apple_rust,0.3672,0.7370
+plantwild/plantwild/images/apple leaf/google_0029.jpg,apple__healthy,1,apple__healthy,0.9937,0.0109,apple__healthy,1.0000,0.0003
+plantwild/plantwild/images/apple leaf/google_0001.jpg,apple__healthy,1,apple__healthy,0.9500,0.0599,apple__healthy,0.9968,0.0138
+plantwild/plantwild/images/apple leaf/google_0319.jpg,apple__healthy,1,apple__healthy,0.9839,0.0260,apple__healthy,0.9839,0.0513
+plantwild/plantwild/images/apple leaf/321.jpg,apple__healthy,1,apple__healthy,0.8687,0.1138,apple__healthy,0.9978,0.0094
+plantwild/plantwild/images/apple leaf/320.jpg,apple__healthy,1,apple__healthy,0.9988,0.0028,apple__healthy,0.9989,0.0052
+plantwild/plantwild/images/apple leaf/274.jpg,apple__healthy,1,potato__healthy,0.5598,0.3558,apple__healthy,0.9820,0.0631
+plantwild/plantwild/images/apple leaf/google_0038.jpg,apple__healthy,1,apple__healthy,0.9996,0.0010,apple__healthy,0.9999,0.0003
+plantwild/plantwild/images/apple leaf/91.jpg,apple__healthy,1,potato__healthy,0.8586,0.1271,apple__healthy,0.9968,0.0132
+plantwild/plantwild/images/apple leaf/25.jpg,apple__healthy,1,apple__healthy,0.9945,0.0110,apple__healthy,0.9995,0.0025
+plantwild/plantwild/images/apple leaf/41.jpg,apple__healthy,1,apple__healthy,0.9927,0.0161,apple__healthy,0.9959,0.0174
+plantwild/plantwild/images/apple leaf/45.jpg,apple__healthy,1,apple__healthy,0.7219,0.3284,apple__healthy,0.8556,0.3157
+plantwild/plantwild/images/apple leaf/google_0018.jpg,apple__healthy,1,apple__healthy,0.9991,0.0022,apple__healthy,1.0000,0.0002
+plantwild/plantwild/images/apple leaf/292.jpg,apple__healthy,1,apple__healthy,0.4838,0.2801,apple__healthy,0.9984,0.0080
+plantwild/plantwild/images/apple leaf/217.jpg,apple__healthy,1,apple__healthy,0.6504,0.3939,apple__healthy,0.9320,0.1691
+plantwild/plantwild/images/apple leaf/126.jpg,apple__healthy,1,apple__healthy,0.7085,0.2257,apple__healthy,1.0000,0.0001
+plantwild/plantwild/images/apple leaf/220.jpg,apple__healthy,1,apple__healthy,0.9976,0.0052,apple__healthy,1.0000,0.0001
+plantwild/plantwild/images/apple leaf/127.jpg,apple__healthy,1,apple__healthy,0.9982,0.0041,apple__healthy,0.9997,0.0014
+plantwild/plantwild/images/apple leaf/2.jpg,apple__healthy,1,apple__healthy,0.9998,0.0006,apple__healthy,1.0000,0.0003
+plantwild/plantwild/images/apple leaf/132.jpg,apple__healthy,1,apple__healthy,0.5563,0.3454,apple__healthy,0.5606,0.6600
+plantwild/plantwild/images/apple leaf/58.jpg,apple__healthy,1,apple__healthy,0.9811,0.0357,apple__healthy,0.9913,0.0326
+plantwild/plantwild/images/apple leaf/189.jpg,apple__healthy,1,apple__healthy,0.9585,0.0613,apple__healthy,0.9707,0.0789
+plantwild/plantwild/images/apple leaf/28.jpg,apple__healthy,1,apple__healthy,0.6896,0.3532,apple__healthy,0.8569,0.3063
+plantwild/plantwild/images/apple leaf/google_0007.jpg,apple__healthy,1,apple__healthy,0.5230,0.2509,apple__healthy,0.9965,0.0136
+plantwild/plantwild/images/apple leaf/110.jpg,apple__healthy,1,apple__cedar_apple_rust,0.7225,0.2272,apple__cedar_apple_rust,0.7514,0.3448
+plantwild/plantwild/images/apple leaf/195.jpg,apple__healthy,1,apple__healthy,0.7711,0.2568,apple__healthy,0.8874,0.2071
+plantwild/plantwild/images/apple leaf/64.jpg,apple__healthy,1,strawberry__healthy,0.9461,0.0593,apple__healthy,0.9995,0.0027
+plantwild/plantwild/images/apple leaf/206.jpg,apple__healthy,1,apple__healthy,0.9669,0.0485,apple__healthy,0.9927,0.0266
+plantwild/plantwild/images/apple leaf/168.jpg,apple__healthy,1,apple__healthy,0.9909,0.0182,apple__healthy,0.9964,0.0140
+plantwild/plantwild/images/apple leaf/303.jpg,apple__healthy,1,grape__healthy,0.9837,0.0268,apple__healthy,0.9938,0.0229
+plantwild/plantwild/images/apple leaf/159.jpg,apple__healthy,1,apple__healthy,0.5816,0.2833,apple__healthy,0.9750,0.0828
+plantwild/plantwild/images/apple leaf/google_0426.jpg,apple__healthy,1,apple__healthy,0.6306,0.2643,apple__healthy,0.9980,0.0091
+plantwild/plantwild/images/apple leaf/39.jpg,apple__healthy,1,apple__healthy,0.9995,0.0013,apple__healthy,0.9997,0.0016
+plantwild/plantwild/images/apple rust/google_0230.jpg,apple__cedar_apple_rust,1,potato__healthy,0.4045,0.4790,apple__cedar_apple_rust,0.7217,0.5003
+plantwild/plantwild/images/apple rust/google_0054.jpg,apple__cedar_apple_rust,1,apple__scab,0.2638,0.6710,apple__scab,0.4536,0.7974
+plantwild/plantwild/images/apple rust/google_0045.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/130.jpg,apple__cedar_apple_rust,1,corn__common_rust,0.8022,0.1858,apple__cedar_apple_rust,0.7890,0.4211
+plantwild/plantwild/images/apple rust/10.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.5676,0.4139,apple__cedar_apple_rust,0.6580,0.4881
+plantwild/plantwild/images/apple rust/9.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.3717,0.4013,apple__cedar_apple_rust,0.4010,0.6232
+plantwild/plantwild/images/apple rust/google_0041.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.8115,0.1556,apple__cedar_apple_rust,0.9960,0.0169
+plantwild/plantwild/images/apple rust/68.jpg,apple__cedar_apple_rust,1,apple__black_rot,0.3186,0.5744,apple__black_rot,0.4806,0.7694
+plantwild/plantwild/images/apple rust/67.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.7122,0.2529,apple__cedar_apple_rust,0.7396,0.3964
+plantwild/plantwild/images/apple rust/google_0221.jpg,apple__cedar_apple_rust,1,bell_pepper__bacterial_spot,0.5262,0.4360,apple__cedar_apple_rust,0.5903,0.4540
+plantwild/plantwild/images/apple rust/google_0112.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9790,0.0289,apple__cedar_apple_rust,0.9790,0.0570
+plantwild/plantwild/images/apple rust/google_0009.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9513,0.0661,apple__cedar_apple_rust,0.9944,0.0223
+plantwild/plantwild/images/apple rust/16.jpg,apple__cedar_apple_rust,1,apple__scab,0.7416,0.3023,apple__scab,0.8216,0.3532
+plantwild/plantwild/images/apple rust/61.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/google_0136.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0002,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/51.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.8098,0.1884,apple__cedar_apple_rust,0.8102,0.3711
+plantwild/plantwild/images/apple rust/181.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0001,apple__cedar_apple_rust,1.0000,0.0002
+plantwild/plantwild/images/apple rust/20.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/55.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0001
+plantwild/plantwild/images/apple rust/google_0203.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9953,0.0090,apple__cedar_apple_rust,0.9999,0.0005
+plantwild/plantwild/images/apple rust/google_0031.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.8537,0.1674,apple__cedar_apple_rust,0.8717,0.2682
+plantwild/plantwild/images/apple rust/3.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9996,0.0012,apple__cedar_apple_rust,0.9997,0.0017
+plantwild/plantwild/images/apple rust/153.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9996,0.0011,apple__cedar_apple_rust,1.0000,0.0001
+plantwild/plantwild/images/apple rust/google_0048.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9963,0.0081,apple__cedar_apple_rust,0.9970,0.0125
+plantwild/plantwild/images/apple rust/google_0088.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9995,0.0013,apple__cedar_apple_rust,0.9995,0.0026
+plantwild/plantwild/images/apple rust/google_0097.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0002,apple__cedar_apple_rust,0.9999,0.0004
+plantwild/plantwild/images/apple rust/21.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/100.jpg,apple__cedar_apple_rust,1,grape__black_rot,0.9220,0.0883,apple__healthy,0.8282,0.2706
+plantwild/plantwild/images/apple rust/187.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.5850,0.2242,apple__cedar_apple_rust,0.9885,0.0394
+plantwild/plantwild/images/apple rust/google_0183.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9713,0.0559,apple__cedar_apple_rust,0.9913,0.0333
+plantwild/plantwild/images/apple rust/49.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9972,0.0056,apple__cedar_apple_rust,0.9973,0.0105
+plantwild/plantwild/images/apple rust/google_0073.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0002,apple__cedar_apple_rust,0.9999,0.0005
+plantwild/plantwild/images/apple rust/google_0177.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.7258,0.2890,apple__cedar_apple_rust,0.8791,0.2618
+plantwild/plantwild/images/apple rust/google_0176.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9986,0.0032,apple__cedar_apple_rust,0.9987,0.0058
+plantwild/plantwild/images/apple rust/google_0067.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9986,0.0029,apple__cedar_apple_rust,0.9986,0.0058
+plantwild/plantwild/images/apple rust/google_0034.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/google_0026.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.6961,0.3315,apple__cedar_apple_rust,0.8738,0.2597
+plantwild/plantwild/images/apple rust/google_0233.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.5712,0.3279,apple__cedar_apple_rust,0.6980,0.4353
+plantwild/plantwild/images/apple rust/google_0117.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9998,0.0005,apple__cedar_apple_rust,0.9998,0.0010
+plantwild/plantwild/images/apple rust/google_0205.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.2483,0.5489,apple__cedar_apple_rust,0.6638,0.4267
+plantwild/plantwild/images/apple rust/google_0181.jpg,apple__cedar_apple_rust,1,apple__black_rot,0.5953,0.3231,apple__black_rot,0.7495,0.3908
+plantwild/plantwild/images/apple rust/google_0167.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/60.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0004,apple__cedar_apple_rust,0.9999,0.0008
+plantwild/plantwild/images/apple rust/google_0201.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/286.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/google_0113.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0002,apple__cedar_apple_rust,0.9999,0.0005
+plantwild/plantwild/images/apple rust/102.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0002,apple__cedar_apple_rust,1.0000,0.0002
+plantwild/plantwild/images/apple rust/google_0196.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.8036,0.2320,apple__cedar_apple_rust,0.8477,0.2912
+plantwild/plantwild/images/apple rust/137.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9878,0.0195,apple__cedar_apple_rust,0.9882,0.0360
+plantwild/plantwild/images/apple rust/google_0122.jpg,apple__cedar_apple_rust,1,bell_pepper__bacterial_spot,0.7579,0.2519,apple__black_rot,0.7504,0.4414
+plantwild/plantwild/images/apple rust/google_0096.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/google_0053.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9999,0.0002,apple__cedar_apple_rust,1.0000,0.0002
+plantwild/plantwild/images/apple rust/google_0149.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/google_0213.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9679,0.0510,apple__cedar_apple_rust,0.9982,0.0076
+plantwild/plantwild/images/apple rust/google_0139.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple rust/199.jpg,apple__cedar_apple_rust,1,apple__black_rot,0.3100,0.6623,apple__black_rot,0.6073,0.6091
+plantwild/plantwild/images/apple rust/google_0089.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9446,0.0877,apple__cedar_apple_rust,0.9599,0.1160
+plantwild/plantwild/images/apple rust/google_0127.jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+plantwild/plantwild/images/apple scab/38.jpg,apple__scab,1,apple__scab,0.7962,0.1976,apple__scab,0.9437,0.1352
+plantwild/plantwild/images/apple scab/google_0155.jpg,apple__scab,1,tomato__bacterial_spot,0.6680,0.2637,apple__scab,0.6969,0.4732
+plantwild/plantwild/images/apple scab/google_0304.jpg,apple__scab,1,apple__black_rot,0.7039,0.2260,apple__black_rot,0.7046,0.4437
+plantwild/plantwild/images/apple scab/54.jpg,apple__scab,1,apple__scab,0.9885,0.0194,apple__scab,0.9888,0.0368
+plantwild/plantwild/images/apple scab/9.jpg,apple__scab,1,apple__scab,0.7884,0.1765,apple__scab,0.7920,0.3310
+plantwild/plantwild/images/apple scab/google_0281.jpg,apple__scab,1,apple__scab,0.8470,0.1578,apple__scab,0.8548,0.2798
+plantwild/plantwild/images/apple scab/google_0193.jpg,apple__scab,1,apple__cedar_apple_rust,0.9241,0.1144,apple__cedar_apple_rust,0.9437,0.1489
+plantwild/plantwild/images/apple scab/google_0057.jpg,apple__scab,1,apple__scab,0.7693,0.1614,apple__scab,0.7703,0.3148
+plantwild/plantwild/images/apple scab/google_0168.jpg,apple__scab,1,tomato__early_blight,0.3103,0.5575,apple__cedar_apple_rust,0.7256,0.5008
+plantwild/plantwild/images/apple scab/5.jpg,apple__scab,1,grape__black_rot,0.3232,0.6253,apple__healthy,0.4614,0.7062
+plantwild/plantwild/images/apple scab/68 - Copy.jpg,apple__scab,1,apple__scab,0.4488,0.4183,apple__scab,0.5029,0.5869
+plantwild/plantwild/images/apple scab/google_0009.jpg,apple__scab,1,apple__scab,0.9986,0.0033,apple__scab,0.9988,0.0056
+plantwild/plantwild/images/apple scab/google_0011.jpg,apple__scab,1,apple__scab,0.9937,0.0125,apple__scab,0.9938,0.0244
+plantwild/plantwild/images/apple scab/61.jpg,apple__scab,1,apple__scab,0.6811,0.2675,apple__scab,0.8088,0.2815
+plantwild/plantwild/images/apple scab/google_0136.jpg,apple__scab,1,apple__healthy,0.9688,0.0396,apple__healthy,0.9690,0.0779
+plantwild/plantwild/images/apple scab/google_0302.jpg,apple__scab,1,apple__powdery_mildew,0.7305,0.2989,apple__powdery_mildew,0.9007,0.2468
+plantwild/plantwild/images/apple scab/google_0016.jpg,apple__scab,1,apple__scab,0.9999,0.0002,apple__scab,0.9999,0.0003
+plantwild/plantwild/images/apple scab/google_0050.jpg,apple__scab,1,grape__black_rot,1.0000,-0.0000,apple__healthy,0.9275,0.1474
+plantwild/plantwild/images/apple scab/3.jpg,apple__scab,1,apple__healthy,0.9579,0.0619,apple__healthy,0.9650,0.0978
+plantwild/plantwild/images/apple scab/google_0247.jpg,apple__scab,1,apple__cedar_apple_rust,0.8530,0.1679,apple__cedar_apple_rust,0.8823,0.2394
+plantwild/plantwild/images/apple scab/google_0178.jpg,apple__scab,1,apple__scab,0.5785,0.4089,apple__scab,0.8880,0.2388
+plantwild/plantwild/images/apple scab/24.jpg,apple__scab,1,apple__frog_eye_leaf_spot,0.3864,0.3748,apple__frog_eye_leaf_spot,0.6122,0.5303
+plantwild/plantwild/images/apple scab/google_0219.jpg,apple__scab,1,apple__scab,0.9891,0.0180,apple__scab,0.9891,0.0355
+plantwild/plantwild/images/apple scab/google_0273.jpg,apple__scab,1,apple__scab,0.6708,0.3518,apple__scab,0.7219,0.5273
+plantwild/plantwild/images/apple scab/google_0236.jpg,apple__scab,1,apple__scab,0.9884,0.0202,apple__scab,0.9888,0.0376
+plantwild/plantwild/images/apple scab/google_0287.jpg,apple__scab,1,apple__black_rot,0.4521,0.4715,apple__black_rot,0.6109,0.5532
+plantwild/plantwild/images/apple scab/google_0023.jpg,apple__scab,1,apple__scab,0.9999,0.0004,apple__scab,1.0000,0.0001
+plantwild/plantwild/images/apple scab/google_0183.jpg,apple__scab,1,bell_pepper__bacterial_spot,0.3404,0.5894,apple__healthy,0.4227,0.6321
+plantwild/plantwild/images/apple scab/49.jpg,apple__scab,1,apple__scab,0.9998,0.0007,apple__scab,0.9999,0.0008
+plantwild/plantwild/images/apple scab/google_0331.jpg,apple__scab,1,tomato__early_blight,0.2450,0.6088,apple__cedar_apple_rust,0.4473,0.6900
+plantwild/plantwild/images/apple scab/11.jpg,apple__scab,1,apple__black_rot,0.4126,0.3202,apple__black_rot,0.6495,0.4005
+plantwild/plantwild/images/apple scab/google_0073.jpg,apple__scab,1,apple__scab,0.9350,0.0809,apple__scab,0.9374,0.1494
+plantwild/plantwild/images/apple scab/30.jpg,apple__scab,1,apple__scab,0.9923,0.0166,apple__scab,0.9972,0.0126
+plantwild/plantwild/images/apple scab/google_0144.jpg,apple__scab,1,apple__scab,0.9361,0.0833,apple__scab,0.9375,0.1585
+plantwild/plantwild/images/apple scab/google_0177.jpg,apple__scab,1,grape__black_rot,1.0000,-0.0000,apple__scab,0.9828,0.0542
+plantwild/plantwild/images/apple scab/google_0184.jpg,apple__scab,1,apple__cedar_apple_rust,0.6032,0.3186,apple__cedar_apple_rust,0.6078,0.6079
+plantwild/plantwild/images/apple scab/google_0034.jpg,apple__scab,1,apple__scab,0.4798,0.3195,apple__scab,0.5051,0.4888
+plantwild/plantwild/images/apple scab/google_0108.jpg,apple__scab,1,apple__scab,0.8243,0.2281,apple__scab,0.9470,0.1454
+plantwild/plantwild/images/apple scab/google_0028.jpg,apple__scab,1,apple__scab,0.8629,0.1361,apple__scab,0.8629,0.2698
+plantwild/plantwild/images/apple scab/google_0152.jpg,apple__scab,1,apple__scab,0.4923,0.2230,apple__scab,0.4924,0.4412
+plantwild/plantwild/images/apple scab/google_0212.jpg,apple__scab,1,tomato__late_blight,0.4210,0.4686,apple__scab,0.5318,0.5450
+plantwild/plantwild/images/apple scab/73.jpg,apple__scab,1,apple__scab,0.4503,0.3354,apple__scab,0.7091,0.3561
+plantwild/plantwild/images/apple scab/google_0201.jpg,apple__scab,1,tomato__late_blight,0.4509,0.3714,apple__scab,0.5616,0.4034
+plantwild/plantwild/images/apple scab/google_0113.jpg,apple__scab,1,grape__black_rot,0.5713,0.3513,apple__scab,0.8187,0.2785
+plantwild/plantwild/images/apple scab/118.jpg,apple__scab,1,apple__scab,0.8282,0.1963,apple__scab,0.8600,0.2748
+plantwild/plantwild/images/apple scab/96.jpg,apple__scab,1,apple__black_rot,0.5851,0.4092,apple__black_rot,0.6610,0.5409
+plantwild/plantwild/images/apple scab/google_0106.jpg,apple__scab,1,apple__scab,0.5446,0.2254,apple__scab,0.5468,0.4300
+plantwild/plantwild/images/apple scab/google_0020.jpg,apple__scab,1,apple__scab,0.9747,0.0401,apple__scab,0.9792,0.0613
+plantwild/plantwild/images/apple scab/google_0124.jpg,apple__scab,1,apple__scab,0.9614,0.0563,apple__scab,0.9627,0.1048
+plantwild/plantwild/images/apple scab/31.jpg,apple__scab,1,apple__scab,0.9991,0.0020,apple__scab,0.9991,0.0040
+plantwild/plantwild/images/apple scab/google_0092.jpg,apple__scab,1,tomato__bacterial_spot,0.5409,0.3776,apple__black_rot,0.4901,0.5776
+plantwild/plantwild/images/apple scab/64.jpg,apple__scab,1,apple__scab,0.9066,0.0952,apple__scab,0.9068,0.1877
+plantwild/plantwild/images/apple scab/google_0103.jpg,apple__scab,1,apple__scab,0.9984,0.0034,apple__scab,0.9984,0.0066
+plantwild/plantwild/images/apple scab/google_0025.jpg,apple__scab,1,apple__scab,0.8706,0.1276,apple__scab,0.8711,0.2503
+plantwild/plantwild/images/apple scab/google_0095.jpg,apple__scab,1,apple__scab,0.7352,0.1930,apple__scab,0.7505,0.3154
+plantwild/plantwild/images/bell pepper leaf/47.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9906,0.0150,bell_pepper__healthy,0.9906,0.0768
+plantwild/plantwild/images/bell pepper leaf/230.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9999,0.0004,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/237.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9998,0.0005,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0070.jpg,bell_pepper__healthy,1,potato__healthy,0.6804,0.2289,bell_pepper__healthy,0.9435,0.3136
+plantwild/plantwild/images/bell pepper leaf/101.jpg,bell_pepper__healthy,1,apple__cedar_apple_rust,0.6054,0.3971,bell_pepper__healthy,0.9941,0.0518
+plantwild/plantwild/images/bell pepper leaf/160.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8961,0.0989,bell_pepper__healthy,0.9998,0.0022
+plantwild/plantwild/images/bell pepper leaf/186.jpg,bell_pepper__healthy,1,tomato__healthy,0.8668,0.1666,bell_pepper__healthy,0.9910,0.0741
+plantwild/plantwild/images/bell pepper leaf/68.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/260.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0198.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0119.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9585,0.0697,bell_pepper__healthy,0.9837,0.1203
+plantwild/plantwild/images/bell pepper leaf/google_0208.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8952,0.0955,bell_pepper__healthy,0.8956,0.4828
+plantwild/plantwild/images/bell pepper leaf/123.jpg,bell_pepper__healthy,1,grape__healthy,0.9992,0.0020,bell_pepper__healthy,0.9767,0.1598
+plantwild/plantwild/images/bell pepper leaf/16.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9796,0.0342,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/277.jpg,bell_pepper__healthy,1,apple__healthy,0.6557,0.1887,bell_pepper__healthy,1.0000,0.0001
+plantwild/plantwild/images/bell pepper leaf/20.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0187.jpg,bell_pepper__healthy,1,potato__healthy,0.6945,0.3057,bell_pepper__healthy,0.9492,0.2896
+plantwild/plantwild/images/bell pepper leaf/185.jpg,bell_pepper__healthy,1,tomato__healthy,0.7583,0.1557,bell_pepper__healthy,1.0000,0.0001
+plantwild/plantwild/images/bell pepper leaf/3.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9999,0.0003,bell_pepper__healthy,0.9999,0.0008
+plantwild/plantwild/images/bell pepper leaf/24.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.2877,0.5704,bell_pepper__healthy,0.5735,0.9844
+plantwild/plantwild/images/bell pepper leaf/google_0097.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9504,0.0600,bell_pepper__healthy,0.9534,0.2718
+plantwild/plantwild/images/bell pepper leaf/google_0055.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0081.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9916,0.0149,bell_pepper__healthy,0.9986,0.0152
+plantwild/plantwild/images/bell pepper leaf/49.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0067.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.7448,0.1705,bell_pepper__healthy,0.9998,0.0024
+plantwild/plantwild/images/bell pepper leaf/google_0026.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9754,0.0329,bell_pepper__healthy,0.9999,0.0010
+plantwild/plantwild/images/bell pepper leaf/198.jpg,bell_pepper__healthy,1,apple__healthy,0.8371,0.1423,bell_pepper__healthy,0.9919,0.0681
+plantwild/plantwild/images/bell pepper leaf/google_0212.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9571,0.0546,bell_pepper__healthy,0.9958,0.0391
+plantwild/plantwild/images/bell pepper leaf/22.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9482,0.0580,bell_pepper__healthy,0.9485,0.2926
+plantwild/plantwild/images/bell pepper leaf/google_0201.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9935,0.0116,bell_pepper__healthy,0.9940,0.0531
+plantwild/plantwild/images/bell pepper leaf/70.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8851,0.1313,bell_pepper__healthy,0.9916,0.0698
+plantwild/plantwild/images/bell pepper leaf/72.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.5219,0.2549,bell_pepper__healthy,0.5474,0.9935
+plantwild/plantwild/images/bell pepper leaf/google_0096.jpg,bell_pepper__healthy,1,potato__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,0.0005
+plantwild/plantwild/images/bell pepper leaf/91.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/109.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9998,0.0004,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0013.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0044.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9890,0.0195,bell_pepper__healthy,0.9978,0.0228
+plantwild/plantwild/images/bell pepper leaf/26.jpg,bell_pepper__healthy,1,potato__healthy,0.7601,0.2081,bell_pepper__bacterial_spot,0.5305,0.9973
+plantwild/plantwild/images/bell pepper leaf/96.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/33.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9992,0.0019,bell_pepper__healthy,1.0000,-0.0000
+plantwild/plantwild/images/bell pepper leaf/152.jpg,bell_pepper__healthy,1,potato__healthy,0.7869,0.1476,bell_pepper__healthy,0.9992,0.0092
+plantwild/plantwild/images/bell pepper leaf/155.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9705,0.0504,bell_pepper__healthy,0.9990,0.0109
+plantwild/plantwild/images/bell pepper leaf/82.jpg,bell_pepper__healthy,1,bell_pepper__healthy,1.0000,0.0001,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf/google_0156.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.2539,0.6769,bell_pepper__healthy,0.7777,0.7643
+plantwild/plantwild/images/bell pepper leaf/227.jpg,bell_pepper__healthy,1,apple__healthy,0.5761,0.3466,bell_pepper__healthy,0.9970,0.0293
+plantwild/plantwild/images/bell pepper leaf/262.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8844,0.1519,bell_pepper__healthy,0.9876,0.0964
+plantwild/plantwild/images/bell pepper leaf/google_0105.jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9812,0.0268,bell_pepper__healthy,0.9815,0.1328
+plantwild/plantwild/images/bell pepper leaf spot/google_0057.jpg,bell_pepper__bacterial_spot,1,bell_pepper__healthy,0.8606,0.1802,bell_pepper__healthy,0.9232,0.3908
+plantwild/plantwild/images/bell pepper leaf spot/google_0064.jpg,bell_pepper__bacterial_spot,1,bell_pepper__healthy,1.0000,0.0000,bell_pepper__healthy,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf spot/16.jpg,bell_pepper__bacterial_spot,1,bell_pepper__healthy,0.9089,0.0971,bell_pepper__healthy,0.9153,0.4185
+plantwild/plantwild/images/bell pepper leaf spot/google_0011.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9992,0.0020,bell_pepper__bacterial_spot,1.0000,0.0001
+plantwild/plantwild/images/bell pepper leaf spot/google_0126.jpg,bell_pepper__bacterial_spot,1,apple__black_rot,0.2324,0.6874,bell_pepper__bacterial_spot,0.9808,0.1372
+plantwild/plantwild/images/bell pepper leaf spot/google_0136.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.8370,0.1726,bell_pepper__bacterial_spot,0.9983,0.0184
+plantwild/plantwild/images/bell pepper leaf spot/20.jpg,bell_pepper__bacterial_spot,1,tomato__bacterial_spot,0.4891,0.4548,bell_pepper__bacterial_spot,0.9768,0.1590
+plantwild/plantwild/images/bell pepper leaf spot/44.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.8124,0.2239,bell_pepper__bacterial_spot,0.9977,0.0231
+plantwild/plantwild/images/bell pepper leaf spot/google_0280.jpg,bell_pepper__bacterial_spot,1,strawberry__leaf_scorch,0.6065,0.3107,bell_pepper__healthy,0.7031,0.8774
+plantwild/plantwild/images/bell pepper leaf spot/google_0282.jpg,bell_pepper__bacterial_spot,1,strawberry__leaf_scorch,0.9340,0.0807,bell_pepper__bacterial_spot,0.9985,0.0159
+plantwild/plantwild/images/bell pepper leaf spot/google_0238.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9555,0.0646,bell_pepper__bacterial_spot,0.9998,0.0027
+plantwild/plantwild/images/bell pepper leaf spot/google_0091.jpg,bell_pepper__bacterial_spot,1,bell_pepper__healthy,0.8231,0.1313,bell_pepper__healthy,0.8231,0.6733
+plantwild/plantwild/images/bell pepper leaf spot/google_0073.jpg,bell_pepper__bacterial_spot,1,bell_pepper__healthy,0.9639,0.0490,bell_pepper__healthy,0.9679,0.2047
+plantwild/plantwild/images/bell pepper leaf spot/google_0184.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,1.0000,0.0000,bell_pepper__bacterial_spot,1.0000,0.0000
+plantwild/plantwild/images/bell pepper leaf spot/google_0162.jpg,bell_pepper__bacterial_spot,1,tomato__late_blight,0.9617,0.0660,bell_pepper__healthy,0.6628,0.9221
+plantwild/plantwild/images/bell pepper leaf spot/22.jpg,bell_pepper__bacterial_spot,1,tomato__mosaic_virus,0.9825,0.0335,bell_pepper__healthy,0.5703,0.9857
+plantwild/plantwild/images/bell pepper leaf spot/google_0191.jpg,bell_pepper__bacterial_spot,1,potato__early_blight,0.9133,0.1191,bell_pepper__bacterial_spot,0.9999,0.0014
+plantwild/plantwild/images/bell pepper leaf spot/google_0297.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.8278,0.2154,bell_pepper__bacterial_spot,0.9981,0.0195
+plantwild/plantwild/images/bell pepper leaf spot/29 - Copy (2).jpg,bell_pepper__bacterial_spot,1,apple__cedar_apple_rust,0.9491,0.0832,bell_pepper__bacterial_spot,0.7589,0.7969
+plantwild/plantwild/images/bell pepper leaf spot/google_0015.jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.5696,0.2596,bell_pepper__bacterial_spot,0.6082,0.9659
+plantwild/plantwild/images/bell pepper leaf spot/44 - Copy (2).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9972,0.0057,bell_pepper__bacterial_spot,1.0000,0.0001
+plantwild/plantwild/images/bell pepper leaf spot/37.jpg,bell_pepper__bacterial_spot,1,apple__powdery_mildew,0.6102,0.2364,bell_pepper__bacterial_spot,0.9969,0.0299
+plantwild/plantwild/images/corn gray leaf spot/google_0003.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.5131,0.2470,corn__gray_leaf_spot,0.5203,0.5024
+plantwild/plantwild/images/corn gray leaf spot/10.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.8359,0.1421,corn__northern_leaf_blight,0.8361,0.3121
+plantwild/plantwild/images/corn gray leaf spot/google_0168.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.8439,0.1563,corn__gray_leaf_spot,0.8439,0.3448
+plantwild/plantwild/images/corn gray leaf spot/68.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9641,0.0435,corn__northern_leaf_blight,0.9641,0.0961
+plantwild/plantwild/images/corn gray leaf spot/google_0077.jpg,corn__gray_leaf_spot,1,corn__common_rust,0.8282,0.1353,corn__common_rust,0.8282,0.2988
+plantwild/plantwild/images/corn gray leaf spot/google_0009.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_spot,0.5232,0.3728,corn__northern_leaf_spot,0.5522,0.7125
+plantwild/plantwild/images/corn gray leaf spot/42.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.5784,0.1951,corn__northern_leaf_blight,0.5784,0.4306
+plantwild/plantwild/images/corn gray leaf spot/google_0136.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9077,0.1100,corn__northern_leaf_blight,0.9233,0.1752
+plantwild/plantwild/images/corn gray leaf spot/google_0195.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.9297,0.0727,corn__gray_leaf_spot,0.9297,0.1606
+plantwild/plantwild/images/corn gray leaf spot/google_0150.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.5720,0.2397,corn__northern_leaf_blight,0.5724,0.5253
+plantwild/plantwild/images/corn gray leaf spot/24.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.7768,0.1862,corn__northern_leaf_blight,0.7768,0.4109
+plantwild/plantwild/images/corn gray leaf spot/google_0293.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.7877,0.1462,corn__gray_leaf_spot,0.7880,0.3213
+plantwild/plantwild/images/corn gray leaf spot/30.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.8775,0.1047,corn__gray_leaf_spot,0.8775,0.2311
+plantwild/plantwild/images/corn gray leaf spot/google_0005.jpg,corn__gray_leaf_spot,1,corn__healthy,0.4151,0.2990,corn__healthy,0.4157,0.6542
+plantwild/plantwild/images/corn gray leaf spot/70 - Copy (2).jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.4969,0.2779,corn__northern_leaf_blight,0.5080,0.5378
+plantwild/plantwild/images/corn gray leaf spot/google_0274.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.9961,0.0073,corn__gray_leaf_spot,0.9961,0.0161
+plantwild/plantwild/images/corn gray leaf spot/65.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9168,0.0967,corn__northern_leaf_blight,0.9182,0.2068
+plantwild/plantwild/images/corn gray leaf spot/google_0286.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9918,0.0139,corn__northern_leaf_blight,0.9918,0.0308
+plantwild/plantwild/images/corn gray leaf spot/google_0173.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.5641,0.4849,corn__northern_leaf_blight,0.7923,0.4233
+plantwild/plantwild/images/corn gray leaf spot/google_0029.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.6933,0.1824,corn__gray_leaf_spot,0.6933,0.4029
+plantwild/plantwild/images/corn gray leaf spot/google_0196.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.5789,0.3267,corn__gray_leaf_spot,0.6009,0.5867
+plantwild/plantwild/images/corn gray leaf spot/15.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.5594,0.1999,corn__northern_leaf_blight,0.5594,0.4412
+plantwild/plantwild/images/corn gray leaf spot/google_0175.jpg,corn__gray_leaf_spot,1,corn__common_rust,0.9981,0.0039,corn__common_rust,0.9981,0.0086
+plantwild/plantwild/images/corn gray leaf spot/61 - Copy (2).jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.9082,0.0864,corn__gray_leaf_spot,0.9082,0.1907
+plantwild/plantwild/images/corn gray leaf spot/6.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9751,0.0328,corn__northern_leaf_blight,0.9751,0.0725
+plantwild/plantwild/images/corn gray leaf spot/45.jpg,corn__gray_leaf_spot,1,corn__healthy,0.4844,0.3212,corn__healthy,0.4846,0.7073
+plantwild/plantwild/images/corn gray leaf spot/google_0018.jpg,corn__gray_leaf_spot,1,corn__common_rust,0.7140,0.2040,corn__common_rust,0.7141,0.4496
+plantwild/plantwild/images/corn gray leaf spot/add (5).jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.8764,0.1054,corn__northern_leaf_blight,0.8764,0.2326
+plantwild/plantwild/images/corn gray leaf spot/33.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9440,0.0617,corn__northern_leaf_blight,0.9440,0.1363
+plantwild/plantwild/images/corn gray leaf spot/google_0063.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.8733,0.1342,corn__northern_leaf_blight,0.8734,0.2956
+plantwild/plantwild/images/corn gray leaf spot/17.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.9956,0.0079,corn__gray_leaf_spot,0.9957,0.0175
+plantwild/plantwild/images/corn gray leaf spot/google_0089.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.8058,0.1386,corn__gray_leaf_spot,0.8058,0.3062
+plantwild/plantwild/images/corn gray leaf spot/google_0180.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.7364,0.1988,corn__northern_leaf_blight,0.7444,0.4027
+plantwild/plantwild/images/corn gray leaf spot/google_0123.jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.4311,0.4443,corn__gray_leaf_spot,0.6941,0.4455
+plantwild/plantwild/images/corn gray leaf spot/google_0105.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9978,0.0045,corn__northern_leaf_blight,0.9978,0.0099
+plantwild/plantwild/images/corn gray leaf spot/32.jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9328,0.0917,corn__northern_leaf_blight,0.9331,0.2009
+plantwild/plantwild/images/corn leaf/47.jpg,corn__healthy,1,corn__healthy,0.9844,0.0232,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/google_0571.jpg,corn__healthy,1,corn__healthy,0.9939,0.0131,corn__healthy,0.9998,0.0011
+plantwild/plantwild/images/corn leaf/38.jpg,corn__healthy,1,corn__healthy,1.0000,0.0000,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/1.jpg,corn__healthy,1,corn__healthy,1.0000,0.0000,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/google_0595.jpg,corn__healthy,1,corn__healthy,0.9991,0.0021,corn__healthy,0.9991,0.0046
+plantwild/plantwild/images/corn leaf/10.jpg,corn__healthy,1,corn__healthy,0.9996,0.0012,corn__healthy,0.9996,0.0022
+plantwild/plantwild/images/corn leaf/google_0198.jpg,corn__healthy,1,corn__healthy,0.9530,0.0737,corn__healthy,0.9984,0.0087
+plantwild/plantwild/images/corn leaf/12.jpg,corn__healthy,1,corn__healthy,0.8256,0.1510,corn__healthy,0.9868,0.0468
+plantwild/plantwild/images/corn leaf/google_0011.jpg,corn__healthy,1,corn__healthy,0.9997,0.0009,corn__healthy,0.9997,0.0020
+plantwild/plantwild/images/corn leaf/google_0150.jpg,corn__healthy,1,corn__healthy,0.4889,0.2747,corn__healthy,0.5020,0.5251
+plantwild/plantwild/images/corn leaf/google_0244.jpg,corn__healthy,1,apple__healthy,0.6459,0.2804,corn__healthy,0.9999,0.0005
+plantwild/plantwild/images/corn leaf/google_0002.jpg,corn__healthy,1,corn__healthy,0.9988,0.0027,corn__healthy,0.9988,0.0060
+plantwild/plantwild/images/corn leaf/google_0055.jpg,corn__healthy,1,apple__healthy,0.9720,0.0370,corn__healthy,0.6472,0.4041
+plantwild/plantwild/images/corn leaf/google_0389.jpg,corn__healthy,1,corn__healthy,0.9970,0.0063,corn__healthy,1.0000,0.0001
+plantwild/plantwild/images/corn leaf/google_0004.jpg,corn__healthy,1,corn__healthy,0.9894,0.0178,corn__healthy,0.9902,0.0348
+plantwild/plantwild/images/corn leaf/google_0293.jpg,corn__healthy,1,corn__healthy,0.7705,0.1536,corn__healthy,0.7707,0.3378
+plantwild/plantwild/images/corn leaf/google_0144.jpg,corn__healthy,1,corn__healthy,1.0000,0.0000,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/google_0432.jpg,corn__healthy,1,corn__healthy,1.0000,0.0000,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/75.jpg,corn__healthy,1,bell_pepper__healthy,0.8424,0.1281,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/48.jpg,corn__healthy,1,corn__healthy,0.7341,0.1787,corn__healthy,0.7343,0.3933
+plantwild/plantwild/images/corn leaf/google_0014.jpg,corn__healthy,1,corn__healthy,0.9986,0.0033,corn__healthy,0.9987,0.0066
+plantwild/plantwild/images/corn leaf/72.jpg,corn__healthy,1,corn__healthy,0.9782,0.0321,corn__healthy,0.9782,0.0708
+plantwild/plantwild/images/corn leaf/46.jpg,corn__healthy,1,corn__healthy,0.9982,0.0043,corn__healthy,0.9982,0.0092
+plantwild/plantwild/images/corn leaf/google_0053.jpg,corn__healthy,1,corn__healthy,0.8743,0.1729,corn__healthy,0.8983,0.2737
+plantwild/plantwild/images/corn leaf/google_0012.jpg,corn__healthy,1,corn__healthy,0.9998,0.0005,corn__healthy,0.9998,0.0011
+plantwild/plantwild/images/corn leaf/34 - Copy (3).jpg,corn__healthy,1,corn__healthy,0.9998,0.0006,corn__healthy,0.9999,0.0009
+plantwild/plantwild/images/corn leaf/14.jpg,corn__healthy,1,corn__healthy,1.0000,0.0001,corn__healthy,1.0000,0.0000
+plantwild/plantwild/images/corn leaf/2.jpg,corn__healthy,1,corn__healthy,1.0000,0.0001,corn__healthy,1.0000,0.0003
+plantwild/plantwild/images/corn leaf/google_0188.jpg,corn__healthy,1,corn__healthy,0.9990,0.0026,corn__healthy,0.9991,0.0050
+plantwild/plantwild/images/corn leaf/66.jpg,corn__healthy,1,corn__northern_leaf_spot,0.6241,0.2883,corn__northern_leaf_spot,0.6301,0.6001
+plantwild/plantwild/images/corn leaf/32.jpg,corn__healthy,1,corn__healthy,0.9986,0.0036,corn__healthy,0.9998,0.0012
+plantwild/plantwild/images/corn northern leaf blight/40.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9927,0.0124,corn__northern_leaf_blight,0.9927,0.0275
+plantwild/plantwild/images/corn northern leaf blight/google_0135.jpg,corn__northern_leaf_blight,1,corn__healthy,0.9139,0.1070,corn__healthy,0.9186,0.2121
+plantwild/plantwild/images/corn northern leaf blight/99.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9046,0.0927,corn__northern_leaf_blight,0.9046,0.2047
+plantwild/plantwild/images/corn northern leaf blight/68.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.5337,0.3447,corn__northern_leaf_blight,0.5359,0.7417
+plantwild/plantwild/images/corn northern leaf blight/add (4).jpg,corn__northern_leaf_blight,1,corn__gray_leaf_spot,0.6041,0.1888,corn__gray_leaf_spot,0.6041,0.4171
+plantwild/plantwild/images/corn northern leaf blight/61.jpg,corn__northern_leaf_blight,1,corn__healthy,0.9406,0.0681,corn__healthy,0.9407,0.1497
+plantwild/plantwild/images/corn northern leaf blight/add (24).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9583,0.0536,corn__northern_leaf_blight,0.9583,0.1183
+plantwild/plantwild/images/corn northern leaf blight/20.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.8607,0.1164,corn__northern_leaf_blight,0.8607,0.2571
+plantwild/plantwild/images/corn northern leaf blight/google_0042.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0001,corn__northern_leaf_blight,1.0000,0.0002
+plantwild/plantwild/images/corn northern leaf blight/google_0000.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0000,corn__northern_leaf_blight,1.0000,0.0001
+plantwild/plantwild/images/corn northern leaf blight/3.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9997,0.0008,corn__northern_leaf_blight,0.9997,0.0018
+plantwild/plantwild/images/corn northern leaf blight/google_0083.jpg,corn__northern_leaf_blight,1,corn__gray_leaf_spot,0.6579,0.2194,corn__gray_leaf_spot,0.6582,0.4815
+plantwild/plantwild/images/corn northern leaf blight/google_0073.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.7455,0.2502,corn__northern_leaf_blight,0.7515,0.5162
+plantwild/plantwild/images/corn northern leaf blight/google_0034.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.7580,0.2025,corn__northern_leaf_blight,0.7603,0.4319
+plantwild/plantwild/images/corn northern leaf blight/add (18).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9997,0.0008,corn__northern_leaf_blight,0.9997,0.0017
+plantwild/plantwild/images/corn northern leaf blight/google_0117.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9999,0.0004,corn__northern_leaf_blight,0.9999,0.0009
+plantwild/plantwild/images/corn northern leaf blight/google_0121.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9705,0.0431,corn__northern_leaf_blight,0.9705,0.0951
+plantwild/plantwild/images/corn northern leaf blight/22.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.6452,0.2125,corn__northern_leaf_blight,0.6452,0.4692
+plantwild/plantwild/images/corn northern leaf blight/88.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9969,0.0059,corn__northern_leaf_blight,0.9969,0.0130
+plantwild/plantwild/images/corn northern leaf blight/google_0027.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9999,0.0003,corn__northern_leaf_blight,0.9999,0.0006
+plantwild/plantwild/images/corn northern leaf blight/27.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0001,corn__northern_leaf_blight,1.0000,0.0003
+plantwild/plantwild/images/corn northern leaf blight/93.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_spot,0.9747,0.0386,corn__northern_leaf_spot,0.9760,0.0785
+plantwild/plantwild/images/corn northern leaf blight/29.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9933,0.0130,corn__northern_leaf_blight,0.9934,0.0283
+plantwild/plantwild/images/corn northern leaf blight/76.jpg,corn__northern_leaf_blight,1,corn__gray_leaf_spot,0.9468,0.0593,corn__gray_leaf_spot,0.9470,0.1298
+plantwild/plantwild/images/corn northern leaf blight/45.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9961,0.0081,corn__northern_leaf_blight,0.9961,0.0178
+plantwild/plantwild/images/corn northern leaf blight/google_0012.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0000,corn__northern_leaf_blight,1.0000,0.0000
+plantwild/plantwild/images/corn northern leaf blight/add (5).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9417,0.0670,corn__northern_leaf_blight,0.9417,0.1478
+plantwild/plantwild/images/corn northern leaf blight/add (15).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.8962,0.1070,corn__northern_leaf_blight,0.8962,0.2363
+plantwild/plantwild/images/corn northern leaf blight/google_0015.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0000,corn__northern_leaf_blight,1.0000,0.0000
+plantwild/plantwild/images/corn northern leaf blight/2.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9107,0.0909,corn__northern_leaf_blight,0.9108,0.2005
+plantwild/plantwild/images/corn northern leaf blight/28.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9967,0.0075,corn__northern_leaf_blight,0.9970,0.0149
+plantwild/plantwild/images/corn northern leaf blight/17.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9999,0.0003,corn__northern_leaf_blight,0.9999,0.0006
+plantwild/plantwild/images/corn northern leaf blight/70 - Copy.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9413,0.0766,corn__northern_leaf_blight,0.9482,0.1362
+plantwild/plantwild/images/corn northern leaf blight/82.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9999,0.0002,corn__northern_leaf_blight,0.9999,0.0005
+plantwild/plantwild/images/corn northern leaf blight/70 - Copy (3).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9970,0.0059,corn__northern_leaf_blight,0.9971,0.0130
+plantwild/plantwild/images/corn northern leaf blight/google_0134.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9965,0.0066,corn__northern_leaf_blight,0.9965,0.0146
+plantwild/plantwild/images/corn northern leaf blight/google_0060.jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9999,0.0002,corn__northern_leaf_blight,0.9999,0.0004
+plantwild/plantwild/images/corn northern leaf blight/add (8).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9896,0.0201,corn__northern_leaf_blight,0.9974,0.0114
+plantwild/plantwild/images/corn northern leaf blight/google_0123.jpg,corn__northern_leaf_blight,1,corn__gray_leaf_spot,0.3798,0.4846,corn__gray_leaf_spot,0.4644,0.6890
+plantwild/plantwild/images/corn rust/13.jpg,corn__common_rust,1,corn__northern_leaf_spot,0.9354,0.0849,corn__northern_leaf_spot,0.9354,0.1875
+plantwild/plantwild/images/corn rust/google_0155.jpg,corn__common_rust,1,corn__gray_leaf_spot,0.6881,0.2639,corn__gray_leaf_spot,0.6882,0.5828
+plantwild/plantwild/images/corn rust/google_0056.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0001,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0133.jpg,corn__common_rust,1,corn__common_rust,0.8722,0.1087,corn__common_rust,0.8722,0.2399
+plantwild/plantwild/images/corn rust/87.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/10.jpg,corn__common_rust,1,corn__gray_leaf_spot,0.6161,0.2659,corn__gray_leaf_spot,0.6165,0.5842
+plantwild/plantwild/images/corn rust/4.jpg,corn__common_rust,1,corn__northern_leaf_blight,0.5811,0.2043,corn__northern_leaf_blight,0.5820,0.4432
+plantwild/plantwild/images/corn rust/67.jpg,corn__common_rust,1,corn__common_rust,0.7023,0.2280,corn__common_rust,0.7025,0.5022
+plantwild/plantwild/images/corn rust/google_0074.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0001,corn__common_rust,1.0000,0.0002
+plantwild/plantwild/images/corn rust/google_0080.jpg,corn__common_rust,1,corn__common_rust,0.9978,0.0049,corn__common_rust,0.9978,0.0107
+plantwild/plantwild/images/corn rust/53.jpg,corn__common_rust,1,corn__common_rust,0.9999,0.0003,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0170.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/85.jpg,corn__common_rust,1,corn__common_rust,0.9770,0.0352,corn__common_rust,0.9770,0.0776
+plantwild/plantwild/images/corn rust/20.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0000.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0171.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0172.jpg,corn__common_rust,1,corn__common_rust,0.8594,0.1508,corn__common_rust,0.8597,0.3310
+plantwild/plantwild/images/corn rust/98.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/90.jpg,corn__common_rust,1,corn__common_rust,0.9998,0.0005,corn__common_rust,0.9999,0.0008
+plantwild/plantwild/images/corn rust/google_0052.jpg,corn__common_rust,1,corn__common_rust,0.8217,0.1777,corn__common_rust,0.8226,0.3866
+plantwild/plantwild/images/corn rust/google_0005.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0067.jpg,corn__common_rust,1,corn__common_rust,0.9984,0.0043,corn__common_rust,0.9992,0.0043
+plantwild/plantwild/images/corn rust/google_0022.jpg,corn__common_rust,1,corn__common_rust,0.9808,0.0311,corn__common_rust,0.9809,0.0685
+plantwild/plantwild/images/corn rust/48.jpg,corn__common_rust,1,corn__common_rust,0.8864,0.1458,corn__common_rust,0.9209,0.2272
+plantwild/plantwild/images/corn rust/36.jpg,corn__common_rust,1,corn__common_rust,0.9996,0.0010,corn__common_rust,0.9996,0.0023
+plantwild/plantwild/images/corn rust/google_0104.jpg,corn__common_rust,1,corn__healthy,0.4222,0.3623,corn__healthy,0.4223,0.7990
+plantwild/plantwild/images/corn rust/google_0120.jpg,corn__common_rust,1,corn__common_rust,0.9998,0.0006,corn__common_rust,0.9999,0.0010
+plantwild/plantwild/images/corn rust/google_0017.jpg,corn__common_rust,1,corn__common_rust,0.9189,0.0846,corn__common_rust,0.9190,0.1862
+plantwild/plantwild/images/corn rust/google_0059.jpg,corn__common_rust,1,corn__common_rust,0.9997,0.0009,corn__common_rust,0.9997,0.0020
+plantwild/plantwild/images/corn rust/google_0001.jpg,corn__common_rust,1,corn__common_rust,0.9983,0.0039,corn__common_rust,0.9997,0.0018
+plantwild/plantwild/images/corn rust/29.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0122.jpg,corn__common_rust,1,corn__common_rust,0.9998,0.0007,corn__common_rust,0.9999,0.0009
+plantwild/plantwild/images/corn rust/google_0079.jpg,corn__common_rust,1,corn__common_rust,0.9838,0.0276,corn__common_rust,0.9979,0.0096
+plantwild/plantwild/images/corn rust/41 - Copy.jpg,corn__common_rust,1,corn__common_rust,0.9109,0.0964,corn__common_rust,0.9118,0.2075
+plantwild/plantwild/images/corn rust/google_0053.jpg,corn__common_rust,1,corn__healthy,0.7411,0.2265,corn__healthy,0.7415,0.4972
+plantwild/plantwild/images/corn rust/6.jpg,corn__common_rust,1,corn__common_rust,0.9786,0.0339,corn__common_rust,0.9786,0.0747
+plantwild/plantwild/images/corn rust/google_0018.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+plantwild/plantwild/images/corn rust/google_0015.jpg,corn__common_rust,1,corn__common_rust,0.9779,0.0339,corn__common_rust,0.9779,0.0742
+plantwild/plantwild/images/corn rust/35.jpg,corn__common_rust,1,corn__common_rust,0.8858,0.1434,corn__common_rust,0.8943,0.2734
+plantwild/plantwild/images/corn rust/33.jpg,corn__common_rust,1,corn__common_rust,0.7033,0.2542,corn__common_rust,0.7054,0.5485
+plantwild/plantwild/images/corn rust/google_0024.jpg,corn__common_rust,1,corn__common_rust,0.9999,0.0002,corn__common_rust,0.9999,0.0005
+plantwild/plantwild/images/corn rust/52.jpg,corn__common_rust,1,corn__common_rust,0.9986,0.0031,corn__common_rust,0.9986,0.0068
+plantwild/plantwild/images/corn rust/google_0157.jpg,corn__common_rust,1,corn__common_rust,0.9939,0.0115,corn__common_rust,0.9939,0.0254
+plantwild/plantwild/images/corn rust/google_0020.jpg,corn__common_rust,1,corn__common_rust,0.9920,0.0152,corn__common_rust,0.9929,0.0286
+plantwild/plantwild/images/corn rust/77.jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0001
+plantwild/plantwild/images/corn rust/google_0127.jpg,corn__common_rust,1,corn__common_rust,0.9423,0.0967,corn__common_rust,0.9927,0.0319
+plantwild/plantwild/images/corn rust/32.jpg,corn__common_rust,1,corn__common_rust,0.9909,0.0176,corn__common_rust,0.9912,0.0372
+plantwild/plantwild/images/grape black rot/google_0068.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/38.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0291.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0310.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0153.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0041.jpg,grape__black_rot,1,grape__black_rot,0.9946,0.0106,grape__black_rot,1.0000,0.0001
+plantwild/plantwild/images/grape black rot/5.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/67.jpg,grape__black_rot,1,grape__black_rot,0.9816,0.0389,grape__black_rot,0.9939,0.0286
+plantwild/plantwild/images/grape black rot/google_0071.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0087.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0223.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/53.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0050.jpg,grape__black_rot,1,grape__black_rot,0.9844,0.0269,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0128.jpg,grape__black_rot,1,grape__black_rot,0.3991,0.5100,grape__black_rot,0.9917,0.0411
+plantwild/plantwild/images/grape black rot/google_0171.jpg,grape__black_rot,1,grape__black_rot,0.9825,0.0262,grape__black_rot,0.9834,0.0613
+plantwild/plantwild/images/grape black rot/google_0307.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/200.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0202.jpg,grape__black_rot,1,grape__black_rot,0.9998,0.0005,grape__black_rot,1.0000,0.0003
+plantwild/plantwild/images/grape black rot/79.jpg,grape__black_rot,1,grape__black_rot,0.9999,0.0003,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0088.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0004.jpg,grape__black_rot,1,grape__black_rot,0.9999,0.0003,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0052.jpg,grape__black_rot,1,grape__black_rot,0.9927,0.0151,grape__black_rot,0.9994,0.0038
+plantwild/plantwild/images/grape black rot/google_0067.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0034.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0233.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/158.jpg,grape__black_rot,1,grape__black_rot,0.8325,0.2260,grape__black_rot,0.9275,0.2325
+plantwild/plantwild/images/grape black rot/google_0001.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/19.jpg,grape__black_rot,1,grape__black_rot,0.6796,0.1893,grape__black_rot,0.6796,0.4855
+plantwild/plantwild/images/grape black rot/46.jpg,grape__black_rot,1,grape__black_rot,0.9970,0.0058,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0006.jpg,grape__black_rot,1,grape__black_rot,0.9976,0.0055,grape__black_rot,0.9982,0.0097
+plantwild/plantwild/images/grape black rot/157.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0133 - Copy (2).jpg,grape__black_rot,1,grape__black_rot,0.7081,0.1767,grape__black_rot,0.7105,0.4353
+plantwild/plantwild/images/grape black rot/google_0015.jpg,grape__black_rot,1,grape__black_rot,0.9366,0.0665,grape__black_rot,0.9366,0.1705
+plantwild/plantwild/images/grape black rot/google_0024.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/google_0237.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0093.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/58.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0090.jpg,grape__black_rot,1,grape__black_rot,0.9888,0.0175,grape__black_rot,0.9890,0.0438
+plantwild/plantwild/images/grape black rot/31.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/171.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/50.jpg,grape__black_rot,1,grape__black_rot,1.0000,-0.0000,grape__black_rot,1.0000,-0.0000
+plantwild/plantwild/images/grape black rot/227.jpg,grape__black_rot,1,tomato__bacterial_spot,0.4940,0.4791,grape__black_rot,0.6713,0.5673
+plantwild/plantwild/images/grape black rot/google_0188.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+plantwild/plantwild/images/grape black rot/google_0320 - Copy.jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0001,grape__black_rot,1.0000,0.0003
+plantwild/plantwild/images/grape leaf/129.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/101.jpg,grape__healthy,1,grape__healthy,0.9501,0.0703,grape__healthy,0.9990,0.0057
+plantwild/plantwild/images/grape leaf/111.jpg,grape__healthy,1,grape__healthy,0.7434,0.1977,grape__healthy,0.9999,0.0007
+plantwild/plantwild/images/grape leaf/9.jpg,grape__healthy,1,grape__healthy,0.9757,0.0349,grape__healthy,1.0000,0.0002
+plantwild/plantwild/images/grape leaf/105.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/67.jpg,grape__healthy,1,grape__healthy,0.9697,0.0436,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/google_0009.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/71.jpg,grape__healthy,1,grape__healthy,0.6467,0.2030,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/44.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/55.jpg,grape__healthy,1,grape__healthy,0.9998,0.0004,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/62.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/google_0031.jpg,grape__healthy,1,grape__healthy,1.0000,-0.0000,grape__healthy,1.0000,-0.0000
+plantwild/plantwild/images/grape leaf/google_0192.jpg,grape__healthy,1,grape__healthy,0.9179,0.1296,grape__healthy,0.9982,0.0095
+plantwild/plantwild/images/grape leaf/18.jpg,grape__healthy,1,grape__healthy,0.9833,0.0290,grape__healthy,0.9886,0.0452
+plantwild/plantwild/images/grape leaf/google_0151.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/163.jpg,grape__healthy,1,potato__healthy,0.5322,0.2506,grape__healthy,1.0000,0.0003
+plantwild/plantwild/images/grape leaf/150.jpg,grape__healthy,1,grape__healthy,0.9977,0.0051,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/google_0047.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,-0.0000
+plantwild/plantwild/images/grape leaf/84.jpg,grape__healthy,1,grape__healthy,0.6831,0.2354,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/63.jpg,grape__healthy,1,grape__healthy,0.9841,0.0259,grape__healthy,0.9856,0.0561
+plantwild/plantwild/images/grape leaf/141.jpg,grape__healthy,1,apple__healthy,0.9881,0.0203,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/107.jpg,grape__healthy,1,grape__healthy,1.0000,0.0001,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/70.jpg,grape__healthy,1,grape__healthy,0.9992,0.0022,grape__healthy,0.9997,0.0019
+plantwild/plantwild/images/grape leaf/88.jpg,grape__healthy,1,grape__healthy,0.9959,0.0087,grape__healthy,0.9999,0.0006
+plantwild/plantwild/images/grape leaf/164.jpg,grape__healthy,1,grape__healthy,0.9623,0.0575,grape__healthy,0.9969,0.0166
+plantwild/plantwild/images/grape leaf/169.jpg,grape__healthy,1,grape__healthy,0.9998,0.0006,grape__healthy,1.0000,0.0001
+plantwild/plantwild/images/grape leaf/112.jpg,grape__healthy,1,grape__healthy,0.9907,0.0183,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/25.jpg,grape__healthy,1,grape__healthy,1.0000,0.0001,grape__healthy,1.0000,0.0002
+plantwild/plantwild/images/grape leaf/76.jpg,grape__healthy,1,grape__healthy,0.5396,0.2174,grape__healthy,0.9966,0.0162
+plantwild/plantwild/images/grape leaf/google_0325.jpg,grape__healthy,1,grape__healthy,0.9997,0.0009,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/google_0044.jpg,grape__healthy,1,potato__healthy,0.6836,0.2623,grape__healthy,0.9988,0.0070
+plantwild/plantwild/images/grape leaf/45.jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/173.jpg,grape__healthy,1,grape__healthy,0.9838,0.0295,grape__healthy,0.9999,0.0005
+plantwild/plantwild/images/grape leaf/128.jpg,grape__healthy,1,grape__healthy,0.9994,0.0015,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/google_0024.jpg,grape__healthy,1,grape__healthy,0.9992,0.0018,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/58.jpg,grape__healthy,1,grape__healthy,0.9953,0.0092,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/google_0010.jpg,grape__healthy,1,grape__healthy,0.8861,0.1793,grape__healthy,0.9854,0.0581
+plantwild/plantwild/images/grape leaf/171.jpg,grape__healthy,1,grape__healthy,0.9985,0.0035,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/grape leaf/168.jpg,grape__healthy,1,grape__black_rot,0.8058,0.1385,grape__black_rot,0.8058,0.3551
+plantwild/plantwild/images/grape leaf/131.jpg,grape__healthy,1,grape__healthy,0.6431,0.1943,grape__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato early blight/google_0230.jpg,potato__early_blight,1,potato__late_blight,0.9794,0.0312,potato__late_blight,0.9826,0.0798
+plantwild/plantwild/images/potato early blight/30 - Copy.jpg,potato__early_blight,1,bell_pepper__bacterial_spot,0.2687,0.5328,potato__early_blight,0.6005,0.6135
+plantwild/plantwild/images/potato early blight/google_0045.jpg,potato__early_blight,1,potato__early_blight,0.8304,0.1927,potato__early_blight,0.9690,0.1257
+plantwild/plantwild/images/potato early blight/google_0153.jpg,potato__early_blight,1,potato__early_blight,0.9967,0.0064,potato__early_blight,1.0000,0.0000
+plantwild/plantwild/images/potato early blight/9.jpg,potato__early_blight,1,potato__healthy,0.5121,0.2983,potato__healthy,0.5144,0.9369
+plantwild/plantwild/images/potato early blight/google_0313 - Copy (3).jpg,potato__early_blight,1,potato__early_blight,0.9986,0.0033,potato__early_blight,0.9991,0.0066
+plantwild/plantwild/images/potato early blight/google_0077.jpg,potato__early_blight,1,potato__healthy,0.8870,0.1215,potato__healthy,0.8871,0.3917
+plantwild/plantwild/images/potato early blight/53.jpg,potato__early_blight,1,potato__early_blight,0.9867,0.0225,potato__early_blight,0.9920,0.0425
+plantwild/plantwild/images/potato early blight/61.jpg,potato__early_blight,1,potato__early_blight,0.8192,0.2351,potato__early_blight,0.9970,0.0188
+plantwild/plantwild/images/potato early blight/42.jpg,potato__early_blight,1,potato__late_blight,0.3067,0.5963,potato__late_blight,0.5268,0.7565
+plantwild/plantwild/images/potato early blight/69.jpg,potato__early_blight,1,tomato__early_blight,0.7015,0.3132,potato__early_blight,0.5499,0.6287
+plantwild/plantwild/images/potato early blight/44.jpg,potato__early_blight,1,tomato__early_blight,0.6142,0.3244,potato__early_blight,0.9926,0.0399
+plantwild/plantwild/images/potato early blight/3.jpg,potato__early_blight,1,potato__late_blight,0.6467,0.2603,potato__late_blight,0.6515,0.8042
+plantwild/plantwild/images/potato early blight/google_0139 - Copy (2).jpg,potato__early_blight,1,potato__late_blight,0.9890,0.0170,potato__late_blight,0.9890,0.0550
+plantwild/plantwild/images/potato early blight/google_0206.jpg,potato__early_blight,1,tomato__early_blight,0.5202,0.2888,potato__early_blight,0.8892,0.3178
+plantwild/plantwild/images/potato early blight/100.jpg,potato__early_blight,1,potato__early_blight,0.7170,0.2055,potato__early_blight,0.9743,0.1087
+plantwild/plantwild/images/potato early blight/11.jpg,potato__early_blight,1,potato__early_blight,0.8088,0.2233,potato__early_blight,0.9243,0.2443
+plantwild/plantwild/images/potato early blight/google_0083.jpg,potato__early_blight,1,tomato__leaf_curl_virus,0.5487,0.4087,potato__healthy,0.9402,0.2412
+plantwild/plantwild/images/potato early blight/google_0184.jpg,potato__early_blight,1,tomato__early_blight,0.6135,0.2244,potato__early_blight,0.9960,0.0235
+plantwild/plantwild/images/potato early blight/google_0152.jpg,potato__early_blight,1,potato__early_blight,0.9853,0.0239,potato__early_blight,0.9873,0.0618
+plantwild/plantwild/images/potato early blight/google_0040.jpg,potato__early_blight,1,tomato__septoria_leaf_spot,0.9711,0.0392,potato__early_blight,0.9998,0.0019
+plantwild/plantwild/images/potato early blight/google_0080 - Copy.jpg,potato__early_blight,1,tomato__early_blight,0.9683,0.0531,potato__early_blight,0.9725,0.1147
+plantwild/plantwild/images/potato early blight/google_0240.jpg,potato__early_blight,1,bell_pepper__bacterial_spot,0.7746,0.2682,potato__early_blight,0.6646,0.5807
+plantwild/plantwild/images/potato early blight/google_0213 - Copy (7).jpg,potato__early_blight,1,potato__early_blight,0.9982,0.0039,potato__early_blight,0.9983,0.0115
+plantwild/plantwild/images/potato early blight/15.jpg,potato__early_blight,1,potato__late_blight,0.8824,0.1027,potato__late_blight,0.8824,0.3318
+plantwild/plantwild/images/potato early blight/19.jpg,potato__early_blight,1,tomato__mosaic_virus,0.7196,0.2986,potato__healthy,0.8498,0.4287
+plantwild/plantwild/images/potato early blight/google_0096.jpg,potato__early_blight,1,tomato__septoria_leaf_spot,0.7128,0.2813,potato__early_blight,0.8238,0.4270
+plantwild/plantwild/images/potato early blight/google_0075 - Copy (3).jpg,potato__early_blight,1,potato__early_blight,0.5520,0.2872,potato__early_blight,0.9846,0.0725
+plantwild/plantwild/images/potato early blight/google_0149.jpg,potato__early_blight,1,potato__early_blight,0.8298,0.2080,potato__early_blight,0.9902,0.0502
+plantwild/plantwild/images/potato early blight/34.jpg,potato__early_blight,1,potato__late_blight,0.9957,0.0078,potato__late_blight,0.9958,0.0249
+plantwild/plantwild/images/potato early blight/google_0213.jpg,potato__early_blight,1,potato__early_blight,0.9952,0.0094,potato__early_blight,1.0000,0.0002
+plantwild/plantwild/images/potato early blight/google_0213 - Copy (6).jpg,potato__early_blight,1,potato__early_blight,0.9999,0.0002,potato__early_blight,1.0000,0.0005
+plantwild/plantwild/images/potato early blight/google_0007.jpg,potato__early_blight,1,potato__early_blight,0.9963,0.0076,potato__early_blight,0.9979,0.0137
+plantwild/plantwild/images/potato early blight/google_0020.jpg,potato__early_blight,1,tomato__early_blight,0.5735,0.2985,potato__early_blight,0.9987,0.0092
+plantwild/plantwild/images/potato early blight/google_0185.jpg,potato__early_blight,1,potato__late_blight,0.6349,0.2686,potato__late_blight,0.7062,0.5511
+plantwild/plantwild/images/potato early blight/google_0306 - Copy (9).jpg,potato__early_blight,1,potato__early_blight,0.9999,0.0002,potato__early_blight,1.0000,0.0000
+plantwild/plantwild/images/potato early blight/google_0062 - Copy (2).jpg,potato__early_blight,1,potato__healthy,0.4759,0.2900,potato__healthy,0.5161,0.6372
+plantwild/plantwild/images/potato early blight/google_0105.jpg,potato__early_blight,1,potato__early_blight,0.9403,0.0856,potato__early_blight,0.9982,0.0121
+plantwild/plantwild/images/potato late blight/47.jpg,potato__late_blight,1,corn__common_rust,0.2902,0.5771,potato__healthy,0.4671,0.8496
+plantwild/plantwild/images/potato late blight/1.jpg,potato__late_blight,1,potato__early_blight,0.5389,0.2151,potato__early_blight,0.5469,0.6269
+plantwild/plantwild/images/potato late blight/87.jpg,potato__late_blight,1,potato__healthy,0.9865,0.0228,potato__healthy,0.9865,0.0735
+plantwild/plantwild/images/potato late blight/google_0135.jpg,potato__late_blight,1,potato__late_blight,0.8256,0.1978,potato__late_blight,0.8921,0.3120
+plantwild/plantwild/images/potato late blight/google_0010 - Copy (2).jpg,potato__late_blight,1,potato__late_blight,0.9405,0.0768,potato__late_blight,0.9442,0.2203
+plantwild/plantwild/images/potato late blight/9.jpg,potato__late_blight,1,potato__healthy,0.9967,0.0079,potato__healthy,0.9999,0.0012
+plantwild/plantwild/images/potato late blight/4.jpg,potato__late_blight,1,potato__late_blight,0.8020,0.2308,potato__late_blight,0.8840,0.3498
+plantwild/plantwild/images/potato late blight/105.jpg,potato__late_blight,1,grape__black_rot,0.9969,0.0074,potato__healthy,0.5551,0.9037
+plantwild/plantwild/images/potato late blight/12.jpg,potato__late_blight,1,potato__early_blight,0.4803,0.2508,potato__early_blight,0.4834,0.7748
+plantwild/plantwild/images/potato late blight/add (4).jpg,potato__late_blight,1,potato__late_blight,0.9996,0.0011,potato__late_blight,0.9999,0.0006
+plantwild/plantwild/images/potato late blight/google_0179.jpg,potato__late_blight,1,potato__late_blight,0.9431,0.0617,potato__late_blight,0.9432,0.1985
+plantwild/plantwild/images/potato late blight/google_0306 - Copy (4).jpg,potato__late_blight,1,potato__late_blight,0.9380,0.0665,potato__late_blight,0.9380,0.2151
+plantwild/plantwild/images/potato late blight/16.jpg,potato__late_blight,1,potato__healthy,0.9095,0.1016,potato__healthy,0.9176,0.2693
+plantwild/plantwild/images/potato late blight/61.jpg,potato__late_blight,1,potato__early_blight,0.4504,0.4823,potato__early_blight,0.6848,0.7057
+plantwild/plantwild/images/potato late blight/71.jpg,potato__late_blight,1,potato__late_blight,0.3291,0.4851,potato__late_blight,0.9883,0.0590
+plantwild/plantwild/images/potato late blight/google_0182 - Copy.jpg,potato__late_blight,1,tomato__mosaic_virus,0.6281,0.3183,potato__early_blight,0.9840,0.0840
+plantwild/plantwild/images/potato late blight/106.jpg,potato__late_blight,1,potato__late_blight,0.4972,0.3679,potato__late_blight,0.9296,0.2377
+plantwild/plantwild/images/potato late blight/google_0000.jpg,potato__late_blight,1,potato__late_blight,0.9785,0.0294,potato__late_blight,0.9786,0.0945
+plantwild/plantwild/images/potato late blight/google_0306 - Copy (3).jpg,potato__late_blight,1,potato__late_blight,0.9994,0.0014,potato__late_blight,0.9994,0.0046
+plantwild/plantwild/images/potato late blight/google_0102.jpg,potato__late_blight,1,potato__late_blight,0.9973,0.0054,potato__late_blight,0.9974,0.0168
+plantwild/plantwild/images/potato late blight/google_0183.jpg,potato__late_blight,1,potato__late_blight,0.9925,0.0125,potato__late_blight,0.9925,0.0403
+plantwild/plantwild/images/potato late blight/google_0159.jpg,potato__late_blight,1,potato__late_blight,0.9904,0.0175,potato__late_blight,0.9907,0.0538
+plantwild/plantwild/images/potato late blight/google_0313 - Copy (2) - Copy.jpg,potato__late_blight,1,potato__early_blight,0.7271,0.1792,potato__early_blight,0.7350,0.5269
+plantwild/plantwild/images/potato late blight/google_0154.jpg,potato__late_blight,1,potato__late_blight,0.9943,0.0115,potato__late_blight,0.9973,0.0171
+plantwild/plantwild/images/potato late blight/add (7).jpg,potato__late_blight,1,potato__late_blight,0.7440,0.1627,potato__late_blight,0.7445,0.5213
+plantwild/plantwild/images/potato late blight/google_0162.jpg,potato__late_blight,1,potato__late_blight,1.0000,0.0001,potato__late_blight,1.0000,0.0002
+plantwild/plantwild/images/potato late blight/google_0212.jpg,potato__late_blight,1,potato__healthy,0.8908,0.1039,potato__healthy,0.8908,0.3361
+plantwild/plantwild/images/potato late blight/google_0033.jpg,potato__late_blight,1,potato__late_blight,0.8932,0.1086,potato__late_blight,0.9050,0.2857
+plantwild/plantwild/images/potato late blight/google_0253.jpg,potato__late_blight,1,potato__late_blight,0.8518,0.1760,potato__late_blight,0.9792,0.0922
+plantwild/plantwild/images/potato late blight/google_0240.jpg,potato__late_blight,1,tomato__early_blight,0.2824,0.6559,potato__late_blight,0.7553,0.5999
+plantwild/plantwild/images/potato late blight/81.jpg,potato__late_blight,1,potato__healthy,0.7971,0.1751,potato__healthy,0.8029,0.5233
+plantwild/plantwild/images/potato late blight/google_0213 - Copy (2).jpg,potato__late_blight,1,potato__late_blight,1.0000,0.0000,potato__late_blight,1.0000,0.0000
+plantwild/plantwild/images/potato late blight/93.jpg,potato__late_blight,1,potato__late_blight,0.8507,0.1719,potato__late_blight,0.8952,0.3059
+plantwild/plantwild/images/potato late blight/google_0013.jpg,potato__late_blight,1,potato__late_blight,0.8731,0.1154,potato__late_blight,0.8731,0.3732
+plantwild/plantwild/images/potato late blight/45 - Copy.jpg,potato__late_blight,1,potato__late_blight,0.9692,0.0545,potato__late_blight,0.9843,0.0833
+plantwild/plantwild/images/potato late blight/google_0118.jpg,potato__late_blight,1,potato__late_blight,0.9704,0.0509,potato__late_blight,0.9869,0.0686
+plantwild/plantwild/images/potato late blight/google_0015.jpg,potato__late_blight,1,potato__late_blight,0.9998,0.0007,potato__late_blight,0.9998,0.0022
+plantwild/plantwild/images/potato late blight/google_0160.jpg,potato__late_blight,1,potato__late_blight,0.7044,0.2517,potato__late_blight,0.7313,0.6520
+plantwild/plantwild/images/potato late blight/28.jpg,potato__late_blight,1,potato__late_blight,0.9964,0.0074,potato__late_blight,0.9990,0.0071
+plantwild/plantwild/images/potato late blight/google_0235.jpg,potato__late_blight,1,tomato__late_blight,0.8824,0.1022,potato__late_blight,0.9989,0.0080
+plantwild/plantwild/images/potato late blight/82.jpg,potato__late_blight,1,potato__healthy,0.9830,0.0299,potato__healthy,0.9986,0.0103
+plantwild/plantwild/images/potato late blight/google_0089.jpg,potato__late_blight,1,potato__late_blight,0.6803,0.1905,potato__late_blight,0.6862,0.5675
+plantwild/plantwild/images/potato late blight/google_0320 - Copy.jpg,potato__late_blight,1,potato__late_blight,0.9986,0.0032,potato__late_blight,0.9989,0.0078
+plantwild/plantwild/images/potato leaf/google_0082.jpg,potato__healthy,1,apple__healthy,0.7516,0.1852,potato__healthy,0.8187,0.4922
+plantwild/plantwild/images/potato leaf/google_0056.jpg,potato__healthy,1,potato__healthy,1.0000,0.0002,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/google_0003.jpg,potato__healthy,1,potato__healthy,0.9979,0.0044,potato__healthy,0.9999,0.0008
+plantwild/plantwild/images/potato leaf/google_0070.jpg,potato__healthy,1,potato__healthy,1.0000,0.0000,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/google_0473.jpg,potato__healthy,1,potato__healthy,1.0000,0.0001,potato__healthy,1.0000,0.0002
+plantwild/plantwild/images/potato leaf/google_0099.jpg,potato__healthy,1,potato__healthy,0.9269,0.1043,potato__healthy,1.0000,0.0001
+plantwild/plantwild/images/potato leaf/google_0374.jpg,potato__healthy,1,potato__healthy,0.9964,0.0077,potato__healthy,1.0000,0.0004
+plantwild/plantwild/images/potato leaf/5.jpg,potato__healthy,1,potato__healthy,0.9992,0.0021,potato__healthy,0.9995,0.0044
+plantwild/plantwild/images/potato leaf/google_0572.jpg,potato__healthy,1,potato__healthy,0.7797,0.1852,potato__healthy,0.9978,0.0147
+plantwild/plantwild/images/potato leaf/12.jpg,potato__healthy,1,potato__healthy,0.9971,0.0064,potato__healthy,0.9996,0.0033
+plantwild/plantwild/images/potato leaf/71.jpg,potato__healthy,1,potato__healthy,1.0000,0.0002,potato__healthy,1.0000,0.0005
+plantwild/plantwild/images/potato leaf/google_0328.jpg,potato__healthy,1,potato__healthy,1.0000,0.0001,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/google_0031.jpg,potato__healthy,1,potato__healthy,1.0000,0.0000,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/43.jpg,potato__healthy,1,potato__healthy,0.5277,0.2382,potato__healthy,1.0000,0.0004
+plantwild/plantwild/images/potato leaf/google_0229.jpg,potato__healthy,1,potato__healthy,0.6226,0.3343,potato__healthy,0.9944,0.0351
+plantwild/plantwild/images/potato leaf/google_0091.jpg,potato__healthy,1,potato__healthy,1.0000,0.0000,potato__healthy,1.0000,0.0001
+plantwild/plantwild/images/potato leaf/google_0110.jpg,potato__healthy,1,potato__healthy,1.0000,0.0001,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/21.jpg,potato__healthy,1,potato__healthy,1.0000,0.0000,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/google_0418.jpg,potato__healthy,1,potato__healthy,0.9999,0.0002,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/92.jpg,potato__healthy,1,potato__late_blight,0.8206,0.1788,potato__late_blight,0.8266,0.5292
+plantwild/plantwild/images/potato leaf/google_0376.jpg,potato__healthy,1,potato__healthy,0.9950,0.0090,potato__healthy,1.0000,0.0002
+plantwild/plantwild/images/potato leaf/google_0322.jpg,potato__healthy,1,potato__healthy,0.8793,0.1519,potato__healthy,0.9994,0.0048
+plantwild/plantwild/images/potato leaf/30.jpg,potato__healthy,1,potato__healthy,1.0000,0.0001,potato__healthy,1.0000,0.0001
+plantwild/plantwild/images/potato leaf/google_0005.jpg,potato__healthy,1,potato__healthy,0.9974,0.0052,potato__healthy,0.9976,0.0157
+plantwild/plantwild/images/potato leaf/google_0298.jpg,potato__healthy,1,potato__healthy,0.9984,0.0042,potato__healthy,0.9997,0.0023
+plantwild/plantwild/images/potato leaf/google_0681.jpg,potato__healthy,1,potato__healthy,0.9906,0.0152,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/65.jpg,potato__healthy,1,potato__healthy,0.7592,0.2269,potato__healthy,0.9618,0.1669
+plantwild/plantwild/images/potato leaf/google_0632.jpg,potato__healthy,1,potato__healthy,0.9987,0.0028,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/48.jpg,potato__healthy,1,potato__healthy,0.9726,0.0393,potato__healthy,0.9761,0.1048
+plantwild/plantwild/images/potato leaf/google_0499.jpg,potato__healthy,1,potato__healthy,0.4530,0.3536,potato__healthy,0.9731,0.1260
+plantwild/plantwild/images/potato leaf/google_0662.jpg,potato__healthy,1,potato__healthy,0.9383,0.0763,potato__healthy,0.9999,0.0006
+plantwild/plantwild/images/potato leaf/google_0116.jpg,potato__healthy,1,apple__healthy,0.4814,0.3133,potato__healthy,0.9962,0.0229
+plantwild/plantwild/images/potato leaf/22.jpg,potato__healthy,1,apple__healthy,0.6398,0.3250,potato__healthy,0.5147,0.9130
+plantwild/plantwild/images/potato leaf/73.jpg,potato__healthy,1,potato__healthy,0.6065,0.2108,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/84.jpg,potato__healthy,1,apple__healthy,0.5771,0.3528,potato__healthy,0.9249,0.2709
+plantwild/plantwild/images/potato leaf/google_0512.jpg,potato__healthy,1,corn__healthy,0.6167,0.2514,potato__healthy,0.9957,0.0275
+plantwild/plantwild/images/potato leaf/google_0216.jpg,potato__healthy,1,potato__healthy,0.9994,0.0014,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/google_0196.jpg,potato__healthy,1,potato__healthy,0.9631,0.0517,potato__healthy,0.9997,0.0025
+plantwild/plantwild/images/potato leaf/google_0001.jpg,potato__healthy,1,potato__healthy,0.7125,0.1824,potato__healthy,0.9996,0.0036
+plantwild/plantwild/images/potato leaf/google_0308.jpg,potato__healthy,1,potato__healthy,0.9994,0.0016,potato__healthy,1.0000,0.0001
+plantwild/plantwild/images/potato leaf/46.jpg,potato__healthy,1,potato__healthy,0.9713,0.0368,potato__healthy,1.0000,0.0004
+plantwild/plantwild/images/potato leaf/25.jpg,potato__healthy,1,potato__healthy,0.9871,0.0214,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/google_0149.jpg,potato__healthy,1,potato__healthy,0.9995,0.0013,potato__healthy,0.9995,0.0037
+plantwild/plantwild/images/potato leaf/google_0006.jpg,potato__healthy,1,potato__healthy,1.0000,0.0000,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/26.jpg,potato__healthy,1,potato__healthy,0.9437,0.0795,potato__healthy,0.9994,0.0045
+plantwild/plantwild/images/potato leaf/google_0046.jpg,potato__healthy,1,potato__healthy,1.0000,0.0000,potato__healthy,1.0000,0.0000
+plantwild/plantwild/images/potato leaf/82.jpg,potato__healthy,1,apple__healthy,0.9760,0.0372,potato__late_blight,0.9494,0.1844
+plantwild/plantwild/images/potato leaf/66.jpg,potato__healthy,1,strawberry__healthy,0.5373,0.2942,potato__healthy,0.9997,0.0026
+plantwild/plantwild/images/potato leaf/google_0650.jpg,potato__healthy,1,potato__healthy,1.0000,0.0001,potato__healthy,1.0000,0.0001
+plantwild/plantwild/images/strawberry leaf/13.jpg,strawberry__healthy,1,strawberry__healthy,0.9984,0.0037,strawberry__healthy,0.9986,0.0067
+plantwild/plantwild/images/strawberry leaf/google_0542.jpg,strawberry__healthy,1,potato__healthy,0.8438,0.1575,strawberry__healthy,0.8734,0.2510
+plantwild/plantwild/images/strawberry leaf/google_0051.jpg,strawberry__healthy,1,strawberry__healthy,0.9989,0.0026,strawberry__healthy,1.0000,0.0002
+plantwild/plantwild/images/strawberry leaf/google_0477.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0001,strawberry__healthy,1.0000,0.0002
+plantwild/plantwild/images/strawberry leaf/google_0101.jpg,strawberry__healthy,1,strawberry__healthy,0.9824,0.0264,strawberry__healthy,1.0000,0.0003
+plantwild/plantwild/images/strawberry leaf/google_0399.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,-0.0000
+plantwild/plantwild/images/strawberry leaf/google_0524.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0381.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0574.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0142.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,-0.0000,strawberry__healthy,1.0000,-0.0000
+plantwild/plantwild/images/strawberry leaf/google_0187.jpg,strawberry__healthy,1,strawberry__healthy,0.9509,0.0555,strawberry__healthy,1.0000,0.0002
+plantwild/plantwild/images/strawberry leaf/62.jpg,strawberry__healthy,1,potato__healthy,0.9575,0.0572,strawberry__healthy,0.9961,0.0179
+plantwild/plantwild/images/strawberry leaf/23.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/3.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/18.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,-0.0000,strawberry__healthy,1.0000,-0.0000
+plantwild/plantwild/images/strawberry leaf/google_0502.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0222.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0407.jpg,strawberry__healthy,1,strawberry__healthy,0.4403,0.5004,strawberry__healthy,0.6994,0.4400
+plantwild/plantwild/images/strawberry leaf/11.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/30.jpg,strawberry__healthy,1,strawberry__healthy,0.9982,0.0038,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0632.jpg,strawberry__healthy,1,strawberry__healthy,0.9983,0.0040,strawberry__healthy,0.9983,0.0087
+plantwild/plantwild/images/strawberry leaf/75.jpg,strawberry__healthy,1,strawberry__powdery_mildew,0.9608,0.0473,strawberry__powdery_mildew,0.9612,0.1020
+plantwild/plantwild/images/strawberry leaf/60.jpg,strawberry__healthy,1,grape__healthy,0.6902,0.2812,strawberry__healthy,0.9804,0.0677
+plantwild/plantwild/images/strawberry leaf/70.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0216.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0001
+plantwild/plantwild/images/strawberry leaf/google_0001.jpg,strawberry__healthy,1,strawberry__healthy,0.9943,0.0109,strawberry__healthy,1.0000,0.0001
+plantwild/plantwild/images/strawberry leaf/15.jpg,strawberry__healthy,1,strawberry__leaf_scorch,0.9972,0.0058,strawberry__leaf_scorch,0.9972,0.0128
+plantwild/plantwild/images/strawberry leaf/19.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0001,strawberry__healthy,1.0000,0.0001
+plantwild/plantwild/images/strawberry leaf/27.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0405.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0001,strawberry__healthy,1.0000,0.0001
+plantwild/plantwild/images/strawberry leaf/41.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/80.jpg,strawberry__healthy,1,strawberry__healthy,0.9999,0.0002,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0239.jpg,strawberry__healthy,1,strawberry__healthy,0.9999,0.0002,strawberry__healthy,0.9999,0.0005
+plantwild/plantwild/images/strawberry leaf/2.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0001,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0505.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,-0.0000
+plantwild/plantwild/images/strawberry leaf/17.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/google_0076.jpg,strawberry__healthy,1,strawberry__healthy,0.9970,0.0065,strawberry__healthy,1.0000,0.0002
+plantwild/plantwild/images/strawberry leaf/37.jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/strawberry leaf/64.jpg,strawberry__healthy,1,strawberry__healthy,0.9994,0.0015,strawberry__healthy,1.0000,0.0000
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0276.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.6955,0.2388,tomato__bacterial_spot,0.6987,0.3572
+plantwild/plantwild/images/tomato bacterial leaf spot/183.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.8932,0.1568,tomato__bacterial_spot,0.9045,0.2052
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0310.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.9670,0.0487,tomato__early_blight,0.9671,0.0746
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0395.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.3795,0.4116,tomato__early_blight,0.3904,0.5885
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0458.jpg,tomato__bacterial_spot,1,strawberry__leaf_scorch,0.6205,0.3014,tomato__bacterial_spot,0.6345,0.2917
+plantwild/plantwild/images/tomato bacterial leaf spot/130.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.1775,0.7719,tomato__bacterial_spot,0.3609,0.8160
+plantwild/plantwild/images/tomato bacterial leaf spot/10.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.5300,0.2115,tomato__bacterial_spot,0.5308,0.3217
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0465.jpg,tomato__bacterial_spot,1,tomato__late_blight,0.1531,0.7278,tomato__late_blight,0.2640,0.7961
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0413.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.8074,0.1442,tomato__bacterial_spot,0.8084,0.2180
+plantwild/plantwild/images/tomato bacterial leaf spot/5.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.5358,0.3179,tomato__septoria_leaf_spot,0.5635,0.3823
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0267.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.7929,0.2171,tomato__septoria_leaf_spot,0.8791,0.1786
+plantwild/plantwild/images/tomato bacterial leaf spot/12.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.4727,0.3664,tomato__bacterial_spot,0.4761,0.5494
+plantwild/plantwild/images/tomato bacterial leaf spot/56.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.7693,0.1742,tomato__bacterial_spot,0.7695,0.2682
+plantwild/plantwild/images/tomato bacterial leaf spot/16.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.4638,0.4062,tomato__early_blight,0.4728,0.5810
+plantwild/plantwild/images/tomato bacterial leaf spot/42.jpg,tomato__bacterial_spot,1,apple__scab,0.7802,0.2183,tomato__bacterial_spot,0.8426,0.2517
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0072.jpg,tomato__bacterial_spot,1,tomato__late_blight,0.4773,0.4678,tomato__late_blight,0.5598,0.5034
+plantwild/plantwild/images/tomato bacterial leaf spot/181.jpg,tomato__bacterial_spot,1,tomato__late_blight,0.4271,0.4660,tomato__late_blight,0.5221,0.4710
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0037.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.9683,0.0400,tomato__septoria_leaf_spot,0.9685,0.0607
+plantwild/plantwild/images/tomato bacterial leaf spot/44.jpg,tomato__bacterial_spot,1,tomato__late_blight,0.2868,0.4952,tomato__late_blight,0.7413,0.3565
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0254.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.7076,0.2284,tomato__bacterial_spot,0.7121,0.3359
+plantwild/plantwild/images/tomato bacterial leaf spot/62.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.4991,0.3398,tomato__bacterial_spot,0.7722,0.2986
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0002.jpg,tomato__bacterial_spot,1,tomato__leaf_mold,0.7603,0.2769,tomato__leaf_mold,0.7868,0.3442
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0158.jpg,tomato__bacterial_spot,1,tomato__late_blight,0.7164,0.3750,tomato__late_blight,0.9000,0.1967
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0066.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.3994,0.3182,tomato__septoria_leaf_spot,0.6721,0.2776
+plantwild/plantwild/images/tomato bacterial leaf spot/178.jpg,tomato__bacterial_spot,1,apple__scab,0.2504,0.6841,tomato__early_blight,0.4107,0.5826
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0081.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.9552,0.0610,tomato__early_blight,0.9866,0.0340
+plantwild/plantwild/images/tomato bacterial leaf spot/30.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.6261,0.3928,tomato__early_blight,0.7643,0.3592
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0144.jpg,tomato__bacterial_spot,1,tomato__late_blight,0.6350,0.4087,tomato__late_blight,0.7013,0.4764
+plantwild/plantwild/images/tomato bacterial leaf spot/114.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.8737,0.1667,tomato__early_blight,0.9346,0.1283
+plantwild/plantwild/images/tomato bacterial leaf spot/148.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.6899,0.2523,tomato__bacterial_spot,0.7952,0.2362
+plantwild/plantwild/images/tomato bacterial leaf spot/11 - Copy (2).jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.6106,0.3080,tomato__septoria_leaf_spot,0.6258,0.4244
+plantwild/plantwild/images/tomato bacterial leaf spot/48.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.8237,0.2180,tomato__bacterial_spot,0.8636,0.2509
+plantwild/plantwild/images/tomato bacterial leaf spot/102.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.8748,0.1299,tomato__septoria_leaf_spot,0.8749,0.2003
+plantwild/plantwild/images/tomato bacterial leaf spot/180.jpg,tomato__bacterial_spot,1,apple__scab,0.2947,0.5748,tomato__early_blight,0.4359,0.5799
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0319.jpg,tomato__bacterial_spot,1,corn__common_rust,0.9632,0.0538,tomato__bacterial_spot,0.9378,0.1018
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0405.jpg,tomato__bacterial_spot,1,apple__black_rot,0.3916,0.5120,tomato__bacterial_spot,0.3993,0.6472
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0053.jpg,tomato__bacterial_spot,1,bell_pepper__bacterial_spot,0.5130,0.2410,tomato__septoria_leaf_spot,0.9249,0.1224
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0436.jpg,tomato__bacterial_spot,1,tomato__mosaic_virus,0.6031,0.3861,tomato__mosaic_virus,0.6052,0.5855
+plantwild/plantwild/images/tomato bacterial leaf spot/6 - Copy (2).jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.5455,0.2055,tomato__septoria_leaf_spot,0.5460,0.3143
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0137.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.4382,0.5030,tomato__bacterial_spot,0.4722,0.6432
+plantwild/plantwild/images/tomato bacterial leaf spot/80.jpg,tomato__bacterial_spot,1,potato__healthy,0.2785,0.6432,tomato__bacterial_spot,0.2237,0.8042
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0408.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.7554,0.2090,tomato__septoria_leaf_spot,0.7694,0.2740
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0030.jpg,tomato__bacterial_spot,1,tomato__early_blight,0.5713,0.3516,tomato__early_blight,0.5867,0.4833
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0160.jpg,tomato__bacterial_spot,1,tomato__mosaic_virus,0.4883,0.3236,tomato__mosaic_virus,0.4984,0.4612
+plantwild/plantwild/images/tomato bacterial leaf spot/132.jpg,tomato__bacterial_spot,1,potato__healthy,0.2072,0.7874,tomato__mosaic_virus,0.1946,0.8910
+plantwild/plantwild/images/tomato bacterial leaf spot/37.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.2053,0.6488,tomato__bacterial_spot,0.3742,0.6498
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0400.jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.5903,0.1955,tomato__bacterial_spot,0.5918,0.2941
+plantwild/plantwild/images/tomato bacterial leaf spot/google_0421.jpg,tomato__bacterial_spot,1,tomato__septoria_leaf_spot,0.9454,0.0606,tomato__septoria_leaf_spot,0.9458,0.0919
+plantwild/plantwild/images/tomato early blight/87.jpg,tomato__early_blight,1,tomato__late_blight,0.9595,0.0649,tomato__late_blight,0.9698,0.0697
+plantwild/plantwild/images/tomato early blight/google_0270.jpg,tomato__early_blight,1,tomato__early_blight,0.5787,0.2838,tomato__early_blight,0.5829,0.4205
+plantwild/plantwild/images/tomato early blight/google_0045.jpg,tomato__early_blight,1,tomato__healthy,0.4281,0.4225,tomato__healthy,0.4307,0.6361
+plantwild/plantwild/images/tomato early blight/10.jpg,tomato__early_blight,1,tomato__early_blight,0.8035,0.2038,tomato__early_blight,0.8422,0.2292
+plantwild/plantwild/images/tomato early blight/google_0224.jpg,tomato__early_blight,1,tomato__late_blight,0.3242,0.4033,tomato__late_blight,0.5617,0.3340
+plantwild/plantwild/images/tomato early blight/google_0143.jpg,tomato__early_blight,1,corn__northern_leaf_blight,0.3837,0.5268,tomato__early_blight,0.2952,0.6999
+plantwild/plantwild/images/tomato early blight/google_0057.jpg,tomato__early_blight,1,apple__healthy,0.1941,0.6735,tomato__leaf_mold,0.5286,0.5085
+plantwild/plantwild/images/tomato early blight/74.jpg,tomato__early_blight,1,tomato__leaf_mold,0.8142,0.1908,tomato__leaf_mold,0.8712,0.1982
+plantwild/plantwild/images/tomato early blight/52 - Copy.jpg,tomato__early_blight,1,tomato__early_blight,0.9397,0.0791,tomato__early_blight,0.9595,0.0737
+plantwild/plantwild/images/tomato early blight/google_0283.jpg,tomato__early_blight,1,tomato__septoria_leaf_spot,0.9922,0.0145,tomato__septoria_leaf_spot,0.9930,0.0195
+plantwild/plantwild/images/tomato early blight/161 - Copy (2).jpg,tomato__early_blight,1,tomato__septoria_leaf_spot,0.6126,0.2624,tomato__septoria_leaf_spot,0.6882,0.2736
+plantwild/plantwild/images/tomato early blight/google_0071.jpg,tomato__early_blight,1,tomato__early_blight,0.9995,0.0012,tomato__early_blight,1.0000,0.0001
+plantwild/plantwild/images/tomato early blight/google_0198.jpg,tomato__early_blight,1,tomato__early_blight,0.7778,0.2002,tomato__early_blight,0.7824,0.2937
+plantwild/plantwild/images/tomato early blight/175.jpg,tomato__early_blight,1,tomato__leaf_mold,0.6060,0.3250,tomato__leaf_mold,0.6233,0.4434
+plantwild/plantwild/images/tomato early blight/google_0269.jpg,tomato__early_blight,1,tomato__early_blight,0.9268,0.0970,tomato__early_blight,0.9276,0.1463
+plantwild/plantwild/images/tomato early blight/google_0130.jpg,tomato__early_blight,1,tomato__early_blight,0.8187,0.1774,tomato__early_blight,0.8188,0.2733
+plantwild/plantwild/images/tomato early blight/google_0209.jpg,tomato__early_blight,1,tomato__early_blight,0.7339,0.1857,tomato__early_blight,0.9926,0.0230
+plantwild/plantwild/images/tomato early blight/216.jpg,tomato__early_blight,1,tomato__early_blight,0.8170,0.1943,tomato__early_blight,0.9013,0.1459
+plantwild/plantwild/images/tomato early blight/google_0358.jpg,tomato__early_blight,1,tomato__early_blight,0.9852,0.0299,tomato__early_blight,0.9956,0.0153
+plantwild/plantwild/images/tomato early blight/25 - Copy (5).jpg,tomato__early_blight,1,tomato__early_blight,0.4634,0.3219,tomato__early_blight,0.5505,0.3011
+plantwild/plantwild/images/tomato early blight/google_0050.jpg,tomato__early_blight,1,tomato__leaf_mold,0.7431,0.2351,tomato__leaf_mold,0.7437,0.3603
+plantwild/plantwild/images/tomato early blight/89.jpg,tomato__early_blight,1,tomato__early_blight,0.6754,0.2287,tomato__early_blight,0.7059,0.2659
+plantwild/plantwild/images/tomato early blight/23.jpg,tomato__early_blight,1,tomato__early_blight,0.9998,0.0005,tomato__early_blight,0.9999,0.0004
+plantwild/plantwild/images/tomato early blight/google_0140.jpg,tomato__early_blight,1,tomato__early_blight,0.9777,0.0341,tomato__early_blight,0.9780,0.0516
+plantwild/plantwild/images/tomato early blight/google_0066.jpg,tomato__early_blight,1,tomato__early_blight,0.8724,0.1516,tomato__early_blight,0.9484,0.0891
+plantwild/plantwild/images/tomato early blight/178.jpg,tomato__early_blight,1,bell_pepper__healthy,0.4673,0.3142,tomato__early_blight,0.7016,0.3432
+plantwild/plantwild/images/tomato early blight/google_0362.jpg,tomato__early_blight,1,tomato__leaf_mold,0.5464,0.3650,tomato__leaf_mold,0.8012,0.3076
+plantwild/plantwild/images/tomato early blight/google_0350.jpg,tomato__early_blight,1,grape__healthy,0.9826,0.0353,tomato__bacterial_spot,0.2701,0.7965
+plantwild/plantwild/images/tomato early blight/google_0273.jpg,tomato__early_blight,1,tomato__early_blight,0.9319,0.0971,tomato__early_blight,0.9561,0.0987
+plantwild/plantwild/images/tomato early blight/google_0145.jpg,tomato__early_blight,1,tomato__early_blight,0.9448,0.0738,tomato__early_blight,0.9634,0.0733
+plantwild/plantwild/images/tomato early blight/google_0159.jpg,tomato__early_blight,1,tomato__septoria_leaf_spot,0.7634,0.1738,tomato__septoria_leaf_spot,0.7674,0.2536
+plantwild/plantwild/images/tomato early blight/25 - Copy (6).jpg,tomato__early_blight,1,tomato__early_blight,0.8581,0.1153,tomato__early_blight,0.9998,0.0009
+plantwild/plantwild/images/tomato early blight/30.jpg,tomato__early_blight,1,tomato__early_blight,0.8588,0.1655,tomato__early_blight,0.8799,0.2044
+plantwild/plantwild/images/tomato early blight/199 - Copy.jpg,tomato__early_blight,1,tomato__early_blight,0.9680,0.0399,tomato__early_blight,1.0000,0.0000
+plantwild/plantwild/images/tomato early blight/google_0201.jpg,tomato__early_blight,1,tomato__healthy,0.6894,0.1787,tomato__healthy,0.6894,0.2758
+plantwild/plantwild/images/tomato early blight/google_0141.jpg,tomato__early_blight,1,tomato__bacterial_spot,0.5222,0.2236,tomato__bacterial_spot,0.5226,0.3421
+plantwild/plantwild/images/tomato early blight/316.jpg,tomato__early_blight,1,tomato__early_blight,0.9288,0.0874,tomato__early_blight,0.9751,0.0542
+plantwild/plantwild/images/tomato early blight/223.jpg,tomato__early_blight,1,tomato__septoria_leaf_spot,0.3914,0.3469,tomato__septoria_leaf_spot,0.3957,0.5060
+plantwild/plantwild/images/tomato early blight/291.jpg,tomato__early_blight,1,tomato__early_blight,0.9284,0.0928,tomato__early_blight,0.9931,0.0226
+plantwild/plantwild/images/tomato early blight/25.jpg,tomato__early_blight,1,tomato__early_blight,0.9905,0.0182,tomato__early_blight,0.9943,0.0154
+plantwild/plantwild/images/tomato early blight/google_0256.jpg,tomato__early_blight,1,tomato__early_blight,0.9920,0.0139,tomato__early_blight,0.9992,0.0030
+plantwild/plantwild/images/tomato early blight/118.jpg,tomato__early_blight,1,tomato__early_blight,0.8509,0.1762,tomato__early_blight,0.9718,0.0562
+plantwild/plantwild/images/tomato early blight/252.jpg,tomato__early_blight,1,tomato__early_blight,0.8439,0.1985,tomato__early_blight,0.9562,0.1004
+plantwild/plantwild/images/tomato early blight/google_0013.jpg,tomato__early_blight,1,tomato__early_blight,0.9989,0.0026,tomato__early_blight,0.9989,0.0037
+plantwild/plantwild/images/tomato early blight/google_0149.jpg,tomato__early_blight,1,tomato__early_blight,0.7920,0.1619,tomato__early_blight,0.7934,0.2442
+plantwild/plantwild/images/tomato early blight/google_0043.jpg,tomato__early_blight,1,tomato__early_blight,0.5856,0.3862,tomato__early_blight,0.6251,0.4994
+plantwild/plantwild/images/tomato early blight/google_0249.jpg,tomato__early_blight,1,tomato__bacterial_spot,0.3669,0.5259,tomato__bacterial_spot,0.4252,0.6698
+plantwild/plantwild/images/tomato early blight/143.jpg,tomato__early_blight,1,tomato__leaf_mold,0.2744,0.6360,tomato__leaf_mold,0.3729,0.7253
+plantwild/plantwild/images/tomato early blight/179.jpg,tomato__early_blight,1,tomato__leaf_mold,0.4848,0.4004,tomato__leaf_mold,0.4984,0.5670
+plantwild/plantwild/images/tomato early blight/28.jpg,tomato__early_blight,1,tomato__early_blight,0.9930,0.0142,tomato__early_blight,0.9951,0.0141
+plantwild/plantwild/images/tomato early blight/google_0020.jpg,tomato__early_blight,1,tomato__septoria_leaf_spot,0.7513,0.2141,tomato__septoria_leaf_spot,0.7629,0.2915
+plantwild/plantwild/images/tomato early blight/google_0292.jpg,tomato__early_blight,1,tomato__bacterial_spot,0.3997,0.5256,tomato__bacterial_spot,0.8947,0.2063
+plantwild/plantwild/images/tomato early blight/25 - Copy (2).jpg,tomato__early_blight,1,tomato__early_blight,0.4227,0.4869,tomato__early_blight,0.6678,0.4363
+plantwild/plantwild/images/tomato early blight/227.jpg,tomato__early_blight,1,tomato__early_blight,0.6292,0.2848,tomato__early_blight,0.6345,0.4205
+plantwild/plantwild/images/tomato early blight/google_0060.jpg,tomato__early_blight,1,tomato__early_blight,0.9923,0.0128,tomato__early_blight,0.9923,0.0198
+plantwild/plantwild/images/tomato early blight/77.jpg,tomato__early_blight,1,tomato__early_blight,0.6207,0.3049,tomato__early_blight,0.9274,0.1574
+plantwild/plantwild/images/tomato early blight/82 - Copy.jpg,tomato__early_blight,1,tomato__early_blight,0.8525,0.1178,tomato__early_blight,1.0000,0.0002
+plantwild/plantwild/images/tomato late blight/47.jpg,tomato__late_blight,1,tomato__late_blight,0.8917,0.1050,tomato__late_blight,0.8961,0.1468
+plantwild/plantwild/images/tomato late blight/86.jpg,tomato__late_blight,1,bell_pepper__healthy,0.6470,0.3652,tomato__late_blight,0.5358,0.5837
+plantwild/plantwild/images/tomato late blight/google_0135.jpg,tomato__late_blight,1,bell_pepper__bacterial_spot,0.1503,0.7311,tomato__bacterial_spot,0.2107,0.8372
+plantwild/plantwild/images/tomato late blight/54.jpg,tomato__late_blight,1,tomato__leaf_curl_virus,0.8852,0.1433,tomato__leaf_curl_virus,0.8933,0.1964
+plantwild/plantwild/images/tomato late blight/10.jpg,tomato__late_blight,1,tomato__late_blight,0.9409,0.0895,tomato__late_blight,0.9463,0.1178
+plantwild/plantwild/images/tomato late blight/google_0143.jpg,tomato__late_blight,1,tomato__late_blight,0.5431,0.3238,tomato__late_blight,0.8172,0.2380
+plantwild/plantwild/images/tomato late blight/186.jpg,tomato__late_blight,1,tomato__late_blight,0.9854,0.0258,tomato__late_blight,0.9972,0.0087
+plantwild/plantwild/images/tomato late blight/google_0057.jpg,tomato__late_blight,1,tomato__late_blight,0.5825,0.2746,tomato__late_blight,0.5885,0.3934
+plantwild/plantwild/images/tomato late blight/google_0085.jpg,tomato__late_blight,1,tomato__late_blight,0.9882,0.0202,tomato__late_blight,0.9972,0.0085
+plantwild/plantwild/images/tomato late blight/12.jpg,tomato__late_blight,1,tomato__late_blight,0.3215,0.5668,tomato__late_blight,0.4444,0.6256
+plantwild/plantwild/images/tomato late blight/google_0077.jpg,tomato__late_blight,1,tomato__late_blight,0.7886,0.2292,tomato__late_blight,0.7887,0.3533
+plantwild/plantwild/images/tomato late blight/103.jpg,tomato__late_blight,1,tomato__leaf_mold,0.7772,0.1666,tomato__leaf_mold,0.7773,0.2571
+plantwild/plantwild/images/tomato late blight/google_0136.jpg,tomato__late_blight,1,potato__early_blight,0.8420,0.1962,tomato__early_blight,0.7795,0.3230
+plantwild/plantwild/images/tomato late blight/google_0195.jpg,tomato__late_blight,1,tomato__late_blight,0.5168,0.4561,tomato__late_blight,0.5228,0.6779
+plantwild/plantwild/images/tomato late blight/177.jpg,tomato__late_blight,1,tomato__late_blight,0.9460,0.0824,tomato__late_blight,0.9651,0.0788
+plantwild/plantwild/images/tomato late blight/204.jpg,tomato__late_blight,1,tomato__late_blight,0.9757,0.0342,tomato__late_blight,0.9984,0.0056
+plantwild/plantwild/images/tomato late blight/google_0150.jpg,tomato__late_blight,1,tomato__late_blight,0.9652,0.0448,tomato__late_blight,0.9984,0.0053
+plantwild/plantwild/images/tomato late blight/89.jpg,tomato__late_blight,1,tomato__late_blight,0.9870,0.0236,tomato__late_blight,0.9881,0.0323
+plantwild/plantwild/images/tomato late blight/google_0244.jpg,tomato__late_blight,1,tomato__late_blight,0.3053,0.5350,tomato__late_blight,0.4434,0.5712
+plantwild/plantwild/images/tomato late blight/234.jpg,tomato__late_blight,1,tomato__late_blight,0.6177,0.1933,tomato__late_blight,0.9939,0.0165
+plantwild/plantwild/images/tomato late blight/233.jpg,tomato__late_blight,1,tomato__late_blight,0.8372,0.1252,tomato__late_blight,1.0000,0.0003
+plantwild/plantwild/images/tomato late blight/google_0246.jpg,tomato__late_blight,1,tomato__late_blight,0.5760,0.3516,tomato__late_blight,0.8744,0.2385
+plantwild/plantwild/images/tomato late blight/google_0220.jpg,tomato__late_blight,1,tomato__late_blight,0.9164,0.1005,tomato__late_blight,0.9630,0.0692
+plantwild/plantwild/images/tomato late blight/65.jpg,tomato__late_blight,1,tomato__late_blight,0.7213,0.2518,tomato__late_blight,0.8670,0.1947
+plantwild/plantwild/images/tomato late blight/google_0250.jpg,tomato__late_blight,1,tomato__late_blight,0.8831,0.1489,tomato__late_blight,0.9435,0.1007
+plantwild/plantwild/images/tomato late blight/google_0117.jpg,tomato__late_blight,1,bell_pepper__bacterial_spot,0.2594,0.5496,tomato__late_blight,0.3630,0.7364
+plantwild/plantwild/images/tomato late blight/google_0205.jpg,tomato__late_blight,1,tomato__mosaic_virus,0.7727,0.2377,tomato__mosaic_virus,0.8059,0.2908
+plantwild/plantwild/images/tomato late blight/google_0217.jpg,tomato__late_blight,1,apple__powdery_mildew,0.4812,0.3382,tomato__bacterial_spot,0.6276,0.3644
+plantwild/plantwild/images/tomato late blight/149.jpg,tomato__late_blight,1,tomato__healthy,0.2528,0.5087,tomato__healthy,0.2586,0.7369
+plantwild/plantwild/images/tomato late blight/google_0181.jpg,tomato__late_blight,1,corn__healthy,0.3793,0.5876,tomato__late_blight,0.5692,0.5599
+plantwild/plantwild/images/tomato late blight/70.jpg,tomato__late_blight,1,tomato__bacterial_spot,0.6454,0.3344,tomato__bacterial_spot,0.7868,0.3009
+plantwild/plantwild/images/tomato late blight/google_0216.jpg,tomato__late_blight,1,tomato__healthy,0.9948,0.0103,tomato__healthy,0.9948,0.0157
+plantwild/plantwild/images/tomato late blight/137.jpg,tomato__late_blight,1,tomato__late_blight,0.7178,0.1899,tomato__late_blight,0.9764,0.0512
+plantwild/plantwild/images/tomato late blight/google_0013.jpg,tomato__late_blight,1,apple__black_rot,0.6538,0.3661,tomato__late_blight,0.7711,0.3457
+plantwild/plantwild/images/tomato late blight/6.jpg,tomato__late_blight,1,tomato__leaf_mold,0.3840,0.4381,tomato__leaf_mold,0.3840,0.6756
+plantwild/plantwild/images/tomato late blight/add (15).jpg,tomato__late_blight,1,tomato__late_blight,0.4916,0.3625,tomato__late_blight,0.9017,0.1968
+plantwild/plantwild/images/tomato late blight/google_0118.jpg,tomato__late_blight,1,tomato__late_blight,0.9478,0.0813,tomato__late_blight,0.9679,0.0669
+plantwild/plantwild/images/tomato late blight/35.jpg,tomato__late_blight,1,tomato__late_blight,0.7601,0.2882,tomato__late_blight,0.9738,0.0682
+plantwild/plantwild/images/tomato late blight/google_0239.jpg,tomato__late_blight,1,tomato__healthy,0.6069,0.2505,tomato__healthy,0.6085,0.3790
+plantwild/plantwild/images/tomato late blight/58.jpg,tomato__late_blight,1,tomato__early_blight,0.7903,0.1949,tomato__early_blight,0.7905,0.3000
+plantwild/plantwild/images/tomato late blight/google_0157.jpg,tomato__late_blight,1,tomato__late_blight,0.8543,0.1953,tomato__late_blight,0.8783,0.2408
+plantwild/plantwild/images/tomato late blight/179.jpg,tomato__late_blight,1,grape__black_rot,0.9991,0.0021,tomato__late_blight,0.9741,0.0596
+plantwild/plantwild/images/tomato late blight/google_0007.jpg,tomato__late_blight,1,tomato__early_blight,0.8873,0.1247,tomato__early_blight,0.9070,0.1392
+plantwild/plantwild/images/tomato late blight/196.jpg,tomato__late_blight,1,tomato__late_blight,0.9896,0.0192,tomato__late_blight,0.9974,0.0080
+plantwild/plantwild/images/tomato late blight/182.jpg,tomato__late_blight,1,tomato__late_blight,0.6065,0.3786,tomato__late_blight,0.6644,0.4452
+plantwild/plantwild/images/tomato late blight/google_0105.jpg,tomato__late_blight,1,tomato__bacterial_spot,0.7713,0.1688,tomato__bacterial_spot,0.7730,0.2528
+plantwild/plantwild/images/tomato late blight/159.jpg,tomato__late_blight,1,tomato__late_blight,0.9963,0.0077,tomato__late_blight,0.9964,0.0115
+plantwild/plantwild/images/tomato late blight/google_0107.jpg,tomato__late_blight,1,potato__late_blight,0.9938,0.0114,tomato__late_blight,0.8949,0.1787
+plantwild/plantwild/images/tomato leaf/google_0571.jpg,tomato__healthy,1,tomato__healthy,0.9999,0.0002,tomato__healthy,1.0000,0.0001
+plantwild/plantwild/images/tomato leaf/google_0477.jpg,tomato__healthy,1,grape__healthy,0.5976,0.3226,tomato__healthy,0.5797,0.5855
+plantwild/plantwild/images/tomato leaf/54.jpg,tomato__healthy,1,tomato__healthy,0.8910,0.1292,tomato__healthy,0.8957,0.1817
+plantwild/plantwild/images/tomato leaf/9.jpg,tomato__healthy,1,tomato__healthy,1.0000,0.0001,tomato__healthy,1.0000,0.0001
+plantwild/plantwild/images/tomato leaf/google_0071.jpg,tomato__healthy,1,potato__healthy,0.9403,0.0730,tomato__healthy,0.8961,0.1630
+plantwild/plantwild/images/tomato leaf/google_0443.jpg,tomato__healthy,1,tomato__healthy,0.9948,0.0107,tomato__healthy,0.9948,0.0164
+plantwild/plantwild/images/tomato leaf/8.jpg,tomato__healthy,1,tomato__healthy,1.0000,0.0000,tomato__healthy,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf/56.jpg,tomato__healthy,1,tomato__mosaic_virus,0.7138,0.2919,tomato__mosaic_virus,0.8715,0.2672
+plantwild/plantwild/images/tomato leaf/google_0448.jpg,tomato__healthy,1,tomato__healthy,0.9636,0.0583,tomato__healthy,0.9744,0.0606
+plantwild/plantwild/images/tomato leaf/google_0435.jpg,tomato__healthy,1,tomato__healthy,0.9568,0.0592,tomato__healthy,0.9625,0.0728
+plantwild/plantwild/images/tomato leaf/20.jpg,tomato__healthy,1,tomato__healthy,0.9996,0.0011,tomato__healthy,0.9996,0.0014
+plantwild/plantwild/images/tomato leaf/google_0002.jpg,tomato__healthy,1,tomato__healthy,0.9964,0.0073,tomato__healthy,0.9964,0.0113
+plantwild/plantwild/images/tomato leaf/104.jpg,tomato__healthy,1,tomato__healthy,0.6506,0.3420,tomato__healthy,0.8378,0.2854
+plantwild/plantwild/images/tomato leaf/3.jpg,tomato__healthy,1,tomato__healthy,0.5879,0.4012,tomato__healthy,0.6225,0.5466
+plantwild/plantwild/images/tomato leaf/google_0202.jpg,tomato__healthy,1,tomato__healthy,1.0000,0.0000,tomato__healthy,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf/24.jpg,tomato__healthy,1,tomato__healthy,0.6461,0.2587,tomato__healthy,0.8340,0.1961
+plantwild/plantwild/images/tomato leaf/google_0530.jpg,tomato__healthy,1,tomato__healthy,0.9873,0.0255,tomato__healthy,0.9899,0.0295
+plantwild/plantwild/images/tomato leaf/21.jpg,tomato__healthy,1,tomato__late_blight,0.7834,0.1602,tomato__late_blight,0.7898,0.2263
+plantwild/plantwild/images/tomato leaf/90.jpg,tomato__healthy,1,potato__healthy,0.6179,0.3278,tomato__healthy,0.7944,0.3364
+plantwild/plantwild/images/tomato leaf/google_0279.jpg,tomato__healthy,1,tomato__late_blight,0.5914,0.3980,tomato__late_blight,0.7308,0.3644
+plantwild/plantwild/images/tomato leaf/google_0320.jpg,tomato__healthy,1,tomato__healthy,0.6842,0.2961,tomato__healthy,0.8888,0.2240
+plantwild/plantwild/images/tomato leaf/google_0526.jpg,tomato__healthy,1,apple__healthy,0.4343,0.3893,tomato__late_blight,0.7116,0.3204
+plantwild/plantwild/images/tomato leaf/google_0594.jpg,tomato__healthy,1,tomato__healthy,1.0000,0.0000,tomato__healthy,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf/google_0201.jpg,tomato__healthy,1,tomato__healthy,0.4586,0.3445,tomato__healthy,0.8984,0.1531
+plantwild/plantwild/images/tomato leaf/google_0349.jpg,tomato__healthy,1,tomato__healthy,0.9994,0.0014,tomato__healthy,0.9994,0.0022
+plantwild/plantwild/images/tomato leaf/google_0190.jpg,tomato__healthy,1,tomato__healthy,0.8687,0.1315,tomato__healthy,0.8814,0.1681
+plantwild/plantwild/images/tomato leaf/15.jpg,tomato__healthy,1,tomato__mosaic_virus,0.9977,0.0053,tomato__mosaic_virus,0.9977,0.0082
+plantwild/plantwild/images/tomato leaf/29.jpg,tomato__healthy,1,tomato__healthy,0.9977,0.0056,tomato__healthy,0.9994,0.0024
+plantwild/plantwild/images/tomato leaf/72.jpg,tomato__healthy,1,potato__healthy,0.5093,0.2293,tomato__healthy,0.9953,0.0148
+plantwild/plantwild/images/tomato leaf/google_0503.jpg,tomato__healthy,1,grape__black_rot,0.4891,0.3760,tomato__late_blight,0.4415,0.5253
+plantwild/plantwild/images/tomato leaf/41.jpg,tomato__healthy,1,tomato__healthy,1.0000,0.0000,tomato__healthy,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf/google_0346.jpg,tomato__healthy,1,tomato__healthy,0.9999,0.0003,tomato__healthy,0.9999,0.0004
+plantwild/plantwild/images/tomato leaf/138.jpg,tomato__healthy,1,tomato__healthy,0.9827,0.0308,tomato__healthy,0.9838,0.0430
+plantwild/plantwild/images/tomato leaf/151.jpg,tomato__healthy,1,tomato__healthy,0.4512,0.4256,tomato__healthy,0.4654,0.6124
+plantwild/plantwild/images/tomato leaf/google_0007.jpg,tomato__healthy,1,tomato__healthy,0.6387,0.2572,tomato__healthy,0.9903,0.0306
+plantwild/plantwild/images/tomato leaf/82.jpg,tomato__healthy,1,tomato__mosaic_virus,0.3067,0.4539,tomato__mosaic_virus,0.3077,0.6921
+plantwild/plantwild/images/tomato leaf/google_0124.jpg,tomato__healthy,1,tomato__healthy,0.9906,0.0197,tomato__healthy,0.9988,0.0046
+plantwild/plantwild/images/tomato leaf/google_0417.jpg,tomato__healthy,1,tomato__healthy,0.8268,0.2120,tomato__healthy,0.8608,0.2485
+plantwild/plantwild/images/tomato leaf/57.jpg,tomato__healthy,1,tomato__healthy,0.9958,0.0102,tomato__healthy,0.9969,0.0113
+plantwild/plantwild/images/tomato leaf/google_0095.jpg,tomato__healthy,1,tomato__healthy,0.9999,0.0003,tomato__healthy,0.9999,0.0004
+plantwild/plantwild/images/tomato leaf/google_0105.jpg,tomato__healthy,1,tomato__healthy,0.8901,0.1150,tomato__healthy,0.9808,0.0476
+plantwild/plantwild/images/tomato leaf/google_0086.jpg,tomato__healthy,1,tomato__healthy,0.9921,0.0135,tomato__healthy,0.9999,0.0005
+plantwild/plantwild/images/tomato leaf/32.jpg,tomato__healthy,1,tomato__healthy,0.7478,0.1900,tomato__healthy,0.7494,0.2852
+plantwild/plantwild/images/tomato leaf mold/13.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.5854,0.2652,tomato__leaf_mold,0.5855,0.4086
+plantwild/plantwild/images/tomato leaf mold/69 - Copy (3).jpg,tomato__leaf_mold,1,tomato__mosaic_virus,0.4332,0.4008,tomato__mosaic_virus,0.4466,0.5527
+plantwild/plantwild/images/tomato leaf mold/google_0056.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9699,0.0511,tomato__leaf_mold,0.9764,0.0557
+plantwild/plantwild/images/tomato leaf mold/86.jpg,tomato__leaf_mold,1,tomato__septoria_leaf_spot,0.3720,0.4476,tomato__septoria_leaf_spot,0.3919,0.6269
+plantwild/plantwild/images/tomato leaf mold/google_0036.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9975,0.0049,tomato__leaf_mold,0.9975,0.0076
+plantwild/plantwild/images/tomato leaf mold/google_0304.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf mold/google_0153.jpg,tomato__leaf_mold,1,bell_pepper__bacterial_spot,0.9276,0.0880,tomato__septoria_leaf_spot,0.8175,0.2225
+plantwild/plantwild/images/tomato leaf mold/10.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.8135,0.2059,tomato__leaf_mold,0.8307,0.2722
+plantwild/plantwild/images/tomato leaf mold/254.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0001
+plantwild/plantwild/images/tomato leaf mold/5.jpg,tomato__leaf_mold,1,apple__powdery_mildew,0.7209,0.2404,tomato__late_blight,0.9468,0.1190
+plantwild/plantwild/images/tomato leaf mold/175.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.3319,0.4728,tomato__leaf_mold,0.7426,0.3758
+plantwild/plantwild/images/tomato leaf mold/google_0009.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9822,0.0266,tomato__leaf_mold,0.9823,0.0408
+plantwild/plantwild/images/tomato leaf mold/207.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9757,0.0330,tomato__leaf_mold,0.9759,0.0503
+plantwild/plantwild/images/tomato leaf mold/181.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9861,0.0255,tomato__leaf_mold,0.9870,0.0357
+plantwild/plantwild/images/tomato leaf mold/20.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf mold/google_0254.jpg,tomato__leaf_mold,1,tomato__spider_mites,0.9124,0.0878,tomato__spider_mites,0.9124,0.1355
+plantwild/plantwild/images/tomato leaf mold/136.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9801,0.0340,tomato__leaf_mold,0.9803,0.0513
+plantwild/plantwild/images/tomato leaf mold/google_0222.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9516,0.0683,tomato__leaf_mold,0.9518,0.1049
+plantwild/plantwild/images/tomato leaf mold/24.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf mold/google_0220.jpg,tomato__leaf_mold,1,tomato__late_blight,0.6227,0.2256,tomato__late_blight,0.6273,0.3291
+plantwild/plantwild/images/tomato leaf mold/google_0293.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9965,0.0082,tomato__leaf_mold,0.9974,0.0093
+plantwild/plantwild/images/tomato leaf mold/google_0177.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9955,0.0110,tomato__leaf_mold,0.9990,0.0045
+plantwild/plantwild/images/tomato leaf mold/google_0129.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.5806,0.3061,tomato__leaf_mold,0.6006,0.4117
+plantwild/plantwild/images/tomato leaf mold/google_0176.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.8635,0.1234,tomato__leaf_mold,0.8635,0.1903
+plantwild/plantwild/images/tomato leaf mold/google_0261.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9221,0.0838,tomato__leaf_mold,0.9954,0.0143
+plantwild/plantwild/images/tomato leaf mold/142.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9997,0.0007,tomato__leaf_mold,0.9997,0.0012
+plantwild/plantwild/images/tomato leaf mold/148.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9934,0.0139,tomato__leaf_mold,0.9934,0.0214
+plantwild/plantwild/images/tomato leaf mold/248.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf mold/48.jpg,tomato__leaf_mold,1,tomato__late_blight,0.9405,0.0778,tomato__late_blight,0.9412,0.1170
+plantwild/plantwild/images/tomato leaf mold/180.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9999,0.0003,tomato__leaf_mold,0.9999,0.0004
+plantwild/plantwild/images/tomato leaf mold/225.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf mold/264.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9735,0.0492,tomato__leaf_mold,0.9763,0.0653
+plantwild/plantwild/images/tomato leaf mold/google_0308.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9943,0.0114,tomato__leaf_mold,0.9983,0.0063
+plantwild/plantwild/images/tomato leaf mold/google_0038.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.3804,0.4089,tomato__leaf_mold,0.4789,0.4106
+plantwild/plantwild/images/tomato leaf mold/25.jpg,tomato__leaf_mold,1,tomato__late_blight,0.8750,0.1726,tomato__late_blight,0.9421,0.1224
+plantwild/plantwild/images/tomato leaf mold/google_0013.jpg,tomato__leaf_mold,1,tomato__late_blight,0.3310,0.5314,tomato__late_blight,0.3490,0.7315
+plantwild/plantwild/images/tomato leaf mold/google_0006.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9995,0.0015,tomato__leaf_mold,0.9999,0.0007
+plantwild/plantwild/images/tomato leaf mold/34.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.7790,0.2160,tomato__leaf_mold,0.7893,0.3008
+plantwild/plantwild/images/tomato leaf mold/google_0030.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0000,tomato__leaf_mold,1.0000,0.0000
+plantwild/plantwild/images/tomato leaf mold/google_0007 - Copy.jpg,tomato__leaf_mold,1,tomato__leaf_mold,1.0000,0.0001,tomato__leaf_mold,1.0000,0.0001
+plantwild/plantwild/images/tomato leaf mold/google_0063.jpg,tomato__leaf_mold,1,tomato__late_blight,0.5953,0.1936,tomato__late_blight,0.5962,0.2939
+plantwild/plantwild/images/tomato leaf mold/google_0284.jpg,tomato__leaf_mold,1,tomato__spider_mites,0.9769,0.0345,tomato__spider_mites,0.9770,0.0527
+plantwild/plantwild/images/tomato leaf mold/google_0185 - Copy (2).jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.5791,0.2628,tomato__leaf_mold,0.5850,0.3766
+plantwild/plantwild/images/tomato leaf mold/google_0105.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.4207,0.4824,tomato__leaf_mold,0.4568,0.5961
+plantwild/plantwild/images/tomato leaf mold/google_0174.jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.8610,0.1914,tomato__leaf_mold,0.9487,0.1167
+plantwild/plantwild/images/tomato mosaic virus/237.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.8870,0.0992,tomato__mosaic_virus,0.8870,0.1532
+plantwild/plantwild/images/tomato mosaic virus/google_0070.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9862,0.0250,tomato__mosaic_virus,0.9864,0.0376
+plantwild/plantwild/images/tomato mosaic virus/google_0066 - Copy.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9754,0.0454,tomato__mosaic_virus,0.9808,0.0519
+plantwild/plantwild/images/tomato mosaic virus/129.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9206,0.0886,tomato__mosaic_virus,0.9211,0.1343
+plantwild/plantwild/images/tomato mosaic virus/google_0200 - Copy.jpg,tomato__mosaic_virus,1,grape__black_rot,0.4190,0.4795,tomato__mosaic_virus,0.7491,0.4255
+plantwild/plantwild/images/tomato mosaic virus/google_0045.jpg,tomato__mosaic_virus,1,tomato__leaf_mold,0.8951,0.1153,tomato__leaf_mold,0.9823,0.0503
+plantwild/plantwild/images/tomato mosaic virus/google_0085.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9489,0.0572,tomato__mosaic_virus,0.9491,0.0875
+plantwild/plantwild/images/tomato mosaic virus/5.jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.9984,0.0038,tomato__leaf_curl_virus,0.9984,0.0058
+plantwild/plantwild/images/tomato mosaic virus/google_0021.jpg,tomato__mosaic_virus,1,tomato__late_blight,0.6390,0.3719,tomato__late_blight,0.7151,0.4336
+plantwild/plantwild/images/tomato mosaic virus/google_0228.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.8215,0.2261,tomato__mosaic_virus,0.9330,0.1419
+plantwild/plantwild/images/tomato mosaic virus/google_0126.jpg,tomato__mosaic_virus,1,tomato__leaf_mold,0.5803,0.2626,tomato__leaf_mold,0.5807,0.4026
+plantwild/plantwild/images/tomato mosaic virus/125.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9303,0.0720,tomato__mosaic_virus,0.9303,0.1111
+plantwild/plantwild/images/tomato mosaic virus/55.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.6944,0.1875,tomato__mosaic_virus,0.7018,0.2669
+plantwild/plantwild/images/tomato mosaic virus/google_0131.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9991,0.0025,tomato__mosaic_virus,0.9991,0.0038
+plantwild/plantwild/images/tomato mosaic virus/228.jpg,tomato__mosaic_virus,1,tomato__healthy,0.8698,0.1644,tomato__healthy,0.9604,0.0944
+plantwild/plantwild/images/tomato mosaic virus/google_0066.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,1.0000,0.0000,tomato__mosaic_virus,1.0000,0.0001
+plantwild/plantwild/images/tomato mosaic virus/24.jpg,tomato__mosaic_virus,1,potato__healthy,0.4161,0.5792,tomato__leaf_curl_virus,0.4777,0.6127
+plantwild/plantwild/images/tomato mosaic virus/170.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.2485,0.6239,tomato__mosaic_virus,0.3297,0.7700
+plantwild/plantwild/images/tomato mosaic virus/google_0021 - Copy (3).jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.8516,0.1617,tomato__leaf_curl_virus,0.9528,0.0896
+plantwild/plantwild/images/tomato mosaic virus/google_0205.jpg,tomato__mosaic_virus,1,tomato__septoria_leaf_spot,0.8525,0.1887,tomato__septoria_leaf_spot,0.9373,0.1265
+plantwild/plantwild/images/tomato mosaic virus/google_0116.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9914,0.0168,tomato__mosaic_virus,0.9999,0.0003
+plantwild/plantwild/images/tomato mosaic virus/22.jpg,tomato__mosaic_virus,1,tomato__late_blight,0.4819,0.4244,tomato__late_blight,0.5951,0.3664
+plantwild/plantwild/images/tomato mosaic virus/188.jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.8714,0.1211,tomato__leaf_curl_virus,0.8715,0.1865
+plantwild/plantwild/images/tomato mosaic virus/19.jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.9237,0.1065,tomato__leaf_curl_virus,0.9597,0.0862
+plantwild/plantwild/images/tomato mosaic virus/264.jpg,tomato__mosaic_virus,1,tomato__healthy,0.3799,0.5067,tomato__healthy,0.6443,0.4085
+plantwild/plantwild/images/tomato mosaic virus/google_0053.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.8784,0.1151,tomato__mosaic_virus,0.8807,0.1688
+plantwild/plantwild/images/tomato mosaic virus/127.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9979,0.0047,tomato__mosaic_virus,0.9980,0.0071
+plantwild/plantwild/images/tomato mosaic virus/151.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9825,0.0291,tomato__mosaic_virus,0.9836,0.0411
+plantwild/plantwild/images/tomato mosaic virus/58.jpg,tomato__mosaic_virus,1,potato__healthy,0.9675,0.0461,tomato__healthy,0.9990,0.0038
+plantwild/plantwild/images/tomato mosaic virus/google_0157.jpg,tomato__mosaic_virus,1,potato__healthy,0.4273,0.3695,tomato__mosaic_virus,0.6723,0.4568
+plantwild/plantwild/images/tomato mosaic virus/google_0076.jpg,tomato__mosaic_virus,1,potato__healthy,0.9904,0.0189,tomato__healthy,0.4438,0.5512
+plantwild/plantwild/images/tomato mosaic virus/google_0095.jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.9999,0.0003,tomato__leaf_curl_virus,0.9999,0.0004
+plantwild/plantwild/images/tomato mosaic virus/168.jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.3945,0.4210,tomato__leaf_curl_virus,0.6548,0.4533
+plantwild/plantwild/images/tomato mosaic virus/32.jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.7319,0.1889,tomato__mosaic_virus,0.7323,0.2897
+plantwild/plantwild/images/tomato mosaic virus/google_0107.jpg,tomato__mosaic_virus,1,apple__scab,0.6911,0.3061,tomato__healthy,0.8036,0.2351
+plantwild/plantwild/images/tomato septoria leaf spot/google_0036.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8018,0.1774,tomato__septoria_leaf_spot,0.8428,0.1980
+plantwild/plantwild/images/tomato septoria leaf spot/google_0242.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9472,0.0676,tomato__septoria_leaf_spot,0.9486,0.0997
+plantwild/plantwild/images/tomato septoria leaf spot/google_0045.jpg,tomato__septoria_leaf_spot,1,tomato__bacterial_spot,0.6875,0.1790,tomato__bacterial_spot,0.6875,0.2763
+plantwild/plantwild/images/tomato septoria leaf spot/google_0243.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9978,0.0046,tomato__septoria_leaf_spot,0.9979,0.0064
+plantwild/plantwild/images/tomato septoria leaf spot/google_0153.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8835,0.1135,tomato__septoria_leaf_spot,0.8842,0.1718
+plantwild/plantwild/images/tomato septoria leaf spot/google_0139 - Copy.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9552,0.0603,tomato__septoria_leaf_spot,0.9585,0.0816
+plantwild/plantwild/images/tomato septoria leaf spot/83.jpg,tomato__septoria_leaf_spot,1,tomato__early_blight,0.7077,0.2738,tomato__early_blight,0.8216,0.2446
+plantwild/plantwild/images/tomato septoria leaf spot/google_0119.jpg,tomato__septoria_leaf_spot,1,tomato__bacterial_spot,0.4635,0.3625,tomato__bacterial_spot,0.4921,0.4781
+plantwild/plantwild/images/tomato septoria leaf spot/google_0258.jpg,tomato__septoria_leaf_spot,1,apple__black_rot,0.8545,0.1686,tomato__septoria_leaf_spot,0.8700,0.2201
+plantwild/plantwild/images/tomato septoria leaf spot/google_0072.jpg,tomato__septoria_leaf_spot,1,tomato__early_blight,0.4897,0.2632,tomato__early_blight,0.4915,0.3972
+plantwild/plantwild/images/tomato septoria leaf spot/google_0000.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9892,0.0168,tomato__septoria_leaf_spot,0.9892,0.0259
+plantwild/plantwild/images/tomato septoria leaf spot/google_0222 - Copy.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.7384,0.2434,tomato__septoria_leaf_spot,0.7560,0.3221
+plantwild/plantwild/images/tomato septoria leaf spot/google_0238.jpg,tomato__septoria_leaf_spot,1,apple__cedar_apple_rust,0.9215,0.0860,tomato__bacterial_spot,0.4362,0.5702
+plantwild/plantwild/images/tomato septoria leaf spot/18.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.5699,0.3427,tomato__septoria_leaf_spot,0.5707,0.5250
+plantwild/plantwild/images/tomato septoria leaf spot/24.jpg,tomato__septoria_leaf_spot,1,tomato__early_blight,0.8625,0.1853,tomato__early_blight,0.8822,0.2349
+plantwild/plantwild/images/tomato septoria leaf spot/google_0197.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9161,0.0960,tomato__septoria_leaf_spot,0.9250,0.1210
+plantwild/plantwild/images/tomato septoria leaf spot/google_0273 - Copy.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8648,0.1371,tomato__septoria_leaf_spot,0.9962,0.0113
+plantwild/plantwild/images/tomato septoria leaf spot/google_0187 - Copy (2).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8279,0.2018,tomato__septoria_leaf_spot,0.8774,0.1988
+plantwild/plantwild/images/tomato septoria leaf spot/google_0257 - Copy.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.5438,0.2410,tomato__septoria_leaf_spot,0.5602,0.3110
+plantwild/plantwild/images/tomato septoria leaf spot/google_0073.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.3350,0.3881,tomato__septoria_leaf_spot,0.5422,0.3006
+plantwild/plantwild/images/tomato septoria leaf spot/google_0115.jpg,tomato__septoria_leaf_spot,1,potato__early_blight,0.7097,0.1847,tomato__early_blight,0.9786,0.0550
+plantwild/plantwild/images/tomato septoria leaf spot/148.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9300,0.0855,tomato__septoria_leaf_spot,0.9428,0.1014
+plantwild/plantwild/images/tomato septoria leaf spot/google_0233.jpg,tomato__septoria_leaf_spot,1,apple__cedar_apple_rust,0.9581,0.0666,tomato__bacterial_spot,0.7203,0.3538
+plantwild/plantwild/images/tomato septoria leaf spot/google_0272.jpg,tomato__septoria_leaf_spot,1,apple__healthy,0.2279,0.7772,tomato__septoria_leaf_spot,0.3897,0.7128
+plantwild/plantwild/images/tomato septoria leaf spot/google_0033.jpg,tomato__septoria_leaf_spot,1,tomato__early_blight,0.4955,0.2967,tomato__early_blight,0.4966,0.4518
+plantwild/plantwild/images/tomato septoria leaf spot/google_0253.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9929,0.0125,tomato__septoria_leaf_spot,0.9931,0.0185
+plantwild/plantwild/images/tomato septoria leaf spot/google_0181.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9816,0.0278,tomato__septoria_leaf_spot,0.9993,0.0026
+plantwild/plantwild/images/tomato septoria leaf spot/107.jpg,tomato__septoria_leaf_spot,1,bell_pepper__healthy,0.5460,0.2918,tomato__bacterial_spot,0.3605,0.7077
+plantwild/plantwild/images/tomato septoria leaf spot/google_0017.jpg,tomato__septoria_leaf_spot,1,grape__black_rot,0.6276,0.3729,tomato__septoria_leaf_spot,0.4740,0.4527
+plantwild/plantwild/images/tomato septoria leaf spot/google_0053.jpg,tomato__septoria_leaf_spot,1,corn__healthy,0.5987,0.4488,tomato__early_blight,0.6405,0.4464
+plantwild/plantwild/images/tomato septoria leaf spot/google_0030.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8428,0.1592,tomato__septoria_leaf_spot,0.8791,0.1685
+plantwild/plantwild/images/tomato septoria leaf spot/google_0039.jpg,tomato__septoria_leaf_spot,1,bell_pepper__bacterial_spot,0.9975,0.0057,tomato__bacterial_spot,0.8537,0.2298
+plantwild/plantwild/images/tomato septoria leaf spot/google_0160.jpg,tomato__septoria_leaf_spot,1,tomato__late_blight,0.2580,0.6023,tomato__late_blight,0.2874,0.7754
+plantwild/plantwild/images/tomato septoria leaf spot/155.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.7131,0.2517,tomato__septoria_leaf_spot,0.7591,0.2623
+plantwild/plantwild/images/tomato septoria leaf spot/23 - Copy.jpg,tomato__septoria_leaf_spot,1,tomato__leaf_mold,0.5686,0.4270,tomato__leaf_mold,0.6413,0.4759
+plantwild/plantwild/images/tomato septoria leaf spot/32.jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9182,0.1031,tomato__septoria_leaf_spot,0.9192,0.1555
+plantwild/plantwild/images/tomato yellow leaf curl virus/43 - Copy (2).jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.8357,0.1256,tomato__mosaic_virus,0.8357,0.1940
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0068.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.8698,0.1088,tomato__mosaic_virus,0.8698,0.1680
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0054.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.5552,0.2857,tomato__leaf_curl_virus,0.5703,0.3810
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0148 - Copy.jpg,tomato__leaf_curl_virus,1,grape__esca,0.8933,0.1570,tomato__septoria_leaf_spot,0.3946,0.6113
+plantwild/plantwild/images/tomato yellow leaf curl virus/99.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.7555,0.1618,tomato__mosaic_virus,0.7563,0.2459
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0075.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.9587,0.0557,tomato__leaf_curl_virus,0.9607,0.0791
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0034 - Copy (2).jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.9840,0.0317,tomato__mosaic_virus,0.9869,0.0383
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0009.jpg,tomato__leaf_curl_virus,1,tomato__leaf_mold,0.4381,0.5090,tomato__leaf_mold,0.5209,0.6351
+plantwild/plantwild/images/tomato yellow leaf curl virus/51.jpg,tomato__leaf_curl_virus,1,potato__healthy,0.8972,0.1179,tomato__leaf_curl_virus,0.7828,0.3374
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0072.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.8279,0.1460,tomato__mosaic_virus,0.8308,0.2157
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0121 - Copy.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.7243,0.1885,tomato__mosaic_virus,0.7270,0.2807
+plantwild/plantwild/images/tomato yellow leaf curl virus/43.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.5054,0.4737,tomato__mosaic_virus,0.6783,0.4603
+plantwild/plantwild/images/tomato yellow leaf curl virus/79.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.9716,0.0416,tomato__mosaic_virus,0.9719,0.0629
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0110.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.5418,0.3997,tomato__mosaic_virus,0.5590,0.5648
+plantwild/plantwild/images/tomato yellow leaf curl virus/49.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.5927,0.4460,tomato__mosaic_virus,0.7110,0.4289
+plantwild/plantwild/images/tomato yellow leaf curl virus/162.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.6923,0.1785,tomato__mosaic_virus,0.6941,0.2684
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0032.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.2218,0.6786,tomato__leaf_curl_virus,0.2801,0.7863
+plantwild/plantwild/images/tomato yellow leaf curl virus/167.jpg,tomato__leaf_curl_virus,1,tomato__healthy,0.8178,0.2053,tomato__healthy,0.8876,0.2069
+plantwild/plantwild/images/tomato yellow leaf curl virus/19.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.4853,0.2707,tomato__leaf_curl_virus,0.4854,0.4172
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0122.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.7360,0.2137,tomato__leaf_curl_virus,0.7427,0.3073
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0096.jpg,tomato__leaf_curl_virus,1,tomato__healthy,0.9948,0.0103,tomato__healthy,0.9948,0.0157
+plantwild/plantwild/images/tomato yellow leaf curl virus/41.jpg,tomato__leaf_curl_virus,1,tomato__leaf_mold,0.4331,0.5298,tomato__leaf_mold,0.5356,0.6092
+plantwild/plantwild/images/tomato yellow leaf curl virus/78.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.6850,0.2249,tomato__leaf_curl_virus,0.9637,0.0849
+plantwild/plantwild/images/tomato yellow leaf curl virus/45.jpg,tomato__leaf_curl_virus,1,potato__healthy,0.9726,0.0472,tomato__healthy,0.7242,0.4341
+plantwild/plantwild/images/tomato yellow leaf curl virus/80.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.8698,0.1433,tomato__leaf_curl_virus,0.8701,0.2199
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0118.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.7360,0.1777,tomato__leaf_curl_virus,0.7362,0.2733
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0063.jpg,tomato__leaf_curl_virus,1,tomato__mosaic_virus,0.4291,0.3882,tomato__mosaic_virus,0.4999,0.4365
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0060.jpg,tomato__leaf_curl_virus,1,potato__healthy,0.9616,0.0611,tomato__leaf_curl_virus,0.3692,0.6475
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0095.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.6031,0.3329,tomato__leaf_curl_virus,0.6300,0.4342
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0127.jpg,tomato__leaf_curl_virus,1,corn__healthy,0.9845,0.0310,tomato__leaf_mold,0.8900,0.2226
+plantwild/plantwild/images/tomato yellow leaf curl virus/google_0147.jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.9980,0.0048,tomato__leaf_curl_virus,0.9989,0.0040
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (1).jpg,apple__healthy,1,apple__healthy,0.6335,0.3085,apple__healthy,0.6774,0.4750
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (2).jpg,apple__healthy,1,apple__healthy,0.9916,0.0174,apple__healthy,0.9924,0.0303
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (3).jpg,apple__healthy,1,apple__healthy,0.9899,0.0195,apple__healthy,0.9899,0.0385
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (4).jpg,apple__healthy,1,apple__healthy,0.9912,0.0171,apple__healthy,0.9954,0.0178
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (5).jpg,apple__healthy,1,apple__healthy,0.9999,0.0004,apple__healthy,0.9999,0.0004
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (6).jpg,apple__healthy,1,apple__healthy,0.9994,0.0016,apple__healthy,0.9995,0.0026
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (7).jpg,apple__healthy,1,apple__healthy,0.9997,0.0010,apple__healthy,0.9999,0.0005
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (8).jpg,apple__healthy,1,strawberry__healthy,0.8881,0.1448,apple__healthy,0.6199,0.6596
+PlantDoc-Dataset/test/Apple leaf/Apple leaf (9).jpg,apple__healthy,1,apple__healthy,0.9999,0.0004,apple__healthy,1.0000,0.0002
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (1).jpg,apple__cedar_apple_rust,1,apple__healthy,0.5970,0.3865,apple__healthy,0.6626,0.5410
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (10).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9986,0.0031,apple__cedar_apple_rust,0.9987,0.0060
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (2).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9991,0.0022,apple__cedar_apple_rust,1.0000,0.0001
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (3).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9913,0.0156,apple__cedar_apple_rust,0.9947,0.0184
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (4).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9946,0.0100,apple__cedar_apple_rust,0.9948,0.0186
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (5).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9998,0.0005,apple__cedar_apple_rust,1.0000,0.0000
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (6).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,-0.0000,apple__cedar_apple_rust,1.0000,-0.0000
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (7).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.9982,0.0039,apple__cedar_apple_rust,0.9983,0.0073
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (8).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,1.0000,0.0000,apple__cedar_apple_rust,1.0000,0.0000
+PlantDoc-Dataset/test/Apple rust leaf/Apple rust leaf (9).jpg,apple__cedar_apple_rust,1,apple__cedar_apple_rust,0.6531,0.1816,apple__cedar_apple_rust,0.6531,0.3603
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (1).jpg,apple__scab,1,apple__black_rot,0.3663,0.4812,apple__black_rot,0.4355,0.7151
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (10).jpg,apple__scab,1,apple__scab,0.9137,0.1178,apple__scab,0.9219,0.1993
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (2).jpg,apple__scab,1,apple__scab,0.4673,0.3378,apple__scab,0.5675,0.4257
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (3).jpg,apple__scab,1,apple__scab,0.6948,0.2854,apple__scab,0.8589,0.2840
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (4).jpg,apple__scab,1,apple__healthy,0.7456,0.1893,apple__healthy,0.7571,0.3341
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (5).jpg,apple__scab,1,apple__scab,0.9997,0.0009,apple__scab,0.9997,0.0017
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (6).jpg,apple__scab,1,apple__scab,0.8486,0.1228,apple__scab,0.9991,0.0044
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (7).jpg,apple__scab,1,apple__scab,0.9910,0.0166,apple__scab,0.9931,0.0242
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (8).jpg,apple__scab,1,apple__scab,0.7552,0.1686,apple__scab,0.7560,0.3295
+PlantDoc-Dataset/test/Apple Scab Leaf/Apple Scab Leaf (9).jpg,apple__scab,1,tomato__bacterial_spot,0.3358,0.3934,apple__scab,0.9701,0.0960
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (1).jpg,bell_pepper__healthy,1,tomato__late_blight,0.4173,0.4237,bell_pepper__healthy,0.9905,0.0775
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (2).jpg,bell_pepper__healthy,1,apple__healthy,0.9218,0.1125,bell_pepper__healthy,0.9978,0.0229
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (3).jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8904,0.1034,bell_pepper__healthy,0.8940,0.4876
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (4).jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8936,0.1398,bell_pepper__healthy,0.9664,0.2123
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (5).jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9125,0.0835,bell_pepper__healthy,0.9125,0.4279
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (6).jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9912,0.0145,bell_pepper__healthy,0.9914,0.0713
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (7).jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.8438,0.1292,bell_pepper__healthy,0.8475,0.6160
+PlantDoc-Dataset/test/Bell_pepper leaf/Bell_pepper leaf (8).jpg,bell_pepper__healthy,1,bell_pepper__healthy,0.9632,0.0465,bell_pepper__healthy,0.9645,0.2211
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (1).jpg,bell_pepper__bacterial_spot,1,tomato__septoria_leaf_spot,0.3483,0.3824,bell_pepper__bacterial_spot,0.9753,0.1670
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (2).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9352,0.0732,bell_pepper__bacterial_spot,0.9998,0.0027
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (3).jpg,bell_pepper__bacterial_spot,1,tomato__early_blight,0.2719,0.6386,bell_pepper__bacterial_spot,0.8925,0.4924
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (4).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9983,0.0036,bell_pepper__bacterial_spot,0.9984,0.0169
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (5).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9481,0.0627,bell_pepper__bacterial_spot,1.0000,0.0003
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (6).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9963,0.0086,bell_pepper__bacterial_spot,0.9986,0.0154
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (7).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9293,0.0732,bell_pepper__bacterial_spot,0.9300,0.3659
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (8).jpg,bell_pepper__bacterial_spot,1,tomato__septoria_leaf_spot,0.9253,0.0785,bell_pepper__bacterial_spot,0.9998,0.0026
+PlantDoc-Dataset/test/Bell_pepper leaf spot/Bell_pepper leaf spot (9).jpg,bell_pepper__bacterial_spot,1,bell_pepper__bacterial_spot,0.9993,0.0018,bell_pepper__bacterial_spot,0.9999,0.0014
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (1).jpg,_unsupported,0,potato__healthy,0.9271,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (10).jpg,_unsupported,0,potato__healthy,0.9640,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (11).jpg,_unsupported,0,apple__healthy,0.6675,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (2).jpg,_unsupported,0,apple__powdery_mildew,0.6104,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (3).jpg,_unsupported,0,potato__healthy,0.5225,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (4).jpg,_unsupported,0,potato__healthy,0.8525,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (5).jpg,_unsupported,0,potato__healthy,0.5987,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (6).jpg,_unsupported,0,bell_pepper__bacterial_spot,0.5295,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (7).jpg,_unsupported,0,apple__healthy,0.9590,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (8).jpg,_unsupported,0,apple__healthy,0.9998,,,,
+PlantDoc-Dataset/test/Blueberry leaf/Blueberry leaf (9).jpg,_unsupported,0,potato__healthy,0.8633,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (1).jpg,_unsupported,0,apple__healthy,0.9928,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (10).jpg,_unsupported,0,apple__healthy,0.9680,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (2).jpg,_unsupported,0,apple__healthy,0.9599,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (3).jpg,_unsupported,0,apple__healthy,0.9991,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (4).jpg,_unsupported,0,apple__healthy,0.9988,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (5).jpg,_unsupported,0,grape__healthy,0.5315,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (6).jpg,_unsupported,0,apple__healthy,0.7698,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (7).jpg,_unsupported,0,apple__healthy,0.7183,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (8).jpg,_unsupported,0,grape__healthy,0.9936,,,,
+PlantDoc-Dataset/test/Cherry leaf/Cherry leaf (9).jpg,_unsupported,0,apple__healthy,0.9881,,,,
+PlantDoc-Dataset/test/Corn Gray leaf spot/Corn Gray leaf spot (2).jpg,corn__gray_leaf_spot,1,corn__northern_leaf_blight,0.9986,0.0029,corn__northern_leaf_blight,0.9986,0.0065
+PlantDoc-Dataset/test/Corn Gray leaf spot/Corn Gray leaf spot (3).jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.7711,0.1565,corn__gray_leaf_spot,0.7713,0.3442
+PlantDoc-Dataset/test/Corn Gray leaf spot/Corn Gray leaf spot (4).jpg,corn__gray_leaf_spot,1,corn__gray_leaf_spot,0.9470,0.0602,corn__gray_leaf_spot,0.9479,0.1282
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (1).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9768,0.0313,corn__northern_leaf_blight,0.9768,0.0690
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (11).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_spot,0.8794,0.1316,corn__northern_leaf_spot,0.8814,0.2796
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (12).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0000,corn__northern_leaf_blight,1.0000,0.0000
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (3).jpg,corn__northern_leaf_blight,1,corn__gray_leaf_spot,0.8846,0.1006,corn__gray_leaf_spot,0.8846,0.2223
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (4).jpg,corn__northern_leaf_blight,1,corn__gray_leaf_spot,0.9321,0.0705,corn__gray_leaf_spot,0.9322,0.1545
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (5).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,1.0000,0.0000,corn__northern_leaf_blight,1.0000,0.0000
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (6).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.5501,0.1941,corn__northern_leaf_blight,0.5501,0.4288
+PlantDoc-Dataset/test/Corn leaf blight/Corn leaf blight (8).jpg,corn__northern_leaf_blight,1,corn__northern_leaf_blight,0.9849,0.0221,corn__northern_leaf_blight,0.9849,0.0488
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (1).jpg,corn__common_rust,1,corn__common_rust,0.9909,0.0174,corn__common_rust,0.9912,0.0366
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (10).jpg,corn__common_rust,1,corn__common_rust,0.9984,0.0040,corn__common_rust,0.9984,0.0088
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (2).jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (3).jpg,corn__common_rust,1,corn__common_rust,0.9656,0.0502,corn__common_rust,0.9657,0.1106
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (4).jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (5).jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (6).jpg,corn__common_rust,1,corn__gray_leaf_spot,0.9345,0.0755,corn__gray_leaf_spot,0.9350,0.1631
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (7).jpg,corn__common_rust,1,corn__common_rust,0.9999,0.0004,corn__common_rust,0.9999,0.0008
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (8).jpg,corn__common_rust,1,corn__common_rust,1.0000,0.0000,corn__common_rust,1.0000,0.0000
+PlantDoc-Dataset/test/Corn rust leaf/Corn rust leaf (9).jpg,corn__common_rust,1,corn__common_rust,0.8679,0.1792,corn__common_rust,0.9507,0.1512
+PlantDoc-Dataset/test/grape leaf/grape leaf (1).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (10).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (11).jpg,grape__healthy,1,grape__healthy,0.9999,0.0004,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (12).jpg,grape__healthy,1,grape__healthy,1.0000,0.0001,grape__healthy,1.0000,0.0002
+PlantDoc-Dataset/test/grape leaf/grape leaf (2).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (3).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (4).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (5).jpg,grape__healthy,1,grape__healthy,0.9186,0.0795,grape__healthy,0.9186,0.2036
+PlantDoc-Dataset/test/grape leaf/grape leaf (6).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (7).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf/grape leaf (8).jpg,grape__healthy,1,grape__healthy,0.9988,0.0026,grape__healthy,0.9988,0.0065
+PlantDoc-Dataset/test/grape leaf/grape leaf (9).jpg,grape__healthy,1,grape__healthy,1.0000,0.0000,grape__healthy,1.0000,-0.0000
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (1).jpg,grape__black_rot,1,grape__black_rot,1.0000,0.0000,grape__black_rot,1.0000,0.0000
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (2).jpg,grape__black_rot,1,grape__esca,0.9960,0.0075,grape__esca,0.9962,0.0181
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (3).jpg,grape__black_rot,1,grape__black_rot,0.9969,0.0068,grape__black_rot,0.9990,0.0059
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (4).jpg,grape__black_rot,1,grape__black_rot,0.9130,0.0864,grape__black_rot,0.9996,0.0023
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (5).jpg,grape__black_rot,1,grape__black_rot,0.9987,0.0028,grape__black_rot,0.9987,0.0072
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (6).jpg,grape__black_rot,1,grape__black_rot,0.9956,0.0083,grape__black_rot,0.9996,0.0023
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (7).jpg,grape__black_rot,1,grape__healthy,0.5968,0.3109,grape__healthy,0.6198,0.6729
+PlantDoc-Dataset/test/grape leaf black rot/grape leaf black rot (8).jpg,grape__black_rot,1,grape__black_rot,0.8401,0.1236,grape__black_rot,0.8401,0.3171
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (1).jpg,_unsupported,0,apple__healthy,0.9888,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (2).jpg,_unsupported,0,apple__healthy,0.8033,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (3).jpg,_unsupported,0,potato__healthy,0.5689,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (4).jpg,_unsupported,0,apple__healthy,0.9879,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (5).jpg,_unsupported,0,apple__healthy,0.9331,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (6).jpg,_unsupported,0,apple__healthy,0.9986,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (7).jpg,_unsupported,0,apple__healthy,0.9535,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (8).jpg,_unsupported,0,apple__healthy,0.6750,,,,
+PlantDoc-Dataset/test/Peach leaf/Peach leaf (9).jpg,_unsupported,0,bell_pepper__healthy,0.4703,,,,
+PlantDoc-Dataset/test/Potato leaf early blight/Potato leaf early blight (1).jpg,potato__early_blight,1,potato__late_blight,0.8548,0.1192,potato__late_blight,0.8556,0.3781
+PlantDoc-Dataset/test/Potato leaf early blight/Potato leaf early blight (3).jpg,potato__early_blight,1,potato__early_blight,0.9859,0.0276,potato__early_blight,0.9998,0.0017
+PlantDoc-Dataset/test/Potato leaf early blight/Potato leaf early blight (4).jpg,potato__early_blight,1,tomato__early_blight,0.9612,0.0501,potato__early_blight,0.9999,0.0012
+PlantDoc-Dataset/test/Potato leaf early blight/Potato leaf early blight (6).jpg,potato__early_blight,1,potato__early_blight,0.3758,0.3215,potato__early_blight,0.5303,0.6293
+PlantDoc-Dataset/test/Potato leaf early blight/Potato leaf early blight (7).jpg,potato__early_blight,1,potato__healthy,0.7266,0.1910,potato__healthy,0.7342,0.5560
+PlantDoc-Dataset/test/Potato leaf early blight/Potato leaf early blight (8).jpg,potato__early_blight,1,potato__early_blight,0.9760,0.0458,potato__early_blight,0.9939,0.0339
+PlantDoc-Dataset/test/Potato leaf late blight/Potato leaf late blight (2).jpg,potato__late_blight,1,potato__late_blight,0.9414,0.0636,potato__late_blight,0.9417,0.2032
+PlantDoc-Dataset/test/Potato leaf late blight/Potato leaf late blight (3).jpg,potato__late_blight,1,potato__late_blight,0.8611,0.1449,potato__late_blight,0.9289,0.2369
+PlantDoc-Dataset/test/Potato leaf late blight/Potato leaf late blight (5).jpg,potato__late_blight,1,potato__late_blight,0.8092,0.1960,potato__late_blight,0.8515,0.3935
+PlantDoc-Dataset/test/Potato leaf late blight/Potato leaf late blight (8).jpg,potato__late_blight,1,potato__late_blight,0.5812,0.2160,potato__late_blight,0.5823,0.6854
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (1).jpg,_unsupported,0,grape__healthy,0.5832,,,,
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (2).jpg,_unsupported,0,strawberry__healthy,0.9473,,,,
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (3).jpg,_unsupported,0,grape__healthy,1.0000,,,,
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (4).jpg,_unsupported,0,grape__healthy,0.9693,,,,
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (5).jpg,_unsupported,0,apple__healthy,0.9312,,,,
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (6).jpg,_unsupported,0,grape__healthy,0.8522,,,,
+PlantDoc-Dataset/test/Raspberry leaf/Raspberry leaf (7).jpg,_unsupported,0,strawberry__healthy,0.6264,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (1).jpg,_unsupported,0,bell_pepper__bacterial_spot,0.5383,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (2).jpg,_unsupported,0,tomato__late_blight,0.7510,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (3).jpg,_unsupported,0,grape__healthy,0.9961,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (4).jpg,_unsupported,0,apple__healthy,0.3810,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (5).jpg,_unsupported,0,grape__healthy,0.3613,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (6).jpg,_unsupported,0,apple__healthy,0.4383,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (7).jpg,_unsupported,0,strawberry__healthy,0.9512,,,,
+PlantDoc-Dataset/test/Soyabean leaf/Soyabean leaf (8).jpg,_unsupported,0,strawberry__healthy,0.5542,,,,
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (1).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (2).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (3).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (4).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (5).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0001,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (6).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (7).jpg,strawberry__healthy,1,strawberry__healthy,1.0000,0.0000,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Strawberry leaf/Strawberry leaf (8).jpg,strawberry__healthy,1,strawberry__healthy,0.9999,0.0003,strawberry__healthy,1.0000,0.0000
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (1).jpg,tomato__early_blight,1,tomato__late_blight,0.4774,0.3102,tomato__late_blight,0.4896,0.4176
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (2).jpg,tomato__early_blight,1,tomato__early_blight,0.6603,0.3035,tomato__early_blight,0.6609,0.4656
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (3).jpg,tomato__early_blight,1,tomato__early_blight,0.9246,0.0991,tomato__early_blight,0.9274,0.1434
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (4).jpg,tomato__early_blight,1,tomato__septoria_leaf_spot,0.6842,0.3543,tomato__septoria_leaf_spot,0.7199,0.4533
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (5).jpg,tomato__early_blight,1,tomato__early_blight,0.9896,0.0193,tomato__early_blight,0.9970,0.0102
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (6).jpg,tomato__early_blight,1,tomato__early_blight,0.9810,0.0277,tomato__early_blight,0.9995,0.0021
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (7).jpg,tomato__early_blight,1,tomato__early_blight,0.8554,0.1777,tomato__early_blight,0.9216,0.1500
+PlantDoc-Dataset/test/Tomato Early blight leaf/Tomato Early blight leaf (8).jpg,tomato__early_blight,1,tomato__early_blight,0.5856,0.3862,tomato__early_blight,0.6251,0.4994
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (1).jpg,tomato__healthy,1,tomato__healthy,0.9964,0.0081,tomato__healthy,0.9986,0.0055
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (2).jpg,tomato__healthy,1,tomato__healthy,0.9999,0.0003,tomato__healthy,1.0000,0.0001
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (3).jpg,tomato__healthy,1,grape__healthy,0.5014,0.3861,tomato__healthy,0.6968,0.4701
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (4).jpg,tomato__healthy,1,bell_pepper__healthy,0.9607,0.0502,tomato__healthy,0.9996,0.0020
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (5).jpg,tomato__healthy,1,tomato__leaf_mold,0.9443,0.0746,tomato__leaf_mold,0.9470,0.1059
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (6).jpg,tomato__healthy,1,tomato__healthy,0.9979,0.0046,tomato__healthy,0.9981,0.0064
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (7).jpg,tomato__healthy,1,tomato__healthy,0.5861,0.3315,tomato__healthy,0.6086,0.4474
+PlantDoc-Dataset/test/Tomato leaf/Tomato leaf (8).jpg,tomato__healthy,1,tomato__healthy,0.8521,0.1563,tomato__healthy,0.8523,0.2402
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (1).jpg,tomato__bacterial_spot,1,grape__black_rot,0.4358,0.3360,tomato__bacterial_spot,0.6958,0.2837
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (2).jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.6698,0.2770,tomato__bacterial_spot,0.6921,0.3607
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (3).jpg,tomato__bacterial_spot,1,bell_pepper__bacterial_spot,0.9755,0.0424,tomato__bacterial_spot,0.8509,0.2276
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (4).jpg,tomato__bacterial_spot,1,bell_pepper__bacterial_spot,0.9452,0.0682,tomato__septoria_leaf_spot,0.8014,0.2304
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (5).jpg,tomato__bacterial_spot,1,tomato__late_blight,0.3947,0.4911,tomato__late_blight,0.6463,0.4489
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (6).jpg,tomato__bacterial_spot,1,tomato__healthy,0.9821,0.0279,tomato__healthy,0.9825,0.0411
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (7).jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.4522,0.2776,tomato__bacterial_spot,0.4531,0.4214
+PlantDoc-Dataset/test/Tomato leaf bacterial spot/Tomato leaf bacterial spot (8).jpg,tomato__bacterial_spot,1,tomato__bacterial_spot,0.7444,0.1688,tomato__bacterial_spot,0.7459,0.2538
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (1).jpg,tomato__late_blight,1,tomato__late_blight,0.9878,0.0186,tomato__late_blight,1.0000,0.0001
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (2).jpg,tomato__late_blight,1,tomato__leaf_mold,0.6682,0.3061,tomato__leaf_mold,0.7083,0.3725
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (4).jpg,tomato__late_blight,1,tomato__late_blight,0.4996,0.2929,tomato__late_blight,0.5287,0.3605
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (5).jpg,tomato__late_blight,1,tomato__late_blight,0.7607,0.2510,tomato__late_blight,0.8273,0.2573
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (6).jpg,tomato__late_blight,1,tomato__late_blight,0.5136,0.3391,tomato__late_blight,0.8502,0.2495
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (7).jpg,tomato__late_blight,1,tomato__late_blight,0.8561,0.1501,tomato__late_blight,0.8573,0.2272
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (8).jpg,tomato__late_blight,1,tomato__early_blight,0.7096,0.2100,tomato__early_blight,0.7278,0.2747
+PlantDoc-Dataset/test/Tomato leaf late blight/Tomato leaf late blight (9).jpg,tomato__late_blight,1,tomato__late_blight,0.8165,0.1372,tomato__late_blight,0.8165,0.2117
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (1).jpg,tomato__mosaic_virus,1,tomato__leaf_curl_virus,0.6458,0.2464,tomato__leaf_curl_virus,0.6458,0.3804
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (10).jpg,tomato__mosaic_virus,1,tomato__leaf_mold,0.9547,0.0661,tomato__leaf_mold,0.9952,0.0143
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (2).jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9910,0.0187,tomato__mosaic_virus,0.9917,0.0259
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (3).jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9969,0.0062,tomato__mosaic_virus,1.0000,0.0000
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (4).jpg,tomato__mosaic_virus,1,bell_pepper__healthy,0.3259,0.4676,tomato__mosaic_virus,0.4254,0.5601
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (5).jpg,tomato__mosaic_virus,1,grape__healthy,0.8332,0.2324,tomato__leaf_mold,0.3463,0.7953
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (6).jpg,tomato__mosaic_virus,1,apple__powdery_mildew,0.8284,0.2045,tomato__late_blight,0.5438,0.3725
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (7).jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.5824,0.3247,tomato__mosaic_virus,0.5840,0.4935
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (8).jpg,tomato__mosaic_virus,1,tomato__mosaic_virus,0.9017,0.1088,tomato__mosaic_virus,0.9018,0.1675
+PlantDoc-Dataset/test/Tomato leaf mosaic virus/Tomato leaf mosaic virus (9).jpg,tomato__mosaic_virus,1,tomato__healthy,0.8379,0.1848,tomato__healthy,0.8385,0.2824
+PlantDoc-Dataset/test/Tomato leaf yellow virus/Tomato leaf yellow virus (1).jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.9959,0.0084,tomato__leaf_curl_virus,0.9967,0.0096
+PlantDoc-Dataset/test/Tomato leaf yellow virus/Tomato leaf yellow virus (2).jpg,tomato__leaf_curl_virus,1,potato__healthy,0.6352,0.2401,tomato__healthy,0.9801,0.0540
+PlantDoc-Dataset/test/Tomato leaf yellow virus/Tomato leaf yellow virus (3).jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.9992,0.0021,tomato__leaf_curl_virus,0.9992,0.0032
+PlantDoc-Dataset/test/Tomato leaf yellow virus/Tomato leaf yellow virus (4).jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.9287,0.0723,tomato__leaf_curl_virus,0.9287,0.1116
+PlantDoc-Dataset/test/Tomato leaf yellow virus/Tomato leaf yellow virus (5).jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.4332,0.4153,tomato__leaf_curl_virus,0.4365,0.6195
+PlantDoc-Dataset/test/Tomato leaf yellow virus/Tomato leaf yellow virus (6).jpg,tomato__leaf_curl_virus,1,tomato__leaf_curl_virus,0.6334,0.3639,tomato__leaf_curl_virus,0.7061,0.4271
+PlantDoc-Dataset/test/Tomato mold leaf/Tomato mold leaf (1).jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9559,0.0558,tomato__leaf_mold,0.9567,0.0834
+PlantDoc-Dataset/test/Tomato mold leaf/Tomato mold leaf (2).jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9980,0.0049,tomato__leaf_mold,0.9980,0.0074
+PlantDoc-Dataset/test/Tomato mold leaf/Tomato mold leaf (3).jpg,tomato__leaf_mold,1,apple__healthy,0.1666,0.8281,tomato__bacterial_spot,0.2323,0.8712
+PlantDoc-Dataset/test/Tomato mold leaf/Tomato mold leaf (4).jpg,tomato__leaf_mold,1,tomato__early_blight,0.4992,0.3735,tomato__early_blight,0.5060,0.5424
+PlantDoc-Dataset/test/Tomato mold leaf/Tomato mold leaf (5).jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.9996,0.0010,tomato__leaf_mold,0.9997,0.0011
+PlantDoc-Dataset/test/Tomato mold leaf/Tomato mold leaf (6).jpg,tomato__leaf_mold,1,tomato__leaf_mold,0.5932,0.2497,tomato__leaf_mold,0.5952,0.3758
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (1).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.5575,0.4017,tomato__septoria_leaf_spot,0.6173,0.4494
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (10).jpg,tomato__septoria_leaf_spot,1,tomato__bacterial_spot,0.6137,0.2121,tomato__bacterial_spot,0.6139,0.3262
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (11).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9453,0.0676,tomato__septoria_leaf_spot,0.9480,0.0945
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (2).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.5969,0.2622,tomato__septoria_leaf_spot,0.9929,0.0205
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (3).jpg,tomato__septoria_leaf_spot,1,potato__early_blight,0.5128,0.3536,tomato__septoria_leaf_spot,0.6715,0.3222
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (4).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9864,0.0221,tomato__septoria_leaf_spot,0.9877,0.0297
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (5).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9513,0.0696,tomato__septoria_leaf_spot,0.9695,0.0680
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (6).jpg,tomato__septoria_leaf_spot,1,tomato__bacterial_spot,0.5587,0.2223,tomato__bacterial_spot,0.5676,0.3108
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (7).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8994,0.0923,tomato__septoria_leaf_spot,0.8994,0.1422
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (8).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.8676,0.1392,tomato__septoria_leaf_spot,0.8698,0.2072
+PlantDoc-Dataset/test/Tomato Septoria leaf spot/Tomato Septoria leaf spot (9).jpg,tomato__septoria_leaf_spot,1,tomato__septoria_leaf_spot,0.9509,0.0624,tomato__septoria_leaf_spot,0.9517,0.0932

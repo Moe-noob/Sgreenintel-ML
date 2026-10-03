@@ -87,8 +87,8 @@
    0.77556719062684
   ],
   "ece": 0.11124193761790171,
-  "accepted_share": 0.8134206219312602,
-  "accepted_accuracy": 0.8350100603621731
+  "accepted_share": 0.7749590834697218,
+  "accepted_accuracy": 0.8521647307286166
  },
  "per_crop_accuracy_auto": {
   "apple": {
@@ -266,11 +266,11 @@
    "support": 51
   }
  },
- "model": "v1 (mobilenetv2_sgreenintel_v6p2.pth)",
+ "model": "v1 (mobilenetv2_sgreenintel_v6p2.pth, current rules)",
  "split": "test",
  "tta": false,
  "calibrated": false,
- "acceptance_rules": "v1 production rules: auto mode accepts confidence >= 0.70 and normalised entropy <= 0.40; crop-given mode accepts confidence >= 0.70 (v1 has no crop-given mode, so this is an estimate)",
+ "acceptance_rules": "ruleset=current: auto accepts confidence >= 0.7 and entropy <= 0.4; crop_given accepts confidence >= 0.7 and entropy <= 0.4",
  "checkpoint": {
   "file": "mobilenetv2_sgreenintel_v6p2.pth",
   "bytes": 9327691,

@@ -44,12 +44,6 @@ predict_transform = transforms.Compose([
 ])
 
 
-def build_model(num_classes):
-    model = models.mobilenet_v2(weights=None)
-    num_features = model.classifier[1].in_features
-    model.classifier[1] = nn.Linear(num_features, num_classes)
-    return model.to(config.DEVICE)
-
 from model_loader import load_best_model
 
 def predict(image_path, top_k=3, use_ood=True):
