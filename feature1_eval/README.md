@@ -32,6 +32,7 @@ wrote as a proposed plan for a better Feature 1. Only the evaluation machinery w
 | `drops_report.py` + `tests/test_drops_report.py` | accounts for every official test photo (kept, or dropped for a label conflict / an excluded class) and the effective benchmark size after counting near-copies once |
 | `tests/test_inference_streaming.py` | checks that photos are decoded one batch at a time (needs torch) |
 | `calibrate.py` + `tests/test_calibrate.py` | finds confidence+entropy threshold pairs, fit on the validation split only |
+| `verify_duplicates.py` + `tests/test_verify_duplicates.py` | geometrically verifies the pHash duplicate candidates (ORB feature matching + RANSAC; needs `pip install opencv-python`), audits how many label conflicts are real and how many span different crops, and writes `work/clean_train_exclusions.csv` (training images that are the same photo under conflicting labels, or duplicate a benchmark photo). It never changes `dedupe.py`, the splits or the frozen benchmark. |
 | `evaluate.py --rules {current,calibrated}` + `TestEvaluateAcceptanceRules` | confirms a calibrated pair on the frozen benchmark; a past bug applied the entropy check to auto mode only, silently skipping it for crop_given -- now fixed and covered by a regression test |
 
 | Left out on purpose | Why |
@@ -50,7 +51,7 @@ wrote as a proposed plan for a better Feature 1. Only the evaluation machinery w
 ## Steps (PowerShell, from the project root)
 
 ```
-python -m unittest feature1_eval.tests.test_data_pipeline feature1_eval.tests.test_contamination feature1_eval.tests.test_drops_report feature1_eval.tests.test_inference_streaming feature1_eval.tests.test_calibrate
+python -m unittest feature1_eval.tests.test_data_pipeline feature1_eval.tests.test_contamination feature1_eval.tests.test_drops_report feature1_eval.tests.test_inference_streaming feature1_eval.tests.test_calibrate feature1_eval.tests.test_verify_duplicates
 python -m feature1_eval.data.manifest
 python -m feature1_eval.data.dedupe
 python -m feature1_eval.data.splits --min-train 0
@@ -62,7 +63,7 @@ python -m feature1_eval.evaluate --legacy models\cnn\mobilenetv2_sgreenintel_v6p
 python -m feature1_eval.contamination --predictions feature1_eval\work\eval_mobilenetv2_sgreenintel_v6p2\test\predictions.csv
 ```
 
-1. **tests**: 33 tests, a few seconds (about 20 on Windows); 2 need torch and are skipped without it. All must pass (or skip) before you trust anything else.
+1. **tests**: 49 tests, a few seconds (about 20 on Windows); 3 need torch and 4 need opencv-python, and are skipped without them. All must pass (or skip) before you trust anything else.
 2. **manifest**: prints how many images each source has per label and **lists every source folder name it could not map**. Nothing is guessed; if
    something is unmapped, paste me the list.
 3. **dedupe**: hashes every image (a few minutes) and writes `work\hashes.csv`; prints how many duplicate groups it found.
@@ -115,6 +116,20 @@ The first real run exposed three bugs in the copied code, each now fixed and cov
 - **Memory**: the evaluator decoded every photo at full resolution into one list before scoring anything, which exhausted RAM on the validation
   split (multi-megapixel orchard photos). Photos are now streamed one batch at a time.
 - **Benchmark coverage**: see step 4; the first freeze used the default inclusion rule and dropped four hard classes. Re-freeze with `--min-train 0`.
+
+## Verifying duplicates and cleaning training data
+
+pHash groups are transitive, so a chain of unrelated plain-background leaves can end up in one "conflict" group, and a manual review
+of 24 dropped benchmark photos found 2 false matches among 22 real ones (the same photo filed under two or more diseases, 7 of them
+under different crops). `verify_duplicates` re-checks every candidate group with feature matching:
+
+    pip install opencv-python
+    python -m feature1_eval.verify_duplicates          # a few minutes; reads the images again
+
+It writes `work/duplicate_audit.md` (how many conflicts are real, how many cross crops, which label sets), `work/verified_duplicates.csv`
+and `work/clean_train_exclusions.csv`, which `train_specialist.py --exclude` uses. The frozen benchmark is deliberately NOT rebuilt from
+the improved check: that would change its fingerprint and invalidate every comparison already made, so its few false-positive drops
+(roughly 8% of the dropped candidates in the reviewed sample) are a documented limitation instead.
 
 ## Rules
 
