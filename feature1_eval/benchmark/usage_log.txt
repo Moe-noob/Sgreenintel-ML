@@ -1,2 +1,8 @@
 2026-10-03T08:31:26	alkha	confirm calibrated thresholds
 2026-10-03T08:35:44	alkha	re-confirm current thresholds under fixed evaluate.py
+2026-10-03T12:10:05	alkha	corn disambiguation candidate
+2026-10-03T13:41:03	alkha	corn disambiguation candidate, attempt 2
+2026-10-03T15:08:56	alkha	corn specialist candidate
+2026-10-03T15:51:43	alkha	tomato blight cluster specialist candidate
+2026-10-03T20:09:02	alkha	tomato blight cluster, real-world-weighted attempt
+2026-10-04T15:32:29	alkha	tomato blight cluster, cleaned training data
