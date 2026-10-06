@@ -6,15 +6,18 @@
 <title>SGreen Intel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
+    color-scheme: dark;
     --ink: #14201C;
     --ink-deep: #0E1712;
-    --surface: #1C2B25;
+    --surface: #1B2A24;
     --surface-raised: #22342C;
+    --surface-hover: #283D34;
     --border: #2E4038;
     --border-soft: #263630;
+    --border-strong: #3C544A;
     --paper: #F3EFE3;
     --paper-dim: #C7CCC3;
     --paper-faint: #8B9690;
@@ -26,19 +29,21 @@
     --teal-dim: #386E7F;
     --clay: #C4544B;
     --clay-dim: #9C433C;
-    --font-display: 'Fraunces', serif;
-    --font-ui: 'IBM Plex Sans', sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
-    --radius-sm: 4px;
-    --radius-md: 8px;
+    --sand: #E7D5A8;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --radius-sm: 3px;
+    --radius-md: 6px;
+    --ease: cubic-bezier(.2, .7, .2, 1);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
 
   body {
     font-family: var(--font-ui);
+    font-size: 14px;
     background: var(--ink);
     color: var(--paper);
     min-height: 100vh;
@@ -47,958 +52,591 @@
   }
 
   ::selection { background: var(--gold); color: var(--ink-deep); }
-
   a { color: var(--teal); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
+  button { font-family: var(--font-ui); cursor: pointer; }
+  input, select { font-family: var(--font-ui); }
+  svg { display: block; }
 
-  :focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
+  /* ---------- Shell + rail ---------- */
 
-  button {
-    font-family: var(--font-ui);
-    cursor: pointer;
-  }
-
-  input, select {
-    font-family: var(--font-ui);
-  }
-
-  /* ---------- Layout shell ---------- */
-
-  .shell {
-    display: grid;
-    grid-template-columns: 248px 1fr;
-    min-height: 100vh;
-  }
+  .shell { display: grid; grid-template-columns: 256px minmax(0, 1fr); min-height: 100vh; }
 
   .rail {
+    position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
     background: var(--ink-deep);
     border-right: 1px solid var(--border-soft);
-    padding: 28px 20px;
-    display: flex;
-    flex-direction: column;
+    padding: 30px 22px 22px;
+    display: flex; flex-direction: column;
   }
 
-  .brand {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
+  .brand { display: flex; align-items: center; gap: 11px; margin-bottom: 8px; }
+  .brand-glyph { width: 30px; height: 30px; flex-shrink: 0; border-radius: 7px; overflow: hidden; }
+  .brand-name { font-family: var(--font-display); font-size: 23px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .brand-sub { font-size: 12px; color: var(--paper-faint); margin: 0 0 34px; line-height: 1.45; }
 
-  .brand-mark {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    background: var(--leaf);
-    flex-shrink: 0;
-  }
-
-  .brand-name {
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  .brand-sub {
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-bottom: 36px;
-    padding-left: 18px;
-  }
-
-  .nav {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .nav { display: flex; flex-direction: column; gap: 3px; }
 
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 12px;
+    position: relative; display: flex; align-items: center; gap: 12px;
+    padding: 11px 12px 11px 15px; border: none; background: transparent;
+    color: var(--paper-dim); font-size: 14.5px; font-weight: 500; text-align: left;
     border-radius: var(--radius-sm);
-    border: none;
-    background: transparent;
-    color: var(--paper-dim);
-    font-size: 14px;
-    font-weight: 500;
-    text-align: left;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background .15s ease, color .15s ease;
   }
-
+  .nav-item::before {
+    content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 2px; border-radius: 2px;
+    background: transparent; transition: background .15s ease;
+  }
   .nav-item:hover { background: var(--surface); color: var(--paper); }
+  .nav-item.active { background: var(--surface); color: var(--paper); }
+  .nav-item.active::before { background: var(--gold); }
+  .nav-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--paper-faint); transition: color .15s ease; }
+  .nav-item:hover .nav-icon { color: var(--paper-dim); }
+  .nav-item.active .nav-icon { color: var(--gold); }
 
-  .nav-item.active {
-    background: var(--surface-raised);
-    color: var(--paper);
-  }
+  .rail-facts { margin-top: 34px; padding-top: 24px; border-top: 1px solid var(--border-soft); display: flex; flex-direction: column; gap: 16px; }
+  .rail-facts-label { font-size: 12px; color: var(--paper-dim); font-weight: 600; }
+  .fact-row { display: flex; gap: 10px; align-items: flex-start; }
+  .fact-icon { width: 15px; height: 15px; flex-shrink: 0; margin-top: 2px; color: var(--leaf-dim); }
+  .fact-text { font-size: 12px; color: var(--paper-faint); line-height: 1.5; }
+  .fact-text b { color: var(--paper-dim); font-weight: 500; }
 
-  .nav-item.active .nav-dot { background: var(--gold); }
-
-  .nav-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--border);
-    flex-shrink: 0;
-    transition: background 0.15s ease;
-  }
-
-  .rail-footer {
-    margin-top: auto;
-    padding-top: 20px;
-  }
-
-  .status-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--paper-faint);
-    padding: 8px 12px;
-  }
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--paper-faint);
-    flex-shrink: 0;
-  }
-
+  .rail-footer { margin-top: auto; padding-top: 20px; }
+  .status-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--paper-faint); padding: 8px 0; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--paper-faint); flex-shrink: 0; }
   .status-dot.ok { background: var(--leaf); }
   .status-dot.down { background: var(--clay); }
+  .rail-note { font-size: 11px; color: var(--paper-faint); line-height: 1.5; }
 
-  .rail-note {
-    font-size: 11px;
-    color: var(--paper-faint);
-    padding: 0 12px;
-    line-height: 1.5;
-  }
+  /* ---------- Main + view heads ---------- */
 
-  .main {
-    padding: 40px 48px 80px;
-    max-width: 980px;
-  }
+  .main { width: min(100%, 1160px); margin: 0 auto; padding: 60px 56px 100px; }
 
   .view { display: none; }
-  .view.active { display: block; animation: rise 0.4s ease; }
+  .view.active { display: block; animation: rise .35s var(--ease); }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .view.active { animation: none; }
-    * { transition-duration: 0.01ms !important; }
-  }
-
-  .view-head { margin-bottom: 32px; }
-
+  .view-head { margin-bottom: 40px; }
   .view-title {
-    font-family: var(--font-display);
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin-bottom: 8px;
+    font-family: var(--font-display); font-size: clamp(36px, 3.8vw, 50px); font-weight: 500;
+    letter-spacing: -0.028em; line-height: 1.04; margin-bottom: 14px;
   }
-
-  .view-desc {
-    font-size: 14px;
-    color: var(--paper-dim);
-    max-width: 56ch;
-    line-height: 1.6;
-  }
+  .view-desc { font-size: 15px; color: var(--paper-dim); max-width: 60ch; line-height: 1.65; }
 
   /* ---------- Form controls ---------- */
 
-  .field-row {
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
+  .field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .field label, .crop-select-row label { font-size: 12.5px; color: var(--paper-dim); font-weight: 500; }
+  .field-help { font-size: 12px; color: var(--paper-faint); line-height: 1.5; }
+  [hidden] { display: none !important; }
+  .density-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+  .seg-btn { height: 28px; padding: 0 11px; background: transparent; border: none; border-left: 1px solid var(--border); color: var(--paper-faint); font-size: 12px; font-weight: 500; transition: color .15s ease, background .15s ease; }
+  .seg-btn:first-child { border-left: none; }
+  .seg-btn:hover { color: var(--paper); }
+  .seg-btn.active { background: var(--surface-raised); color: var(--gold); }
+  .spacing-row { display: flex; align-items: center; gap: 8px; }
+  .spacing-row input { width: 84px; flex: 0 0 84px; }
+  .spacing-row span { font-size: 13px; color: var(--paper-dim); white-space: nowrap; }
+  .density-readout { font-family: var(--font-mono); font-size: 12.5px; color: var(--teal); line-height: 1.5; }
+  .density-readout:empty { display: none; }
+  .density-readout.warn { color: var(--gold); }
+  .unit-note { font-size: 12.5px; color: var(--paper-faint); margin-top: 16px; line-height: 1.6; max-width: 70ch; }
+  .unit-line { margin-top: 8px; }
+  .control-extra { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border-soft); }
+  .extra-copy, .extra-controls { padding: 20px 26px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .extra-copy label { font-size: 12.5px; color: var(--paper-dim); font-weight: 500; }
+  .extra-controls { border-left: 1px solid var(--border-soft); }
+  .extra-controls .seg { align-self: flex-start; }
+  .glance-pp { font-size: 12.5px; color: var(--paper-dim); margin-top: -4px; }
+  .glance-pp b { font-family: var(--font-mono); font-weight: 600; color: var(--teal); }
+  .per-plant { color: var(--paper); font-size: 15px; }
+  .per-plant b { color: var(--teal); font-family: var(--font-mono); font-weight: 600; }
+  .now-bar { margin-top: 28px; padding: 18px 0 8px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; }
+  .now-date { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--paper-dim); }
+  .now-bar .now-date input[type="date"] { width: auto; height: 34px; padding: 0 10px; }
+  .now-row { display: flex; gap: 18px; align-items: baseline; font-size: 13.5px; line-height: 1.6; }
+  .now-label { width: 270px; flex-shrink: 0; display: flex; align-items: center; gap: 9px; color: var(--paper); font-weight: 500; }
+  .now-names { color: var(--paper-dim); }
+  .now-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--paper-faint); flex-shrink: 0; }
+  .now-dot.good { background: var(--leaf); } .now-dot.possible { background: var(--gold); }
+  .now-line { display: flex; align-items: flex-start; gap: 9px; font-size: 12.5px; color: var(--paper-dim); margin-top: 9px; line-height: 1.5; }
+  .now-line .now-dot { margin-top: 5px; }
+  .now-line b { color: var(--paper); font-weight: 600; }
+  .now-detail { margin: 0 0 20px; }
+  .now-detail .table-scroll { max-width: 560px; }
+  .now-detail .stage-table td.name { text-transform: none; }
+  .now-detail .stage-table td:not(.name), .now-detail .stage-table th:not(:first-child) { text-align: right; padding-right: 18px; }
+  .field label span { color: var(--paper-faint); font-weight: 400; margin-left: 4px; }
+  #planResult > .uncertainty-note:first-child, #trackResult > .uncertainty-note:first-child { margin-top: 36px; }
+  #planResult > .empty-hint, #trackResult > .empty-hint { margin-top: 32px; }
+
+  select, input[type="date"], input[type="number"], input[type="text"] {
+    height: 42px; width: 100%;
+    background-color: var(--ink); border: 1px solid var(--border); color: var(--paper);
+    padding: 0 12px; border-radius: var(--radius-sm); font-size: 14px;
+    transition: border-color .15s ease;
   }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  select {
+    appearance: none; -webkit-appearance: none; padding-right: 36px; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%238B9690' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 11px center; background-size: 16px;
   }
+  select:hover, input:hover { border-color: var(--gold-dim); }
+  select:focus, input:focus { border-color: var(--gold); outline: none; }
+  input::placeholder { color: var(--paper-faint); opacity: .75; }
 
-  .field label {
-    font-size: 12px;
-    color: var(--paper-faint);
-    font-weight: 500;
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 42px; padding: 0 22px;
+    background: var(--gold); color: var(--ink-deep); border: none; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 600;
+    transition: background .15s ease, transform .1s ease;
   }
+  .btn:hover { background: #E2B363; }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { background: var(--border); color: var(--paper-faint); cursor: not-allowed; }
 
-  .field select,
-  .field input[type="date"] {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--paper);
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    min-width: 180px;
+  .btn-quiet {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    height: 42px; padding: 0 15px; white-space: nowrap;
+    background: transparent; color: var(--paper-dim); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+    transition: border-color .15s ease, color .15s ease;
   }
+  .btn-quiet svg { width: 14px; height: 14px; }
+  .btn-quiet:hover { border-color: var(--gold-dim); color: var(--paper); }
 
-  .field select:hover,
-    .search-row {
-    display: flex;
-    gap: 8px;
+  .control-panel {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
   }
-
-  .search-row input {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--paper);
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    min-width: 200px;
+  .control-col { padding: 24px 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .control-col + .control-col { border-left: 1px solid var(--border-soft); }
+  .col-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .control-foot {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    padding: 16px 26px; border-top: 1px solid var(--border-soft);
   }
+  .control-foot span { font-size: 12.5px; color: var(--paper-faint); }
 
-  .search-row input:hover { border-color: var(--gold-dim); }
-
-  .field input[type="number"] {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--paper);
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    width: 150px;
-  }
-
-  .field input[type="number"]:hover { border-color: var(--gold-dim); }
-
-  .search-results {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
+  .search-row { display: flex; gap: 8px; }
+  .search-row input { flex: 1; min-width: 0; }
+  .search-results { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
   .search-result-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 8px 12px;
-    font-size: 13px;
-    cursor: pointer;
-    text-align: left;
+    background: var(--ink); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 9px 12px; font-size: 13px; cursor: pointer; text-align: left;
   }
-
   .search-result-item:hover { border-color: var(--gold); background: var(--surface-raised); }
   .search-result-item .region { color: var(--paper-faint); font-size: 12px; margin-left: 6px; }
 
   .location-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(212, 162, 76, 0.12);
-    border: 1px solid rgba(212, 162, 76, 0.35);
-    border-radius: 20px;
-    padding: 6px 8px 6px 14px;
-    font-size: 13px;
-    margin-top: 8px;
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+    background: rgba(212, 162, 76, .12); border: 1px solid rgba(212, 162, 76, .35);
+    border-radius: 20px; padding: 6px 8px 6px 12px; font-size: 13px;
   }
-
-  .location-chip button {
-    background: none;
-    border: none;
-    color: var(--paper-faint);
-    cursor: pointer;
-    font-size: 15px;
-    line-height: 1;
-    padding: 2px 6px;
-  }
-
+  .location-chip .icon-pin { width: 13px; height: 13px; color: var(--gold); flex-shrink: 0; }
+  .location-chip button { background: none; border: none; color: var(--paper-faint); line-height: 1; padding: 2px 4px; display: flex; }
+  .location-chip button svg { width: 12px; height: 12px; }
   .location-chip button:hover { color: var(--clay); }
 
   .uncertainty-note {
-    font-size: 12px;
-    color: var(--gold);
-    background: rgba(212, 162, 76, 0.08);
-    border: 1px solid rgba(212, 162, 76, 0.25);
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    margin-bottom: 16px;
-    line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 12.5px; color: var(--gold); line-height: 1.55;
+    background: rgba(212, 162, 76, .08); border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 11px 16px; margin-bottom: 22px;
   }
-  .field input[type="date"]:hover {
-    border-color: var(--gold-dim);
-  }
+  .uncertainty-note svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
 
-  .btn {
-    background: var(--gold);
-    color: var(--ink-deep);
-    border: none;
-    padding: 11px 20px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-weight: 600;
-    transition: background 0.15s ease, transform 0.1s ease;
-  }
+  /* ---------- Scan ---------- */
 
-  .btn:hover { background: #E0B063; }
-  .btn:active { transform: scale(0.98); }
-  .btn:disabled { background: var(--border); color: var(--paper-faint); cursor: not-allowed; }
-
-  .btn-quiet {
-    background: transparent;
-    color: var(--paper-dim);
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    font-size: 13px;
-    font-weight: 500;
-  }
-
-  .btn-quiet:hover { border-color: var(--gold-dim); color: var(--paper); }
-
-  /* ---------- Scanner ---------- */
+  .scan-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 44px; align-items: start; }
 
   .dropzone {
-    border: 1.5px dashed var(--border);
-    border-radius: var(--radius-md);
-    padding: 48px 32px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease;
-    background: var(--surface);
+    --c: var(--paper-faint);
+    position: relative; min-height: 340px; padding: 36px 28px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    cursor: pointer; border-radius: var(--radius-md); background-color: var(--surface);
+    background-image:
+      linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+      linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+      linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c)),
+      linear-gradient(var(--c), var(--c)), linear-gradient(var(--c), var(--c));
+    background-repeat: no-repeat;
+    background-position:
+      left 14px top 14px, left 14px top 14px,
+      right 14px top 14px, right 14px top 14px,
+      left 14px bottom 14px, left 14px bottom 14px,
+      right 14px bottom 14px, right 14px bottom 14px;
+    background-size: 26px 2px, 2px 26px, 26px 2px, 2px 26px, 26px 2px, 2px 26px, 26px 2px, 2px 26px;
+    transition: background-size .25s var(--ease), background-color .15s ease;
   }
-
   .dropzone:hover, .dropzone.drag {
-    border-color: var(--leaf);
-    background: var(--surface-raised);
+    --c: var(--leaf); background-color: var(--surface-raised);
+    background-size: 44px 2px, 2px 44px, 44px 2px, 2px 44px, 44px 2px, 2px 44px, 44px 2px, 2px 44px;
   }
-
-  .dropzone-icon {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto 16px;
-    border: 1.5px solid var(--paper-faint);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .dropzone-title {
-    font-family: var(--font-display);
-    font-size: 17px;
-    margin-bottom: 6px;
-  }
-
-  .dropzone-hint {
-    font-size: 13px;
-    color: var(--paper-faint);
-  }
-
+  .dz-leaf { width: 78px; height: 104px; color: var(--leaf-dim); opacity: .6; margin-bottom: 22px; transition: opacity .2s ease, color .2s ease; }
+  .dropzone:hover .dz-leaf, .dropzone.drag .dz-leaf { opacity: 1; color: var(--leaf); }
+  .dropzone-title { font-family: var(--font-display); font-size: 21px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 8px; max-width: 18ch; line-height: 1.25; }
+  .dropzone-hint { font-size: 13px; color: var(--paper-faint); max-width: 30ch; line-height: 1.5; }
   #fileInput { display: none; }
 
-  .preview-row {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-top: 20px;
-  }
+  .scan-input:has(.preview-row) .dropzone { min-height: 96px; padding: 20px 44px; }
+  .scan-input:has(.preview-row) .dz-leaf { display: none; }
+  .scan-input:has(.preview-row) .dropzone-title { font-size: 16px; margin: 0; max-width: none; }
+  .scan-input:has(.preview-row) .dropzone-hint { display: none; }
 
-  .preview-thumb {
-    width: 96px;
-    height: 96px;
-    border-radius: var(--radius-sm);
-    object-fit: cover;
-    border: 1px solid var(--border);
-  }
+  .crop-select-row { margin-top: 20px; display: flex; flex-direction: column; gap: 7px; }
+  .crop-select-row label span { color: var(--paper-faint); font-weight: 400; margin-left: 6px; }
 
-  .preview-meta { flex: 1; }
-  .preview-name { font-size: 14px; margin-bottom: 8px; }
+  .preview-row { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .preview-thumb { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border); }
+  .preview-meta { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  .preview-name { font-size: 13px; color: var(--paper-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 0; min-width: 0; }
 
-  .result-card {
-    margin-top: 28px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
+  .scan-placeholder {
+    display: flex; flex-direction: column; justify-content: center; gap: 32px; min-height: 340px; padding: 34px 30px;
+    border: 1px dashed var(--border-strong); border-radius: var(--radius-md);
   }
+  .ph-top { display: flex; align-items: center; gap: 26px; }
+  .ph-bars i { display: block; height: 6px; border-radius: 3px; background: var(--border-soft); margin-bottom: 14px; }
+  .ph-bars i:nth-child(1) { width: 100%; } .ph-bars i:nth-child(2) { width: 58%; }
+  .ph-bars i:nth-child(3) { width: 34%; } .ph-bars i:nth-child(4) { width: 18%; margin-bottom: 0; }
+  #scanResult:not(:empty) + .scan-placeholder { display: none; }
+  .ph-ring { width: 96px; height: 96px; border-radius: 50%; border: 2px dashed var(--border-strong); flex-shrink: 0; }
+  .ph-title { font-family: var(--font-display); font-size: 21px; font-weight: 500; margin-bottom: 6px; }
+  .ph-copy p { font-size: 13.5px; color: var(--paper-faint); line-height: 1.6; max-width: 46ch; }
 
-  .result-hero {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    padding: 28px;
-    border-bottom: 1px solid var(--border-soft);
-  }
+  @property --sweep { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  @keyframes sweep { from { --sweep: 0deg; } to { --sweep: var(--deg); } }
+  @keyframes grow { from { transform: scaleX(0); } }
+
+  .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+  .result-hero { display: flex; align-items: center; gap: 28px; padding: 30px; border-bottom: 1px solid var(--border-soft); }
 
   .conf-ring {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    --ring: var(--gold);
+    position: relative; width: 116px; height: 116px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: conic-gradient(var(--ring) var(--sweep, var(--deg)), var(--border-soft) 0);
+    animation: sweep 1.1s var(--ease) .1s both;
   }
+  .result-card.is-rejected .conf-ring { --ring: var(--clay); }
+  .conf-ring::before { content: ''; position: absolute; inset: 8px; border-radius: 50%; background: var(--surface); }
+  .conf-ring-value { position: relative; font-family: var(--font-display); font-size: 34px; font-weight: 500; letter-spacing: -0.02em; }
+  .conf-ring-value small { font-size: 16px; color: var(--paper-faint); margin-left: 1px; }
 
-  .conf-ring::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border-radius: 50%;
-    background: var(--surface);
-  }
+  .result-crop { font-family: var(--font-display); font-size: clamp(30px, 3vw, 40px); font-weight: 500; letter-spacing: -0.028em; line-height: 1.05; margin-bottom: 8px; }
+  .result-condition { font-size: 17px; color: var(--paper-dim); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-  .conf-ring-value {
-    position: relative;
-    font-family: var(--font-mono);
-    font-size: 17px;
-    font-weight: 600;
-  }
-
-  .result-crop {
-    font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .result-condition {
-    font-size: 15px;
-    color: var(--paper-dim);
-  }
-
-  .result-band {
-    padding: 14px 28px;
-    background: var(--surface-raised);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-  }
-
-  .result-band.rejected { background: rgba(196, 84, 75, 0.12); }
-  .result-band.accepted { background: rgba(127, 176, 105, 0.12); }
-
-  .band-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    flex-shrink: 0;
-  }
-
+  .result-band { padding: 13px 30px; background: var(--surface-raised); display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
+  .result-band.rejected { background: rgba(196, 84, 75, .13); }
+  .result-band.accepted { background: rgba(127, 176, 105, .12); }
+  .band-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .result-band.rejected .band-dot { background: var(--clay); }
   .result-band.accepted .band-dot { background: var(--leaf); }
 
-  .altlist { padding: 18px 28px 24px; }
+  .altlist { padding: 22px 30px 28px; }
+  .altlist-title { font-size: 12.5px; color: var(--paper-dim); margin-bottom: 14px; font-weight: 600; }
+  .care-note { padding: 20px 30px; background: rgba(74, 143, 163, .07); border-left: 3px solid var(--teal); border-bottom: 1px solid var(--border-soft); }
+  .care-note p { font-size: 14px; color: var(--paper-dim); line-height: 1.65; margin-top: 6px; }
 
-  .altlist-title {
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-bottom: 12px;
-    font-weight: 500;
-  }
+  .alt-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; font-size: 13px; }
+  .alt-row:last-child { margin-bottom: 0; }
+  .alt-label { width: 200px; flex-shrink: 0; color: var(--paper-dim); }
+  .alt-bar-track { flex: 1; height: 6px; background: var(--border-soft); border-radius: 3px; overflow: hidden; }
+  .alt-bar-fill { height: 100%; background: var(--gold-dim); border-radius: 3px; transform-origin: left; animation: grow .8s var(--ease) .25s both; }
+  .alt-row:first-child .alt-bar-fill { background: var(--gold); }
+  .alt-pct { font-family: var(--font-mono); font-size: 12px; color: var(--paper-faint); width: 46px; text-align: right; flex-shrink: 0; }
 
-  .care-note {
-    padding: 16px 28px;
-    background: rgba(74, 143, 163, 0.08);
-    border-top: 1px solid var(--border-soft);
-    border-bottom: 1px solid var(--border-soft);
-  }
+  .retake-tips { padding: 22px 30px 4px; }
+  .retake-tips ul { list-style: none; margin-top: 4px; }
+  .retake-tips li { font-size: 13.5px; color: var(--paper-dim); padding-left: 18px; position: relative; margin-bottom: 7px; }
+  .retake-tips li::before { content: ''; position: absolute; left: 0; top: .6em; width: 8px; height: 2px; background: var(--gold-dim); }
 
-  .care-note p {
-    font-size: 13px;
-    color: var(--paper-dim);
-    line-height: 1.6;
-    margin-top: 6px;
-  }
+  /* ---------- Plan ---------- */
 
-  .alt-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    font-size: 13px;
-  }
+  .site-strip { display: flex; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 40px; }
+  .site-cell { padding: 18px 40px 18px 0; margin-right: 40px; border-right: 1px solid var(--border-soft); }
+  .site-cell:last-child { border-right: none; }
+  .site-label { font-size: 12px; color: var(--paper-faint); margin-bottom: 4px; }
+  .site-value { font-family: var(--font-mono); font-size: 21px; font-weight: 500; letter-spacing: -0.01em; }
+  .site-value small { font-family: var(--font-ui); font-size: 12.5px; color: var(--paper-faint); margin-left: 8px; font-weight: 400; letter-spacing: 0; }
 
-  .alt-label { width: 220px; flex-shrink: 0; color: var(--paper-dim); }
-
-  .alt-bar-track {
-    flex: 1;
-    height: 6px;
-    background: var(--border-soft);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .alt-bar-fill {
-    height: 100%;
-    background: var(--gold-dim);
-    border-radius: 3px;
-  }
-
-  .alt-pct {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--paper-faint);
-    width: 44px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .retake-tips {
-    padding: 0 28px 24px;
-  }
-
-  .retake-tips ul {
-    list-style: none;
-    margin-top: 10px;
-  }
-
-  .retake-tips li {
-    font-size: 13px;
-    color: var(--paper-dim);
-    padding-left: 16px;
-    position: relative;
-    margin-bottom: 5px;
-  }
-
-  .retake-tips li::before {
-    content: '–';
-    position: absolute;
-    left: 0;
-    color: var(--paper-faint);
-  }
-
-  /* ---------- Cards (advisor / tracker) ---------- */
-
-  .stat-chips {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
-
-  .chip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 8px 14px;
-    font-size: 13px;
-    color: var(--paper-dim);
-  }
-
-  .chip strong { color: var(--paper); font-weight: 600; }
-
-  .section-label {
-    font-size: 12px;
-    color: var(--paper-faint);
-    font-weight: 600;
-    margin: 32px 0 14px;
-  }
-
+  .section-label { font-size: 13px; color: var(--paper-dim); font-weight: 500; line-height: 1.5; margin: 44px 0 0; padding-bottom: 12px; border-bottom: 1px solid var(--border); max-width: 100%; }
   .section-label:first-child { margin-top: 0; }
 
-  .crop-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    margin-bottom: 12px;
-    overflow: hidden;
-  }
-
+  .crop-card { border-bottom: 1px solid var(--border-soft); transition: background .15s ease; }
+  .crop-card.open { background: var(--surface); }
   .crop-card-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(210px, 1fr) 20px; align-items: center; gap: 28px;
+    padding: 20px 16px; cursor: pointer; transition: background .15s ease;
   }
+  .crop-card-head:hover { background: var(--surface-hover); }
+  .crop-card.is-static .crop-card-head { grid-template-columns: 1fr; cursor: default; }
+  .crop-card.is-static .crop-card-head:hover { background: transparent; }
+  .crop-title-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; row-gap: 6px; }
+  .crop-name { font-family: var(--font-display); font-size: 24px; font-weight: 500; letter-spacing: -0.02em; }
+  .crop-dates { font-size: 12.5px; color: var(--paper-dim); margin-top: 6px; font-family: var(--font-mono); }
+  .crop-dates .arrow { color: var(--paper-faint); margin: 0 7px; font-family: var(--font-ui); }
 
-  .crop-card-head:hover { background: var(--surface-raised); }
+  .crop-glance { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .glance-water { display: flex; align-items: baseline; gap: 6px; }
+  .glance-water b { font-family: var(--font-mono); font-size: 20px; font-weight: 500; color: var(--teal); }
+  .glance-water span { font-size: 12px; color: var(--paper-faint); }
+  .water-meter { flex: 1; height: 3px; background: var(--border-soft); border-radius: 2px; margin-left: 10px; align-self: center; overflow: hidden; }
+  .water-meter i { display: block; height: 100%; background: var(--teal); border-radius: 2px; }
 
-  .crop-title-row {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
+  .mini-horizon { display: flex; gap: 2px; height: 8px; }
+  .mini-horizon i { display: block; height: 100%; background: var(--leaf-dim); border-radius: 1px; min-width: 3px; }
+  .mini-horizon i.s0 { background: var(--sand); }
+  .mini-horizon i.s1 { background: var(--gold); }
+  .mini-horizon i.s2 { background: var(--leaf); }
+  .mini-horizon i.s3 { background: var(--leaf-dim); }
 
-  .crop-name {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 600;
-  }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .badge.good { background: rgba(127, 176, 105, .18); color: var(--leaf); }
+  .badge.warn { background: rgba(212, 162, 76, .18); color: var(--gold); }
+  .badge.info { background: rgba(74, 143, 163, .18); color: var(--teal); }
 
-  .badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 9px;
-    border-radius: 20px;
-  }
+  .chevron { width: 16px; height: 16px; color: var(--paper-faint); transition: transform .2s var(--ease); flex-shrink: 0; }
+  .crop-card.open .chevron { transform: rotate(180deg); color: var(--gold); }
 
-  .badge.good { background: rgba(127, 176, 105, 0.18); color: var(--leaf); }
-  .badge.warn { background: rgba(212, 162, 76, 0.18); color: var(--gold); }
-  .badge.info { background: rgba(74, 143, 163, 0.18); color: var(--teal); }
+  .crop-card-body { display: none; padding: 4px 16px 28px; border-top: 1px solid var(--border-soft); }
+  .crop-card.open .crop-card-body { display: block; padding-top: 22px; }
+  .crop-card-body svg text { font-family: var(--font-mono); }
+  .basis-line { font-size: 12.5px; color: var(--paper-faint); margin-bottom: 18px; line-height: 1.6; }
+  .not-viable { padding: 16px 0; font-size: 13px; color: var(--paper-dim); }
 
-  .crop-dates { font-size: 13px; color: var(--paper-dim); margin-top: 4px; }
-  .crop-dates .arrow { color: var(--paper-faint); margin: 0 6px; }
-
-  .chevron {
-    font-size: 18px;
-    color: var(--paper-faint);
-    transition: transform 0.15s ease;
-    flex-shrink: 0;
-  }
-
-  .crop-card.open .chevron { transform: rotate(180deg); }
-
-  .crop-card-body {
-    display: none;
-    padding: 0 20px 20px;
-    border-top: 1px solid var(--border-soft);
-  }
-
-  .crop-card.open .crop-card-body { display: block; padding-top: 16px; }
-
-  .basis-line {
-    font-size: 12.5px;
-    color: var(--paper-faint);
-    margin-bottom: 16px;
-    line-height: 1.5;
-  }
-
-  .not-viable {
-    padding: 16px 0;
-    font-size: 13px;
-    color: var(--paper-dim);
-  }
-
-  /* Soil-horizon stage bar */
-
-  .horizon {
-    display: flex;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    margin-bottom: 14px;
-  }
-
+  .horizon { display: flex; gap: 2px; height: 36px; margin-bottom: 14px; }
   .horizon-seg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 600;
-    color: var(--ink-deep);
-    letter-spacing: 0.02em;
-    min-width: 28px;
+    display: flex; align-items: center; justify-content: center; border-radius: 2px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--ink-deep); min-width: 30px;
+    transition: opacity .2s ease;
   }
-
-  .horizon-seg.s0 { background: #E7D5A8; }
+  .horizon-seg.s0 { background: var(--sand); }
   .horizon-seg.s1 { background: var(--gold); }
   .horizon-seg.s2 { background: var(--leaf); }
   .horizon-seg.s3 { background: var(--leaf-dim); color: var(--paper); }
-
-  .horizon-seg.dim { opacity: 0.35; }
+  .horizon-seg.dim { opacity: .3; }
   .horizon-seg.current { outline: 2px solid var(--paper); outline-offset: -2px; }
 
-  .stage-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12.5px;
-  }
+  .table-scroll { overflow-x: auto; }
+  .nw { white-space: nowrap; }
+  .stage-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .stage-table th { text-align: left; font-weight: 500; color: var(--paper-faint); padding: 7px 10px 7px 0; font-size: 11.5px; border-bottom: 1px solid var(--border); }
+  .stage-table td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--border-soft); font-family: var(--font-mono); color: var(--paper-dim); }
+  .stage-table tr:last-child td { border-bottom: none; }
+  .stage-table td.name { font-family: var(--font-ui); color: var(--paper); text-transform: capitalize; }
 
-  .stage-table th {
-    text-align: left;
-    font-weight: 500;
-    color: var(--paper-faint);
-    padding: 6px 10px 6px 0;
-    font-size: 11px;
-    border-bottom: 1px solid var(--border-soft);
-  }
-
-  .stage-table td {
-    padding: 8px 10px 8px 0;
-    border-bottom: 1px solid var(--border-soft);
-    font-family: var(--font-mono);
-    color: var(--paper-dim);
-  }
-
-  .stage-table td.name { font-family: var(--font-ui); color: var(--paper); }
-
-  .summary-line {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-    font-size: 12.5px;
-    color: var(--paper-dim);
-  }
-
+  .summary-line { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 18px; font-size: 12.5px; color: var(--paper-dim); }
   .summary-line b { color: var(--teal); font-weight: 600; font-family: var(--font-mono); }
+  .disclaimer { font-size: 12px; color: var(--paper-faint); margin-top: 14px; line-height: 1.55; padding-top: 12px; border-top: 1px solid var(--border-soft); }
+  .unresolved-note { font-size: 13px; color: var(--paper-faint); padding: 14px 0; }
 
-  .disclaimer {
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-top: 14px;
-    line-height: 1.5;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-soft);
+  /* ---------- Track ---------- */
+
+  .stage-hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 30px 32px 26px; margin: 40px 0 0; }
+  .stage-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+  .stage-hero-label { font-size: 12.5px; color: var(--paper-faint); margin-bottom: 8px; }
+  .stage-hero-name { font-family: var(--font-display); font-size: clamp(34px, 4vw, 52px); font-weight: 500; letter-spacing: -0.03em; line-height: 1; text-transform: capitalize; }
+  .season-counter { text-align: right; flex-shrink: 0; }
+  .season-counter b { display: block; font-family: var(--font-display); font-size: clamp(34px, 4vw, 52px); font-weight: 500; letter-spacing: -0.03em; line-height: 1; color: var(--gold); }
+  .season-counter span { font-size: 12.5px; color: var(--paper-faint); }
+
+  .timeline { position: relative; padding-top: 30px; }
+  .today-marker {
+    position: absolute; top: 0; bottom: -7px; width: 0; border-left: 2px solid var(--paper); z-index: 2;
+    animation: slide 1s var(--ease) .15s both;
   }
-
-  .unresolved-note {
-    font-size: 13px;
-    color: var(--paper-faint);
-    padding: 12px 0;
+  @keyframes slide { from { left: 0; } }
+  .today-marker span {
+    position: absolute; top: 0; left: 0; transform: translate(-50%, 0);
+    background: var(--paper); color: var(--ink-deep); font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 3px; white-space: nowrap;
   }
+  .timeline .horizon { margin-bottom: 18px; }
 
-  /* ---------- Tracker specific ---------- */
+  .stage-hero-label + .stage-hero-name { margin-bottom: 0; }
+  .stage-hero > .stage-hero-label + .stage-hero-name { margin-bottom: 18px; }
+  .progress-line { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 20px; font-size: 12.5px; color: var(--paper-faint); margin-top: 8px; }
+  .progress-line b { color: var(--paper); font-family: var(--font-mono); font-weight: 500; }
 
-  .track-result { margin-top: 8px; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); margin: 36px 0 0; }
+  .info-card { padding: 26px 32px 26px 0; }
+  .info-card + .info-card { padding-left: 32px; padding-right: 0; border-left: 1px solid var(--border-soft); }
+  .info-card-label { font-size: 12.5px; color: var(--paper-faint); margin-bottom: 12px; font-weight: 500; }
+  .info-card-value { font-family: var(--font-display); font-size: clamp(44px, 5vw, 64px); font-weight: 500; letter-spacing: -0.035em; line-height: 1; color: var(--teal); }
+  .info-card-unit { font-family: var(--font-ui); font-size: 15px; color: var(--paper-faint); margin-left: 10px; letter-spacing: 0; font-weight: 400; }
+  .info-card-sub { font-size: 13px; color: var(--paper-faint); margin-top: 12px; line-height: 1.6; }
 
-  .stage-hero {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 24px;
-    margin-bottom: 20px;
-  }
+  .forecast-row { display: flex; overflow-x: auto; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 10px; scroll-snap-type: x proximity; }
+  .forecast-day { flex: 1 0 138px; padding: 18px 18px; border-left: 1px solid var(--border-soft); scroll-snap-align: start; }
+  .forecast-day:first-child { border-left: none; padding-left: 0; }
+  .forecast-date { font-family: var(--font-mono); font-size: 12px; color: var(--paper-faint); }
+  .trange { position: relative; height: 6px; background: var(--border-soft); border-radius: 3px; margin: 12px 0 12px; }
+  .trange i { position: absolute; top: 0; bottom: 0; border-radius: 3px; background: var(--gold); }
+  .forecast-temps { font-family: var(--font-mono); font-size: 19px; font-weight: 500; margin-bottom: 6px; }
+  .forecast-temps .lo { color: var(--paper-faint); font-size: 15px; margin-left: 4px; }
+  .forecast-hum { font-size: 12px; color: var(--teal); margin-bottom: 3px; }
+  .forecast-summary { font-size: 12px; color: var(--paper-dim); min-height: 1.5em; }
+  .fd-water { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-soft); font-family: var(--font-mono); font-size: 12px; color: var(--teal); }
+  .fd-typical { font-size: 11px; color: var(--paper-faint); margin-top: 2px; }
 
-  .stage-hero-label {
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-bottom: 6px;
-  }
-
-  .stage-hero-name {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 18px;
-    text-transform: capitalize;
-  }
-
-  .progress-line {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-top: 8px;
-  }
-
-  .progress-line b { color: var(--paper-dim); font-family: var(--font-mono); font-weight: 500; }
-
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .info-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 16px 18px;
-  }
-
-  .info-card-label {
-    font-size: 11.5px;
-    color: var(--paper-faint);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .info-card-value {
-    font-family: var(--font-mono);
-    font-size: 20px;
-    color: var(--teal);
-    font-weight: 600;
-  }
-
-  .info-card-unit {
-    font-size: 12px;
-    color: var(--paper-faint);
-    font-family: var(--font-ui);
-    margin-left: 4px;
-  }
-
-  .info-card-sub {
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-top: 6px;
-    line-height: 1.5;
-  }
-
-  .forecast-row {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    margin-bottom: 20px;
-  }
-
-  .forecast-day {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 14px;
-    min-width: 108px;
-    flex-shrink: 0;
-  }
-
-  .forecast-date { font-size: 11px; color: var(--paper-faint); margin-bottom: 8px; }
-  .forecast-temps { font-family: var(--font-mono); font-size: 15px; margin-bottom: 4px; }
-  .forecast-temps .lo { color: var(--paper-faint); }
-  .forecast-hum { font-size: 11px; color: var(--teal); margin-bottom: 4px; }
-  .forecast-summary { font-size: 11px; color: var(--paper-dim); }
+  .chip { display: inline-block; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12.5px; color: var(--paper-dim); }
 
   .alert-card {
-    border-radius: var(--radius-md);
-    padding: 16px 18px;
-    margin-bottom: 10px;
-    border: 1px solid;
-    font-size: 13px;
-    line-height: 1.6;
+    display: flex; gap: 14px; padding: 16px 20px; margin-bottom: 10px;
+    font-size: 14px; line-height: 1.6; border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   }
+  .alert-card svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px; }
+  .alert-card.warning { background: rgba(212, 162, 76, .09); color: var(--paper); }
+  .alert-card.warning svg { color: var(--gold); }
+  .alert-type { font-weight: 600; color: var(--gold); margin-bottom: 3px; text-transform: capitalize; }
+  .no-alerts { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--leaf); padding: 6px 0 14px; }
+  .no-alerts svg { width: 14px; height: 14px; }
 
-  .alert-card.warning {
-    background: rgba(212, 162, 76, 0.1);
-    border-color: rgba(212, 162, 76, 0.35);
-    color: var(--paper);
-  }
-
-  .alert-type {
-    font-weight: 600;
-    color: var(--gold);
-    margin-bottom: 4px;
-    text-transform: capitalize;
-  }
-
-  .no-alerts {
-    font-size: 13px;
-    color: var(--leaf);
-    padding: 4px 0 16px;
-  }
-
-  details.limitations {
-    margin-top: 24px;
-    border-top: 1px solid var(--border-soft);
-    padding-top: 14px;
-  }
-
-  details.limitations summary {
-    cursor: pointer;
-    font-size: 12.5px;
-    color: var(--paper-faint);
-    font-weight: 500;
-    list-style: none;
-  }
-
+  details.limitations { margin-top: 30px; border-top: 1px solid var(--border-soft); padding-top: 14px; }
+  details.limitations summary { cursor: pointer; font-size: 12.5px; color: var(--paper-faint); font-weight: 500; list-style: none; }
   details.limitations summary::-webkit-details-marker { display: none; }
+  details.limitations summary:hover { color: var(--paper-dim); }
+  details.limitations ul { margin-top: 12px; padding-left: 16px; }
+  details.limitations li { font-size: 12.5px; color: var(--paper-faint); margin-bottom: 7px; line-height: 1.55; }
 
-  details.limitations ul {
-    margin-top: 10px;
-    padding-left: 16px;
-  }
+  .empty-hint { font-size: 13.5px; color: var(--paper-faint); padding: 8px 0; }
+  .skeleton-rows { margin: 8px 0 20px; }
+  .skeleton-rows i { display: block; height: 62px; border-bottom: 1px dashed var(--border-strong); position: relative; }
+  .skeleton-rows i::before, .skeleton-rows i::after { content: ''; position: absolute; top: 22px; height: 8px; border-radius: 2px; background: var(--border-soft); }
+  .skeleton-rows i::before { left: 16px; width: 150px; }
+  .skeleton-rows i::after { left: 46%; width: 24%; }
 
-  details.limitations li {
-    font-size: 12px;
-    color: var(--paper-faint);
-    margin-bottom: 6px;
-    line-height: 1.5;
-  }
-
-  .empty-hint {
-    font-size: 13px;
-    color: var(--paper-faint);
-    padding: 20px 0;
-  }
-
-  .load-line {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--paper-dim);
-    padding: 16px 0;
-  }
-
-  .spinner {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    border-top-color: var(--gold);
-    animation: spin 0.7s linear infinite;
-  }
-
+  .load-line { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--paper-dim); padding: 16px 0; }
+  .spinner { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); border-top-color: var(--gold); animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .error-line {
-    background: rgba(196, 84, 75, 0.1);
-    border: 1px solid rgba(196, 84, 75, 0.35);
-    border-radius: var(--radius-md);
-    padding: 14px 18px;
-    font-size: 13px;
-    color: var(--paper);
-    margin: 16px 0;
+    display: flex; align-items: flex-start; gap: 10px; margin: 16px 0;
+    background: rgba(196, 84, 75, .1); border-left: 3px solid var(--clay);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 18px; font-size: 13px; line-height: 1.6;
   }
+  .error-line svg { width: 15px; height: 15px; flex-shrink: 0; margin-top: 3px; color: var(--clay); }
+  .error-line code { font-family: var(--font-mono); background: rgba(0, 0, 0, .25); padding: 1px 6px; border-radius: 3px; font-size: 12px; }
 
-  .error-line code {
-    font-family: var(--font-mono);
-    background: rgba(0,0,0,0.25);
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 12px;
+  @media (prefers-reduced-motion: reduce) {
+    .view.active, .conf-ring, .alt-bar-fill, .today-marker { animation: none; }
+    .conf-ring { --sweep: var(--deg); }
+    * { transition-duration: .01ms !important; }
   }
 
   /* ---------- Responsive ---------- */
 
-  @media (max-width: 820px) {
-    .shell { grid-template-columns: 1fr; }
+  @media (max-width: 1100px) {
+    .scan-grid { grid-template-columns: 1fr; gap: 32px; }
+    .main { padding: 48px 36px 90px; }
+  }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: minmax(0, 1fr); }
+    .scan-placeholder { min-height: 0; padding: 24px 20px; }
     .rail {
-      flex-direction: row;
-      align-items: center;
-      padding: 14px 16px;
-      border-right: none;
-      border-bottom: 1px solid var(--border-soft);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--ink-deep);
+      height: auto; flex-direction: row; align-items: center; justify-content: space-between;
+      padding: 12px 18px; border-right: none; border-bottom: 1px solid var(--border-soft); z-index: 20; overflow: visible;
     }
-    .brand-sub, .rail-footer { display: none; }
-    .brand { margin-bottom: 0; margin-right: 20px; }
-    .nav { flex-direction: row; }
-    .main { padding: 28px 20px 60px; }
-    .view-title { font-size: 26px; }
-    .alt-label { width: 140px; }
+    .brand { margin: 0; }
+    .brand-glyph { width: 26px; height: 26px; }
+    .brand-name { font-size: 20px; }
+    .brand-sub, .rail-facts, .rail-note { display: none; }
+    .rail-footer { margin: 0; padding: 0; }
+    .status-row { padding: 0; }
+    .nav {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; flex-direction: row; gap: 0;
+      background: var(--ink-deep); border-top: 1px solid var(--border-soft);
+      padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+    }
+    .nav-item { flex: 1; flex-direction: column; gap: 4px; padding: 9px 4px 7px; font-size: 11.5px; justify-content: center; }
+    .nav-item::before { display: none; }
+    .nav-item.active { background: transparent; }
+    .nav-item.active::after { content: ''; position: absolute; top: -7px; left: 28%; right: 28%; height: 2px; background: var(--gold); }
+    .nav-icon { width: 20px; height: 20px; }
+    .main { padding: 30px 20px calc(100px + env(safe-area-inset-bottom, 0px)); }
+    .view-head { margin-bottom: 28px; }
+    .control-panel { grid-template-columns: 1fr; }
+    .control-col + .control-col { border-left: none; border-top: 1px solid var(--border-soft); }
+    .control-col { padding: 20px; }
+    .control-extra { grid-template-columns: 1fr; }
+    .now-row { flex-direction: column; gap: 2px; }
+    .now-label { width: auto; }
+    .extra-copy, .extra-controls { padding: 18px 20px; }
+    .extra-controls { border-left: none; border-top: 1px solid var(--border-soft); }
+    .control-foot { padding: 16px 20px; }
+    .dropzone { min-height: 260px; }
+    .result-hero { padding: 24px 20px; gap: 20px; }
+    .conf-ring { width: 96px; height: 96px; }
+    .conf-ring-value { font-size: 28px; }
+    .result-band, .care-note, .altlist { padding-left: 20px; padding-right: 20px; }
+    .retake-tips { padding-left: 20px; padding-right: 20px; }
+    .alt-label { width: 120px; font-size: 12px; }
+    .site-cell { padding-right: 24px; margin-right: 24px; }
+    .crop-card-head { grid-template-columns: 1fr 20px; gap: 14px 12px; padding: 18px 8px; }
+    .crop-glance { grid-column: 1 / 2; grid-row: 2; }
+    .crop-card-head .chevron { grid-column: 2; grid-row: 1; }
+    .crop-card-body { padding-left: 8px; padding-right: 8px; }
+    .stage-hero { padding: 24px 20px 20px; }
+    .stage-top { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .season-counter { text-align: left; }
+    .info-grid { grid-template-columns: 1fr; }
+    .info-card, .info-card + .info-card { padding: 22px 0; border-left: none; }
+    .info-card + .info-card { border-top: 1px solid var(--border-soft); }
+  }
+
+  @media (max-width: 480px) {
+    .field-pair { grid-template-columns: 1fr; }
+    .stage-table { font-size: 11.5px; }
+    .stage-table th, .stage-table td { padding-right: 6px; }
+
+    .search-row { flex-wrap: wrap; }
+    .search-row input { flex: 1 1 100%; }
+    .summary-line { gap: 14px; }
+    .site-value { font-size: 18px; }
   }
 </style>
 </head>
 <body>
 
 <div class="shell">
-  <nav class="rail">
+  <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"></div>
+      <svg class="brand-glyph" viewBox="0 0 30 30" aria-hidden="true">
+        <defs><clipPath id="glyphClip"><rect width="30" height="30" rx="7"/></clipPath></defs>
+        <g clip-path="url(#glyphClip)">
+          <rect y="0" width="30" height="5" fill="#E7D5A8"/><rect y="5" width="30" height="8" fill="#D4A24C"/>
+          <rect y="13" width="30" height="10" fill="#7FB069"/><rect y="23" width="30" height="7" fill="#5E8A4E"/>
+        </g>
+      </svg>
       <div class="brand-name">SGreen Intel</div>
     </div>
     <div class="brand-sub">Precision agriculture for arid climates</div>
 
-    <div class="nav">
-      <button class="nav-item active" data-view="scan"><span class="nav-dot"></span>Scan</button>
-      <button class="nav-item" data-view="plan"><span class="nav-dot"></span>Plan</button>
-      <button class="nav-item" data-view="track"><span class="nav-dot"></span>Track</button>
+    <nav class="nav">
+      <button class="nav-item active" data-view="scan" aria-label="Scan" title="Scan">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 7V5a2 2 0 0 0-2-2h-2M3 13v2a2 2 0 0 0 2 2h2M17 13v2a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6"/></svg><span class="nav-label">Scan</span>
+      </button>
+      <button class="nav-item" data-view="plan" aria-label="Plan" title="Plan">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><rect x="3" y="4.5" width="14" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3 8.5h14M7 2.5v3M13 2.5v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 11.5h2M11.5 11.5h2M6.5 14h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="nav-label">Plan</span>
+      </button>
+      <button class="nav-item" data-view="track" aria-label="Track" title="Track">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="none"><path d="M2.5 10.5h3.2l1.6-4.4 2.6 8 1.8-5.6 1.4 2h3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Track</span>
+      </button>
+    </nav>
+
+    <div class="rail-facts">
+      <div class="rail-facts-label">Method</div>
+      <div class="fact-row"><svg class="fact-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M10 5.5v9M5.5 10h9" stroke="currentColor" stroke-width="1.4"/></svg><div class="fact-text"><b>Disease detection</b> — CNN image classifier, trained on lab and field photos</div></div>
+      <div class="fact-row"><svg class="fact-icon" viewBox="0 0 20 20" fill="none"><path d="M10 2.5s5 5.6 5 9.2a5 5 0 0 1-10 0c0-3.6 5-9.2 5-9.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="fact-text"><b>Water modeling</b> — FAO-56 Penman-Monteith, calibrated for Saudi arid conditions</div></div>
+      <div class="fact-row"><svg class="fact-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.2" stroke="currentColor" stroke-width="1.4"/><path d="M4 17c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10 1.5v1.3M3.5 7h1.3M15.2 7h1.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><div class="fact-text"><b>Climate data</b> — NASA POWER records and Open-Meteo forecasts</div></div>
     </div>
 
     <div class="rail-footer">
@@ -1008,115 +646,192 @@
       </div>
       <div class="rail-note">Requires the local API running on port 8000.</div>
     </div>
-  </nav>
+  </aside>
 
   <main class="main">
 
     <!-- SCAN -->
     <section class="view active" id="view-scan">
-      <div class="view-head">
+      <header class="view-head">
         <h1 class="view-title">Scan a leaf</h1>
         <p class="view-desc">Upload a photo to check for disease. For the clearest reading, fill the frame with a single leaf against a plain background.</p>
-      </div>
+      </header>
 
-      <div class="dropzone" id="dropzone">
-        <div class="dropzone-icon">🌿</div>
-        <div class="dropzone-title">Drop a photo here, or click to choose one</div>
-        <div class="dropzone-hint">JPG, PNG, or WEBP</div>
-        <input type="file" id="fileInput" accept="image/*">
-      </div>
+      <div class="scan-grid">
+        <div class="scan-input">
+          <div class="dropzone" id="dropzone">
+            <svg class="dz-leaf" viewBox="0 0 120 160" fill="none" aria-hidden="true">
+              <path d="M60 6C98 38 110 90 60 152 10 90 22 38 60 6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M60 152V22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M60 50 38 34M60 50 82 34M60 78 32 58M60 78 88 58M60 106 36 88M60 106 84 88" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <div class="dropzone-title">Drop a photo here, or click to choose one</div>
+            <div class="dropzone-hint">JPG, PNG or WEBP. One leaf, plain background.</div>
+            <input type="file" id="fileInput" accept="image/*">
+          </div>
 
-      <div class="crop-select-row" style="margin-top:12px;">
-        <label for="cropSelect" style="font-size:0.9em; color:var(--text-muted);">Crop (optional -- narrows the search to that crop's own diseases, more accurate than letting the model guess):</label>
-        <select id="cropSelect" style="margin-left:8px;"><option value="">Let the model guess</option></select>
-      </div>
+          <div class="crop-select-row">
+            <label for="cropSelect">Crop<span>optional</span></label>
+            <select id="cropSelect"><option value="">Let the model guess</option></select>
+            <p class="field-help">Choosing the crop narrows the search to that crop's own diseases, which is more accurate than letting the model guess.</p>
+          </div>
 
-      <div id="previewArea"></div>
-      <div id="scanResult"></div>
+          <div id="previewArea"></div>
+        </div>
+
+        <div class="scan-output">
+          <div id="scanResult"></div><div class="scan-placeholder">
+            <div class="ph-top">
+              <div class="ph-ring"></div>
+              <div class="ph-copy">
+                <div class="ph-title">The diagnosis appears here</div>
+                <p>You get the crop and condition, a confidence score, care guidance and the model's other candidates. When confidence is too low, the diagnosis is withheld instead of guessed.</p>
+              </div>
+            </div>
+            <div class="ph-bars"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- PLAN -->
     <section class="view" id="view-plan">
-      <div class="view-head">
+      <header class="view-head">
         <h1 class="view-title">Plan a planting</h1>
         <p class="view-desc">Choose a city to see which crops suit the local climate, the lowest-water feasible planting window for each, and the water each growth stage will need.</p>
-      </div>
+      </header>
 
-      <div class="field-row">
-        <div class="field">
-          <label for="planCity">City (validated)</label>
-          <select id="planCity"></select>
+      <div class="control-panel">
+        <div class="control-col">
+          <div class="col-title">Validated city</div>
+          <div class="field">
+            <label for="planCity">City</label>
+            <select id="planCity"></select>
+          </div>
+          <p class="field-help">Planting-date rules for these cities were checked against an independent crop model (FAO AquaCrop).</p>
         </div>
-        <button class="btn" id="planGo">Get recommendations</button>
-      </div>
-
-      <div class="field" style="margin-bottom: 24px;">
-        <label for="planSearchInput">Or search any Saudi location</label>
-        <div class="search-row">
-          <input type="text" id="planSearchInput" placeholder="e.g. Buraidah, Taif...">
-          <button class="btn-quiet" id="planSearchBtn">Search</button>
-          <button class="btn-quiet" id="planLocateBtn">📍 Use my location</button>
+        <div class="control-col">
+          <div class="col-title">Any Saudi location</div>
+          <div class="field">
+            <label for="planSearchInput">Search by name, or use your location</label>
+            <div class="search-row">
+              <input type="text" id="planSearchInput" placeholder="e.g. Buraidah, Taif...">
+              <button class="btn-quiet" id="planSearchBtn">Search</button>
+              <button class="btn-quiet" id="planLocateBtn"><svg viewBox="0 0 20 20" fill="none"><path d="M10 18s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>Locate me</button>
+            </div>
+          </div>
+          <div class="search-results" id="planSearchResults"></div>
+          <div id="planSelectedChip"></div>
         </div>
-        <div class="search-results" id="planSearchResults"></div>
-        <div id="planSelectedChip"></div>
+        <div class="control-extra" data-density="plan">
+          <div class="extra-copy">
+            <label for="planDensity">Plant spacing <span>(optional)</span></label>
+            <p class="field-help">Adds litres per plant to every annual crop below. Growing in a pot? Use the bed space this plant would normally get, not the pot's own area.</p>
+          </div>
+          <div class="extra-controls">
+            <div class="seg" role="group" aria-label="How to enter plant spacing">
+                <button type="button" class="seg-btn active" data-density-mode="perm2">Per m²</button>
+                <button type="button" class="seg-btn" data-density-mode="spacing">Spacing</button>
+                <button type="button" class="seg-btn" data-density-mode="bed">In a bed</button>
+              </div>
+            <div data-density-pane="perm2"><input type="number" id="planDensity" min="0.05" max="50" step="0.1" placeholder="Plants per m², e.g. 2.5"></div>
+            <div data-density-pane="spacing" hidden>
+              <div class="spacing-row"><input type="number" id="planSpaceA" min="1" step="1" placeholder="40"><span>cm ×</span><input type="number" id="planSpaceB" min="1" step="1" placeholder="60"><span>cm apart</span></div>
+            </div>
+            <div data-density-pane="bed" hidden>
+              <div class="spacing-row"><input type="number" id="planBedPlants" min="1" step="1" placeholder="6"><span>plants in</span><input type="number" id="planBedArea" min="0.01" step="0.1" placeholder="2"><span>m²</span></div>
+            </div>
+            <div class="density-readout" id="planDensityReadout"></div>
+          </div>
+        </div>
+        <div class="control-foot">
+          <button class="btn" id="planGo">Get recommendations</button>
+          <span>Pick a validated city, or search for any location in Saudi Arabia.</span>
+        </div>
       </div>
 
       <div id="planResult">
-        <div class="empty-hint">Choose a city and get recommendations to see planting dates for every supported crop.</div>
+        <div class="empty-hint">
+          <div class="skeleton-rows"><i></i><i></i><i></i></div>
+          Choose a city and get recommendations to see planting dates for every supported crop.
+        </div>
       </div>
     </section>
 
     <!-- TRACK -->
     <section class="view" id="view-track">
-      <div class="view-head">
+      <header class="view-head">
         <h1 class="view-title">Track a plant</h1>
         <p class="view-desc">See where a plant is in its growth cycle, how much water it needs right now, and whether the forecast calls for any care changes.</p>
-      </div>
+      </header>
 
-      <div class="field-row">
-        <div class="field">
-          <label for="trackCrop">Crop</label>
-          <select id="trackCrop">
-            <option value="Tomato">Tomato</option>
-            <option value="Potato">Potato</option>
-            <option value="Pepper,_bell">Bell pepper</option>
-            <option value="Corn_(maize)">Corn</option>
-            <option value="Onion">Onion</option>
-            <option value="Carrot">Carrot</option>
-            <option value="Garlic">Garlic</option>
-            <option value="Lettuce">Lettuce</option>
-            <option value="Sweet_corn">Sweet corn</option>
-            <option value="Cucumber">Cucumber</option>
-            <option value="Eggplant">Eggplant</option>
-            <option value="Squash">Squash</option>
-            <option value="Pumpkin">Pumpkin</option>
-            <option value="Green_bean">Green bean</option>
-          </select>
+      <div class="control-panel">
+        <div class="control-col">
+          <div class="col-title">Plant</div>
+          <div class="field">
+            <label for="trackCrop">Crop</label>
+            <select id="trackCrop">
+              <option value="Tomato">Tomato</option>
+              <option value="Potato">Potato</option>
+              <option value="Pepper,_bell">Bell pepper</option>
+              <option value="Corn_(maize)">Corn</option>
+              <option value="Onion">Onion</option>
+              <option value="Carrot">Carrot</option>
+              <option value="Garlic">Garlic</option>
+              <option value="Lettuce">Lettuce</option>
+              <option value="Sweet_corn">Sweet corn</option>
+              <option value="Cucumber">Cucumber</option>
+              <option value="Eggplant">Eggplant</option>
+              <option value="Squash">Squash</option>
+              <option value="Pumpkin">Pumpkin</option>
+              <option value="Green_bean">Green bean</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="trackDate">Planting date</label>
+            <input type="date" id="trackDate">
+          </div>
+          <div class="field" data-density="track">
+            <div class="density-head">
+              <label for="trackDensity">Plant spacing <span>(optional)</span></label>
+              <div class="seg" role="group" aria-label="How to enter plant spacing">
+                <button type="button" class="seg-btn active" data-density-mode="perm2">Per m²</button>
+                <button type="button" class="seg-btn" data-density-mode="spacing">Spacing</button>
+                <button type="button" class="seg-btn" data-density-mode="bed">In a bed</button>
+              </div>
+            </div>
+            <div data-density-pane="perm2"><input type="number" id="trackDensity" min="0.05" max="50" step="0.1" placeholder="Plants per m², e.g. 2.5"></div>
+            <div data-density-pane="spacing" hidden>
+              <div class="spacing-row"><input type="number" id="trackSpaceA" min="1" step="1" placeholder="40"><span>cm ×</span><input type="number" id="trackSpaceB" min="1" step="1" placeholder="60"><span>cm apart</span></div>
+            </div>
+            <div data-density-pane="bed" hidden>
+              <div class="spacing-row"><input type="number" id="trackBedPlants" min="1" step="1" placeholder="6"><span>plants in</span><input type="number" id="trackBedArea" min="0.01" step="0.1" placeholder="2"><span>m²</span></div>
+            </div>
+            <div class="density-readout" id="trackDensityReadout"></div>
+            <p class="field-help">Adds litres per plant to the results. Growing in a pot? Use the bed space this plant would normally get, not the pot's own area.</p>
+          </div>
         </div>
-        <div class="field">
-          <label for="trackCity">City (validated)</label>
-          <select id="trackCity"></select>
+        <div class="control-col">
+          <div class="col-title">Site</div>
+          <div class="field">
+            <label for="trackCity">Validated city</label>
+            <select id="trackCity"></select>
+          </div>
+          <div class="field">
+            <label for="trackSearchInput">Or search any Saudi location</label>
+            <div class="search-row">
+              <input type="text" id="trackSearchInput" placeholder="e.g. Buraidah, Taif...">
+              <button class="btn-quiet" id="trackSearchBtn">Search</button>
+              <button class="btn-quiet" id="trackLocateBtn"><svg viewBox="0 0 20 20" fill="none"><path d="M10 18s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>Locate me</button>
+            </div>
+          </div>
+          <div class="search-results" id="trackSearchResults"></div>
+          <div id="trackSelectedChip"></div>
         </div>
-        <div class="field">
-          <label for="trackDate">Planting date</label>
-          <input type="date" id="trackDate">
+        <div class="control-foot">
+          <button class="btn" id="trackGo">Track plant</button>
+          <span>Enter a planting date and a site to see this plant's stage, water needs and forecast alerts.</span>
         </div>
-        <div class="field">
-          <label for="trackDensity">Plants per m² (optional)</label>
-          <input type="number" id="trackDensity" min="0.05" max="50" step="0.1" placeholder="e.g. 2.5">
-        </div>
-        <button class="btn" id="trackGo">Track plant</button>
-      </div>
-
-      <div class="field" style="margin-bottom: 24px;">
-        <label for="trackSearchInput">Or search any Saudi location</label>
-        <div class="search-row">
-          <input type="text" id="trackSearchInput" placeholder="e.g. Buraidah, Taif...">
-          <button class="btn-quiet" id="trackSearchBtn">Search</button>
-          <button class="btn-quiet" id="trackLocateBtn">📍 Use my location</button>
-        </div>
-        <div class="search-results" id="trackSearchResults"></div>
-        <div id="trackSelectedChip"></div>
       </div>
 
       <div id="trackResult">
@@ -1178,7 +893,7 @@ async function loadLocations() {
 checkHealth().then(ok => { if (ok) loadLocations(); });
 
 function apiErrorHtml(context) {
-  return `<div class="error-line">Can't reach the SGreen Intel API for ${context}. Make sure it's running: <code>uvicorn api.main:app --port 8000</code></div>`;
+  return `<div class="error-line"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="13.6" r="0.9" fill="currentColor"/></svg><div>Can't reach the SGreen Intel API for ${context}. Make sure it's running: <code>uvicorn api.main:app --port 8000</code></div></div>`;
 }
 
 // ---------- SCAN ----------
@@ -1209,6 +924,27 @@ dropzone.addEventListener('click', () => fileInput.click());
 
 dropzone.addEventListener('drop', e => {
   const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+
+// A file dropped anywhere on the Scan tab is accepted, and a drop that misses the dropzone no longer makes the browser
+// navigate away to the image. (Drops inside the dropzone are handled by the handler above.)
+const scanView = document.getElementById('view-scan');
+const carriesFiles = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+window.addEventListener('dragover', e => {
+  if (!carriesFiles(e)) return;
+  e.preventDefault();
+  if (scanView.classList.contains('active')) dropzone.classList.add('drag');
+});
+window.addEventListener('dragleave', e => {
+  if (e.relatedTarget === null) dropzone.classList.remove('drag');
+});
+window.addEventListener('drop', e => {
+  if (!carriesFiles(e)) return;
+  e.preventDefault();
+  dropzone.classList.remove('drag');
+  if (dropzone.contains(e.target) || !scanView.classList.contains('active')) return;
+  const file = Array.from(e.dataTransfer.files).find(f => f.type.startsWith('image/'));
   if (file) handleFile(file);
 });
 
@@ -1254,7 +990,6 @@ async function analyzeImage(file) {
 
 function renderScanResult(data) {
   const pct = Math.round(data.confidence);
-  const ring = `conic-gradient(var(--gold) ${pct * 3.6}deg, var(--border-soft) 0deg)`;
 
   const altRows = data.top_k.map(k => `
     <div class="alt-row">
@@ -1266,7 +1001,7 @@ function renderScanResult(data) {
   if (data.accepted) {
     const [crop, condition] = [data.crop, data.condition];
     const modeNote = data.crop_given
-      ? `<p style="margin:4px 0 0; font-size:0.85em; color:var(--text-muted);">Narrowed to ${data.crop_given.replace(/\b\w/g, c => c.toUpperCase())}, as selected.</p>`
+      ? `<p style="margin:4px 0 0; font-size:0.85em; color:var(--paper-faint);">Narrowed to ${data.crop_given.replace(/\b\w/g, c => c.toUpperCase())}, as selected.</p>`
       : '';
     const categoryBadge = data.category_label
       ? `<span class="badge ${categoryClass(data.category_label)}">${data.category_label}</span>`
@@ -1281,7 +1016,7 @@ function renderScanResult(data) {
     scanResult.innerHTML = `
       <div class="result-card">
         <div class="result-hero">
-          <div class="conf-ring" style="background:${ring}"><span class="conf-ring-value">${pct}%</span></div>
+          <div class="conf-ring" style="--deg:${pct * 3.6}deg"><span class="conf-ring-value">${pct}<small>%</small></span></div>
           <div>
             ${modeNote}
             <div class="result-crop">${crop}</div>
@@ -1297,9 +1032,9 @@ function renderScanResult(data) {
       </div>`;
   } else {
     scanResult.innerHTML = `
-      <div class="result-card">
+      <div class="result-card is-rejected">
         <div class="result-hero">
-          <div class="conf-ring" style="background:${ring}"><span class="conf-ring-value">${pct}%</span></div>
+          <div class="conf-ring" style="--deg:${pct * 3.6}deg"><span class="conf-ring-value">${pct}<small>%</small></span></div>
           <div>
             <div class="result-crop">Not confident enough</div>
             <div class="result-condition">The model needs a clearer photo to diagnose this</div>
@@ -1371,44 +1106,269 @@ function stageBarHtml(stages, currentIndex) {
   }).join('') + `</div>`;
 }
 
-function stageTableHtml(stages) {
+function stageTableHtml(stages, plantsPerM2) {
   return `
-    <table class="stage-table">
-      <thead><tr><th>Stage</th><th>Days</th><th>Dates</th><th>mm / day</th><th>Total mm</th></tr></thead>
+    <div class="table-scroll"><table class="stage-table">
+      <thead><tr><th>Stage</th><th>Days</th><th>Dates</th><th>mm / day</th><th>Total mm</th>${plantsPerM2 ? '<th>L / plant / day</th><th>L / plant</th>' : ''}</tr></thead>
       <tbody>
         ${stages.map(s => `
           <tr>
             <td class="name">${s.stage.replace('_', ' ')}</td>
             <td>${s.days}</td>
-            <td>${s.start} – ${s.end}</td>
+            <td><span class="nw">${s.start}</span> <span class="nw">– ${s.end}</span></td>
             <td>${s.etc_mm_per_day.toFixed(2)}</td>
             <td>${Math.round(s.etc_mm)}</td>
+            ${plantsPerM2 ? `<td>${fmtL(s.etc_mm_per_day / plantsPerM2)}</td><td>${fmtL(s.etc_mm / plantsPerM2)}</td>` : ''}
           </tr>`).join('')}
       </tbody>
-    </table>`;
+    </table></div>`;
+}
+
+// ---------- Plant spacing (Track + Plan) ----------
+// Turns a spacing or a bed size into plants per m2. On Track the result is written to #trackDensity, the field runTracker
+// already reads and sends to the backend. On Plan it only drives the per-plant display; nothing is sent anywhere.
+let lastPlanData = null;
+let planPlantsPerM2 = null;
+let planRefreshTimer = null;
+
+function fmtL(x) { return x < 10 ? x.toFixed(2) : x < 100 ? x.toFixed(1) : String(Math.round(x)); }
+
+function refreshPlanDensity() {
+  if (!lastPlanData) return;
+  const open = Array.from(document.querySelectorAll('#planResult .crop-card.open')).map(el => el.id);
+  renderAdvisor(lastPlanData);
+  open.forEach(id => { const el = id ? document.getElementById(id) : null; if (el) el.classList.add('open'); });
+}
+
+function setupDensityHelper(prefix, onChange) {
+  const root = document.querySelector(`[data-density="${prefix}"]`);
+  const density = document.getElementById(prefix + 'Density');
+  const readout = document.getElementById(prefix + 'DensityReadout');
+  const num = id => parseFloat(document.getElementById(prefix + id).value);
+  const modeButtons = Array.from(root.querySelectorAll('[data-density-mode]'));
+  const panes = Array.from(root.querySelectorAll('[data-density-pane]'));
+  let mode = 'perm2';
+
+  const notify = () => { if (onChange) { const d = parseFloat(density.value); onChange(d > 0 ? d : null); } };
+
+  function update() {
+    if (mode === 'perm2') { readout.textContent = ''; readout.classList.remove('warn'); notify(); return; }
+    let d = null, how = '';
+    if (mode === 'spacing') {
+      const a = num('SpaceA'), b = num('SpaceB');
+      if (a > 0 && b > 0) { const area = (a / 100) * (b / 100); d = 1 / area; how = `${a} × ${b} cm = ${area.toFixed(2)} m² per plant`; }
+    } else {
+      const n = num('BedPlants'), area = num('BedArea');
+      if (n > 0 && area > 0) { d = n / area; how = `${n} plants in ${area} m²`; }
+    }
+    density.value = d ? String(Math.round(d * 1000) / 1000) : '';
+    const outOfRange = !!d && (d < 0.05 || d > 50);
+    readout.textContent = d ? `${how} → ${d.toFixed(2)} plants per m²` + (outOfRange ? ' (outside the supported 0.05 to 50 per m²; check the numbers)' : '') : '';
+    readout.classList.toggle('warn', outOfRange);
+    notify();
+  }
+
+  modeButtons.forEach(btn => btn.addEventListener('click', () => {
+    mode = btn.dataset.densityMode;
+    modeButtons.forEach(b => b.classList.toggle('active', b === btn));
+    panes.forEach(p => { p.hidden = p.dataset.densityPane !== mode; });
+    update();
+  }));
+  ['SpaceA', 'SpaceB', 'BedPlants', 'BedArea'].forEach(id => document.getElementById(prefix + id).addEventListener('input', update));
+  density.addEventListener('input', () => { if (mode === 'perm2') notify(); });
+}
+
+setupDensityHelper('track');
+setupDensityHelper('plan', d => {
+  planPlantsPerM2 = d;
+  clearTimeout(planRefreshTimer);
+  planRefreshTimer = setTimeout(refreshPlanDensity, 150);
+});
+
+// ---------- Plant now (display only) ----------
+// Reads the per-date table the advisor already returns (runs, best, season_picks). Nothing is sent anywhere and no agronomic
+// number is recomputed: a start date counts as "at a recommended start" when its nearest evaluated candidate date is within
+// one step (the model evaluates every step_days = 10 days) of one of the model's own picks (best, autumn, spring).
+let planOnDate = '';   // '' = today; otherwise a YYYY-MM-DD chosen in the date box
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+function planOnDay() { return planOnDate ? new Date(planOnDate + 'T12:00:00') : new Date(); }
+function isoDate(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function doyOf(d) {   // day of year on the advisor's non-leap basis (Feb 29 counts as Feb 28)
+  const m = d.getMonth();
+  return MONTH_DAYS.slice(0, m).reduce((a, b) => a + b, 0) + Math.min(d.getDate(), MONTH_DAYS[m]);
+}
+function fwdDays(from, to) { return (((to - from) % 365) + 365) % 365; }
+function signedDays(from, to) { const x = fwdDays(from, to); return x <= 182 ? x : x - 365; }
+function fmtDoy(doy) {
+  let left = (((doy - 1) % 365) + 365) % 365 + 1, m = 0;
+  while (left > MONTH_DAYS[m]) { left -= MONTH_DAYS[m]; m++; }
+  return `${MONTHS[m]} ${String(left).padStart(2, '0')}`;
+}
+function relDays(n) { return n === 0 ? 'today' : n > 0 ? `in ${n} day${n === 1 ? '' : 's'}` : `${-n} day${n === -1 ? '' : 's'} ago`; }
+
+function plantNowStatus(scan, today) {
+  const runs = scan.runs || [];
+  if (!scan.best || !runs.length) return null;
+  const step = scan.step_days || 10;
+  const cand = runs.reduce((a, b) => Math.abs(signedDays(today, a.start_doy)) <= Math.abs(signedDays(today, b.start_doy)) ? a : b);
+  const bestDoy = scan.best.start_doy;
+  const sp = scan.season_picks || {};
+  const alts = [sp.autumn, sp.spring].filter(p => p && p.start_doy !== bestDoy).map(p => p.start_doy);   // the other season's pick(s)
+  const nearBest = Math.abs(signedDays(cand.start_doy, bestDoy)) <= step;
+  const nearAlt = alts.find(p => Math.abs(signedDays(cand.start_doy, p)) <= step);
+  const next = { doy: bestDoy, inDays: fwdDays(today, bestDoy) };
+  const altNext = alts.length ? alts.map(p => ({ doy: p, inDays: fwdDays(today, p) })).sort((a, b) => a.inDays - b.inDays)[0] : null;
+  const bestRun = runs.find(r => r.start_doy === bestDoy) || scan.best;
+  const perDay = r => r.seasonal_etc_mm / r.total_days;
+  let state;
+  if (!cand.viable) state = 'notviable';
+  else if (nearBest) state = 'now';
+  else if (nearAlt !== undefined) state = 'alt';
+  else if (cand.shock_free) state = 'possible';
+  else state = 'wait';
+  return {
+    state, cand, bestRun, near: nearBest ? bestDoy : null, alt: nearAlt === undefined ? null : nearAlt, next, altNext,
+    exceed: cand.heat_shock_days + cand.cold_shock_days,
+    waterVsBest: scan.headline_rule ? null : perDay(cand) / perDay(bestRun) - 1,
+  };
+}
+
+function nowWhen() { return planOnDate ? `on ${fmtDoy(doyOf(planOnDay()))}` : 'now'; }
+
+function exceedText(cand) {
+  const parts = [];
+  if (cand.heat_shock_days > 0) parts.push(`${cand.heat_shock_days} heat`);
+  if (cand.cold_shock_days > 0) parts.push(`${cand.cold_shock_days} cold`);
+  return parts.length ? ` · with ${parts.join(' and ')} exceedance days` : ' · no heat or cold exceedance days';
+}
+
+function nowLineHtml(scan) {
+  const today = doyOf(planOnDay());
+  const s = plantNowStatus(scan, today);
+  if (!s) return '';
+  const when = nowWhen();
+  let nextTxt = `next recommended start ${fmtDoy(s.next.doy)} (${relDays(s.next.inDays)})`;
+  if (s.altNext && s.altNext.inDays < s.next.inDays) nextTxt += ` · alternative season ${fmtDoy(s.altNext.doy)} (${relDays(s.altNext.inDays)})`;
+  let dot = 'wait', body = '';
+  if (s.state === 'now') {
+    dot = 'good';
+    const dist = signedDays(today, s.near);
+    const warn = (s.cand.heat_shock_days + s.cand.cold_shock_days) > 0 ? exceedText(s.cand) : '';
+    body = `<b>Plant ${when}</b> · ${Math.abs(dist) <= 5 ? 'at' : 'close to'} the recommended start (${fmtDoy(s.near)}, ${relDays(dist)})${warn}`;
+  } else if (s.state === 'alt') {
+    dot = 'possible';
+    body = `<b>Possible ${when}</b> · alternative season (${fmtDoy(s.alt)}, ${relDays(signedDays(today, s.alt))})${exceedText(s.cand)} · recommended start ${fmtDoy(s.next.doy)} (${relDays(s.next.inDays)})`;
+  } else if (s.state === 'possible') {
+    dot = 'possible';
+    const more = s.waterVsBest !== null && s.waterVsBest >= 0.01 ? `, ${Math.round(s.waterVsBest * 100)}% more water per day than the recommended start` : '';
+    body = `<b>Possible ${when}</b> · no heat or cold exceedance days${more} · ${nextTxt}`;
+  } else if (s.state === 'notviable') {
+    body = `<b>Not viable</b> if started ${when} · ${nextTxt}`;
+  } else {
+    body = `<b>Wait</b> · ${nextTxt}`;
+  }
+  return `<div class="now-line"><i class="now-dot ${dot}"></i><span>${body}</span></div>`;
+}
+
+function nowDetailHtml(scan) {
+  const s = plantNowStatus(scan, doyOf(planOnDay()));
+  if (!s) return '';
+  const c = s.cand, p = s.bestRun;
+  const perDay = r => (r.seasonal_etc_mm / r.total_days).toFixed(1);
+  return `
+    <div class="now-detail">
+      <div class="section-label" style="margin:0 0 8px;">Starting ${planOnDate ? 'on ' + fmtDoy(doyOf(planOnDay())) : 'now'}, compared with the recommended start</div>
+      <div class="table-scroll"><table class="stage-table">
+        <thead><tr><th></th><th>Start ${c.start_date}</th><th>Recommended ${scan.best.start_date}</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Heat exceedance days</td><td>${c.heat_shock_days}</td><td>${p.heat_shock_days}</td></tr>
+          <tr><td class="name">Cold exceedance days</td><td>${c.cold_shock_days}</td><td>${p.cold_shock_days}</td></tr>
+          <tr><td class="name">Water per day (mm)</td><td>${perDay(c)}</td><td>${perDay(p)}</td></tr>
+          <tr><td class="name">Season total (mm)</td><td>${Math.round(c.seasonal_etc_mm)}</td><td>${Math.round(p.seasonal_etc_mm)}</td></tr>
+        </tbody>
+      </table></div>
+      <div class="disclaimer" style="margin-top:8px;">Your date maps to the nearest evaluated start (${c.start_date}); the model evaluates every ${scan.step_days || 10} days. Typical-year climate, not a forecast.</div>
+    </div>`;
+}
+
+function setPlanOn(v) { planOnDate = v === isoDate(new Date()) ? '' : v; refreshPlanDensity(); }
+
+function neverWaits(scan) {
+  // Date-independent: true only if no day of the year would show "wait" or "not viable" for this crop.
+  // Checked at every evaluated start date (the model's own 10-day grid), which is the full resolution plantNowStatus uses.
+  return (scan.runs || []).length > 0 && scan.runs.every(r => {
+    const s = plantNowStatus(scan, r.start_doy);
+    return s && (s.state === 'now' || s.state === 'alt' || s.state === 'possible');
+  });
+}
+
+function nowBarHtml(data) {
+  const today = doyOf(planOnDay());
+  const groups = { now: [], possible: [], soon: [], always: [] };
+  (data.annual_crops || []).forEach(scan => {
+    const s = plantNowStatus(scan, today);
+    if (!s) return;
+    const name = scan.crop.replace(/_/g, ' ');
+    if (neverWaits(scan)) { groups.always.push(name); return; }
+    if (s.state === 'now') groups.now.push(name);
+    else if (s.state === 'possible' || s.state === 'alt') groups.possible.push(name);
+    else if (s.next.inDays <= 30) groups.soon.push(`${name} (${s.next.inDays} d)`);
+  });
+  const row = (dot, label, names) => names.length ? `<div class="now-row"><span class="now-label"><i class="now-dot ${dot}"></i>${label}</span><span class="now-names">${names.join(' · ')}</span></div>` : '';
+  const rows = row('good', `Plant ${nowWhen()}`, groups.now) + row('possible', `Possible ${nowWhen()}`, groups.possible) +
+    row('wait', 'Recommended start within 30 days', groups.soon) + row('possible', 'No wait window this year', groups.always);
+  return `
+    <div class="now-bar">
+      <div class="now-date">
+        <label for="planOnInput">Planting on</label>
+        <input type="date" id="planOnInput" value="${isoDate(planOnDay())}" onchange="setPlanOn(this.value)">
+        ${planOnDate ? '<button type="button" class="btn-quiet" style="height:34px;" onclick="setPlanOn(isoDate(new Date()))">Today</button>' : ''}
+      </div>
+      ${rows || '<div class="now-row"><span class="now-names">No annual crop is at a recommended start within the next 30 days.</span></div>'}
+      <p class="unit-note" style="margin-top:6px;">Based on the model's own recommended start dates and exceedance days for a typical year, not a forecast. "Plant now" means the nearest evaluated date is within 10 days of the crop's recommended start (the card's best date). "Possible" means either no heat or cold exceedance days, or the other season's pick; the row says which, and shows any exceedance days. "No wait window" means the crop never reaches a wait state on this location's calendar, so its status is shown once here rather than every time it recurs below.</p>
+    </div>`;
+}
+
+function fmtCoord(v, pos, neg) {
+  const n = Number(v);
+  return `${Math.abs(n).toFixed(2)}°${n >= 0 ? pos : neg}`;
+}
+
+function miniHorizonHtml(stages) {
+  return `<div class="mini-horizon">` + stages.map((st, i) =>
+    `<i class="s${i}" style="flex:${st.days}" title="${st.stage.replace('_', ' ')}: ${st.days} days"></i>`).join('') + `</div>`;
+}
+
+function tempPos(t) {
+  return Math.min(100, Math.max(0, (t - 5) / 45 * 100));
 }
 
 function renderAdvisor(data) {
+  lastPlanData = data;
   const out = document.getElementById('planResult');
   let html = '';
   if (data._uncertainty_note) {
-    html += `<div class="uncertainty-note">⚠ ${data._uncertainty_note}</div>`;
+    html += `<div class="uncertainty-note"><svg viewBox="0 0 20 20" fill="none"><path d="M10 3 1.5 17h17L10 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 8v3.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10" cy="14" r="0.9" fill="currentColor"/></svg><span>${data._uncertainty_note}</span></div>`;
   }
   html += `
-    <div class="stat-chips">
-      <div class="chip">Coordinates <strong>${data.coordinates[0]}, ${data.coordinates[1]}</strong></div>
-      <div class="chip">Elevation <strong>${Math.round(data.elevation_m)} m</strong></div>
-    </div>`;
+    <div class="site-strip">
+      <div class="site-cell"><div class="site-label">Coordinates</div><div class="site-value">${fmtCoord(data.coordinates[0], 'N', 'S')} ${fmtCoord(data.coordinates[1], 'E', 'W')}</div></div>
+      <div class="site-cell"><div class="site-label">Elevation</div><div class="site-value">${Math.round(data.elevation_m)}<small>m above sea level</small></div></div>
+    </div>
+    <p class="unit-note">Water figures are per square metre: 1 mm of water = 1 litre per m². ${planPlantsPerM2 ? `Per-plant figures use ${planPlantsPerM2.toFixed(2)} plants per m² and estimate what the plants use; real watering loses some, so allow a little more.` : 'Enter your plant spacing above to see litres per plant.'}</p>`;
 
-  html += `<div class="section-label">Annual crops: lowest-water feasible window (not a yield-optimized recommendation)</div>`;
+  html += nowBarHtml(data);
+  const maxWater = Math.max(1, ...data.annual_crops.filter(s => s.best).map(s => s.best.seasonal_etc_mm));
+  html += `<div class="section-label" style="margin-top:44px;">Annual crops: lowest-water feasible window (not a yield-optimized recommendation)</div>`;
   data.annual_crops.forEach((scan, idx) => {
     const id = `ann-${idx}`;
     if (!scan.best) {
       html += `
-        <div class="crop-card">
-          <div class="crop-card-head" onclick="toggleCard('${id}')">
+        <div class="crop-card is-static">
+          <div class="crop-card-head">
             <div class="crop-title-row"><div class="crop-name">${scan.crop.replace(/_/g,' ')}</div><span class="badge warn">Not viable</span></div>
-            <span class="chevron">⌄</span>
           </div>
         </div>`;
       return;
@@ -1418,7 +1378,7 @@ function renderAdvisor(data) {
     html += `
       <div class="crop-card" id="${id}">
         <div class="crop-card-head" onclick="toggleCard('${id}')">
-          <div>
+          <div class="crop-main">
             <div class="crop-title-row">
               <div class="crop-name">${scan.crop.replace(/_/g,' ')}</div>
               <span class="badge ${shockFree ? 'good' : 'warn'}">${shockFree ? 'Shock-free window found' : (scan.headline_rule ? 'Fewest exceedance days' : 'Least-water viable')}</span>
@@ -1426,39 +1386,53 @@ function renderAdvisor(data) {
               ${scan.confidence ? '<span class="badge info" title="' + (scan.confidence_note || '') + '">Lower confidence</span>' : ''}
             </div>
             <div class="crop-dates">${b.start_date}<span class="arrow">→</span>${b.end_date} · ${b.total_days} days</div>
+            ${nowLineHtml(scan)}
           </div>
-          <span class="chevron">⌄</span>
+          <div class="crop-glance">
+            <div class="glance-water"><b>${Math.round(b.seasonal_etc_mm)}</b><span>mm</span><div class="water-meter"><i style="width:${(b.seasonal_etc_mm / maxWater * 100).toFixed(0)}%"></i></div></div>
+            ${planPlantsPerM2 ? `<div class="glance-pp">≈ <b>${fmtL(b.seasonal_etc_mm / planPlantsPerM2)} L</b> per plant over the season</div>` : ''}
+            ${miniHorizonHtml(b.stages)}
+          </div>
+          <span class="chevron"><svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
         <div class="crop-card-body">
           <div class="basis-line">${scan.selection_basis}</div>
+          ${nowDetailHtml(scan)}
           ${seasonPicksHtml(scan)}
           ${dateProfileHtml(scan)}
           ${stageBarHtml(b.stages)}
-          ${stageTableHtml(b.stages)}
+          ${stageTableHtml(b.stages, planPlantsPerM2)}
           <div class="summary-line">
             <span>Seasonal water: <b>${Math.round(b.seasonal_etc_mm)} mm</b></span>
             <span>Farm scale: <b>${Math.round(b.seasonal_m3_per_ha)} m³/ha</b></span>
             <span>Peak: <b>${b.peak_etc_mm_day.toFixed(1)} mm/day</b> around ${b.peak_date}</span>
+            ${planPlantsPerM2 ? `<span>Per plant: <b>≈ ${fmtL(b.seasonal_etc_mm / planPlantsPerM2)} L</b> over the season, up to <b>${fmtL(b.peak_etc_mm_day / planPlantsPerM2)} L/day</b> at peak</span>` : ''}
           </div>
         </div>
       </div>`;
   });
 
   if (data.perennial_crops && data.perennial_crops.length) {
+    const maxPer = Math.max(1, ...data.perennial_crops.map(p => p.seasonal_etc_mm));
     html += `<div class="section-label">Perennial crops (established plant, one annual cycle)</div>`;
+    if (planPlantsPerM2) html += `<p class="unit-note" style="margin:0 0 6px; padding-top:12px;">Per-plant figures are shown for annual crops only. These perennial figures describe an established orchard, not a single tree.</p>`;
     data.perennial_crops.forEach((p, idx) => {
       const id = `per-${idx}`;
       html += `
         <div class="crop-card" id="${id}">
           <div class="crop-card-head" onclick="toggleCard('${id}')">
-            <div>
+            <div class="crop-main">
               <div class="crop-title-row">
                 <div class="crop-name">${p.crop.replace(/_/g,' ')}</div>
                 <span class="badge info">${p.suitability_status.replace(/_/g,' ')}</span>
               </div>
               <div class="crop-dates">${p.start_date}<span class="arrow">→</span>${p.end_date} · ${p.total_days} days</div>
             </div>
-            <span class="chevron">⌄</span>
+            <div class="crop-glance">
+              <div class="glance-water"><b>${Math.round(p.seasonal_etc_mm)}</b><span>mm</span><div class="water-meter"><i style="width:${(p.seasonal_etc_mm / maxPer * 100).toFixed(0)}%"></i></div></div>
+              ${miniHorizonHtml(p.stages)}
+            </div>
+            <span class="chevron"><svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           </div>
           <div class="crop-card-body">
             <div class="basis-line">${p.suitability_reason}</div>
@@ -1500,7 +1474,7 @@ function setProfileMetric(id, metric) {
   });
 }
 
-function profileSvg(runs, bestDoy, valueOf, axisLabel, altDoys) {
+function profileSvg(runs, bestDoy, valueOf, axisLabel, altDoys, nowDoy) {
   const viable = runs.filter(r => r.viable);
   const W = 720, H = 170, padL = 78, padR = 8, padT = 12, padB = 26;
   const plotW = W - padL - padR, plotH = H - padT - padB;
@@ -1541,8 +1515,15 @@ function profileSvg(runs, bestDoy, valueOf, axisLabel, altDoys) {
     labels += `<text x="${x.toFixed(1)}" y="${H - 8}" text-anchor="middle" style="fill:var(--paper-faint);font-size:11px;">${name}</text>`;
   });
 
+  let nowMarkSvg = '';
+  const nowIdx = nowDoy == null ? -1 : runs.findIndex(r => r.start_doy === nowDoy);
+  if (nowIdx >= 0) {
+    const nx = (padL + nowIdx * slot + slot / 2).toFixed(1);
+    nowMarkSvg = `<line x1="${nx}" y1="${padT}" x2="${nx}" y2="${padT + plotH}" style="stroke:var(--gold);stroke-width:1.5;stroke-dasharray:2 3"/>` +
+      `<text x="${nx}" y="${padT - 2}" text-anchor="middle" style="fill:var(--gold);font-size:10px;font-weight:600;">${planOnDate ? 'start' : 'now'}</text>`;
+  }
   return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" role="img" ` +
-    `aria-label="Bar chart of crop water use for each candidate planting start date">${axis}${bars}${labels}</svg>`;
+    `aria-label="Bar chart of crop water use for each candidate planting start date">${axis}${bars}${nowMarkSvg}${labels}</svg>`;
 }
 
 function dateProfileHtml(scan) {
@@ -1552,6 +1533,8 @@ function dateProfileHtml(scan) {
   const bestDoy = scan.best ? scan.best.start_doy : null;
   const sp = scan.season_picks;
   const altDoys = sp ? [sp.autumn, sp.spring].filter(Boolean).map(p => p.start_doy) : [];
+  const nowStatusForChart = plantNowStatus(scan, doyOf(planOnDay()));
+  const nowCandDoy = nowStatusForChart ? nowStatusForChart.cand.start_doy : null;
   const viableRuns = runs.filter(r => r.viable);
   const freeRuns = viableRuns.filter(r => r.shock_free);
   let eligibleNote = '';
@@ -1564,8 +1547,8 @@ function dateProfileHtml(scan) {
   }
 
   const headlineNote = scan.headline_rule ? 'For this crop the outlined bar is not the lowest-water date: it is the autumn or spring pick with the fewest exceedance days (ties: lowest water per day). The sentence below about the lowest water per day describes the rule used for the other crops. ' : '';
-  const totalSvg = profileSvg(runs, bestDoy, r => r.seasonal_etc_mm, v => `${Math.round(v)} mm`, altDoys);
-  const dailySvg = profileSvg(runs, bestDoy, r => r.seasonal_etc_mm / r.total_days, v => `${v.toFixed(1)} mm/day`, altDoys);
+  const totalSvg = profileSvg(runs, bestDoy, r => r.seasonal_etc_mm, v => `${Math.round(v)} mm`, altDoys, nowCandDoy);
+  const dailySvg = profileSvg(runs, bestDoy, r => r.seasonal_etc_mm / r.total_days, v => `${v.toFixed(1)} mm/day`, altDoys, nowCandDoy);
 
   const btnStyle = 'padding:4px 10px;font-size:12px;';
   const swatch = c => `<span style="display:inline-block;width:10px;height:10px;background:${c};margin-right:6px;"></span>`;
@@ -1660,8 +1643,8 @@ function setupLocationSearch(inputId, btnId, resultsId, chipId, citySelectId, on
           input.value = '';
           chip.innerHTML = `
             <div class="location-chip">
-              📍 ${coords.label}
-              <button type="button" data-clear="1">✕</button>
+              <svg class="icon-pin" viewBox="0 0 20 20" fill="none"><path d="M10 18s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.6"/></svg>${coords.label}
+              <button type="button" data-clear="1"><svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
             </div>`;
           chip.querySelector('[data-clear]').addEventListener('click', () => {
             if (citySelectId === 'planCity') planCoords = null; else trackCoords = null;
@@ -1716,8 +1699,8 @@ function setupGeolocation(btnId, chipId, citySelectId, coordsSetter) {
           citySelect.value = '';
           chip.innerHTML = `
             <div class="location-chip">
-              📍 ${label} (detected)
-              <button type="button" data-clear="1">✕</button>
+              <svg class="icon-pin" viewBox="0 0 20 20" fill="none"><path d="M10 18s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="10" cy="8" r="2" stroke="currentColor" stroke-width="1.6"/></svg>${label} <span style="color:var(--paper-faint);">(detected)</span>
+              <button type="button" data-clear="1"><svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
             </div>`;
           chip.querySelector('[data-clear]').addEventListener('click', () => {
             coordsSetter(null);
@@ -1788,7 +1771,7 @@ function renderTracker(data) {
     return;
   }
 
-  let html = data._uncertainty_note ? `<div class="uncertainty-note">⚠ ${data._uncertainty_note}</div>` : '';
+  let html = data._uncertainty_note ? `<div class="uncertainty-note"><svg viewBox="0 0 20 20" fill="none"><path d="M10 3 1.5 17h17L10 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 8v3.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10" cy="14" r="0.9" fill="currentColor"/></svg><span>${data._uncertainty_note}</span></div>` : '';
 
   if (si.season_complete) {
     html += `
@@ -1806,11 +1789,17 @@ function renderTracker(data) {
     }
   } else {
     const pct = Math.round(si.days_into_stage / (si.days_into_stage + si.days_remaining_in_stage) * 100);
+    const todayPct = Math.min(100, Math.max(0, si.days_since_planting / si.total_season_days * 100));
     html += `
       <div class="stage-hero">
-        <div class="stage-hero-label">Current growth stage</div>
-        <div class="stage-hero-name">${si.stage_name.replace('_', ' ')}</div>
-        ${si.all_stages ? stageBarHtml(si.all_stages, si.stage_index) : ''}
+        <div class="stage-top">
+          <div>
+            <div class="stage-hero-label">Current growth stage</div>
+            <div class="stage-hero-name">${si.stage_name.replace('_', ' ')}</div>
+          </div>
+          <div class="season-counter"><b>${si.days_since_planting}</b><span>of ${si.total_season_days} days</span></div>
+        </div>
+        ${si.all_stages ? `<div class="timeline"><div class="today-marker" style="left:${todayPct.toFixed(1)}%"><span>Day ${si.days_since_planting}</span></div>${stageBarHtml(si.all_stages, si.stage_index)}</div>` : ''}
         <div class="progress-line">
           <span>Day <b>${si.days_into_stage}</b> of this stage · <b>${si.days_remaining_in_stage}</b> remaining</span>
           <span>Next: <b>${si.next_stage.replace('_',' ')}</b></span>
@@ -1825,7 +1814,7 @@ function renderTracker(data) {
         <div class="info-card">
           <div class="info-card-label">Water needed now</div>
           <div class="info-card-value">${data.care.current_stage_water_mm_per_day?.toFixed(2) ?? '—'}<span class="info-card-unit">mm/day</span></div>
-          <div class="info-card-sub">${data.care.current_stage_liters_per_plant ? data.care.current_stage_liters_per_plant.toFixed(2) + ' L per plant at ' + data.care.plants_per_m2_user + ' plants/m²' : '1 mm = 1 L per m². Enter plants per m² above for litres per plant.'}</div>
+          <div class="info-card-sub">${data.care.current_stage_liters_per_plant ? '<span class="per-plant"><b>' + data.care.current_stage_liters_per_plant.toFixed(2) + ' L</b> per plant</span> at ' + data.care.plants_per_m2_user + ' plants/m²' : 'Enter your plant spacing above for litres per plant.'}<div class="unit-line">1 mm of water = 1 litre on every square metre.</div></div>
         </div>
         <div class="info-card">
           <div class="info-card-label">General watering</div>
@@ -1846,13 +1835,12 @@ function renderTracker(data) {
         data.forecast.map(f => `
           <div class="forecast-day">
             <div class="forecast-date">${f.date.slice(5)}</div>
+            <div class="trange" title="Low ${Math.round(f.tmin)}° to high ${Math.round(f.tmax)}°"><i style="left:${tempPos(f.tmin).toFixed(1)}%;width:${Math.max(tempPos(f.tmax) - tempPos(f.tmin), 5).toFixed(1)}%"></i></div>
             <div class="forecast-temps">${Math.round(f.tmax)}° <span class="lo">${Math.round(f.tmin)}°</span></div>
             <div class="forecast-hum">${f.humidity_max}% humidity</div>
             <div class="forecast-summary">${f.summary}</div>
-            <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border-soft); font-family:var(--font-mono); font-size:11px; color:var(--teal);">
-              ${f.live_etc_liters_per_plant != null ? f.live_etc_liters_per_plant.toFixed(2) + ' L/plant' : f.live_etc_mm_day.toFixed(1) + ' mm'}
-            </div>
-            <div style="font-size:10px; color:var(--paper-faint);">typical: ${f.baseline_etc_liters_per_plant != null ? f.baseline_etc_liters_per_plant.toFixed(2) + ' L' : f.baseline_etc_mm_day.toFixed(1) + ' mm'}</div>
+            <div class="fd-water">${f.live_etc_liters_per_plant != null ? f.live_etc_liters_per_plant.toFixed(2) + ' L/plant' : f.live_etc_mm_day.toFixed(1) + ' mm'}</div>
+            <div class="fd-typical">typical: ${f.baseline_etc_liters_per_plant != null ? f.baseline_etc_liters_per_plant.toFixed(2) + ' L' : f.baseline_etc_mm_day.toFixed(1) + ' mm'}</div>
           </div>`).join('') + `</div>`;
     }
 
@@ -1860,11 +1848,11 @@ function renderTracker(data) {
     if (data.alerts && data.alerts.length) {
       html += data.alerts.map(a => `
         <div class="alert-card warning">
-          <div class="alert-type">${a.type.replace(/_/g, ' ')}</div>
-          ${a.message}
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 3 1.5 17h17L10 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 8v3.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10" cy="14" r="0.9" fill="currentColor"/></svg>
+          <div><div class="alert-type">${a.type.replace(/_/g, ' ')}</div>${a.message}</div>
         </div>`).join('');
     } else {
-      html += `<div class="no-alerts">No temperature alerts for the next 5 days.</div>`;
+      html += `<div class="no-alerts"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>No temperature alerts for the next 5 days.</div>`;
     }
   }
 
