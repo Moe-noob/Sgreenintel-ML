@@ -44,3 +44,6 @@ climate_export/
 climate_export.zip
 research/cache/
 heatmap/cache/
+
+# Large external datasets (hourly station data, ~5 GB): download separately
+data/external/
