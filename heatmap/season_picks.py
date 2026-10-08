@@ -7,7 +7,7 @@ A single "best date" has to pick a winner between two references that disagree (
 33 city x crop combinations, NASA 2016-2025 climate with the elevation and humidity corrections):
 
   * AquaCrop (FAO crop model) ranks dates by water productivity (yield per m3). Our water-per-day rule agrees with it
-    almost perfectly (31/33 combinations within 5 % of AquaCrop's best date), and almost always lands in autumn.
+    almost perfectly (31/33 combinations within 5 % of AquaCrop's best water productivity, against all viable dates), and almost always lands in autumn.
   * Saudi regional-directorate sowing calendars (Alsadon 2002, Table 5) very often list SPRING dates for the same crops
     (tomato in Tabuk Apr-May, in Qassim Jan-Mar). Stress-first rules agree with those calendars better but lose
     heavily to AquaCrop (tomato median regret 31 %), so no single rule satisfies both. Five calendar cases cannot separate

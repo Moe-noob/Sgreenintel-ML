@@ -185,7 +185,7 @@ sourced dose-response data exists for that level of granularity.
 > **UPDATE 1 Oct 2026 — what still stands, and one tension to state**
 >
 > The reversal above still stands for tomato, potato, corn and bell pepper, which keep the original rule. For tomato, potato and corn that rule
-> was later validated against AquaCrop (within 5% of AquaCrop's best date in 33/33 combinations; Part II, Section C).
+> was later validated against AquaCrop (within 5% of AquaCrop's best water productivity: 33/33 within the rule's own candidate pool, 31/33 against all viable dates; Part II, Section C).
 >
 > One tension must be stated openly: for the five lower-confidence warm-season crops added later (cucumber, eggplant, squash, pumpkin,
 > green bean) the card headline is the autumn or spring pick with the FEWEST exceedance days, which sums heat and cold days, the very step
@@ -610,7 +610,7 @@ for temperature, 2.0 C/km for dewpoint; wind, radiation and rain are not adjuste
 shortfall in AquaCrop's water productivity (yield per m3) at our pick against its best date. 11 cities x 3 crops
 (corn, tomato, potato) = 33 combinations. Re-run after the Kc, elevation and humidity corrections.
 
-| Rule | Median regret | Worst | Within 5% of AquaCrop's best |
+| Rule | Median regret | Worst | Within 5% of AquaCrop's best (same candidate pool) |
 |---|---|---|---|
 | **Water per day (ours)** | **0.1%** | **4.3%** | **33/33** |
 | Water-productivity index | 0.0% | 35.1% | 32/33 |
@@ -644,7 +644,7 @@ water only 6/16; a random date 5.5-6.5. The probability of 11+ by chance is 0.3-
 8/16 is statistically indistinguishable from chance. On our own pipeline with NASA climate (5 comparable cases): ours
 1/5, stress-first 3/5 and 2/5, chance 1.2.
 
-**Finding 2: but stress-first loses to AquaCrop.** Within 5% of AquaCrop's best date: ours 31/33, stress-first rules 21-22/33;
+**Finding 2: but stress-first loses to AquaCrop.** Within 5% of AquaCrop's best water productivity (all viable dates): ours 31/33, stress-first rules 21-22/33;
 tomato median regret 31%; for example Hail tomato falls to 49% of AquaCrop's best yield at its Mar 22 pick.
 
 **Decision: report two seasons side by side** instead of forcing one winner:
@@ -715,7 +715,7 @@ FAO while autumn stays within +-10%; for tomato, corn and potato, closer to Aqua
 
 | | Current cap | Topt cap |
 |---|---|---|
-| Date rule within 5% of AquaCrop's best | **31/33** | 18/33 |
+| Date rule within 5% of AquaCrop's best (all viable dates) | **31/33** | 18/33 |
 | Potato season vs AquaCrop days, hot starts | 1.19x | 2.38x |
 | Tomato season vs AquaCrop days, hot starts | 1.04x | 1.27x |
 | Corn season vs AquaCrop days, hot starts | 0.79x | 1.07x (the one gain) |

@@ -50,8 +50,7 @@ Regret = shortfall in AquaCrop water productivity at our pick against its best d
 crop for the per-date detail, `--summary` (33 combinations), `--guards`, `--quantity`. Results are cached
 in `research/cache/aquacrop_cache.json`; the first full run takes about 10 minutes.
 
-**Finding (after the Kc, elevation and humidity corrections):** the per-day rule is within 5% of
-AquaCrop's best date in 33/33 combinations (median regret 0.1%, worst 4.3%) and within 20 days in 33/33.
+**Finding (after the Kc, elevation and humidity corrections):** the per-day rule is within 5% of AquaCrop's best water productivity in 33/33 combinations within its own candidate pool (median regret 0.1%, worst 4.3%) and in 31/33 against all viable dates (the misses are Abha tomato and Abha corn); start date within 20 days in 33/33.
 Total-water ranking (median regret 13.8%, worst 41.8%) and a water-productivity-index ranking (worst
 35.1%) are rejected; stage-aware exceedance guards raised the worst case or the number of yield-losing
 picks and are rejected. Our water totals sit within +-15% of AquaCrop's ET in 24/33 combinations
@@ -64,7 +63,7 @@ Scores three date-selection rules (current least-water, stress-first, stress-awa
 combinations, reusing the cache) and against the five Saudi directorate sowing-calendar cases our crops
 cover (Alsadon 2002, Table 5).
 
-**Finding:** current rule 31/33 within 5% of AquaCrop but 1/5 on the calendars; stress-first rules 21-22/33
+**Finding:** current rule 31/33 within 5% of AquaCrop's best water productivity (all viable dates) but 1/5 on the calendars; stress-first rules 21-22/33
 but 3/5 and 2/5 (chance 1.2). The two references disagree, which is why the advisor reports two seasons.
 `python research/selection_rules_vs_aquacrop.py` (`--saudi-only` skips AquaCrop). DEFENSE Part II, Section D.
 
@@ -134,3 +133,29 @@ each requires its anchor text to match exactly once, saves a backup, is safe to 
 | `apply_step3_patch.py` | Autumn and spring picks per crop (Plan card block, chart outlines) |
 | `apply_step4_patch.py` | Onion, carrot, garlic, lettuce, sweet corn; zero-day-stage fix; "Not checked against AquaCrop" badge |
 | `apply_step5_patch.py` | Cucumber, eggplant, squash, pumpkin, green bean as lower-confidence crops; fewest-exceedance-days headline |
+
+
+
+## test_et0_fao_examples.py
+
+Reproduces the worked examples in FAO-56 Chapter 4 (Example 17 Bangkok, monthly; Example 18 Uccle, daily; Example 20 near Lyon, missing data) from the printed inputs.
+
+**Finding:** the ET0 code gives 5.716, 3.880 and 4.562 mm/day against FAO's 5.72, 3.88 and 4.56, and the intermediate values (Ra, delta, gamma, es, ea, Rn) match too.
+
+Run: `python research/test_et0_fao_examples.py` (exits non-zero if any check fails)
+
+## compare_station_nasa.py
+
+Compares daily Tmax/Tmin, dewpoint and 2 m wind from hourly station records (Abha, Najran, Jazan; 2016-2018) with NASA POWER, using the app's own elevation correction. Station CSV is not in the repo (`data/external/`, git-ignored; records end May 2019).
+
+**Finding:** at Abha the correction cuts the Tmax/Tmin bias from +5.3 to -0.5 degC (mean abs error 5.3 to about 1.2-1.3) and removes about 117 spurious days/yr above 35 degC. At Najran and Jazan cell and station heights are close, so it barely matters (mean abs error about 1-1.7 degC). The app's map elevation is within 6 m of each station. NASA wind at Najran is about 63% above the station's, and the humidity fix raises dewpoint there by about 12 degC on average.
+
+Run: `python research/compare_station_nasa.py`
+
+## compare_shock_days_station.py
+
+For each crop and planting date, compares the app's heat/cold exceedance counts with counts from station records for the same dates (2016-2018).
+
+**Finding:** counts agree within a few days where a crop is clearly over or under its limit, but are unreliable near a limit. Headline (typical-year) mean abs error is 1.6-6.2 days for heat and 0-6.2 for cold depending on the city. Where the app reports 0 heat days, the station recorded at least one in 4% (Abha), 42% (Najran) and 35% (Jazan) of windows. The raw-year counts are closer in 4 of 5 comparisons. No production change; the picks are unaffected.
+
+Run: `python research/compare_shock_days_station.py`

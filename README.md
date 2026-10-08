@@ -68,7 +68,7 @@ Tracks a saved plant through its growth cycle using GDD accumulation on the same
 
 | Check | Result |
 |---|---|
-| AquaCrop reference (tomato, corn, potato x 11 cities) | Date rule within 5% of AquaCrop's best date in 33/33 combinations, within 20 days in 33/33 |
+| AquaCrop reference (tomato, corn, potato x 11 cities) | Water-per-day rule within 5% of AquaCrop's best water productivity in 31/33 combinations (against all viable dates; 33/33 within its own candidate pool); start date within 20 days of AquaCrop's best in 33/33 (same pool) |
 | WMO 1991-2020 normals (5 stations) | Abha temperature error 6.3 C -> 0.8 C after the elevation correction |
 | FAO-56 Rev.1 constants | 23 Kc triples, 32 heat-unit rows and 19 temperature thresholds checked against the PDF |
 | Reference ET0 | Humidity correction lowers ET0 by 6-14% (about 12% typical); remaining uncertainty about +-15% (our estimate) |
