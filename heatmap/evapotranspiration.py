@@ -93,9 +93,9 @@ def penman_monteith_et0_doy(temp_mean_c, temp_max_c, temp_min_c, dewpoint_c,
     Eq. 43, G = 0.07 (T_month,i+1 - T_month,i-1); the monthly wrapper below
     passes that in. (The earlier comment claiming FAO-56 says G is
     negligible at monthly resolution was wrong; the effect is small --
-    ~0.04 mm/day in FAO-56 Example 18 -- but the citation now matches.)
+    ~0.04 mm/day in FAO-56 Example 17 -- but the citation now matches.)
 
-    Validated against FAO-56 Example 18 (Bangkok, April): 5.72 mm/day.
+    Checked against FAO-56 Chapter 4 worked Examples 17 (Bangkok, monthly, 5.72 mm/day), 18 (Uccle/Brussels, daily, 3.88) and 20 (Lyon, missing data, 4.56); run research/test_et0_fao_examples.py.
     """
     delta = slope_vapor_pressure_curve(temp_mean_c)
     gamma = psychrometric_constant(elevation_m)
