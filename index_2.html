@@ -1332,6 +1332,7 @@ function nowBarHtml(data) {
     'Possible: your date is near the other season\'s best start, or has no heat or cold stress days in the typical year.',
     'Any time of year: no date in the year comes out as Wait for this crop at this location.',
     'Stress days are counted in a typical year, so they can be missed near a crop\'s temperature limit. Check the weather where you farm.',
+    'Near the edge of a good window, results can drop sharply for crops whose season runs into winter (for example corn in the cold north). Open the crop card to see the cold days for your date.',
     'Water figures are what the crop uses. Real watering loses some, so allow a little more.',
   ];
   return `
@@ -1431,8 +1432,8 @@ function renderAdvisor(data) {
           <div class="crop-main">
             <div class="crop-title-row">
               <div class="crop-name">${scan.crop.replace(/_/g,' ')}</div>
-              <span class="badge ${shockFree ? 'good' : 'warn'}">${shockFree ? 'Shock-free window found' : (scan.headline_rule ? 'Fewest exceedance days' : 'Least-water viable')}</span>
-              ${['Tomato', 'Potato', 'Corn_(maize)'].includes(scan.crop) ? '' : '<span class="badge info">Not checked against AquaCrop</span>'}
+              <span class="badge ${shockFree ? 'good' : 'warn'}">${shockFree ? 'No stress days in a typical year' : (scan.headline_rule ? 'Fewest stress days' : 'Lowest water use (has stress days)')}</span>
+              ${['Tomato', 'Potato', 'Corn_(maize)'].includes(scan.crop) ? '' : '<span class="badge info" title="Not checked against the AquaCrop crop model">Not cross-checked</span>'}
               ${scan.confidence ? '<span class="badge info" title="' + (scan.confidence_note || '') + '">Lower confidence</span>' : ''}
             </div>
             <div class="crop-dates">${b.start_date}<span class="arrow">→</span>${b.end_date} · ${b.total_days} days</div>
